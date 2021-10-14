@@ -2,14 +2,12 @@ package com.kooking.dto;
 
 /**
  * 원재
- * CREATE TABLE RECIPE_DETAIL(
-    RECIPE_DETAIL_NAME 		VARCHAR2(30) 	PRIMARY KEY,
-    RECIPE_CATEGORY_NO 		NUMBER(10) 		REFERENCES RECIPE_CATEGORY(RECIPE_CATEGORY_NO) ON DELETE CASCADE NOT NULL
-);
+
+테이블 이름 : RecipeDetail 레시피 상세
  * */
 public class RecipeDetailDTO {
-	private String name;
-	private int recipeCategoryNo;
+	private String name;	//레시피 상세 이름
+	private int recipeCategoryNo;	//레시피 카테고리 번호
 
 	public RecipeDetailDTO() {}
 	public RecipeDetailDTO(String name, int recipeCategoryNo) {

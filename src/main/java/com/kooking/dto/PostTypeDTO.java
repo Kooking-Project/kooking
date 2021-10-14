@@ -3,10 +3,12 @@ package com.kooking.dto;
 /**
  * @author 박효승
  * @date 2021-10-14
+ * 
+ * 테이블 이름 : PostType 게시판 유형
  */
 public class PostTypeDTO {
-	private int no;
-	private String name;
+	private int no;		//게시판 유형 코드
+	private String name;	//게시판 이름
 	
 	public PostTypeDTO() {
 	}
@@ -17,7 +19,6 @@ public class PostTypeDTO {
 	this.no = no;
 	this.name = name;
 }
-
 
 	public int getNo() {
 		return no;

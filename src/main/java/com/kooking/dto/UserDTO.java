@@ -3,16 +3,18 @@ package com.kooking.dto;
 /**
  * @author 박효승
  * @date 2021-10-14
+ * 
+ * 테이블 이름 : Users 사용자
  */
 public class UserDTO {
-	private int no;
-	private String id;
-	private String pwd;
-	private String nickName;
-	private int gender;
-	private String enrollDate;
-	private String profileImg;
-	private int status;
+	private int no;		//사용자 번호
+	private String id;	//사용자 아이디
+	private String pwd;	//사용자 비밀번호
+	private String nickName;	//사용자 닉네임
+	private int gender;		//사용자 성별
+	private String enrollDate;	//사용자 가입일자
+	private String profileImg;	//사용자 프로필 이미지 URL
+	private int status;		//사용자 활동 상태 0 = 기본, 1=활동정지, 2=탈퇴, 100=어드민
 	
 	public UserDTO() {}
 	

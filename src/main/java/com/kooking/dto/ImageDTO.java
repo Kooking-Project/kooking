@@ -3,13 +3,14 @@ package com.kooking.dto;
 /**
  * @author 안준성
  * @date 2021-10-14
+ * 
+ * 테이블 이름 : Images 이미지
  * */
 
 public class ImageDTO {
-	
-	private String url;
-	private int postNo;
-	private int size;
+	private String url;	//이미지 URL
+	private int postNo;	//게시글 번호
+	private int size;	//이미지 크기
 	
 	public ImageDTO() {}
 

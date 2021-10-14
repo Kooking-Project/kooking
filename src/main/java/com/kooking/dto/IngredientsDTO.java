@@ -3,10 +3,11 @@ package com.kooking.dto;
 /**
  * @author 박은솔
  * @date 2021-10-14
+ * 
+ * 테이블 이름 : Ingredients 재료
  */
 public class IngredientsDTO {
-
-    private int ingredientNo; 		//재료번호
+    private int no; 		//재료번호
     private int recipesNo; 			//레시피번호
     private String name; 			//재료이름
     private int seq;				//재료순서
@@ -15,20 +16,20 @@ public class IngredientsDTO {
     
     public IngredientsDTO() {}
     
-	public IngredientsDTO(int ingredientNo, int recipesNo, String name, int seq, String cacty) {
+	public IngredientsDTO(int no, int recipesNo, String name, int seq, String cacty) {
 		super();
-		this.ingredientNo = ingredientNo;
+		this.no = no;
 		this.recipesNo = recipesNo;
 		this.name = name;
 		this.seq = seq;
 		this.cacty = cacty;
 	}
 	
-	public int getIngredientNo() {
-		return ingredientNo;
+	public int getNo() {
+		return no;
 	}
-	public void setIngredientNo(int ingredientNo) {
-		this.ingredientNo = ingredientNo;
+	public void setNo(int no) {
+		this.no = no;
 	}
 	public int getRecipesNo() {
 		return recipesNo;

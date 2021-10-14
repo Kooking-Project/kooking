@@ -3,10 +3,12 @@ package com.kooking.dto;
 /**
  * @author 박은솔
  * @date 2021-10-14
+ * 
+ * 테이블 이름 : Process 조리과정
  */
 public class ProcessDTO {
 
-    private int processNo; 			//조리과정 번호
+    private int no; 			//조리과정 번호
     private int recipesNo; 			//레시피 번호
     private String imageUrl; 		//이미지 URL
     private int cookingSeq; 		//조리과정순서
@@ -15,9 +17,9 @@ public class ProcessDTO {
     
     public ProcessDTO() {}
 
-	public ProcessDTO(int processNo, int recipesNo, String imageUrl, int cookingSeq, String cookingDesc, String tip) {
+	public ProcessDTO(int no, int recipesNo, String imageUrl, int cookingSeq, String cookingDesc, String tip) {
 		super();
-		this.processNo = processNo;
+		this.no = no;
 		this.recipesNo = recipesNo;
 		this.imageUrl = imageUrl;
 		this.cookingSeq = cookingSeq;
@@ -26,11 +28,11 @@ public class ProcessDTO {
 	}
 
 	public int getProcessNo() {
-		return processNo;
+		return no;
 	}
 
-	public void setProcessNo(int processNo) {
-		this.processNo = processNo;
+	public void setProcessNo(int no) {
+		this.no = no;
 	}
 
 	public int getRecipesNo() {

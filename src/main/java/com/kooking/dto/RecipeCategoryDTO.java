@@ -2,14 +2,12 @@ package com.kooking.dto;
 
 /**
  * 원재
- * CREATE TABLE RECIPE_CATEGORY(
-    RECIPE_CATEGORY_NO 		NUMBER(10) 		PRIMARY KEY,
-    RECIPE_CATEGORY_NAME 	VARCHAR2(50) 	NOT NULL
-);
+
+테이블 이름 : RecipeCategory 레시피 카테고리
  * */
 public class RecipeCategoryDTO {
-	private int no;
-	private String name;
+	private int no;		//레시피 카테고리 번호
+	private String name;	//레시피 카테고리 이름
 	
 	public RecipeCategoryDTO() {}
 	public RecipeCategoryDTO(int no, String name) {

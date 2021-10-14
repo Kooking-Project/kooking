@@ -3,15 +3,17 @@ package com.kooking.dto;
 /**
  * @author 박효승
  * @date 2021-10-14
+ * 
+ * 테이블 이름 : Posts 게시글
  */
 public class PostDTO {
-	private int no;
-	private int postTypeNo;
-	private int userNo;
-	private String title;
-	private String contents;
-	private int counts;
-	private String date;
+	private int no;		//게시글 번호
+	private int postTypeNo;	//게시글 타입
+	private int userNo;		//사용자 번호 (작성자)
+	private String title;	//게시글 제목
+	private String contents;	//게시글 내용
+	private int counts;		//게시글 조회수
+	private String date;	//게시글 작성일
 	
 	public PostDTO() {
 	}

@@ -3,20 +3,21 @@ package com.kooking.dto;
 /**
  * @author 박은솔
  * @date 2021-10-14
+ * 
+ * 테이블 이름 : Bookmarks 즐겨찾기
  */
-public class BookmarksDTO {
-
+public class BookmarkDTO {
     private int userNo; 			//사용자 번호
     private int postNo; 			//게시글 번호
-    private String bookmarkDate; 	//즐겨찾기 날짜
+    private String date; 	//즐겨찾기 날짜
     
-    public BookmarksDTO() {}
+    public BookmarkDTO() {}
     
-	public BookmarksDTO(int userNo, int postNo, String bookmarkDate) {
+	public BookmarkDTO(int userNo, int postNo, String date) {
 		super();
 		this.userNo = userNo;
 		this.postNo = postNo;
-		this.bookmarkDate = bookmarkDate;
+		this.date = date;
 	}
 	
 	public int getUserNo() {
@@ -31,11 +32,11 @@ public class BookmarksDTO {
 	public void setPostNo(int postNo) {
 		this.postNo = postNo;
 	}
-	public String getBookmarkDate() {
-		return bookmarkDate;
+	public String getDate() {
+		return date;
 	}
-	public void setBookmarkDate(String bookmarkDate) {
-		this.bookmarkDate = bookmarkDate;
+	public void setDate(String date) {
+		this.date = date;
 	}
 	
 	

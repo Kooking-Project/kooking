@@ -1,21 +1,19 @@
 package com.kooking.dto;
 
-import java.sql.Blob;
-
 /**
  * @author 안준성
  * @date 2021-10-14
+ * 
+ * 테이블 명 : Comments 댓글
  * */
-
 public class CommentDTO {
-	
-	private int no;
-	private int postNO;
-	private int userNo;
-	private int top;
-	private String content;
-	private String date;
-	private boolean deleteYN;
+	private int no;		//댓글 번호
+	private int postNO;	//게시글 번호
+	private int userNo;	//사용자 번호
+	private int top;	//상위 댓글
+	private String content;	//댓글 내용
+	private String date;	//댓글 작성시간
+	private boolean deleteYN;	//삭제 여부 0=사용 1=삭제
 	
 	public CommentDTO() {}
 
