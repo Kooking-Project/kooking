@@ -7,7 +7,7 @@ import java.sql.Blob;
  * @date 2021-10-14
  * */
 
-public class commentDTO {
+public class CommentDTO {
 	
 	private int no;
 	private int postNO;
@@ -17,9 +17,9 @@ public class commentDTO {
 	private String date;
 	private boolean deleteYN;
 	
-	public commentDTO() {}
+	public CommentDTO() {}
 
-	public commentDTO(int no, int postNO, int userNo, int top, String content, String date, boolean deleteYN) {
+	public CommentDTO(int no, int postNO, int userNo, int top, String content, String date, boolean deleteYN) {
 		super();
 		this.no = no;
 		this.postNO = postNO;
