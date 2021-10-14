@@ -10,9 +10,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
 
-/**
- * post방식 한글 인코딩 처리 Filter
- */
 @WebFilter(
 		urlPatterns = { "/*" }, 
 		initParams = { 
@@ -29,6 +26,5 @@ public class EncodingFilter implements Filter {
 		request.setCharacterEncoding( encoding );
 		
 		chain.doFilter(request, response);
-		
 	}
 }
