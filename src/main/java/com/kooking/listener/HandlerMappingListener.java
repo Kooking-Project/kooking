@@ -11,12 +11,11 @@ import javax.servlet.annotation.WebListener;
 
 import com.kooking.controller.Controller;
 
-
 @WebListener
 public class HandlerMappingListener implements ServletContextListener {
 
     /**
-     * ¼­¹ö°¡ startµÉ¶§ ¹Ì¸® ÇÊ¿äÇÑ °´Ã¼¸¦ »ı¼ºÇØ¼­ Map¿¡ ÀúÀåÇÏ°í application¿µ¿ª¿¡ ÀúÀåÇÑ´Ù.
+     * ì„œë²„ê°€ startë ë•Œ ë¯¸ë¦¬ í•„ìš”í•œ ê°ì²´ë¥¼ ìƒì„±í•´ì„œ Mapì— ì €ì¥í•˜ê³  applicationì˜ì—­ì— ì €ì¥í•œë‹¤.
      * */
     public void contextInitialized(ServletContextEvent e)  { 
     	ServletContext application = e.getServletContext();
@@ -25,40 +24,29 @@ public class HandlerMappingListener implements ServletContextListener {
     	Map<String, Controller> map = new HashMap<String, Controller>();
     	Map<String, Class<?>> clzMap = new HashMap<String, Class<?>>();
     	
-         //¿ÜºÎÀÇ ~.propertiesÆÄÀÏ ·ÎµùÇÑ´Ù.
-    	ResourceBundle rb = ResourceBundle.getBundle(fileName);//È®ÀåÀÚ´Â »ı·«ÇÑ´Ù. 
+    	ResourceBundle rb = ResourceBundle.getBundle(fileName);//í™•ì¥ìëŠ” ìƒëµí•œë‹¤. 
     
     	try {
-	    	//key¿Í value¸¦ ºĞ¸®ÇØ¼­ value¸¦ °´Ã¼·Î ¸¸µé¾î¼­ Map¿¡ ³Ö´Â´Ù.
 	    	for(String key : rb.keySet()) {
 	    		String value = rb.getString(key);
-	    		//System.out.println(key+" = " + value);
-	    		
-	    		//StringÀÎ ¹®ÀÚ¿­À» °´Ã¼·Î ¸¸µé¾î¾ßÇÑ´Ù!!!
-	    		//Class<?>´Â ¾î¶² °´Ã¼°¡ °¡Áö°í ÀÖ´Â ÇÊµå, »ı¼ºÀÚ, ¸Ş¼ÒµåÀÇ Á¤º¸¸¦ µ¿ÀûÀ¸·Î °¡Á®¿Ã¼ö ÀÖµµ·Ï µµ¿ÍÁÖ´Â °´Ã¼ÀÌ´Ù - reflection °³³ä
-	    		//reflection °³³äÀº µ¿ÀûÀ¸·Î Áï ½ÇÇàµµÁß¿¡ ÇÊ¿äÇÑ °´Ã¼¸¦ ÀûÀıÇÏ°Ô »ı¼ºÇÏ°í ±× °´Ã¼°¡ °¡Áö°í ÀÖ´Â »ı¼ºÀÚ³ª ¸Ş¼Òµå¸¦ 
-	    		//µ¿ÀûÀ¸·Î È£ÃâÇØÁÙ¼ö ÀÖµµ·Ï ÇÏ´Â °³³äÀ» reflectionÀÌ¶ó°í ÇÏ°í ÀÚ¹Ù¿¡¼­ ÀÌ °³³äÀ» Àû¿ëÇØ ³õÀº API°¡ Class<?> ÀÌ´Ù. 
 	    		Class<?> className = Class.forName(value);
 	    		Controller controller = (Controller)className.getDeclaredConstructor().newInstance();
 	    		
-	    		System.out.println(key+" = " + value +" , controller = " + controller);
+	    		System.out.println(key+" = " + value +" || controller = " + controller +" || className = " + className);
 	    		
 	    		map.put(key, controller);
 	    		clzMap.put(key, className);
-	    	}//for¹®³¡
+	    	}//forë¬¸ë
 	    	
 	    	application.setAttribute("map", map);
 	    	application.setAttribute("clzMap", clzMap);
-	    	application.setAttribute("path", application.getContextPath()); // ¸ğµç ºä¿¡¼­ ${path}
+	    	application.setAttribute("path", application.getContextPath());
 	    	
     	}catch (Exception ex) {
 			ex.printStackTrace();
 		}
     }
-	
 }
-
-
 
 
 

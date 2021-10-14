@@ -11,10 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * 모든 요청을 중앙집중적으로 관리하게될 Servlet
- *   : 진입점 Controller이다.
- */
 @WebServlet(urlPatterns = "/front"  , loadOnStartup = 1)
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -31,7 +27,7 @@ public class DispatcherServlet extends HttpServlet {
 	}
    
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String key =  request.getParameter("key"); //클래스를찾기위한 값
+		String key =  request.getParameter("key");
 		String methodName = request.getParameter("methodName"); //ex) 
 		
 		try {
@@ -43,22 +39,19 @@ public class DispatcherServlet extends HttpServlet {
 				methodName="select";
 			}
 			
-			Class<?> clz = clzMap.get(key); //reflection개념을 적용하기 위한 객체를 구한다.
-			
-			//String을 하나의 메소드의 개념으로 만드는과정 
+			Class<?> clz = clzMap.get(key); 
+
 			Method method = clz.getMethod(methodName, HttpServletRequest.class  , HttpServletResponse.class);
 			
 			Controller controller = map.get(key);
 			
-			//객체안에 들어있는 메소들을 호출하는과정(호출할때 인자값  전달)
-			ModelAndView mv =(ModelAndView)method.invoke(controller, request, response); //메소드 호출
+			ModelAndView mv =(ModelAndView)method.invoke(controller, request, response); //占쌨소듸옙 호占쏙옙
 			
-			if(mv.isRedirect()) {//redirect방식이다.
+			if(mv.isRedirect()) {
 				response.sendRedirect(mv.getViewName());
 			}else {
 				request.getRequestDispatcher(mv.getViewName()).forward(request, response);
 			}
-			
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -66,11 +59,8 @@ public class DispatcherServlet extends HttpServlet {
 			request.getRequestDispatcher("error/error.jsp").forward(request, response);
 			
 		}
-		
-	}//service끝
-
-}//클래스끝
-
+	}
+}
 
 
 
