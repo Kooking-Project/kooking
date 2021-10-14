@@ -7,12 +7,12 @@ package com.kooking.dto;
     RECIPE_CATEGORY_NO 		NUMBER(10) 		REFERENCES RECIPE_CATEGORY(RECIPE_CATEGORY_NO) ON DELETE CASCADE NOT NULL
 );
  * */
-public class RecipeDetail {
+public class RecipeDetailDTO {
 	private String name;
 	private int recipeCategoryNo;
 
-	public RecipeDetail() {}
-	public RecipeDetail(String name, int recipeCategoryNo) {
+	public RecipeDetailDTO() {}
+	public RecipeDetailDTO(String name, int recipeCategoryNo) {
 		super();
 		this.name = name;
 		this.recipeCategoryNo = recipeCategoryNo;

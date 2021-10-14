@@ -7,12 +7,12 @@ package com.kooking.dto;
     RECIPE_CATEGORY_NAME 	VARCHAR2(50) 	NOT NULL
 );
  * */
-public class RecipeCategory {
+public class RecipeCategoryDTO {
 	private int no;
 	private String name;
 	
-	public RecipeCategory() {}
-	public RecipeCategory(int no, String name) {
+	public RecipeCategoryDTO() {}
+	public RecipeCategoryDTO(int no, String name) {
 		super();
 		this.no = no;
 		this.name = name;
