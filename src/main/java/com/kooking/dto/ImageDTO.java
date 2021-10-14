@@ -5,15 +5,15 @@ package com.kooking.dto;
  * @date 2021-10-14
  * */
 
-public class imageDTO {
+public class ImageDTO {
 	
 	private String url;
 	private int postNo;
 	private int size;
 	
-	public imageDTO() {}
+	public ImageDTO() {}
 
-	public imageDTO(String url, int postNo, int size) {
+	public ImageDTO(String url, int postNo, int size) {
 		super();
 		this.url = url;
 		this.postNo = postNo;

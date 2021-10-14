@@ -5,15 +5,15 @@ package com.kooking.dto;
  * @date 2021-10-14
  * */
 
-public class recommendDTO {
+public class RecommendDTO {
 	private int no;
 	private String postNo;
 	private String userNo;
 	private int score;
 	private String date;
 	
-	public recommendDTO() {}
-	public recommendDTO(int no, String postNo, String userNo, int score, String date) {
+	public RecommendDTO() {}
+	public RecommendDTO(int no, String postNo, String userNo, int score, String date) {
 		super();
 		this.no = no;
 		this.postNo = postNo;
