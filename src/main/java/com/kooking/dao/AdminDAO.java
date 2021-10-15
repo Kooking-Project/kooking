@@ -1,6 +1,6 @@
 package com.kooking.dao;
 
-import com.kooking.dto.IngredientsDTO;
+import com.kooking.dto.IngredientDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
 
