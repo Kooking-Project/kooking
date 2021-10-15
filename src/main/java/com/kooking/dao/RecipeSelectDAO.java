@@ -9,6 +9,8 @@ import com.kooking.dto.IngredientDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.ProcessDTO;
 import com.kooking.dto.RecipeDTO;
+import com.kooking.dto.UserDTO;
+import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.paging.PageCnt;
 
 /**
@@ -25,15 +27,16 @@ public interface RecipeSelectDAO {
 	 * @param
 	 * @return
 	 */
-	Map<String, Object> search(int recipeNo);
-	//Entry<PostDTO, RecipeDTO> search(int no);
+	RecipeWrapper search(int recipeNo);
+	
 	
 	/**
 	 * 여러 조건에 따라 레시피를 검색하는 메소드
 	 * @param
 	 * @return
 	 */
-	List<Entry<PostDTO, RecipeDTO>> searchQueryAll(Entry<PostDTO, RecipeDTO> recipe, PageCnt cnt);
+	List<RecipeWrapper> searchQueryAll(PostDTO postDTO, RecipeDTO recipe, PageCnt cnt);
+	List<RecipeWrapper> searchQueryAll(PostDTO postDTO, RecipeDTO recipe);
 	
 	
 	List<IngredientDTO> getIngredients(int recipeNo);
@@ -45,8 +48,8 @@ public interface RecipeSelectDAO {
 	 * @param score
 	 * @return
 	 */
-	boolean addRecipeScore(int postNo, int userNo, int score);
+	int addRecipeScore(int postNo, int userNo, int score);
 	
 	
-	
+
 }

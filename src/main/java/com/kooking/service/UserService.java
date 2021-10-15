@@ -9,5 +9,6 @@ public interface UserService {
 	/**
 	 * 로그인 체크
 	 * */
-   UserDTO loginCheck(UserDTO userDTO)throws SQLException , KookingException;
+   UserDTO loginCheck(String id, String pwd)throws SQLException , KookingException;
+   
 }
