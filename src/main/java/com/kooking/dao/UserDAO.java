@@ -36,4 +36,14 @@ public interface UserDAO {
 	 * */
 	PostDTO bookmarkSelectByUserNo(int userNo);
 	
+   /**
+    * 로그인 기능
+    * */
+	UserDTO loginCheck(UserDTO userDTO);
+	
+	/**
+	 * User 가입하기
+	 * */
+	int insert(UserDTO userDTO);
+		
 }
