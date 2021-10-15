@@ -5,7 +5,7 @@ import com.kooking.dao.AdminDAOImpl;
 import com.kooking.dto.UserDTO;
 import com.kooking.exception.KookingException;
 
-public class adminServiceImpl implements AdminService {
+public class AdminServiceImpl implements AdminService {
 	private AdminDAO dao = new AdminDAOImpl();
 	
 	@Override
@@ -34,6 +34,18 @@ public class adminServiceImpl implements AdminService {
 		if(result==0)
 			throw new KookingException("사용자 활동 상태가 변경되지 않았습니다.");
 			
+	}
+
+	@Override
+	public void commentDelete(int adminNo, int commentNo) throws Exception {
+		if(dao.checkUserStatues(adminNo)!=100)
+			throw new KookingException("관리자가 아닙니다.");
+	}
+
+	@Override
+	public void postDelete(int adminNo, int postNo) throws Exception {
+		if(dao.checkUserStatues(adminNo)!=100)
+			throw new KookingException("관리자가 아닙니다.");
 	}
 
 }
