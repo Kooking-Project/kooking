@@ -11,20 +11,6 @@ import com.kooking.dto.RecipeDTO;
  * @date 2021-10-15
  */
 public interface RecipeDAO {
-	/**
-	 * 레코드 전체 검색
-	 */
-	List<RecipeDTO> selectAll() throws SQLException;
-	
-	/**
-	 * 레코드 전체 검색(페이지처리)
-	 */
-	List<RecipeDTO> getRecipeList(int pageNo) throws SQLException;
-	
-	/**
-	 * 레시피번호에 해당하는 레코드 검색
-	 */
-	RecipeDTO selectByNo(int no) throws SQLException;
 	
 	/**
 	 * 레시피 레코드 삽입
@@ -44,8 +30,5 @@ public interface RecipeDAO {
 	 */
 	int delete(int no, String pwd) throws SQLException;
 	
-	/**
-	 * 레시피번호에 해당하는 댓글정보 가져오기 
-	 */
-	List<CommentDTO> selectCommentsByRecipeNo(int no) throws SQLException;
+	
 }

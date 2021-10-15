@@ -16,13 +16,6 @@ public class RecipeDTO {
 	private String nation;	//레시피 국가
 	private String type;	//레시피 분류
 	private String level;	//레시피 조리난이도
-
-	//1 : 다
-	private List<RecipeDetailDTO> detailList;
-	private List<CommentDTO> repliesList;
-	
-	//페이지처리
-	private int pageCnt;
 	
 	public RecipeDTO() {}
 
