@@ -1,16 +1,19 @@
 package com.kooking.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.RecipeDTO;
+import com.kooking.exception.KookingException;
 
 public interface PostDAO {
 
 	/**
 	 * 게시판 게시글 추가
+	 * @throws SQLException 
 	 */
-	public void insertPost(int userNo ,PostDTO dto);
+	public void insertPost(int userNo ,PostDTO dto) throws SQLException;
 	
 	/**
 	 * 게시판 게시글 수정
