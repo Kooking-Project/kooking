@@ -1,8 +1,9 @@
 package com.kooking.dto;
 
+import java.util.List;
+
 /**
  * 원재 
- * 
  * 테이블 이름 : Recipes 레시피
  */
 
@@ -16,8 +17,14 @@ public class RecipeDTO {
 	private String type;	//레시피 분류
 	private String level;	//레시피 조리난이도
 
-	public RecipeDTO() {
-	}
+	//1 : 다
+	private List<RecipeDetailDTO> detailList;
+	private List<CommentDTO> repliesList;
+	
+	//페이지처리
+	private int pageCnt;
+	
+	public RecipeDTO() {}
 
 	public RecipeDTO(int no, String name, int postNo, int calorie, int cookingTime, String nation, String type,
 			String level) {
