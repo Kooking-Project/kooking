@@ -10,6 +10,7 @@ import com.kooking.dto.PostDTO;
 import com.kooking.dto.ProcessDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
+import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.paging.PageCnt;
 
 /**
@@ -26,7 +27,7 @@ public interface RecipeSelectDAO {
 	 * @param
 	 * @return
 	 */
-	Map<String, Object> search(int recipeNo);
+	RecipeWrapper search(int recipeNo);
 	
 	
 	/**
@@ -34,7 +35,8 @@ public interface RecipeSelectDAO {
 	 * @param
 	 * @return
 	 */
-	List<Entry<PostDTO, RecipeDTO>> searchQueryAll(Entry<PostDTO, RecipeDTO> recipe, PageCnt cnt);
+	List<RecipeWrapper> searchQueryAll(PostDTO postDTO, RecipeDTO recipe, PageCnt cnt);
+	List<RecipeWrapper> searchQueryAll(PostDTO postDTO, RecipeDTO recipe);
 	
 	
 	List<IngredientDTO> getIngredients(int recipeNo);
