@@ -1,6 +1,6 @@
 package com.kooking.dao;
 
-import com.kooking.dto.IngredientsDTO;
+import com.kooking.dto.IngredientDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
 
@@ -38,12 +38,12 @@ public interface AdminDAO {
 	/**
 	 * 재료 추가
 	 * */
-	int ingredientInsert(IngredientsDTO ingredient);
+	int ingredientInsert(IngredientDTO ingredient);
 	
 	/**
 	 * 재료 수정
 	 * */
-	int ingredientUpdate(IngredientsDTO ingredient);
+	int ingredientUpdate(IngredientDTO ingredient);
 	
 	/**
 	 * 재료 삭제
