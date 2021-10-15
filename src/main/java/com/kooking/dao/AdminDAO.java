@@ -1,52 +1,21 @@
 package com.kooking.dao;
 
+import java.sql.SQLException;
+
 import com.kooking.dto.IngredientDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
 
 public interface AdminDAO {
+	
 	/**
-	 * 게시글 삭제
+	 * 유저 상태 확인
 	 * */
-	int postDelete(int postNo);
-
-	/**
-	 * 댓글 삭제
-	 * */
-	int commentDelete(int postNo);
+	int checkUserStatues(int userNo) throws SQLException;
 	
 	/**
 	 * 유저 활동정지
 	 * */
-	int changeUserStatus(UserDTO user);
+	int changeUserStatus(UserDTO user) throws SQLException;
 	
-	/**
-	 * 레시피 추가
-	 * */
-	int recipeInsert(RecipeDTO recipe);
-
-	/**
-	 * 레시피 수정
-	 * */
-	int recipeUpdate(RecipeDTO recipe);
-
-	/**
-	 * 레시피 삭제
-	 * */
-	int recipeDelete(int recipeNo);
-
-	/**
-	 * 재료 추가
-	 * */
-	int ingredientInsert(IngredientDTO ingredient);
-	
-	/**
-	 * 재료 수정
-	 * */
-	int ingredientUpdate(IngredientDTO ingredient);
-	
-	/**
-	 * 재료 삭제
-	 * */
-	int ingredientDelete(int ingredientNo);
 }
