@@ -15,10 +15,10 @@ public interface PostDAO {
 	/**
 	 * 게시판 게시글 수정
 	 */
-	public int updatePost(int userNo, int postNo);
+	public int updatePost(int userNo, PostDTO dto);
 	
 	/**
-	 * 게시판 게시글 삭제 - 관리자는 여러개 삭제 가능?
+	 * 게시판 게시글 삭제 - 관리자도 하나씩 삭제
 	 */
 	public int deletePost(int userNo, int postNo);
 	
@@ -30,27 +30,27 @@ public interface PostDAO {
 	/**
 	 * 게시판 게시글 날짜별 조회(최신순)
 	 */
-	public int selectPostDate();
+	public List<PostDTO> selectPostDate();
 	
 	/**
-	 * 게시판 게시글 타입별 조회 ....애매....
+	 * 게시판 게시글 타입별 조회
 	 */
-	public int selectPostType();
+	public List<PostDTO> selectPostType(int postTypeNo);
 	
 	/**
 	 * 게시판 조회수별 조회
 	 */
-	public int selectPostCount();
+	public List<PostDTO> selectPostCount();
 	
 	/**
 	 * 게시판 게시글 이름으로 검색
 	 */
-	public int selectPostName(String postTitle);
+	public List<PostDTO> selectPostName(String postTitle);
 	
 	/**
-	 * 게시판 타입으로 검색 ....애매... 이름검색에 넣어야 할까
+	 * 게시판 타입으로 검색 
 	 */
-	public int selectPost(String postType);
+	public List<PostDTO> selectPost(String postType);
 	
 	/**
 	 * 게시판 상위 공간 오늘의 신규 레시피
