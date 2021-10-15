@@ -39,7 +39,7 @@ public interface UserDAO {
    /**
     * 로그인 기능
     * */
-	UserDTO loginCheck(UserDTO userDTO);
+	UserDTO loginCheck(String id, String pwd);
 	
 	/**
 	 * User 가입하기
