@@ -1,7 +1,6 @@
 package com.kooking.dao;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import com.kooking.dto.ImageDTO;
@@ -9,7 +8,6 @@ import com.kooking.dto.IngredientDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.ProcessDTO;
 import com.kooking.dto.RecipeDTO;
-import com.kooking.dto.UserDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.paging.PageCnt;
 

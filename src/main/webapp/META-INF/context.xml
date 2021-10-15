@@ -33,7 +33,7 @@
               auth="Container"
               type="javax.sql.DataSource" 
               driverClassName="oracle.jdbc.OracleDriver"
-              url="database-1.crewhtff8sbm.ap-northeast-2.rds.amazonaws.com:1521:ORCL"
+              url="jdbc:oracle:thin:@database-1.crewhtff8sbm.ap-northeast-2.rds.amazonaws.com:1521:ORCL"
               username="admin" 
               password="admin1012" 
               maxTotal="20" 

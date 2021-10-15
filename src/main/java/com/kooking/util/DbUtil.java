@@ -7,17 +7,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-
-
-/**
- * DB연동을 위한 로드, 연결, 닫기 기능 클래스
- * */
 public class DbUtil {
-	static DataSource ds;
-	
-    /**
-     * 로드
-     * */
+	private static DataSource ds;
+
 	static {
 		try {
 		  Context initContext = new InitialContext();
@@ -27,15 +19,9 @@ public class DbUtil {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * 연결
-	 * */
 	public static Connection getConnection() throws SQLException{
 		return  ds.getConnection();
 	}
-	
-	
 	
 	public static void dbClose(AutoCloseable ...acArr) {
 		if(acArr == null || acArr.length<=0) {
