@@ -6,7 +6,7 @@ package com.kooking.dto;
  * 
  * 테이블 이름 : Ingredients 재료
  */
-public class IngredientsDTO {
+public class IngredientDTO {
     private int no; 		//재료번호
     private int recipesNo; 			//레시피번호
     private String name; 			//재료이름
@@ -14,9 +14,9 @@ public class IngredientsDTO {
     private String cacty;			//재료용량
 
     
-    public IngredientsDTO() {}
+    public IngredientDTO() {}
     
-	public IngredientsDTO(int no, int recipesNo, String name, int seq, String cacty) {
+	public IngredientDTO(int no, int recipesNo, String name, int seq, String cacty) {
 		super();
 		this.no = no;
 		this.recipesNo = recipesNo;
