@@ -18,7 +18,7 @@ import com.kooking.paging.PageCnt;
  * @date 2021-10-15
  *
  */
-public interface RecipeDAO {
+public interface RecipeSelectDAO {
 	
 	/**
 	 * 게시글 번호로 단일 레시피의 내용을 검색하는 메소드
