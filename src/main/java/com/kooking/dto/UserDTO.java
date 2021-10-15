@@ -18,6 +18,13 @@ public class UserDTO {
 	
 	public UserDTO() {}
 	
+	   public UserDTO(String id, String pwd) {
+			super();
+			this.id = id;
+			this.pwd = pwd;
+			
+		}
+	
 	public UserDTO(int no, String id, String pwd, String nickName, int gender, String enrollDate, String profileImg,
 			int status) {
 		super();
