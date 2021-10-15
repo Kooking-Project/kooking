@@ -1,5 +1,7 @@
 package com.kooking.dao;
 
+import java.sql.SQLException;
+
 import com.kooking.dto.ImageDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.UserDTO;
@@ -39,7 +41,7 @@ public interface UserDAO {
    /**
     * 로그인 기능
     * */
-	UserDTO loginCheck(String id, String pwd);
+	UserDTO loginCheck(String id, String pwd)throws SQLException;
 	
 	/**
 	 * User 가입하기
