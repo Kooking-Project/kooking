@@ -61,13 +61,12 @@ $(function() {
     <tr>
 	    <form name="requestForm" method=post action="${path}/front">
         <td>
-			<!-- 수정시 필요한 데이터들을 hidden으로 숨겨놓고 폼 데이터로 보내준다. -->
-				<input type=hidden name="adminNo" value="3">
-				<input type=hidden name="userNo" value="4">
-				<input type=hidden name="userStatus" value="1">	<!-- 활동정지는 1 -->
-				<input type=hidden name="key" value="admin">
-				<input type=hidden name="methodName" value="changeUserStatus">
-				<input type=button value="수정하기" onClick="sendUpdate()">
+			<input type=hidden name="adminNo" value="3">
+			<input type=hidden name="userNo" value="4">
+			<input type=hidden name="userStatus" value="1">	<!-- 활동정지는 1 -->
+			<input type=hidden name="key" value="admin">
+			<input type=hidden name="methodName" value="changeUserStatus">
+			<input type=button value="수정하기" onClick="sendUpdate()">
 		</td>
     	</form>
     </tr>
@@ -83,12 +82,11 @@ $(function() {
     <tr>
 	    <form name="requestForm" method=post action="${path}/front">
         <td>
-			<!-- 수정시 필요한 데이터들을 hidden으로 숨겨놓고 폼 데이터로 보내준다. -->
-				<input type=hidden name="adminNo" value="3">
-				<input type=hidden name="commentNo" value="0">
-				<input type=hidden name="key" value="admin">
-				<input type=hidden name="methodName" value="commentDelete">
-				<input type=button value="댓글 삭제" onClick="commentDelete()">
+			<input type=hidden name="adminNo" value="3">
+			<input type=hidden name="commentNo" value="0">
+			<input type=hidden name="key" value="admin">
+			<input type=hidden name="methodName" value="commentDelete">
+			<input type=button value="댓글 삭제" onClick="commentDelete()">
 		</td>
     	</form>
     </tr>
@@ -104,12 +102,11 @@ $(function() {
     <tr>
 	    <form name="requestForm" method=post action="${path}/front">
         <td>
-			<!-- 수정시 필요한 데이터들을 hidden으로 숨겨놓고 폼 데이터로 보내준다. -->
-				<input type=hidden name="adminNo" value="3">
-				<input type=hidden name="postNo" value="0">
-				<input type=hidden name="key" value="admin">
-				<input type=hidden name="methodName" value="postDelete">
-				<input type=button value="게시글 삭제" onClick="postDelete()">
+			<input type=hidden name="adminNo" value="3">
+			<input type=hidden name="postNo" value="0">
+			<input type=hidden name="key" value="admin">
+			<input type=hidden name="methodName" value="postDelete">
+			<input type=button value="게시글 삭제" onClick="postDelete()">
 		</td>
     	</form>
     </tr>
