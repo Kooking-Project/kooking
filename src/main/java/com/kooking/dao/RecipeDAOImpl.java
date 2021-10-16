@@ -6,11 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import com.kooking.dto.PostDTO;
+import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
+import com.kooking.exception.KookingException;
 import com.kooking.util.DBTestUtil;
-import com.kooking.util.DbUtil;
-
-import oracle.net.aso.r;
 
 public class RecipeDAOImpl implements RecipeDAO {
 	private Properties proFile = new Properties();
@@ -26,14 +26,91 @@ public class RecipeDAOImpl implements RecipeDAO {
 		}
 	}
 	
+	private	boolean getSqNumbers(Connection con, RecipeWrapper wrapper) throws SQLException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		boolean result = false;
+		if (wrapper==null || wrapper.getPost() == null || wrapper.getRecipe()==null) {
+			return false;
+		}
+		try {
+			con = DBTestUtil.getConnection();
+			ps = con.prepareStatement("SELECT RECIPE_NO_SEQ.NEXTVAL,  RECIPE_NO_SEQ.NEXTVAL FROM DUAL");
+			rs = ps.executeQuery();
+			
+			if((result = rs.next())) {
+				wrapper.getPost().setNo(rs.getInt(1));
+				wrapper.getRecipe().setNo(rs.getInt(2));
+			}
+		}finally {
+			DBTestUtil.dbClose(ps, rs);
+		}
+		return result;
+	}
+	
+	
+	private int insertPost(PostDTO post,Connection con) throws Exception{
+		PreparedStatement ps = null;
+		int result = 0;
+		if(post == null || con == null) {
+			throw new KookingException("게시물 정보가 없습니다.");
+		}
+		
+		String sql = "INSERT INTO POSTS(POST_NO,POST_TYPE_NO,USER_NO,POST_TITLE,POST_CONTENTS,POST_VIEW_COUNTS,POST_DATE) VALUES(?, ?, ?, ?, ?, 0, SYSDATE)";
+		
+		
+		try {
+			con = DBTestUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, post.getNo());
+			ps.setInt(2, 1); // TODO : 나중에 카테고리를 받아와서 수정
+			ps.setInt(3, post.getUserNo());
+			ps.setString(4, post.getTitle());
+			ps.setString(5, post.getContents());
+			result = ps.executeUpdate();
+		}finally {
+			DBTestUtil.dbClose(ps);
+		}
+		
+		return result;
+	}
+	
+	private int insertRecipe(RecipeDTO recipe, int postSq, Connection con) throws SQLException, KookingException {
+		PreparedStatement ps = null;
+		int result = 0;
+		if(recipe == null) {
+			throw new KookingException("레시피 정보가 없습니다.");
+		}
+		
+		String sql = "INSERT INTO RECIPES(RECIPES_NO,RECIPES_NANE,POST_NO,RECIPES_CALORIE,RECIPES_COOKING_TIME,RECIPES_NATION,RECIPES_TYPE,RECIPES_LEVEL) VALUES(?,?,?,?,?,?,?,?)";
+		
+		try {
+			con = DBTestUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, recipe.getNo());
+			ps.setString(2, recipe.getName());
+			ps.setInt(3, postSq);
+			ps.setInt(4, recipe.getCalorie());
+			ps.setInt(5, recipe.getCookingTime());
+			ps.setString(6, recipe.getNation()); // TODO : 나중에 카테고리를 받아와서 수정
+			ps.setString(7, recipe.getType()); // TODO : 나중에 카테고리를 받아와서 수정
+			ps.setString(8, recipe.getLevel()); // TODO : 나중에 카테고리를 받아와서 수정
+			
+			result = ps.executeUpdate();
+		}finally {
+			DBTestUtil.dbClose(ps);
+		}
+		
+		return result;
+	}
+	
+	
 	@Override
 	public int insert(RecipeWrapper recipe) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		int result = 0;
-		String sql = "";
-				
 
 //		INSERT INTO POSTS(POST_NO,POST_TYPE_NO,USER_NO,POST_TITLE,POST_CONTENTS,POST_VIEW_COUNTS,POST_DATE) VALUES(POST_NO_SEQ.NEXTVAL, 1, USER_NO_SEQ.CURRVAL, '콩국수가 싫다면 잣국수','시원한 여름국수요리!', 0, SYSDATE);
 //		INSERT INTO RECIPES(RECIPES_NO,RECIPES_NANE,POST_NO,RECIPES_CALORIE,RECIPES_COOKING_TIME,RECIPES_NATION,RECIPES_TYPE,RECIPES_LEVEL) VALUES(RECIPES_NO_SEQ.NEXTVAL,'잣국수',POST_NO_SEQ.CURRVAL, 513, 20, '한식', '만두/면류', '초보환영');
@@ -58,7 +135,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 		
 		try {
 			con = DBTestUtil.getConnection();
-			ps = con.prepareStatement(sql);
+			ps = con.prepareStatement("");
 			
 			//게시판유형(1, 레시피)
 			//게시글제목(콩국수가 싫다면 잣국수)
