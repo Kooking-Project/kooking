@@ -4,19 +4,30 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import com.kooking.dto.UserDTO;
 import com.kooking.util.DbUtil;
 
 
 public class AdminDAOImpl implements AdminDAO {
+	Properties proFile = new Properties();
+	
+	public AdminDAOImpl() {
+		try {
+			proFile.load(getClass().getClassLoader().getResourceAsStream("dbQuery.properties"));
+			System.out.println("proFile 로드됨");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public int checkUserStatues(int userNo) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "select USER_STATUS from USERS where USER_NO=?";
+		String sql = proFile.getProperty("query.checkUserStatues");
 		int result = 0;
 		
 		try {
@@ -38,7 +49,7 @@ public class AdminDAOImpl implements AdminDAO {
 	public int changeUserStatus(UserDTO user) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		String sql = "update USERS set USER_STATUS=? where USER_NO=?";
+		String sql = proFile.getProperty("query.changeUserStatus");
 		int result = 0;
 		
 		try {

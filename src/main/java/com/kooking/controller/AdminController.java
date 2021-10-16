@@ -23,21 +23,40 @@ public class AdminController implements Controller {
 	}
 	
 	public ModelAndView changeUserStatus(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String userId = request.getParameter("userId");
 
 		//접속자가 관리자 no 받기
-		int adminNo = 0;
+		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
+		
 		//변경할 유저의 활동상태와 유저 no 받기
-		UserDTO userDTO = new UserDTO();
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		int userStatus = Integer.parseInt(request.getParameter("userStatus"));
+		UserDTO userDTO = new UserDTO(userNo,userStatus);
 		
 		service.changeUserStatus(adminNo, userDTO);
 		
-	/*
-		HttpSession session = request.getSession();
-		session.setAttribute("loginUser", userDTO.getUserId());
-		session.setAttribute("loginName", userDTO.getName());
-	*/
-		return new ModelAndView("index.jsp", true);
+		return new ModelAndView("adminTest.jsp", true);
 	}
+
+	public ModelAndView commentDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
+		int commentNo = Integer.parseInt(request.getParameter("commentNo"));
+		
+		service.commentDelete(adminNo, commentNo);
+		
+		return new ModelAndView("adminTest.jsp", true);
+	}
+
+	public ModelAndView postDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
+		int postNo = Integer.parseInt(request.getParameter("postNo"));
+		
+		service.postDelete(adminNo, postNo);
+		
+		return new ModelAndView("adminTest.jsp", true);
+	}
+	
+	
 
 }

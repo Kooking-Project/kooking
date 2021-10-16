@@ -14,16 +14,21 @@ public class UserDTO {
 	private int gender;		//사용자 성별
 	private String enrollDate;	//사용자 가입일자
 	private String profileImg;	//사용자 프로필 이미지 URL
-	private int status;		//사용자 활동 상태 0 = 기본, 1=활동정지, 2=탈퇴, 100=어드민
+	private int status;		//사용자 활동 상태 0 = 기본, 1=활동정지, 2=탈퇴, 10=어드민(DB에 넘버(2,0)돼있음)
 	
 	public UserDTO() {}
 	
-	   public UserDTO(String id, String pwd) {
-			super();
-			this.id = id;
-			this.pwd = pwd;
-			
-		}
+	public UserDTO(String id, String pwd) {
+		super();
+		this.id = id;
+		this.pwd = pwd;
+	}
+	
+	public UserDTO(int no, 	int status) {	//상태변경
+		super();
+		this.no = no;
+		this.status = status;
+	}
 	
 	public UserDTO(int no, String id, String pwd, String nickName, int gender, String enrollDate, String profileImg,
 			int status) {
