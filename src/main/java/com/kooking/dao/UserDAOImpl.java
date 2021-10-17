@@ -123,7 +123,7 @@ public class UserDAOImpl implements UserDAO {
 			ps.setInt(1, userNo);
 			
 			rs = ps.executeQuery();
-			if(rs.next()) {
+			while(rs.next()) {
 				post = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7));
 				postList.add(post);
 			}
@@ -140,8 +140,8 @@ public class UserDAOImpl implements UserDAO {
 		PreparedStatement ps =null;
 		ResultSet rs =null;
 		String sql=proFile.getProperty("query.commentSelectByUserNo");
-		PostDTO post=null;
-		List<PostDTO> postList = new ArrayList<PostDTO>();
+		CommentDTO comment=null;
+		List<CommentDTO> commentList = new ArrayList<CommentDTO>();
 		
 		try {
 			con = DbUtil.getConnection();
@@ -149,15 +149,16 @@ public class UserDAOImpl implements UserDAO {
 			ps.setInt(1, userNo);
 			
 			rs = ps.executeQuery();
-			if(rs.next()) {
-				post = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7));
-				postList.add(post);
+			while(rs.next()) {
+				System.out.println(rs.getInt(7)==0?false:true);
+				comment = new CommentDTO(rs.getInt(1), rs.getInt(3), rs.getInt(2), rs.getInt(6), rs.getString(4), rs.getString(5), (rs.getInt(7)==0?false:true) );
+				commentList.add(comment);
 			}
 			
 		}finally {
 			DbUtil.dbClose(rs, ps, con);
 		}
-		return null;
+		return commentList;
 	}
 
 	@Override

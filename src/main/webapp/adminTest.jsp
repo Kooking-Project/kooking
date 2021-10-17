@@ -28,6 +28,9 @@ function sendUserUpdate(){
 function postSelect(){
 	document.requestForm5.submit();
 }
+function commentSelect(){
+	document.requestForm6.submit();
+}
 $(function() {
 	$("#upload").on("click", function() {
 		$("#upLoadForm").ajaxForm({
@@ -168,7 +171,7 @@ $(function() {
     <c:choose>
 	    <c:when test="${empty requestScope.postList}">
 		   	<tr>
-	       		<td>등록된 상품이 없습니다.</td>
+	       		<td>등록된 정보가 없습니다.</td>
 	    	</tr>
 	    </c:when>
 	    <c:otherwise>
@@ -181,6 +184,50 @@ $(function() {
 					<td>${postDTO.contents}</td>
 					<td>${postDTO.counts}</td>
 					<td>${postDTO.date}</td>
+					<td> </td>
+				</tr>
+		    </c:forEach>
+		</c:otherwise>
+    </c:choose>
+</table>
+
+<hr>
+<h1>댓글 출력</h1>
+<table border="1">
+	<tr>
+        <td>comment_no</td>
+        <td>user_no</td>
+        <td>post_no</td>
+        <td>comment_contents</td>
+        <td>comment_date</td>
+        <td>comment_top</td>
+        <td>comment_delete_YN</td>
+		<td>
+			<form name="requestForm6" method=post action="${path}/front">
+				<input type=hidden name="no" value="4">
+				<input type=hidden name="key" value="user">
+				<input type=hidden name="methodName" value="commentSelectByUserNo">
+				<input type=button value="검색하기" onClick="commentSelect()">
+			</form>
+		</td>
+    </tr>
+    
+    <c:choose>
+	    <c:when test="${empty requestScope.commentList}">
+		   	<tr>
+	       		<td>등록된 정보가 없습니다.</td>
+	    	</tr>
+	    </c:when>
+	    <c:otherwise>
+			<c:forEach items="${requestScope.commentList}" var="commentDTO">
+				<tr>
+					<td>${commentDTO.no}</td>
+					<td>${commentDTO.userNo}</td>
+					<td>${commentDTO.postNO}</td>
+					<td>${commentDTO.content}</td>
+					<td>${commentDTO.date}</td>
+					<td>${commentDTO.top}</td>
+					<td>${commentDTO.deleteYN}</td>
 					<td> </td>
 				</tr>
 		    </c:forEach>

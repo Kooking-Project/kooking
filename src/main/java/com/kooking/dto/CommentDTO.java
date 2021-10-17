@@ -8,7 +8,7 @@ package com.kooking.dto;
  * */
 public class CommentDTO {
 	private int no;		//댓글 번호
-	private int postNO;	//게시글 번호
+	private int postNO;	//게시글 번호	//NO -> No로 바꿔야함
 	private int userNo;	//사용자 번호
 	private int top;	//상위 댓글
 	private String content;	//댓글 내용

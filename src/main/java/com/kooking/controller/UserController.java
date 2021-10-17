@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.UserDTO;
 import com.kooking.service.UserService;
@@ -90,8 +91,16 @@ public class UserController implements Controller {
 		String no = request.getParameter("no");
 		
 		List<PostDTO> postList = userSerivce.postSelectByUserNo(Integer.parseInt(no));
-		
 		request.setAttribute("postList", postList);
+		
+		return new ModelAndView("adminTest.jsp");
+	}
+
+	public ModelAndView commentSelectByUserNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String no = request.getParameter("no");
+		
+		List<CommentDTO> commentList = userSerivce.commentSelectByUserNo(Integer.parseInt(no));
+		request.setAttribute("commentList", commentList);
 		
 		return new ModelAndView("adminTest.jsp");
 	}
