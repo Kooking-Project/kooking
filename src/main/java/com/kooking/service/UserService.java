@@ -11,4 +11,6 @@ public interface UserService {
 	 * */
    UserDTO loginCheck(String id, String pwd)throws SQLException , KookingException;
    
+   void insert(UserDTO userDTO)throws SQLException , KookingException;
+   
 }

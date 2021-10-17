@@ -19,4 +19,13 @@ public class UserServiceImpl implements UserService {
 		return userDTO;
 	}
 
+	@Override
+	public void insert(UserDTO userDTO) throws SQLException, KookingException {
+		 if( userDao.insert(userDTO) == 0 )
+			  throw new SQLException("등록되지 않았습니다.");
+		
+	}
+
+
+
 }

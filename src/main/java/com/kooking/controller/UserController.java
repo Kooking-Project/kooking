@@ -1,9 +1,6 @@
 package com.kooking.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +10,6 @@ import javax.servlet.http.HttpSession;
 import com.kooking.dto.UserDTO;
 import com.kooking.service.UserService;
 import com.kooking.service.UserServiceImpl;
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-
-import net.sf.json.JSONArray;
 
 public class UserController implements Controller {
 	private UserService userSerivce = new UserServiceImpl();
@@ -38,16 +31,46 @@ public class UserController implements Controller {
 
 		UserDTO userDTO = userSerivce.loginCheck(id, pwd);
 
-		// 여기까지 왔다는 이야기는 예외없이 정상이므로 session에 정보를 저장한다.
 		HttpSession session = request.getSession();
 		session.setAttribute("loginUser", id);
 		// session.setAttribute("loginName", );
-
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("index.jsp");
-		mv.setRedirect(true);
-
-		return mv;
+		
+		return new ModelAndView("index.jsp", true);
+		
+		
+	}
+	
+	/**
+	 * 로그아웃
+	 * */
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
+		session.invalidate();
+		
+		return new ModelAndView("index.jsp", true);
+	}
+	
+	/**
+	 * 회원가입
+	 * */
+	public ModelAndView insert(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String no = request.getParameter("no");
+		String id = request.getParameter("id");
+		String pwd = request.getParameter("pwd");
+		String nickName = request.getParameter("nickName");
+		String gender = request.getParameter("gender");
+		String enrollDate = request.getParameter("enrollDate");
+		String profileImg = request.getParameter("profileImg");
+		String status = request.getParameter("status");
+		
+		UserDTO userDTO = 
+				  new UserDTO(Integer.parseInt(no), id, pwd, nickName, Integer.parseInt(gender),
+						  enrollDate,profileImg,Integer.parseInt(status));
+		
+		userSerivce.insert(userDTO);
+		
+		return new ModelAndView("index.jsp", true);
 	}
 
 	/* 프로필 설정 (작업중 - 원재)
