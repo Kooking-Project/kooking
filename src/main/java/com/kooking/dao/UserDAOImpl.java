@@ -48,13 +48,13 @@ public class UserDAOImpl implements UserDAO {
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement("insert into users(no,id,pwd,nickName,gender,enrollDate,profileImg,status) values(?,?,?,?,?,sysdate,?,?)");
-			ps.setString(1, userDTO.getId());
-			ps.setString(2, userDTO.getName());
-			ps.setInt(3, userDTO.getAge());
-			ps.setString(4, userDTO.getTel());
-			ps.setString(5, userDTO.getAddr());
-			ps.setString(6, userDTO.getAddr());
-			ps.setString(7, userDTO.getAddr());
+			ps.setInt(1, userDTO.getNo());
+			ps.setString(2, userDTO.getId());
+			ps.setString(3, userDTO.getPwd());
+			ps.setString(4, userDTO.getNickName());
+			ps.setInt(5, userDTO.getGender());
+			ps.setString(6, userDTO.getProfileImg());
+			ps.setInt(7, userDTO.getStatus());
 			
 			result = ps.executeUpdate();
 		} finally {
