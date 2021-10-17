@@ -6,13 +6,14 @@ import com.kooking.dto.CommentDTO;
 import com.kooking.dto.ImageDTO;
 import com.kooking.dto.IngredientDTO;
 import com.kooking.dto.PostDTO;
+import com.kooking.dto.ProcessDTO;
 import com.kooking.dto.RecipeDTO;
 
 public class RecipeWrapper {
 	private PostDTO post;
 	private RecipeDTO recipe;
-	private List<Process> process;
-	private List<IngredientDTO> igredients;
+	private List<ProcessDTO> process;
+	private List<IngredientDTO> ingredient;
 	private List<ImageDTO> images;
 	private List<CommentDTO> comments;
 	
@@ -20,13 +21,13 @@ public class RecipeWrapper {
 		super();
 	}
 	
-	public RecipeWrapper(PostDTO post, RecipeDTO recipe, List<Process> process, List<IngredientDTO> igredients,
+	public RecipeWrapper(PostDTO post, RecipeDTO recipe, List<ProcessDTO> process, List<IngredientDTO> ingredient,
 			List<ImageDTO> images, List<CommentDTO> comments) {
 		super();
 		this.post = post;
 		this.recipe = recipe;
 		this.process = process;
-		this.igredients = igredients;
+		this.ingredient = ingredient;
 		this.images = images;
 		this.comments = comments;
 	}
@@ -43,17 +44,17 @@ public class RecipeWrapper {
 	public void setRecipe(RecipeDTO recipe) {
 		this.recipe = recipe;
 	}
-	public List<Process> getProcess() {
+	public List<ProcessDTO> getProcess() {
 		return process;
 	}
-	public void setProcess(List<Process> process) {
+	public void setProcess(List<ProcessDTO> process) {
 		this.process = process;
 	}
-	public List<IngredientDTO> getIgredients() {
-		return igredients;
+	public List<IngredientDTO> getIngredient() {
+		return ingredient;
 	}
-	public void setIgredients(List<IngredientDTO> igredients) {
-		this.igredients = igredients;
+	public void setIgredients(List<IngredientDTO> ingredient) {
+		this.ingredient = ingredient;
 	}
 	public List<ImageDTO> getImages() {
 		return images;
