@@ -11,6 +11,14 @@ public interface UserService {
 	 * */
    UserDTO loginCheck(String id, String pwd)throws SQLException , KookingException;
    
+   /**
+    *  회원가입
+    * */
    void insert(UserDTO userDTO)throws SQLException , KookingException;
+   
+   /**
+    * 아이디 중복체크
+    * */
+   void idCheck(String id) throws SQLException , KookingException;
    
 }

@@ -26,6 +26,14 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+	@Override
+	public void idCheck(String id) throws SQLException, KookingException {
+		if( userDao.idCheck(id)) {
+			throw new SQLException("아이디가 중복입니다.");
+		}
+		
+	}
+
 
 
 }

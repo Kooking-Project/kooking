@@ -32,7 +32,7 @@ public class UserController implements Controller {
 		UserDTO userDTO = userSerivce.loginCheck(id, pwd);
 
 		HttpSession session = request.getSession();
-		session.setAttribute("loginUser", id);
+		session.setAttribute("loginUser", userDTO.getId());
 		// session.setAttribute("loginName", );
 		
 		return new ModelAndView("index.jsp", true);
