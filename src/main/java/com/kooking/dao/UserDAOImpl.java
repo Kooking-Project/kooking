@@ -49,12 +49,6 @@ public class UserDAOImpl implements UserDAO {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement("insert into users(no,id,pwd,nickName,gender,enrollDate,profileImg,status) values(?,?,?,?,?,sysdate,?,?)");
 			ps.setString(1, userDTO.getId());
-			ps.setString(2, userDTO.getName());
-			ps.setInt(3, userDTO.getAge());
-			ps.setString(4, userDTO.getTel());
-			ps.setString(5, userDTO.getAddr());
-			ps.setString(6, userDTO.getAddr());
-			ps.setString(7, userDTO.getAddr());
 			
 			result = ps.executeUpdate();
 		} finally {
@@ -77,8 +71,23 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public int userUpdate(UserDTO user) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		Connection con=null;
+		PreparedStatement ps =null;
+		String sql="update USERS set USER_PWD=? USER_NICNAME=? USER_GENDER=? where USER_NO=?";
+		int result = 0;
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, user.getPwd());
+			ps.setString(2, user.getNickName());
+			ps.setInt(3, user.getGender());
+			ps.setInt(4, user.getNo());
+			
+			result = ps.executeUpdate();
+		}finally {
+			DbUtil.dbClose(ps, con);
+		}
+		return result;
 	}
 
 	@Override
