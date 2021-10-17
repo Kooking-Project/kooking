@@ -50,5 +50,10 @@ public interface UserDAO {
 	 * User 가입하기
 	 * */
 	int insert(UserDTO userDTO) throws SQLException;
+	
+	/**
+	 * 아이디 중복체크
+	 * */
+	boolean idCheck(String id) throws SQLException;
 		
 }

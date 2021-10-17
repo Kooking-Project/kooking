@@ -59,14 +59,14 @@ public class UserDAOImpl implements UserDAO {
 		int result = 0;
 		try {
 			con = DbUtil.getConnection();
-			ps = con.prepareStatement("insert into users(no,id,pwd,nickName,gender,enrollDate,profileImg,status) values(?,?,?,?,?,sysdate,?,?)");
-			ps.setInt(1, userDTO.getNo());
-			ps.setString(2, userDTO.getId());
-			ps.setString(3, userDTO.getPwd());
-			ps.setString(4, userDTO.getNickName());
-			ps.setInt(5, userDTO.getGender());
-			ps.setString(6, userDTO.getProfileImg());
-			ps.setInt(7, userDTO.getStatus());
+			ps = con.prepareStatement("insert into users(no,id,pwd,nickName,gender,enrollDate,profileImg,status) values(USER_NO_SEQ.nextval,?,?,?,?,sysdate,?,?)");
+			
+			ps.setString(1, userDTO.getId());
+			ps.setString(2, userDTO.getPwd());
+			ps.setString(3, userDTO.getNickName());
+			ps.setInt(4, userDTO.getGender());
+			ps.setString(5, userDTO.getProfileImg());
+			ps.setInt(6, userDTO.getStatus());
 			
 			result = ps.executeUpdate();
 		} finally {
@@ -164,6 +164,29 @@ public class UserDAOImpl implements UserDAO {
 	public List<BookmarkDTO> bookmarkSelectByUserNo(int userNo) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean idCheck(String id) throws SQLException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Connection con = null;
+		boolean result = false; //중복 X 
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement("select id from users where id=?");
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				result = true; //중복 O
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DbUtil.dbClose(rs, ps, con);
+		}
+		return result;
 	}
 
 }

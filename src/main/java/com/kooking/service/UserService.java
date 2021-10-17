@@ -13,16 +13,19 @@ public interface UserService {
 	 */
 	UserDTO loginCheck(String id, String pwd) throws SQLException, KookingException;
 
+	/**
+	 * 회원가입
+	 */
 	void insert(UserDTO userDTO) throws SQLException, KookingException;
 
 	/**
-    * 회원 정보 수정
-    * */
+	 * 회원 정보 수정
+	 */
 	void userUpdate(UserDTO userDTO) throws Exception;
-	
+
 	/**
 	 * 본인이 작성한 게시글 확인
-	 * */
+	 */
 	List<PostDTO> postSelectByUserNo(int userNo) throws Exception;
 
 }
