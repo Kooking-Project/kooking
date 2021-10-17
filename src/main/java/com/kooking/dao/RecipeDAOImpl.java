@@ -3,7 +3,7 @@ package com.kooking.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -33,7 +33,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 	 * @author 박효승
 	 * @date 2021-10-17
 	 */
-	private	boolean getSqNumbers(Connection con, RecipeWrapper wrapper) throws SQLException {
+	private	boolean getSqNumbers(Connection con, RecipeWrapper wrapper) throws Exception {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		boolean result = false;
@@ -48,6 +48,8 @@ public class RecipeDAOImpl implements RecipeDAO {
 			if((result = rs.next())) {
 				wrapper.getPost().setNo(rs.getInt(1));
 				wrapper.getRecipe().setNo(rs.getInt(2));
+				System.out.printf("%d %d\n",wrapper.getPost().getNo(), wrapper.getRecipe().getNo());
+				
 			}
 		}finally {
 			DBTestUtil.dbClose(ps, rs);
@@ -90,7 +92,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 	 * @author 박효승
 	 * @date 2021-10-17	
 	 */
-	public int insertRecipe(RecipeDTO recipe, int postSq, Connection con) throws SQLException, KookingException {
+	public int insertRecipe(RecipeDTO recipe, int postSq, Connection con) throws Exception {
 		PreparedStatement ps = null;
 		int result = 0;
 		if(recipe == null) {
@@ -125,23 +127,24 @@ public class RecipeDAOImpl implements RecipeDAO {
 	 * @author 박은솔
 	 * @date 2021-10-17	
 	 */
-	public int[] insertIngredient(Connection con, RecipeWrapper wrapper) throws SQLException, KookingException{
+	public int[] insertIngredient(RecipeWrapper wrapper, Connection con) throws Exception{
 		PreparedStatement ps = null;
 		String sql = "INSERT INTO INGREDIENTS(INGREDIENT_NO,RECIPES_NO,INGREDIENT_NAME,INGREDIENT_SEQ,INGREDIENT_CACTY) "
-				+ "VALUES(INGREDIENTS_NO_SEQ.NEXTVAL,RECIPES_NO_SEQ.CURRVAL,?,?,?)";
+				+ "VALUES(INGREDIENTS_NO_SEQ.NEXTVAL,?,?,?,?)";
 		int result [] = null;
 		if(wrapper.getRecipe() == null) {
 			throw new KookingException("레시피번호 정보가 없습니다");
 		}
 		
+		int recipeNo = wrapper.getRecipe().getNo();
 		try {
 			con = DBTestUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			for(IngredientDTO ingredient : wrapper.getIngredient()) {
-				
-				ps.setString(1, ingredient.getName());//재료이름
-				ps.setInt(2, ingredient.getSeq());//재료순서
-				ps.setString(3, ingredient.getCacty());//재료용량
+				ps.setInt(1, recipeNo);	//레시피 번호
+				ps.setString(2, ingredient.getName());//재료이름
+				ps.setInt(3, ingredient.getSeq());//재료순서
+				ps.setString(4, ingredient.getCacty());//재료용량
 				
 				ps.addBatch();//일괄처리할 작업에 추가
 				ps.clearParameters();
@@ -159,7 +162,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 	 * @author 박은솔
 	 * @date 2021-10-17	
 	 */
-	public int[] insertImage(Connection con, RecipeWrapper wrapper, int postSq) throws SQLException, KookingException{
+	public int[] insertImage(RecipeWrapper wrapper, Connection con) throws Exception{
 		PreparedStatement ps = null;
 		String sql = "INSERT INTO IMAGES(IMAGE_URL,POST_NO,IMAGE_SIZE) VALUES(?, ?, ?)";
 		int result [] = null;
@@ -167,12 +170,13 @@ public class RecipeDAOImpl implements RecipeDAO {
 			throw new KookingException("게시글번호 정보가 없습니다");
 		}
 		
+		int postNo = wrapper.getPost().getNo();
 		try {
 			ps = con.prepareStatement(sql);
 			for(ImageDTO image : wrapper.getImages()) {
 				
 				ps.setString(1, image.getUrl());//이미지 URL
-				ps.setInt(2, postSq);//POST_NO_SEQ 가져와서 넣고
+				ps.setInt(2, postNo);//POST_NO_SEQ 가져와서 넣고
 				ps.setInt(3, image.getSize());//이미지용량
 				
 				ps.addBatch();
@@ -191,19 +195,20 @@ public class RecipeDAOImpl implements RecipeDAO {
 	 * @author 박은솔
 	 * @date 2021-10-17	
 	 */
-	public int[] insertProcess(Connection con, RecipeWrapper wrapper, int recipeSq) throws SQLException, KookingException{
+	public int[] insertProcess(RecipeWrapper wrapper,Connection con) throws Exception{
 		PreparedStatement ps = null;
-		String sql = "INSERT INTO PROCESS(PROCESS_NO,RECIPES_NO,IMAGE_URL,PROCESS_SEQ,PROCESS_DESC,PROCESS_TIP) VALUES(PROCESS_NO_SEQ.NEXTVAL, RECIPES_NO_SEQ.CURRVAL, ?, ?, ?, ?)";
+		String sql = "INSERT INTO PROCESS(PROCESS_NO,RECIPES_NO,IMAGE_URL,PROCESS_SEQ,PROCESS_DESC,PROCESS_TIP) VALUES(PROCESS_NO_SEQ.NEXTVAL, ?, ?, ?, ?, ?)";
 		int result [] = null;
 		if(wrapper.getRecipe() == null) {
 			throw new KookingException("레시피번호 정보가 없습니다");
 		}
 		
+		int recipeNo = wrapper.getRecipe().getNo();
 		try {
 			ps = con.prepareStatement(sql);
 			for(ProcessDTO process : wrapper.getProcess()) {
-				
-				ps.setString(1,process.getImageUrl());//이미지URL
+				ps.setInt(1, recipeNo); // 레시피 번호
+				ps.setString(2,process.getImageUrl());//이미지URL
 				ps.setInt(3, process.getCookingSeq());//조리과정순서
 				ps.setString(4, process.getCookingDesc());//조리과정설명
 				ps.setString(5, process.getTip());//과정팁
@@ -230,73 +235,60 @@ public class RecipeDAOImpl implements RecipeDAO {
 	 * 		4) PROCESS 테이블에 insert
 	 */
 	@Override
-	public int insert(RecipeWrapper wrapper) throws SQLException, KookingException {
+	public boolean insert(RecipeWrapper wrapper) throws Exception {
 		Connection con = null;
-		PreparedStatement ps = null;
-		int result = 0;
-		String sql = "INSERT INTO RECIPES(RECIPES_NO,RECIPES_NANE,POST_NO,RECIPES_CALORIE,RECIPES_COOKING_TIME,RECIPES_NATION,RECIPES_TYPE,RECIPES_LEVEL)"
-				+ "VALUES(RECIPES_NO_SEQ.NEXTVAL,?,?,?,?,?,?,?)";
-
+		boolean result = false;
+		
 		try {
 			con = DBTestUtil.getConnection();
-			con.setAutoCommit(false);//자동커밋해지
-
-			ps = con.prepareStatement(sql);
-			ps.setInt(1, wrapper.getRecipe().getNo());//레시피번호
-			ps.setString(2, wrapper.getRecipe().getName());//레시피이름
-			ps.setInt(3, wrapper.getRecipe().getPostNo());//게시글번호를 받아와서 POST_NO_SEQ.CURRVAL???? postSq???
-			ps.setInt(4, wrapper.getRecipe().getCalorie());//칼로리(Kcal)
-			ps.setInt(5, wrapper.getRecipe().getCookingTime());//조리시간(분)
-			ps.setString(6, wrapper.getRecipe().getNation()); //레시피국가 	TODO : 나중에 카테고리를 받아와서 수정
-			ps.setString(7, wrapper.getRecipe().getType()); //레시피분류 	TODO : 나중에 카테고리를 받아와서 수정
-			ps.setString(8, wrapper.getRecipe().getLevel()); //난이도 		TODO : 나중에 카테고리를 받아와서 수정
-
-			if(result==0) {
+			con.setAutoCommit(false);
+			
+			getSqNumbers(con, wrapper);	//시퀀스 값을 받아서 wrapper에 넣어줌.
+			
+			if(insertPost(wrapper.getPost(), con) <=0 ) {
 				con.rollback();
-				throw new SQLException("레시피등록 실패...");
-
-			}else {
-				int ingredient [] = insertIngredient(con, wrapper);//2)레시피 재료 등록하기
-				for(int i : ingredient) {
-					System.out.println(i);
-				}
-
-				for(int i : ingredient) {
-					if(i != 1)//1은 성공, 0은 실패
-						con.rollback();
-					throw new SQLException("레시피 재료 입력 오류. 레시피등록 실패");
-				}
-
-				//3)이미지URL 등록하기 
-				int image [] = insertImage(con, wrapper, result);
-				for(int i : image) {
-					if(i != 1)
-						con.rollback();
-					throw new SQLException("이미지 입력 오류. 레시피등록 실패");
-				}
-
-				//4)레시피조리과정 등록하기 
-				int process [] = insertProcess(con, wrapper, result);
-				for(int i : process) {
-					if(i != 1)
-						con.rollback();
-					throw new SQLException("조리과정 입력 오류. 레시피등록 실패");
-				}
-
-				con.commit();
+				throw new KookingException("게시글 작성에 실패했습니다. : " + wrapper.getPost().getNo());
 			}
-
-			System.out.println("insert() 결과 : " + result);//잘 되는지 테스트 하고 싶은데 어떻게? 
-
-		} finally {
+			
+			if(insertRecipe(wrapper.getRecipe(), wrapper.getPost().getNo(), con) <= 0) {
+				con.rollback();
+				throw new KookingException("레시피 작성에 실패했습니다. : " + wrapper.getRecipe().getNo());
+			}
+			
+			for(int i : insertIngredient(wrapper, con)) {
+				if(i<=0) {
+					con.rollback();
+					throw new KookingException("재료 등록에 실패했습니다.");
+				}
+			}
+			
+			for(int i : insertImage(wrapper, con)){
+				if(i<=0) {
+					con.rollback();
+					throw new KookingException("이미지 등록에 실패했습니다.");
+				}
+			}
+			
+			for(int i : insertProcess(wrapper, con)) {
+				if(i<=0) {
+					con.rollback();
+					throw new KookingException("조리과정 등록에 실패했습니다.");
+				}
+			}
+			
+			result = true;
 			con.commit();
-			DBTestUtil.dbClose(con, ps);
+			
+			
+		}finally {
+			DBTestUtil.dbClose(con);
 		}
+
 		return result;
 	}
 
 	@Override
-	public int update(RecipeWrapper recipe) throws SQLException {
+	public int update(RecipeWrapper recipe) throws Exception {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
@@ -311,7 +303,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 	}
 
 	@Override
-	public int delete(int no, int userNo) throws SQLException {
+	public int delete(int no, int userNo) throws Exception {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
@@ -334,18 +326,94 @@ public class RecipeDAOImpl implements RecipeDAO {
 	}
 	
 
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
 		RecipeDAO recipeDAO = new RecipeDAOImpl();
-		System.out.println("112312");
+		RecipeWrapper rw = new RecipeWrapper();
+		PostDTO post = new PostDTO();
+		post.setNo(15);
+		post.setUserNo(1);
+		post.setPostTypeNo(1);
+		post.setTitle("치킨 조리법");
+		post.setContents("치킨 조리방법 설명");
+		rw.setPost(post);
 		
-		int r = 0;
-		try {
-			r = recipeDAO.delete(1, 1);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(r);
+		RecipeDTO recipe = new RecipeDTO();
+		recipe.setName("치킨");
+		recipe.setCalorie(1200);
+		recipe.setCookingTime(20);
+		recipe.setNation("한식");
+		recipe.setType("튀김/커틀릿");
+		recipe.setLevel("어려움");
+		rw.setRecipe(recipe);
+		
+		List<IngredientDTO> ingredients = new ArrayList<IngredientDTO>();
+		IngredientDTO i1 = new IngredientDTO();
+		IngredientDTO i2 = new IngredientDTO();
+		IngredientDTO i3 = new IngredientDTO();
+		i1.setName("닭고기");
+		i1.setSeq(1);
+		i1.setCacty("한마리");
+		
+		i2.setName("튀김가루");
+		i2.setSeq(2);
+		i2.setCacty("한봉지");
+		
+		i3.setName("양념장");
+		i3.setSeq(3);
+		i3.setCacty("한통");
+		
+		ingredients.add(i1);
+		ingredients.add(i2);
+		ingredients.add(i3);
+		rw.setIgredients(ingredients);
+		
+		
+		List<ImageDTO> images = new ArrayList<ImageDTO>();
+		ImageDTO img1 = new ImageDTO();
+		ImageDTO img2 = new ImageDTO();
+		ImageDTO img3 = new ImageDTO();
+		
+		img1.setUrl("https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/c78ab39d260bfa1b8d49d4e612a918f31.png");
+		img1.setSize(1000);
+		
+		img2.setUrl("https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/72d6a27278d2eb32b960ceafd49ea2741.png");
+		img2.setSize(1000);
+		
+		img3.setUrl("https://recipe1.ezmember.co.kr/cache/recipe/2019/12/25/f527619b4905735ab8215944771c0e081.jpg");
+		img3.setSize(1000);
+		
+		images.add(img1);
+		images.add(img2);
+		images.add(img3);
+		rw.setImages(images);
+		
+		List<ProcessDTO> process = new ArrayList<ProcessDTO>();
+		ProcessDTO p1 = new ProcessDTO();
+		ProcessDTO p2 = new ProcessDTO();
+		ProcessDTO p3 = new ProcessDTO();
+		
+		p1.setImageUrl("https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/c78ab39d260bfa1b8d49d4e612a918f31.png");
+		p1.setCookingSeq(1);
+		p1.setCookingDesc("그릇에 마요네즈, 설탕, 소금, 다진마늘을 넣고 골고루 섞어주세요.");
+		p1.setTip(null);
+		
+		p2.setImageUrl(null);
+		p2.setCookingSeq(2);
+		p2.setCookingDesc("소스를 2등분하여 빵에 골고루 펴발라주세요.");
+		p2.setTip("소스가 도톰하게 발려야 겉은 바삭하고 속은 쫀득해요. 식빵도 좋고 바게트빵도 좋아요");
+		
+		p3.setImageUrl("https://recipe1.ezmember.co.kr/cache/recipe/2019/12/25/f527619b4905735ab8215944771c0e081.jpg");
+		p3.setCookingSeq(3);
+		p3.setCookingDesc("에어프라이어에 넣고 180℃에서 8분간 구워주세요.");
+		p3.setTip("위가 살짝 노릇할정도만 구워야 속이 쫀득합니다.");
+		
+		process.add(p1);
+		process.add(p2);
+		process.add(p3);
+		rw.setProcess(process);
+		
+		recipeDAO.insert(rw);
+
 	}
 
 
