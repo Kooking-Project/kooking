@@ -4,28 +4,35 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 
+import com.kooking.dto.ImageDTO;
+import com.kooking.dto.IngredientDTO;
 import com.kooking.dto.PostDTO;
+import com.kooking.dto.ProcessDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.exception.KookingException;
 import com.kooking.util.DBTestUtil;
 
 public class RecipeDAOImpl implements RecipeDAO {
-	private Properties proFile = new Properties();
-
+	Properties proFile = new Properties();
+	
 	public RecipeDAOImpl() {
 		try {
 			proFile.load(getClass().getClassLoader().getResourceAsStream("dbQuery.properties"));
-
-			System.out.println("query : " + proFile.getProperty("query.select"));
-
-		}catch (Exception e) {
+			System.out.println("proFile 로드됨");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * POST_NO_SEQ, RECIPE_NO_SEQ 를 얻어오는 메소드  
+	 * @author 박효승
+	 * @date 2021-10-17
+	 */
 	private	boolean getSqNumbers(Connection con, RecipeWrapper wrapper) throws SQLException {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -35,7 +42,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 		}
 		try {
 			con = DBTestUtil.getConnection();
-			ps = con.prepareStatement("SELECT RECIPE_NO_SEQ.NEXTVAL,  RECIPE_NO_SEQ.NEXTVAL FROM DUAL");
+			ps = con.prepareStatement("SELECT POST_NO_SEQ.NEXTVAL, RECIPE_NO_SEQ.NEXTVAL FROM DUAL");
 			rs = ps.executeQuery();
 			
 			if((result = rs.next())) {
@@ -48,8 +55,12 @@ public class RecipeDAOImpl implements RecipeDAO {
 		return result;
 	}
 	
-	
-	private int insertPost(PostDTO post,Connection con) throws Exception{
+	/**
+	 * 게시물 등록하기--> 은솔: 성하님과 겹칠 수 있음으로 지금은 레시피 등록으로 생각중  
+	 * @author 박효승
+	 * @date 2021-10-17	
+	 */
+	private int insertPost(PostDTO post, Connection con) throws Exception{
 		PreparedStatement ps = null;
 		int result = 0;
 		if(post == null || con == null) {
@@ -57,7 +68,6 @@ public class RecipeDAOImpl implements RecipeDAO {
 		}
 		
 		String sql = "INSERT INTO POSTS(POST_NO,POST_TYPE_NO,USER_NO,POST_TITLE,POST_CONTENTS,POST_VIEW_COUNTS,POST_DATE) VALUES(?, ?, ?, ?, ?, 0, SYSDATE)";
-		
 		
 		try {
 			con = DBTestUtil.getConnection();
@@ -75,7 +85,12 @@ public class RecipeDAOImpl implements RecipeDAO {
 		return result;
 	}
 	
-	private int insertRecipe(RecipeDTO recipe, int postSq, Connection con) throws SQLException, KookingException {
+	/**
+	 * 레시피 등록하기
+	 * @author 박효승
+	 * @date 2021-10-17	
+	 */
+	public int insertRecipe(RecipeDTO recipe, int postSq, Connection con) throws SQLException, KookingException {
 		PreparedStatement ps = null;
 		int result = 0;
 		if(recipe == null) {
@@ -92,11 +107,12 @@ public class RecipeDAOImpl implements RecipeDAO {
 			ps.setInt(3, postSq);
 			ps.setInt(4, recipe.getCalorie());
 			ps.setInt(5, recipe.getCookingTime());
-			ps.setString(6, recipe.getNation()); // TODO : 나중에 카테고리를 받아와서 수정
-			ps.setString(7, recipe.getType()); // TODO : 나중에 카테고리를 받아와서 수정
-			ps.setString(8, recipe.getLevel()); // TODO : 나중에 카테고리를 받아와서 수정
+			ps.setString(6, recipe.getNation()); 	// TODO : 나중에 카테고리를 받아와서 수정
+			ps.setString(7, recipe.getType()); 		// TODO : 나중에 카테고리를 받아와서 수정
+			ps.setString(8, recipe.getLevel()); 	// TODO : 나중에 카테고리를 받아와서 수정
 			
 			result = ps.executeUpdate();
+			
 		}finally {
 			DBTestUtil.dbClose(ps);
 		}
@@ -104,74 +120,178 @@ public class RecipeDAOImpl implements RecipeDAO {
 		return result;
 	}
 	
-	
-	@Override
-	public int insert(RecipeWrapper recipe) throws SQLException {
-		Connection con = null;
+	/**
+	 * 레시피 재료 등록하기
+	 * @author 박은솔
+	 * @date 2021-10-17	
+	 */
+	public int[] insertIngredient(Connection con, RecipeWrapper wrapper) throws SQLException, KookingException{
 		PreparedStatement ps = null;
-		ResultSet rs = null;
-		int result = 0;
-
-//		INSERT INTO POSTS(POST_NO,POST_TYPE_NO,USER_NO,POST_TITLE,POST_CONTENTS,POST_VIEW_COUNTS,POST_DATE) VALUES(POST_NO_SEQ.NEXTVAL, 1, USER_NO_SEQ.CURRVAL, '콩국수가 싫다면 잣국수','시원한 여름국수요리!', 0, SYSDATE);
-//		INSERT INTO RECIPES(RECIPES_NO,RECIPES_NANE,POST_NO,RECIPES_CALORIE,RECIPES_COOKING_TIME,RECIPES_NATION,RECIPES_TYPE,RECIPES_LEVEL) VALUES(RECIPES_NO_SEQ.NEXTVAL,'잣국수',POST_NO_SEQ.CURRVAL, 513, 20, '한식', '만두/면류', '초보환영');
-
-//		INSERT INTO INGREDIENTS(INGREDIENT_NO,RECIPES_NO,INGREDIENT_NAME,INGREDIENT_SEQ,INGREDIENT_CACTY) VALUES(INGREDIENTS_NO_SEQ.NEXTVAL,RECIPES_NO_SEQ.CURRVAL,'잣',1,'150g');
-//		INSERT INTO INGREDIENTS(INGREDIENT_NO,RECIPES_NO,INGREDIENT_NAME,INGREDIENT_SEQ,INGREDIENT_CACTY) VALUES(INGREDIENTS_NO_SEQ.NEXTVAL,RECIPES_NO_SEQ.CURRVAL,'닭 육수',2,'2+1/2종이컵');
-//		INSERT INTO INGREDIENTS(INGREDIENT_NO,RECIPES_NO,INGREDIENT_NAME,INGREDIENT_SEQ,INGREDIENT_CACTY) VALUES(INGREDIENTS_NO_SEQ.NEXTVAL,RECIPES_NO_SEQ.CURRVAL,'소면',3,'1인분');
-//		INSERT INTO INGREDIENTS(INGREDIENT_NO,RECIPES_NO,INGREDIENT_NAME,INGREDIENT_SEQ,INGREDIENT_CACTY) VALUES(INGREDIENTS_NO_SEQ.NEXTVAL,RECIPES_NO_SEQ.CURRVAL,'오이',4,'1/3개');
-//		INSERT INTO INGREDIENTS(INGREDIENT_NO,RECIPES_NO,INGREDIENT_NAME,INGREDIENT_SEQ,INGREDIENT_CACTY) VALUES(INGREDIENTS_NO_SEQ.NEXTVAL,RECIPES_NO_SEQ.CURRVAL,'소금',5,'약간');
-
-//		INSERT INTO IMAGES(IMAGE_URL,POST_NO,IMAGE_SIZE) VALUES('https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/c78ab39d260bfa1b8d49d4e612a918f31.png',POST_NO_SEQ.CURRVAL,3721); 
-//		INSERT INTO IMAGES(IMAGE_URL,POST_NO,IMAGE_SIZE) VALUES('https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/72d6a27278d2eb32b960ceafd49ea2741.png',POST_NO_SEQ.CURRVAL,3395); 
-//		INSERT INTO IMAGES(IMAGE_URL,POST_NO,IMAGE_SIZE) VALUES('https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/85cce2bddd66d150dc77adaf7e877ab41.png',POST_NO_SEQ.CURRVAL,2683); 
-//		INSERT INTO IMAGES(IMAGE_URL,POST_NO,IMAGE_SIZE) VALUES('https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/7603c22d0bb956f0bfbe3d74df6a66161.png',POST_NO_SEQ.CURRVAL,2573); 
-
-//		INSERT INTO PROCESS(PROCESS_NO,RECIPES_NO,IMAGE_URL,PROCESS_SEQ,PROCESS_DESC,PROCESS_TIP) VALUES(PROCESS_NO_SEQ.NEXTVAL,RECIPES_NO_SEQ.CURRVAL,'https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/c78ab39d260bfa1b8d49d4e612a918f31.png',1,'오이는 채 썬다.',NULL);
-//		INSERT INTO PROCESS(PROCESS_NO,RECIPES_NO,IMAGE_URL,PROCESS_SEQ,PROCESS_DESC,PROCESS_TIP) VALUES(PROCESS_NO_SEQ.NEXTVAL,RECIPES_NO_SEQ.CURRVAL,'https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/72d6a27278d2eb32b960ceafd49ea2741.png',2,'믹서에 잣, 닭 육수, 소금을 넣고 곱게 간 후 체에 내린다.','잣 국물은 냉장고에 차게 보관해 주세요.');
-//		INSERT INTO PROCESS(PROCESS_NO,RECIPES_NO,IMAGE_URL,PROCESS_SEQ,PROCESS_DESC,PROCESS_TIP) VALUES(PROCESS_NO_SEQ.NEXTVAL,RECIPES_NO_SEQ.CURRVAL,'https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/85cce2bddd66d150dc77adaf7e877ab41.png',3,'끓는 물에 소금을 넣고 소면을 넣어 삶는다.','찬물을 조금씩 넣어가며 삶으면 면이 더 쫄긴해져요');
-//		INSERT INTO PROCESS(PROCESS_NO,RECIPES_NO,IMAGE_URL,PROCESS_SEQ,PROCESS_DESC,PROCESS_TIP) VALUES(PROCESS_NO_SEQ.NEXTVAL,RECIPES_NO_SEQ.CURRVAL,'https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/c78ab39d260bfa1b8d49d4e612a918f31.png',4,'그릇에 삶은 소면을 담고 잣 국물을 넉넉히 부은 후 채 썬 오이를 올려 완성한다.',NULL);
-
-		
+		String sql = "INSERT INTO INGREDIENTS(INGREDIENT_NO,RECIPES_NO,INGREDIENT_NAME,INGREDIENT_SEQ,INGREDIENT_CACTY) "
+				+ "VALUES(INGREDIENTS_NO_SEQ.NEXTVAL,RECIPES_NO_SEQ.CURRVAL,?,?,?)";
+		int result [] = null;
+		if(wrapper.getRecipe() == null) {
+			throw new KookingException("레시피번호 정보가 없습니다");
+		}
 		
 		try {
 			con = DBTestUtil.getConnection();
-			ps = con.prepareStatement("");
-			
-			//게시판유형(1, 레시피)
-			//게시글제목(콩국수가 싫다면 잣국수)
-			//게시글내용(시원한 여름국수요리!)
-			
-			//레시피이름(잣국수) 
-			//칼로리(513)
-			//조리시간(20)
-			//레시피국가(한식)
-			//레시피분류(만두/면류)
-			//레시피난이도(초보환영)
-			
-			//레시피재료이름
-			//레시피재료순서
-			//레시피재료용량
-			
-			//레시피이미지????
-			
-			//조리과정순서
-			//조리과정설명
-			//조리과정팁
-			
-			
-			
-			
-			
-			result = ps.executeUpdate();
-			
-			System.out.println(result);
+			ps = con.prepareStatement(sql);
+			for(IngredientDTO ingredient : wrapper.getIngredient()) {
+				
+				ps.setString(1, ingredient.getName());//재료이름
+				ps.setInt(2, ingredient.getSeq());//재료순서
+				ps.setString(3, ingredient.getCacty());//재료용량
+				
+				ps.addBatch();//일괄처리할 작업에 추가
+				ps.clearParameters();
+			}
+			result = ps.executeBatch();//일괄처리
 			
 		} finally {
-			// TODO: handle finally clause
+			DBTestUtil.dbClose(ps);
+		}
+		return result;
+	}
+	
+	/**
+	 * 이미지 등록하기
+	 * @author 박은솔
+	 * @date 2021-10-17	
+	 */
+	public int[] insertImage(Connection con, RecipeWrapper wrapper, int postSq) throws SQLException, KookingException{
+		PreparedStatement ps = null;
+		String sql = "INSERT INTO IMAGES(IMAGE_URL,POST_NO,IMAGE_SIZE) VALUES(?, ?, ?)";
+		int result [] = null;
+		if(wrapper.getPost() == null) {
+			throw new KookingException("게시글번호 정보가 없습니다");
 		}
 		
+		try {
+			ps = con.prepareStatement(sql);
+			for(ImageDTO image : wrapper.getImages()) {
+				
+				ps.setString(1, image.getUrl());//이미지 URL
+				ps.setInt(2, postSq);//POST_NO_SEQ 가져와서 넣고
+				ps.setInt(3, image.getSize());//이미지용량
+				
+				ps.addBatch();
+				ps.clearParameters();
+			}
+			result = ps.executeBatch();
+			
+		} finally {
+			DBTestUtil.dbClose(ps);
+		}
+		return result;
+	} 
+	
+	/**
+	 * 레시피 조리과정 등록하기
+	 * @author 박은솔
+	 * @date 2021-10-17	
+	 */
+	public int[] insertProcess(Connection con, RecipeWrapper wrapper, int recipeSq) throws SQLException, KookingException{
+		PreparedStatement ps = null;
+		String sql = "INSERT INTO PROCESS(PROCESS_NO,RECIPES_NO,IMAGE_URL,PROCESS_SEQ,PROCESS_DESC,PROCESS_TIP) VALUES(PROCESS_NO_SEQ.NEXTVAL, RECIPES_NO_SEQ.CURRVAL, ?, ?, ?, ?)";
+		int result [] = null;
+		if(wrapper.getRecipe() == null) {
+			throw new KookingException("레시피번호 정보가 없습니다");
+		}
 		
-		
+		try {
+			ps = con.prepareStatement(sql);
+			for(ProcessDTO process : wrapper.getProcess()) {
+				
+				ps.setString(1,process.getImageUrl());//이미지URL
+				ps.setInt(3, process.getCookingSeq());//조리과정순서
+				ps.setString(4, process.getCookingDesc());//조리과정설명
+				ps.setString(5, process.getTip());//과정팁
+				
+				ps.addBatch();
+				ps.clearParameters();
+			}
+			result = ps.executeBatch();
+			
+		} finally {
+			DBTestUtil.dbClose(ps);
+		}
+		return result;
+	} 
+	
+	/**
+	 * @author 박은솔
+	 * @date 2021-10-17	
+	 * 레시피 등록하기 
+	 * 		0) POSTS 게시글 등록시, 카테고리타입이 레시피라면 레시피등록 메소드 호출
+	 * 		1) RECIPES 테이블에 insert
+	 * 		2) INGREDIENTS 테이블에 insert
+	 * 		3) IMAGES 테이블에 insert
+	 * 		4) PROCESS 테이블에 insert
+	 */
+	@Override
+	public int insert(RecipeWrapper wrapper) throws SQLException, KookingException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+		String sql = "INSERT INTO RECIPES(RECIPES_NO,RECIPES_NANE,POST_NO,RECIPES_CALORIE,RECIPES_COOKING_TIME,RECIPES_NATION,RECIPES_TYPE,RECIPES_LEVEL)"
+				+ "VALUES(RECIPES_NO_SEQ.NEXTVAL,?,?,?,?,?,?,?)";
+
+		try {
+			con = DBTestUtil.getConnection();
+			con.setAutoCommit(false);//자동커밋해지
+
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, wrapper.getRecipe().getNo());//레시피번호
+			ps.setString(2, wrapper.getRecipe().getName());//레시피이름
+			ps.setInt(3, wrapper.getRecipe().getPostNo());//게시글번호를 받아와서 POST_NO_SEQ.CURRVAL???? postSq???
+			ps.setInt(4, wrapper.getRecipe().getCalorie());//칼로리(Kcal)
+			ps.setInt(5, wrapper.getRecipe().getCookingTime());//조리시간(분)
+			ps.setString(6, wrapper.getRecipe().getNation()); //레시피국가 	TODO : 나중에 카테고리를 받아와서 수정
+			ps.setString(7, wrapper.getRecipe().getType()); //레시피분류 	TODO : 나중에 카테고리를 받아와서 수정
+			ps.setString(8, wrapper.getRecipe().getLevel()); //난이도 		TODO : 나중에 카테고리를 받아와서 수정
+
+			if(result==0) {
+				con.rollback();
+				throw new SQLException("레시피등록 실패...");
+
+			}else {
+				int ingredient [] = insertIngredient(con, wrapper);//2)레시피 재료 등록하기
+				for(int i : ingredient) {
+					System.out.println(i);
+				}
+
+				for(int i : ingredient) {
+					if(i != 1)//1은 성공, 0은 실패
+						con.rollback();
+					throw new SQLException("레시피 재료 입력 오류. 레시피등록 실패");
+				}
+
+				//3)이미지URL 등록하기 
+				int image [] = insertImage(con, wrapper, result);
+				for(int i : image) {
+					if(i != 1)
+						con.rollback();
+					throw new SQLException("이미지 입력 오류. 레시피등록 실패");
+				}
+
+				//4)레시피조리과정 등록하기 
+				int process [] = insertProcess(con, wrapper, result);
+				for(int i : process) {
+					if(i != 1)
+						con.rollback();
+					throw new SQLException("조리과정 입력 오류. 레시피등록 실패");
+				}
+
+				con.commit();
+			}
+
+			System.out.println("insert() 결과 : " + result);//잘 되는지 테스트 하고 싶은데 어떻게? 
+
+		} finally {
+			con.commit();
+			DBTestUtil.dbClose(con, ps);
+		}
 		return result;
 	}
 
