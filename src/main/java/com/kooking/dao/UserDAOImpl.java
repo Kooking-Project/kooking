@@ -53,7 +53,7 @@ public class UserDAOImpl implements UserDAO {
 		Connection con=null;
 		PreparedStatement ps =null;
 		ResultSet rs =null;
-		String sql="select * from users where user_id=? and pwd=?";
+		String sql="select * from users where id=? and pwd=?";
 		UserDTO dbDTO=null;
 		try {
 			con = DbUtil.getConnection();
