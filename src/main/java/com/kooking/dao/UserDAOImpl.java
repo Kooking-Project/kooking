@@ -47,7 +47,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public UserDTO selectAll() throws SQLException {
+	public List<UserDTO> selectAll() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

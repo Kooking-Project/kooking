@@ -14,7 +14,7 @@ public interface UserDAO {
 	/**
 	 * 회원의 모든정보 출력
 	 * */
-	UserDTO selectAll() throws SQLException;
+	List<UserDTO> selectAll() throws SQLException;
 	
 	/**
 	 * 프로필 설정
