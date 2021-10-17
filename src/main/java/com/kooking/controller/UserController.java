@@ -1,9 +1,6 @@
 package com.kooking.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,12 +10,6 @@ import javax.servlet.http.HttpSession;
 import com.kooking.dto.UserDTO;
 import com.kooking.service.UserService;
 import com.kooking.service.UserServiceImpl;
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-
-import kosta.mvc.controller.ModelAndView;
-import kosta.mvc.dto.Electronics;
-import net.sf.json.JSONArray;
 
 public class UserController implements Controller {
 	private UserService userSerivce = new UserServiceImpl();
