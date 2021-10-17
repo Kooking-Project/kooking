@@ -15,10 +15,6 @@ public interface UserService {
     *  회원가입
     * */
    void insert(UserDTO userDTO)throws SQLException , KookingException;
-   
-   /**
-    * 아이디 중복체크
-    * */
-   void idCheck(String id) throws SQLException , KookingException;
+
    
 }

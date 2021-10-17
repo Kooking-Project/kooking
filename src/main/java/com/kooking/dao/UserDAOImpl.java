@@ -104,14 +104,15 @@ public class UserDAOImpl implements UserDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		Connection con = null;
-		boolean result = false; 
+		boolean result = false; //중복 X 
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement("select id from users where id=?");
 			ps.setString(1, id);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				result = true; 
+				result = true; //중복 O
+				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

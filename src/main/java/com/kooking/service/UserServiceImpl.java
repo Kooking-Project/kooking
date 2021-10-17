@@ -21,18 +21,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void insert(UserDTO userDTO) throws SQLException, KookingException {
+		if( userDao.idCheck(userDTO.getId())) {
+			throw new SQLException("아이디가 중복입니다.");
+		}
 		 if( userDao.insert(userDTO) == 0 )
 			  throw new SQLException("등록되지 않았습니다.");
 		
 	}
 
-	@Override
-	public void idCheck(String id) throws SQLException, KookingException {
-		if( userDao.idCheck(id)) {
-			throw new SQLException("아이디가 중복입니다.");
-		}
-		
-	}
+	
 
 
 
