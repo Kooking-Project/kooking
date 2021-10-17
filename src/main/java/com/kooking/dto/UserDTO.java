@@ -30,6 +30,14 @@ public class UserDTO {
 		this.status = status;
 	}
 	
+	public UserDTO(int no, String pwd, String nickName, int gender) {
+		super();
+		this.no = no;
+		this.pwd = pwd;
+		this.nickName = nickName;
+		this.gender = gender;
+	}
+	
 	public UserDTO(int no, String id, String pwd, String nickName, int gender, String enrollDate, String profileImg,
 			int status) {
 		super();

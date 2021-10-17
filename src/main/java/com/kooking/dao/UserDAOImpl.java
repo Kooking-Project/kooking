@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import com.kooking.dto.BookmarkDTO;
 import com.kooking.dto.CommentDTO;
@@ -14,6 +16,16 @@ import com.kooking.dto.UserDTO;
 import com.kooking.util.DbUtil;
 
 public class UserDAOImpl implements UserDAO {
+	Properties proFile = new Properties();
+	
+	public UserDAOImpl() {
+		try {
+			proFile.load(getClass().getClassLoader().getResourceAsStream("dbQuery.properties"));
+			System.out.println("proFile 로드됨");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	@Override
 	public UserDTO loginCheck(String id, String pwd)throws SQLException {
@@ -79,7 +91,7 @@ public class UserDAOImpl implements UserDAO {
 	public int userUpdate(UserDTO user) throws SQLException {
 		Connection con=null;
 		PreparedStatement ps =null;
-		String sql="update USERS set USER_PWD=? USER_NICNAME=? USER_GENDER=? where USER_NO=?";
+		String sql=proFile.getProperty("query.userUpdate");
 		int result = 0;
 		try {
 			con = DbUtil.getConnection();
@@ -98,13 +110,53 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public List<PostDTO> postSelectByUserNo(int userNo) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection con=null;
+		PreparedStatement ps =null;
+		ResultSet rs =null;
+		String sql=proFile.getProperty("query.postSelectByUserNo");
+		PostDTO post=null;
+		List<PostDTO> postList = new ArrayList<PostDTO>();
+		
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, userNo);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				post = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7));
+				postList.add(post);
+			}
+			
+		}finally {
+			DbUtil.dbClose(rs, ps, con);
+		}
+		return postList;
 	}
 
 	@Override
 	public List<CommentDTO> commentSelectByUserNo(int userNo) throws SQLException {
-		// TODO Auto-generated method stub
+		Connection con=null;
+		PreparedStatement ps =null;
+		ResultSet rs =null;
+		String sql=proFile.getProperty("query.commentSelectByUserNo");
+		PostDTO post=null;
+		List<PostDTO> postList = new ArrayList<PostDTO>();
+		
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, userNo);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				post = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7));
+				postList.add(post);
+			}
+			
+		}finally {
+			DbUtil.dbClose(rs, ps, con);
+		}
 		return null;
 	}
 

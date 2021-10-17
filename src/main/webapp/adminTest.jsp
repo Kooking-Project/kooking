@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,13 +14,19 @@
 <script type="text/javascript" src="${path }/js/jquery.form.min.js"></script>
 <script type="text/javascript">
 function sendUpdate(){
-	document.requestForm.submit();
+	document.requestForm1.submit();
 }
 function commentDelete(){
-	document.requestForm.submit();
+	document.requestForm2.submit();
 }
 function postDelete(){
-	document.requestForm.submit();
+	document.requestForm3.submit();
+}
+function sendUserUpdate(){
+	document.requestForm4.submit();
+}
+function postSelect(){
+	document.requestForm5.submit();
 }
 $(function() {
 	$("#upload").on("click", function() {
@@ -59,7 +67,7 @@ $(function() {
 		<th>변경할 상태</th>
 	</tr>
     <tr>
-	    <form name="requestForm" method=post action="${path}/front">
+	    <form name="requestForm1" method=post action="${path}/front">
         <td>
 			<input type=hidden name="adminNo" value="3">
 			<input type=hidden name="userNo" value="4">
@@ -80,7 +88,7 @@ $(function() {
 		<th>삭제할 댓글</th>
 	</tr>
     <tr>
-	    <form name="requestForm" method=post action="${path}/front">
+	    <form name="requestForm2" method=post action="${path}/front">
         <td>
 			<input type=hidden name="adminNo" value="3">
 			<input type=hidden name="commentNo" value="0">
@@ -100,7 +108,7 @@ $(function() {
 		<th>삭제할 게시글</th>
 	</tr>
     <tr>
-	    <form name="requestForm" method=post action="${path}/front">
+	    <form name="requestForm3" method=post action="${path}/front">
         <td>
 			<input type=hidden name="adminNo" value="3">
 			<input type=hidden name="postNo" value="0">
@@ -110,6 +118,74 @@ $(function() {
 		</td>
     	</form>
     </tr>
+</table>
+
+<hr>
+<h1>회원 정보 변경</h1>
+<table>
+	<tr bgcolor="pink" >
+	    <th>회원 번호</th>
+		<th>변경할 비밀번호</th>
+		<th>변경할 닉네임</th>
+		<th>변경할 성별</th>
+	</tr>
+    <tr>
+	    <form name="requestForm4" method=post action="${path}/front">
+        <td>
+			<input type=hidden name="no" value="4">
+			<input type=hidden name="pwd" value="3333">	
+			<input type=hidden name="nickName" value="테스트2">	
+			<input type=hidden name="gender" value="0">	
+			<input type=hidden name="key" value="user">
+			<input type=hidden name="methodName" value="userUpdate">
+			<input type=button value="수정하기" onClick="sendUserUpdate()">
+		</td>
+    	</form>
+    </tr>
+</table>
+
+<hr>
+<h1>게시글 출력</h1>
+<table border="1">
+	<tr>
+        <td>post_no</td>
+        <td>post_type_no</td>
+        <td>user_no</td>
+        <td>post_title</td>
+        <td>post_contents</td>
+        <td>post_view_counts</td>
+		<td>post_date</td>
+		<td>
+			<form name="requestForm5" method=post action="${path}/front">
+				<input type=hidden name="no" value="4">
+				<input type=hidden name="key" value="user">
+				<input type=hidden name="methodName" value="postSelectByUserNo">
+				<input type=button value="검색하기" onClick="postSelect()">
+			</form>
+		</td>
+    </tr>
+    
+    <c:choose>
+	    <c:when test="${empty requestScope.postList}">
+		   	<tr>
+	       		<td>등록된 상품이 없습니다.</td>
+	    	</tr>
+	    </c:when>
+	    <c:otherwise>
+			<c:forEach items="${requestScope.postList}" var="postDTO">
+				<tr>
+					<td>${postDTO.no}</td>
+					<td>${postDTO.postTypeNo}</td>
+					<td>${postDTO.userNo}</td>
+					<td>${postDTO.title}</td>
+					<td>${postDTO.contents}</td>
+					<td>${postDTO.counts}</td>
+					<td>${postDTO.date}</td>
+					<td> </td>
+				</tr>
+		    </c:forEach>
+		</c:otherwise>
+    </c:choose>
 </table>
 
 <hr>
