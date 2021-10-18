@@ -55,6 +55,13 @@ public class IngredientDTO {
 	public void setCacty(String cacty) {
 		this.cacty = cacty;
 	}
+
+	@Override
+	public String toString() {
+		return "IngredientDTO [no=" + no + ", recipesNo=" + recipesNo + ", name=" + name + ", seq=" + seq + ", cacty="
+				+ cacty + "]";
+	}
+	
 	
 	
 	
