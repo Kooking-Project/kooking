@@ -16,7 +16,7 @@
     <link rel="icon" href="../img/core-img/favicon.ico">
     
     <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     
     <!-- JQuery 2.2.4 -->
     <script src="../js/jquery/jquery-2.2.4.min.js"></script>

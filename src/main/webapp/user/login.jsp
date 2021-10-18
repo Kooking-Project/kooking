@@ -28,12 +28,12 @@
     <!-- Preloader -->
     <div id="preloader">
         <i class="circle-preloader"></i>
-        <img src="img/core-img/salad.png" alt="">
+        <img src="../img/core-img/salad.png" alt="">
     </div>
     <!--  Preloader End -->
     
     <!-- ##### Breadcumb Area Start ##### -->
-    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/breadcumb5.jpg);">
+    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(..img/bg-img/breadcumb5.jpg);">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
@@ -53,7 +53,7 @@
              <c:choose>
 				 	<c:when test ="${empty loginUser}">
 				 	<!-- 아이디 / 비밀번호 폼 시작 -->
-				 	<form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/front">
+				 	<form class="form-horizontal" method="post" action="../front">
 				 		<input type="hidden" name="key" value = "user" /> 
 						<input type="hidden" name="methodName" value = "login" />
 				 	<fieldset>
