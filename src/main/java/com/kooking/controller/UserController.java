@@ -36,8 +36,10 @@ public class UserController implements Controller {
 		HttpSession session = request.getSession();
 		session.setAttribute("loginUser", userDTO.getId());
 		// session.setAttribute("loginName", );
-
-		return new ModelAndView("index.jsp", true);
+		
+		System.out.println(id);
+		
+		return new ModelAndView("adminTest.jsp", true);
 
 	}
 
@@ -48,7 +50,9 @@ public class UserController implements Controller {
 		HttpSession session = request.getSession();
 		session.invalidate();
 
-		return new ModelAndView("index.jsp", true);
+		
+		
+		return new ModelAndView("adminTest.jsp", true);
 	}
 
 	/**
@@ -70,7 +74,7 @@ public class UserController implements Controller {
 
 		userSerivce.insert(userDTO);
 
-		return new ModelAndView("index.jsp", true);
+		return new ModelAndView("adminTest.jsp", true);
 	}
 
 	public ModelAndView userUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {

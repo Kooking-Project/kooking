@@ -28,6 +28,15 @@ function sendUserUpdate(){
 function postSelect(){
 	document.requestForm5.submit();
 }
+function userInsert(){
+	document.requestForm99.submit();
+}
+function loginCheck(){
+	document.requestForm98.submit();
+}
+function logoutCheck(){
+	document.requestForm97.submit();
+}
 $(function() {
 	$("#upload").on("click", function() {
 		$("#upLoadForm").ajaxForm({
@@ -200,5 +209,61 @@ $(function() {
 	</form>
 	<hr>
 	<div></div>
+	
+	
+	<hr>
+<h1>회원가입</h1>
+<table>
+	<tr bgcolor="pink" >
+	    <th>회원번호</th>
+		<th>이름</th>
+		<th>비번</th>
+		<th>닉네임</th>
+		<th>성별</th>
+		<th>가입일</th>
+		<th>프로필이미지</th>
+		<th>활동상태</th>
+	</tr>
+    <tr>
+	    <form name="requestForm99" method=post action="${path}/front">
+        <td>
+			<!--  <input type=hidden name="no" value="5">
+			<input type=hidden name="id" value="jun">
+			<input type=hidden name="pwd" value="1111">
+			<input type=hidden name="nickName" value="안준성">
+			<input type=hidden name="gender" value="0">
+			<input type=hidden name="enrollDate" value="sysdate">
+			<input type=hidden name="profileImg" value="">
+			<input type=hidden name="status" value="0">
+
+			<input type=hidden name="key" value="user">
+			<input type=hidden name="methodName" value="insert">
+			<input type=button value="회원가입" onClick="userInsert()">  -->
+		</td>
+    	</form>
+    </tr>
+</table>
+
+	<hr>
+<h1>로그인 하세요</h1>
+<form name="requestForm98" method=post action="${path}/front">	
+     아 이 디 : <input type="text" name="id" ><br/>
+    비밀번호 : <input type="password" name="pwd" ><br/>
+    
+
+    
+    	<input type=hidden name="key" value="user">
+		<input type=hidden name="methodName" value="login">
+  		 <input type=button value="로그인" onClick="loginCheck()">
+</form>
+
+
+	<hr>
+<h1>로그아웃 하세요</h1>
+		<input type=hidden name="key" value="user">
+		<input type=hidden name="methodName" value="logout">
+  		 <input type=button value="로그아웃" onClick="logoutCheck()">
+
+
 </body>
 </html>
