@@ -72,7 +72,6 @@ public class RecipeDAOImpl implements RecipeDAO {
 		String sql = "INSERT INTO POSTS(POST_NO,POST_TYPE_NO,USER_NO,POST_TITLE,POST_CONTENTS,POST_VIEW_COUNTS,POST_DATE) VALUES(?, ?, ?, ?, ?, 0, SYSDATE)";
 		
 		try {
-			con = DBTestUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, post.getNo());
 			ps.setInt(2, 1); // TODO : 나중에 카테고리를 받아와서 수정
@@ -99,10 +98,9 @@ public class RecipeDAOImpl implements RecipeDAO {
 			throw new KookingException("레시피 정보가 없습니다.");
 		}
 		
-		String sql = "INSERT INTO RECIPES(RECIPES_NO,RECIPES_NANE,POST_NO,RECIPES_CALORIE,RECIPES_COOKING_TIME,RECIPES_NATION,RECIPES_TYPE,RECIPES_LEVEL) VALUES(?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO RECIPES(RECIPES_NO,RECIPES_NAME,POST_NO,RECIPES_CALORIE,RECIPES_COOKING_TIME,RECIPES_NATION,RECIPES_TYPE,RECIPES_LEVEL) VALUES(?,?,?,?,?,?,?,?)";
 		
 		try {
-			con = DBTestUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, recipe.getNo());
 			ps.setString(2, recipe.getName());
@@ -138,7 +136,6 @@ public class RecipeDAOImpl implements RecipeDAO {
 		
 		int recipeNo = wrapper.getRecipe().getNo();
 		try {
-			con = DBTestUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			for(IngredientDTO ingredient : wrapper.getIngredient()) {
 				ps.setInt(1, recipeNo);	//레시피 번호
@@ -209,8 +206,8 @@ public class RecipeDAOImpl implements RecipeDAO {
 			for(ProcessDTO process : wrapper.getProcess()) {
 				ps.setInt(1, recipeNo); // 레시피 번호
 				ps.setString(2,process.getImageUrl());//이미지URL
-				ps.setInt(3, process.getCookingSeq());//조리과정순서
-				ps.setString(4, process.getCookingDesc());//조리과정설명
+				ps.setInt(3, process.getSeq());//조리과정순서
+				ps.setString(4, process.getDesc());//조리과정설명
 				ps.setString(5, process.getTip());//과정팁
 				
 				ps.addBatch();
@@ -281,6 +278,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 			
 			
 		}finally {
+			//con.commit();
 			DBTestUtil.dbClose(con);
 		}
 
@@ -308,14 +306,11 @@ public class RecipeDAOImpl implements RecipeDAO {
 		PreparedStatement ps = null;
 		int result = 0;
 		try {
-			System.out.println("커넥션 진입");
 			con = DBTestUtil.getConnection();
-			System.out.println("커넥션 완료");
-			ps = con.prepareStatement("DELETE FROM POSTS WHERE POST_NO = ? AND USER_NO = ?");
+			ps = con.prepareStatement("DELETE FROM POSTS WHERE POST_NO = 17 AND USER_NO = 1");
 			ps.setInt(1, no);
 			ps.setInt(2, userNo);
 			
-			System.out.println("딜리트 진입");
 			result = ps.executeUpdate();
 			System.out.println("결과 : " + result);
 		}finally {
@@ -333,7 +328,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 		post.setNo(15);
 		post.setUserNo(1);
 		post.setPostTypeNo(1);
-		post.setTitle("치킨 조리법");
+		post.setTitle("커넥션 테스트");
 		post.setContents("치킨 조리방법 설명");
 		rw.setPost(post);
 		
@@ -393,18 +388,18 @@ public class RecipeDAOImpl implements RecipeDAO {
 		ProcessDTO p3 = new ProcessDTO();
 		
 		p1.setImageUrl("https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/c78ab39d260bfa1b8d49d4e612a918f31.png");
-		p1.setCookingSeq(1);
-		p1.setCookingDesc("그릇에 마요네즈, 설탕, 소금, 다진마늘을 넣고 골고루 섞어주세요.");
+		p1.setSeq(1);
+		p1.setDesc("그릇에 마요네즈, 설탕, 소금, 다진마늘을 넣고 골고루 섞어주세요.");
 		p1.setTip(null);
 		
 		p2.setImageUrl(null);
-		p2.setCookingSeq(2);
-		p2.setCookingDesc("소스를 2등분하여 빵에 골고루 펴발라주세요.");
+		p2.setSeq(2);
+		p2.setDesc("소스를 2등분하여 빵에 골고루 펴발라주세요.");
 		p2.setTip("소스가 도톰하게 발려야 겉은 바삭하고 속은 쫀득해요. 식빵도 좋고 바게트빵도 좋아요");
 		
 		p3.setImageUrl("https://recipe1.ezmember.co.kr/cache/recipe/2019/12/25/f527619b4905735ab8215944771c0e081.jpg");
-		p3.setCookingSeq(3);
-		p3.setCookingDesc("에어프라이어에 넣고 180℃에서 8분간 구워주세요.");
+		p3.setSeq(3);
+		p3.setDesc("에어프라이어에 넣고 180℃에서 8분간 구워주세요.");
 		p3.setTip("위가 살짝 노릇할정도만 구워야 속이 쫀득합니다.");
 		
 		process.add(p1);
