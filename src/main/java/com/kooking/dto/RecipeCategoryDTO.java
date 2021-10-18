@@ -1,5 +1,7 @@
 package com.kooking.dto;
 
+import java.util.Objects;
+
 /**
  * 원재
 
@@ -29,5 +31,20 @@ public class RecipeCategoryDTO {
 		this.name = name;
 	}
 	
-	
+	@Override
+	public int hashCode() {
+		return Objects.hash(no);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RecipeCategoryDTO other = (RecipeCategoryDTO) obj;
+		return no == other.no;
+	}
+
 }

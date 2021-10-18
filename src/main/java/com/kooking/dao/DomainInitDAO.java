@@ -8,6 +8,6 @@ import com.kooking.dto.RecipeCategoryDTO;
 import com.kooking.dto.RecipeDetailDTO;
 
 public interface DomainInitDAO {
-	Map<RecipeCategoryDTO, RecipeDetailDTO> getRecipeDomains();
+	List<RecipeDetailDTO> getRecipeDomains() throws Exception;
 	List<PostTypeDTO> getPostTypes();
 }

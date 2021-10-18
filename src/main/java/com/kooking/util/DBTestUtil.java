@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.kooking.dto.UserDTO;
-
 /**
  * DB 테스트를 위한 임시클래스 (삭제 예정)
  * @author Park
