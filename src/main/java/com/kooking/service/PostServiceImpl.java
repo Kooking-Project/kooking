@@ -1,8 +1,10 @@
 package com.kooking.service;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.kooking.dao.BoardDAO;
 import com.kooking.dao.PostDAO;
 import com.kooking.dao.PostDAOImpl;
 import com.kooking.dto.PostDTO;
@@ -10,14 +12,17 @@ import com.kooking.dto.RecipeDTO;
 
 public class PostServiceImpl implements PostService {
 	private PostDAO dao = new PostDAOImpl();
+	private BoardDAO boardDAO = new BoardDAO();
 	
 	/**
 	 * 게시판 게시글 추가 - 제목, 내용, 작성자(사용자 번호), 날짜
 	 */
 	public int insertPost(PostDTO postDTO) throws Exception {
 		int result = 0;
-	
-		result = dao.insertPost(postDTO);
+		
+		//result = dao.insertPost(postDTO);
+		
+		result = boardDAO.insertPost(postDTO, null);
 
 		return result;
 	}
@@ -26,55 +31,60 @@ public class PostServiceImpl implements PostService {
 	 * 게시판 게시글 수정 - 게시글 번호, 사용자 번호, 조회수, 게시글 타입, 조회수, 작성일 변경 불가
 	 */
 	@Override
-	public int updatePost(PostDTO dto) throws Exception {
+	public int updatePost(PostDTO postDTO) throws Exception {
 		int result = 0;
 		
-		result = dao.updatePost(dto);
+		result = boardDAO.insertPost(postDTO, null);
 		
 		return result;
 	}
 
-
-
+	/**
+	 * 게시판 게시글 삭제 - 관리자도 하나씩 삭제
+	 */
 	@Override
-	public int deletePost(int userNo, int postNo) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+	public int deletePost(int userNo, int postNo, Connection con) throws Exception {
+		int result = 0;
+		
+		result = boardDAO.deletePost(userNo, postNo, null);
+		
+		return result;
 	}
 
+	/**
+	 * 게시판 클릭했을 때 해당 게시물 하나보여주기 - 비회원, 회원 공통 여기서 조회수 체크
+	 * boardNo로 해당 게시물 가져옴.
+	 */
+	public PostDTO selectPostDetail(int postNo) throws Exception {
+		PostDTO postDTO=null;
+		
+		int result = dao.postViewCount(postNo);
+		
+		if(result != 0) {
+			postDTO = dao.selectPostDetail(postNo);
+		} else {
+			//에러메세지
+		}
 
-
-	@Override
-	public int deleteCommentCheck(int userNo, int postNo) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		return postDTO;
 	}
 
-
-
+	/**
+	 * 게시판 전체 게시글 조회
+	 */
 	@Override
-	public List<PostDTO> selectUserPost(int userNo) throws SQLException {
+	public List<PostDTO> selectPost() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-
-	@Override
-	public List<PostDTO> selectPost(String userNo) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
+	
+	
 	@Override
 	public List<PostDTO> selectPostDate() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 
 	@Override
 	public List<PostDTO> selectPostType(int postTypeNo) throws SQLException {
@@ -82,15 +92,11 @@ public class PostServiceImpl implements PostService {
 		return null;
 	}
 
-
-
 	@Override
 	public List<PostDTO> selectPostCount() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 
 	@Override
 	public List<PostDTO> searchPostName(String postTitle) throws SQLException {
@@ -98,59 +104,19 @@ public class PostServiceImpl implements PostService {
 		return null;
 	}
 
-
-
 	@Override
 	public List<PostDTO> searchPostType(String postType) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-
-	@Override
-	public List<RecipeDTO> selectNewRecipe(String todayDate) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public List<RecipeDTO> selectRankingRecipe() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public List<RecipeDTO> selectTodayRecipe() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-
-
 	@Override
 	public List<PostDTO> boardList(String userNo) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	
 
-	/*
-	 * @Override public List<PostDTO> postList(String userNo) throws Exception {
-	 * return dao.selectPost(userNo); }
-	 */
-	
-	
-
-	/*
-	 * @Override public List<PostDTO> boardList(String userNo) throws Exception { //
-	 * TODO Auto-generated method stub return null; }
-	 */
 	
 }
