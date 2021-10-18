@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<jsp:include page="/common/header.jsp" />
+<jsp:include page="../common/header.jsp" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -391,4 +391,4 @@ function sendDelete(){
 </body>
 
 </html>
-<jsp:include page="/common/footer.jsp" />
+<jsp:include page="../common/footer.jsp" />

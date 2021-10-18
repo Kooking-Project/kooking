@@ -1451,5 +1451,86 @@ textarea:focus {
   .single-feature-area h5 {
     margin-bottom: 0;
     padding-left: 30px; }
+    
+    
+    /* ±èÂù¿ø Ãß°¡  css */
+    
+        
+.enterInfo {
+	position: relative;
+	height: 300px;
+	margin : auto;
+  	padding: 30px;
+}
+.delicious-small-btn {
+  display: inline-block;
+  min-width: 50px;
+  height: 60px;
+  color: #ffffff;
+  border: none;
+  border-left: 3px solid #1c8314;
+  border-radius: 0;
+  padding: 0 30px;
+  font-size: 16px;
+  line-height: 58px;
+  font-weight: 600;
+  -webkit-transition-duration: 500ms;
+  transition-duration: 500ms;
+  text-transform: capitalize;
+  background-color: #40ba37;
+  margin: auto;}
+  
+  .delicious-small-btn.btn-3 {
+  background-color: #474747;
+  border-color: #1c8314; }
+  .delicious-small-btn.btn-3.active, .delicious-small-btn.btn-3:hover, .delicious-small-btn.btn-3:focus {
+  background-color: #40ba37;
+  border-color: #1c8314; }
+  
+  .delicious-Xsmall-btn {
+  display: inline-block;
+  min-width: 30px;
+  height: 25px;
+  color: #ffffff;
+  border: none;
+  border-left: 3px solid #1c8314;
+  border-radius: 0;
+  padding: 0 30px;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  -webkit-transition-duration: 500ms;
+  transition-duration: 500ms;
+  text-transform: capitalize;
+  background-color: #40ba37;
+  margin: auto;
+  
+  }
+  
+  .delicious-Xsmall-btn.btn-3 {
+  background-color: #474747;
+  border-color: #1c8314; }
+  .delicious-Xsmall-btn.btn-3.active, .delicious-Xsmall-btn.btn-3:hover, .delicious-Xsmall-btn.btn-3:focus {
+  background-color: #40ba37;
+  border-color: #1c8314; }
+   
+   
+  .form-group{
+  margin: auto;
+  text-align: center;
+  padding-bottom: 15px;
+  }
+  
+  #registerFieldset {
+  margin: 15px;
+  background-color: #F2594B;
+  }
+  
+  .control-group{
+  margin: 10px;
+  padding-bottom: 15px;
+  }
+    
+    
 
 /*# sourceMappingURL=style.css.map */
