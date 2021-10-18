@@ -13,7 +13,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     
     <!-- Favicon -->
-    <link rel="icon" href="img/core-img/favicon.ico">
+    <link rel="icon" href="../img/core-img/favicon.ico">
     
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="../css/style.css">
@@ -99,7 +99,7 @@
                     <nav class="classy-navbar justify-content-between" id="deliciousNav">
 
                         <!-- Logo -->
-                        <a class="nav-brand" href="index.jsp"><img src="img/core-img/logo.png" alt=""></a>
+                        <a class="nav-brand" href="index.jsp"><img src="../img/core-img/logo.png" alt=""></a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -197,8 +197,8 @@
                                             </ul>
                                             <div class="single-mega cn-col-4">
                                                 <div class="receipe-slider owl-carousel">
-                                                    <a href="#"><img src="img/bg-img/bg1.jpg" alt=""></a>
-                                                    <a href="#"><img src="img/bg-img/bg6.jpg" alt=""></a>
+                                                    <a href="#"><img src="../img/bg-img/bg1.jpg" alt=""></a>
+                                                    <a href="#"><img src="../img/bg-img/bg6.jpg" alt=""></a>
                                                 </div>
                                             </div>
                                         </div>
