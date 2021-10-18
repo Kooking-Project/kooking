@@ -75,4 +75,11 @@ public class ProcessDTO {
 		this.tip = tip;
 	}
 
+	@Override
+	public String toString() {
+		return "ProcessDTO [no=" + no + ", recipesNo=" + recipesNo + ", imageUrl=" + imageUrl + ", seq=" + seq
+				+ ", desc=" + desc + ", tip=" + tip + "]";
+	}
+
+	
 }

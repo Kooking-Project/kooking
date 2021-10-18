@@ -53,6 +53,11 @@ public class ImageDTO {
 
 	public void setSize(int size) {
 		this.size = size;
+	}
+
+	@Override
+	public String toString() {
+		return "ImageDTO [no=" + no + ", url=" + url + ", postNo=" + postNo + ", size=" + size + "]";
 	};
 	
 	

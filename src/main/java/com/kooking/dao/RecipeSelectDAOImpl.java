@@ -17,7 +17,6 @@ import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.exception.KookingException;
 import com.kooking.paging.PageCnt;
 import com.kooking.util.DBTestUtil;
-import com.kooking.util.DbUtil;
 
 public class RecipeSelectDAOImpl implements RecipeSelectDAO {
 
@@ -40,16 +39,17 @@ public class RecipeSelectDAOImpl implements RecipeSelectDAO {
 
 			rw.setIgredients(getIngredients(recipeNo, con));
 			rw.setProcess(getProcesses(recipeNo, con));
+			rw.setImages(getPostImages(postNo, con));
 
 		} finally {
-			DbUtil.dbClose(con);
+			DBTestUtil.dbClose(con);
 		}
 
-		return null;
+		return rw;
 	}
 
 	/**
-	 * 레시피 번호로 레시피 게시글을 가져오는 메소드 레시피 DTO와 POST DTO를 조인하여 모두 가져옴.
+	 * 레시피 번호로 레시피 게시글을 가져오는 메소드. 레시피 DTO와 POST DTO를 조인하여 Entry 형태로 가져옴.
 	 * 
 	 * @param con    - 유지할 Connection 정보, null이라면 Connection을 새로 생성함.
 	 * @param postNo - 검색할 레시피 번호
@@ -161,7 +161,7 @@ public class RecipeSelectDAOImpl implements RecipeSelectDAO {
 		List<ProcessDTO> result = new ArrayList<ProcessDTO>();
 		try {
 			ps = con.prepareStatement(
-					"SELECT PROCESS_NO, RECIPES_NO, IMAGE_URL, PROCESS_SEQ, PROCESS_DESC, PROCESS_TIP FROM PROCESS WHERE RECIPES_NO=? ORDER BY PROCESS_SEQ");
+					"SELECT PROCESS_NO, RECIPES_NO, PROCESS_URL, PROCESS_SEQ, PROCESS_DESC, PROCESS_TIP FROM PROCESS WHERE RECIPES_NO=? ORDER BY PROCESS_SEQ");
 			ps.setInt(1, recipeNo);
 			rs = ps.executeQuery();
 
@@ -186,14 +186,21 @@ public class RecipeSelectDAOImpl implements RecipeSelectDAO {
 		return result;
 	}
 
-	private List<ImageDTO> getPostImages(Connection con, int postNo) throws Exception{
+	/**
+	 * 게시판에 등록된 이미지 목록 리스트를 가져온다.
+	 * @param con      - 유지할 Connection 정보, null이라면 Connection을 새로 생성함.
+	 * @param recipeNo - 검색할 게시판 번호
+	 * @return 이미지 리스트
+	 * @throws Exception
+	 */
+	private List<ImageDTO> getPostImages(int postNo, Connection con) throws Exception{
 		boolean isConnected = (con != null);
 		if(!isConnected) {
 			con = DBTestUtil.getConnection();
 		}
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "SELECT IMAGE_NO, IMAGE_URL, POST_NO, IMAGE_SIZE FROM IMAGES WHERE POST_NO = ?";
+		String sql = "SELECT IMAGE_NO, IMAGE_URL, POST_NO, IMAGE_SIZE FROM IMAGES WHERE POST_NO = ? ORDER BY IMAGE_NO";
 		List<ImageDTO> images = new ArrayList<ImageDTO>();
 		try {
 			ps = con.prepareStatement(sql);
@@ -203,16 +210,22 @@ public class RecipeSelectDAOImpl implements RecipeSelectDAO {
 			while(rs.next()) {
 				ImageDTO img = new ImageDTO();
 				img.setNo(rs.getInt(1));
-				img.setUrl(sql);
+				img.setUrl(rs.getString(2));
+				img.setPostNo(rs.getInt(3));
+				img.setSize(rs.getInt(4));
+				
+				images.add(img);
 			}
 			
 		}finally {
-			
+			if (isConnected) {
+				DBTestUtil.dbClose(ps, rs);
+			} else {
+				DBTestUtil.dbClose(con, ps, rs);
+			}
 		}
 		
-		
-		
-		return null;
+		return images;
 	}
 
 	@Override
@@ -228,14 +241,32 @@ public class RecipeSelectDAOImpl implements RecipeSelectDAO {
 	}
 
 	@Override
-	public int addRecipeScore(int postNo, int userNo, int score) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int addRecipeScore(int postNo, int userNo, int score) throws Exception{
+		Connection con = null;
+		PreparedStatement ps = null;
+		int result = 0;
+		String sql = "INSERT INTO RECOMMENDS(RECOMMEND_NO, USER_NO, POST_NO, RECOMMEND_SCORE, RECOMMEND_DATE) VALUES(RECOMMEND_NO_SEQ.NEXTVAL, ?, ?, ?, SYSDATE)";
+		try {
+			con = DBTestUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, postNo);
+			ps.setInt(2, userNo);
+			ps.setInt(3, score);
+			
+			result = ps.executeUpdate();
+		}finally {
+			DBTestUtil.dbClose(con, ps);
+		}
+		return result;
 	}
+	
+	
+	
 
 	public static void main(String[] args) throws Exception {
 		RecipeSelectDAOImpl dao = new RecipeSelectDAOImpl();
-		Connection con = DBTestUtil.getConnection();
+		
+		System.out.println(dao.search(50));
 	}
 
 }

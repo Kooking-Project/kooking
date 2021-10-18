@@ -76,4 +76,12 @@ public class RecipeWrapper {
 	public void setRecommends(List<RecommendDTO> recommends) {
 		this.recommends = recommends;
 	}
+
+	@Override
+	public String toString() {
+		return "RecipeWrapper [post=" + post + ", recipe=" + recipe + ", process=" + process + ", ingredient="
+				+ ingredient + ", images=" + images + ", comments=" + comments + ", recommends=" + recommends + "]";
+	}
+	
+	
 }
