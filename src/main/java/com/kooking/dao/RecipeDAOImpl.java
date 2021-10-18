@@ -209,8 +209,8 @@ public class RecipeDAOImpl implements RecipeDAO {
 			for(ProcessDTO process : wrapper.getProcess()) {
 				ps.setInt(1, recipeNo); // 레시피 번호
 				ps.setString(2,process.getImageUrl());//이미지URL
-				ps.setInt(3, process.getCookingSeq());//조리과정순서
-				ps.setString(4, process.getCookingDesc());//조리과정설명
+				//ps.setInt(3, process.getCookingSeq());//조리과정순서
+				//ps.setString(4, process.getCookingDesc());//조리과정설명
 				ps.setString(5, process.getTip());//과정팁
 				
 				ps.addBatch();
@@ -393,18 +393,18 @@ public class RecipeDAOImpl implements RecipeDAO {
 		ProcessDTO p3 = new ProcessDTO();
 		
 		p1.setImageUrl("https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/c78ab39d260bfa1b8d49d4e612a918f31.png");
-		p1.setCookingSeq(1);
-		p1.setCookingDesc("그릇에 마요네즈, 설탕, 소금, 다진마늘을 넣고 골고루 섞어주세요.");
+		//p1.setCookingSeq(1);
+		//p1.setCookingDesc("그릇에 마요네즈, 설탕, 소금, 다진마늘을 넣고 골고루 섞어주세요.");
 		p1.setTip(null);
 		
 		p2.setImageUrl(null);
-		p2.setCookingSeq(2);
-		p2.setCookingDesc("소스를 2등분하여 빵에 골고루 펴발라주세요.");
+		//p2.setCookingSeq(2);
+		//p2.setCookingDesc("소스를 2등분하여 빵에 골고루 펴발라주세요.");
 		p2.setTip("소스가 도톰하게 발려야 겉은 바삭하고 속은 쫀득해요. 식빵도 좋고 바게트빵도 좋아요");
 		
 		p3.setImageUrl("https://recipe1.ezmember.co.kr/cache/recipe/2019/12/25/f527619b4905735ab8215944771c0e081.jpg");
-		p3.setCookingSeq(3);
-		p3.setCookingDesc("에어프라이어에 넣고 180℃에서 8분간 구워주세요.");
+		//p3.setCookingSeq(3);
+		//p3.setCookingDesc("에어프라이어에 넣고 180℃에서 8분간 구워주세요.");
 		p3.setTip("위가 살짝 노릇할정도만 구워야 속이 쫀득합니다.");
 		
 		process.add(p1);
