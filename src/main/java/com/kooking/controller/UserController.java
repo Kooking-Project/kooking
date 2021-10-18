@@ -172,7 +172,7 @@ public class UserController implements Controller {
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 
-		String path = request.getServletContext().getRealPath("/save");
+		String path = request.getServletContext().getRealPath("/save"); //a.jpg , a1.jpg , a2.jpg
 		int maxSize = 1024 * 1024 * 100;
 		String encoding = "UTF-8";
 
@@ -180,10 +180,11 @@ public class UserController implements Controller {
 
 		String name = m.getParameter("name");
 		String subject = m.getParameter("subject");
-		String filesystemName = m.getFilesystemName("file");
-		String originalName = m.getOriginalFileName("file");
+		String filesystemName = m.getFilesystemName("file");//실제 a1.jpg
+		String originalName = m.getOriginalFileName("file"); //a.jpg
 		long fileSize = m.getFile("file").length();
 
+		
 		System.out.println("name : " + name);
 		System.out.println("subject : " + subject);
 		System.out.println("filesystemName : " + filesystemName);

@@ -10,8 +10,8 @@
 <style>
 
 </style>
-<script type="text/javascript" src="${path }/js/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="${path }/js/jquery.form.min.js"></script>
+<script type="text/javascript" src="${path}/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="${path}/js/jquery.form.min.js"></script>
 <script type="text/javascript">
 function sendUpdate(){
 	document.requestForm1.submit();
@@ -45,10 +45,10 @@ function logoutCheck(){
 $(function() {
 	$("#upload").on("click", function() {
 		$("#upLoadForm").ajaxForm({
-			url : ${path}+"/front", // 서버요청주소
+			url :"${path}/uploadServlet", // 서버요청주소
 			type : "post", //get or post요청방식
 			dataType : "json", //서버가보내오는 데이터타입(text,html,json,xml)
-			data:$("#upLoadForm").serialize(), //서버에게 보내는 parameter정보
+			//data:$("#upLoadForm").serialize(), //서버에게 보내는 parameter정보
 			success : function(result) {//중복, 사용가능
 				alert(result +"성공");
 				var str = "";
