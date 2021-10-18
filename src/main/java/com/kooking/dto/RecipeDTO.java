@@ -96,4 +96,11 @@ public class RecipeDTO {
 		this.level = level;
 	}
 
+	@Override
+	public String toString() {
+		return "RecipeDTO [no=" + no + ", name=" + name + ", postNo=" + postNo + ", calorie=" + calorie
+				+ ", cookingTime=" + cookingTime + ", nation=" + nation + ", type=" + type + ", level=" + level + "]";
+	}
+
+	
 }

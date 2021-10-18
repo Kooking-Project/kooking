@@ -24,8 +24,9 @@ public interface RecipeSelectDAO {
 	 * 게시글 번호로 단일 레시피의 내용을 검색하는 메소드
 	 * @param
 	 * @return
+	 * @throws Exception 
 	 */
-	RecipeWrapper search(int recipeNo);
+	RecipeWrapper search(int recipeNo) throws Exception;
 	
 	
 	/**
@@ -35,10 +36,7 @@ public interface RecipeSelectDAO {
 	 */
 	List<RecipeWrapper> searchQueryAll(PostDTO postDTO, RecipeDTO recipe, PageCnt cnt);
 	List<RecipeWrapper> searchQueryAll(PostDTO postDTO, RecipeDTO recipe);
-	
-	
-	List<IngredientDTO> getIngredients(int recipeNo);
-	List<Entry<ProcessDTO, ImageDTO>> getProcess(int recipeNo);
+
 	
 	/**
 	 * 게시글의 평점 추가

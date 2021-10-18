@@ -14,8 +14,8 @@ select * from POSTS where USER_NO=4;
 INSERT INTO POSTS(POST_NO, POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE) VALUES(POST_NO_SEQ.NEXTVAL, 1, 4, '테스트','테스트하자', 0, SYSDATE);
 
 select * from comments;
-select * from POSTS where USER_NO=4;
+select * from comments where USER_NO=4;
 
 INSERT INTO COMMENTS(COMMENT_NO, USER_NO, POST_NO, COMMENT_CONTENTS) 
-VALUES(POST_NO_SEQ.NEXTVAL, 1, 4, '테스트','테스트하자', 0, SYSDATE);
+VALUES(COMMENT_NO_SEQ.NEXTVAL, 4, 16, '테스트 하기 힘드네....');
 commit

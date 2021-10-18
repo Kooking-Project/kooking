@@ -7,6 +7,7 @@ package com.kooking.dto;
  *       테이블 명 : Comments 댓글
  */
 public class CommentDTO {
+
 	private int no; // 댓글 번호
 	private int postNo; // 게시글 번호
 	private int userNo; // 사용자 번호
@@ -19,6 +20,7 @@ public class CommentDTO {
 	}
 
 	public CommentDTO(int no, int postNo, int userNo, int top, String content, String date, boolean deleteYN) {
+
 		super();
 		this.no = no;
 		this.postNo = postNo;

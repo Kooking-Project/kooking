@@ -1,5 +1,7 @@
 package com.kooking.dto;
 
+import java.util.EnumMap;
+
 /**
  * @author 박효승
  * @date 2021-10-14
@@ -11,6 +13,7 @@ public class PostTypeDTO {
 	private String name;	//게시판 이름
 	
 	public PostTypeDTO() {
+		
 	}
 
 	

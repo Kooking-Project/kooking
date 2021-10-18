@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.kooking.dao.UserDAO;
 import com.kooking.dao.UserDAOImpl;
+import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.UserDTO;
 import com.kooking.exception.KookingException;
@@ -43,6 +44,14 @@ public class UserServiceImpl implements UserService {
 		if(postList==null)
 			throw new KookingException("작성하신 게시물이 없습니다.");
 		return postList;
+	}
+
+	@Override
+	public List<CommentDTO> commentSelectByUserNo(int userNo) throws Exception {
+		List<CommentDTO> commentList = userDao.commentSelectByUserNo(userNo);
+		if(commentList==null)
+			throw new KookingException("작성하신 댓글이 없습니다.");
+		return commentList;
 	}
 
 }
