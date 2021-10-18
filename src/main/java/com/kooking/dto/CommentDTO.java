@@ -15,12 +15,12 @@ public class CommentDTO {
 	private String content; // 댓글 내용
 	private String date; // 댓글 작성시간
 	private boolean deleteYN; // 삭제 여부 0=사용 1=삭제
+	private String userNickName;
 
 	public CommentDTO() {
 	}
 
-	public CommentDTO(int no, int postNo, int userNo, int top, String content, String date, boolean deleteYN) {
-
+	public CommentDTO(int no, int postNo, int userNo, int top, String content, String date, boolean deleteYN, String userNickName) {
 		super();
 		this.no = no;
 		this.postNo = postNo;
@@ -29,8 +29,10 @@ public class CommentDTO {
 		this.content = content;
 		this.date = date;
 		this.deleteYN = deleteYN;
+		this.userNickName = userNickName;
 	}
-
+	
+	
 	public int getNo() {
 		return no;
 	}
@@ -87,4 +89,11 @@ public class CommentDTO {
 		this.deleteYN = deleteYN;
 	}
 
+	public String getUserNickName() {
+		return userNickName;
+	}
+	
+	public void setUserNickName(String userNickName) {
+		this.userNickName = userNickName;
+	}
 }
