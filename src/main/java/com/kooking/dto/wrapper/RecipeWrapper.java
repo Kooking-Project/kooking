@@ -8,6 +8,7 @@ import com.kooking.dto.IngredientDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.ProcessDTO;
 import com.kooking.dto.RecipeDTO;
+import com.kooking.dto.RecommendDTO;
 
 public class RecipeWrapper {
 	private PostDTO post;
@@ -16,13 +17,14 @@ public class RecipeWrapper {
 	private List<IngredientDTO> ingredient;
 	private List<ImageDTO> images;
 	private List<CommentDTO> comments;
+	private List<RecommendDTO> recommends;
 	
 	public RecipeWrapper() {
 		super();
 	}
 	
 	public RecipeWrapper(PostDTO post, RecipeDTO recipe, List<ProcessDTO> process, List<IngredientDTO> ingredient,
-			List<ImageDTO> images, List<CommentDTO> comments) {
+			List<ImageDTO> images, List<CommentDTO> comments, List<RecommendDTO> recommends) {
 		super();
 		this.post = post;
 		this.recipe = recipe;
@@ -68,5 +70,10 @@ public class RecipeWrapper {
 	public void setComments(List<CommentDTO> comments) {
 		this.comments = comments;
 	}
-	
+	public List<RecommendDTO> getRecommends() {
+		return recommends;
+	}
+	public void setRecommends(List<RecommendDTO> recommends) {
+		this.recommends = recommends;
+	}
 }
