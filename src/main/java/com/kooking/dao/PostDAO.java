@@ -11,34 +11,44 @@ public interface PostDAO {
 
 	/**
 	 * 게시판 게시글 추가
-	 * @throws SQLException 
 	 */
-	public void insertPost(int userNo ,PostDTO dto) throws SQLException;
+	public int insertPost(PostDTO dto) throws SQLException;
 	
 	/**
-	 * 게시판 게시글 수정
+	 * 게시판 게시글 수정 - 게시글 번호, 사용자 번호, 조회수, 게시글 타입, 조회수, 작성일 변경 불가
 	 */
-	public int updatePost(int userNo, PostDTO dto);
+	public int updatePost(PostDTO dto) throws SQLException;
 	
 	/**
 	 * 게시판 게시글 삭제 - 관리자도 하나씩 삭제
 	 */
-	public int deletePost(int userNo, int postNo);
+	public int deletePost(int userNo, int postNo) throws SQLException;
+	
+	/**
+	 * 댓글 존재 여부 확인 - 댓글부터 지워야 게시글이 지워짐..
+	 */
+	public int deleteCommentCheck(int userNo, int postNo) throws SQLException;
+	
+	/**
+	 * 사용자가 쓴 게시물 조회
+	 */
+	public List<PostDTO> selectUserPost(int userNo) throws SQLException;
 	
 	/**
 	 * 게시판 전체 게시글 조회
+	 * @param userNo 
 	 */
-	public List<PostDTO> selectPost();
+	public List<PostDTO> selectPost(String userNo) throws SQLException;
 	
 	/**
 	 * 게시판 게시글 날짜별 조회(최신순)
 	 */
-	public List<PostDTO> selectPostDate();
+	public List<PostDTO> selectPostDate() throws SQLException;
 	
 	/**
 	 * 게시판 게시글 타입별 조회
 	 */
-	public List<PostDTO> selectPostType(int postTypeNo);
+	public List<PostDTO> selectPostType(int postTypeNo) throws SQLException;
 	
 	/**
 	 * 게시판 조회수별 조회
@@ -48,25 +58,25 @@ public interface PostDAO {
 	/**
 	 * 게시판 게시글 이름으로 검색
 	 */
-	public List<PostDTO> selectPostName(String postTitle);
+	public List<PostDTO> searchPostName(String postTitle) throws SQLException;
 	
 	/**
 	 * 게시판 타입으로 검색 
 	 */
-	public List<PostDTO> selectPost(String postType);
+	public List<PostDTO> searchPostType(String postType) throws SQLException;
 	
 	/**
 	 * 게시판 상위 공간 오늘의 신규 레시피
 	 */
-	public List<RecipeDTO> selectNewRecipe();
+	public List<RecipeDTO> selectNewRecipe(String todayDate) throws SQLException;
 	
 	/**
-	 * 게시판 상위 레시피 랭킹
+	 * 게시판 상위 공간 레시피 랭킹
 	 */
 	public List<RecipeDTO> selectRankingRecipe();
 	
 	/**
-	 * 게시판 오늘의 추천 레시피
+	 * 게시판 상위 공간 오늘의 추천 레시피
 	 */
 	public List<RecipeDTO> selectTodayRecipe();
 }
