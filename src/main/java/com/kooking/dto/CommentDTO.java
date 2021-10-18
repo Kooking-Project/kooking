@@ -4,23 +4,26 @@ package com.kooking.dto;
  * @author 안준성
  * @date 2021-10-14
  * 
- * 테이블 명 : Comments 댓글
- * */
+ *       테이블 명 : Comments 댓글
+ */
 public class CommentDTO {
-	private int no;		//댓글 번호
-	private int postNO;	//게시글 번호	//NO -> No로 바꿔야함
-	private int userNo;	//사용자 번호
-	private int top;	//상위 댓글
-	private String content;	//댓글 내용
-	private String date;	//댓글 작성시간
-	private boolean deleteYN;	//삭제 여부 0=사용 1=삭제
-	
-	public CommentDTO() {}
 
-	public CommentDTO(int no, int postNO, int userNo, int top, String content, String date, boolean deleteYN) {
+	private int no; // 댓글 번호
+	private int postNo; // 게시글 번호
+	private int userNo; // 사용자 번호
+	private int top; // 상위 댓글
+	private String content; // 댓글 내용
+	private String date; // 댓글 작성시간
+	private boolean deleteYN; // 삭제 여부 0=사용 1=삭제
+
+	public CommentDTO() {
+	}
+
+	public CommentDTO(int no, int postNo, int userNo, int top, String content, String date, boolean deleteYN) {
+
 		super();
 		this.no = no;
-		this.postNO = postNO;
+		this.postNo = postNo;
 		this.userNo = userNo;
 		this.top = top;
 		this.content = content;
@@ -36,12 +39,12 @@ public class CommentDTO {
 		this.no = no;
 	}
 
-	public int getPostNO() {
-		return postNO;
+	public int getPostNo() {
+		return postNo;
 	}
 
-	public void setPostNO(int postNO) {
-		this.postNO = postNO;
+	public void setPostNo(int postNo) {
+		this.postNo = postNo;
 	}
 
 	public int getUserNo() {
@@ -83,8 +86,5 @@ public class CommentDTO {
 	public void setDeleteYN(boolean deleteYN) {
 		this.deleteYN = deleteYN;
 	}
-	
-	
-	
 
 }

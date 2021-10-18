@@ -32,7 +32,7 @@ public class UserDAOImpl implements UserDAO {
 		Connection con=null;
 		PreparedStatement ps =null;
 		ResultSet rs =null;
-		String sql="select * from users where id=? and pwd=?";
+		String sql="SELECT * FROM USERS WHERE USER_ID=? AND USER_PWD=?";
 		UserDTO dbDTO=null;
 		try {
 			con = DbUtil.getConnection();
@@ -59,7 +59,8 @@ public class UserDAOImpl implements UserDAO {
 		int result = 0;
 		try {
 			con = DbUtil.getConnection();
-			ps = con.prepareStatement("insert into users(no,id,pwd,nickName,gender,enrollDate,profileImg,status) values(USER_NO_SEQ.nextval,?,?,?,?,sysdate,?,?)");
+			ps = con.prepareStatement("insert into users(user_no,user_id,user_pwd,user_nicName,user_gender,"
+					+ "user_enroll_Date,user_profile_Img,user_status) values(USER_NO_SEQ.nextval,?,?,?,?,sysdate,?,?)");
 			
 			ps.setString(1, userDTO.getId());
 			ps.setString(2, userDTO.getPwd());
