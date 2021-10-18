@@ -10,9 +10,7 @@ import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.util.DBTestUtil;
 
-public abstract class BoardDAO {
-	String sql;
-
+public class BoardDAO {
 	/**
 	 * 게시판 게시글 추가
 	 */
@@ -90,7 +88,7 @@ public abstract class BoardDAO {
 		PreparedStatement st = null;
 		int result = 0;
 		try {
-			sql = "DELETE FROM POSTS WHERE USER_NO=? AND POST_NO=?";	
+			String sql = "DELETE FROM POSTS WHERE USER_NO=? AND POST_NO=?";	
 			st = con.prepareStatement(sql);
 			st.setInt(1, userNo);
 			st.setInt(2, postNo);
@@ -115,7 +113,7 @@ public abstract class BoardDAO {
 		ResultSet rs = null;
 		List<CommentDTO> comments = new ArrayList<CommentDTO>();
 		try {
-			sql = "SELECT COMMENT_NO, COMMENTS.USER_NO, USER_NICNAME, POST_NO, COMMENT_CONTENTS, COMMENT_DATE, COMMENT_TOP, COMMENT_DELETE_YN FROM COMMENTS, USERS WHERE COMMENTS.USER_NO = USERS.USER_NO WHERE POST_NO = ? ORDER BY COMMENT_DATE";
+			String sql = "SELECT COMMENT_NO, COMMENTS.USER_NO, USER_NICNAME, POST_NO, COMMENT_CONTENTS, COMMENT_DATE, COMMENT_TOP, COMMENT_DELETE_YN FROM COMMENTS, USERS WHERE COMMENTS.USER_NO = USERS.USER_NO WHERE POST_NO = ? ORDER BY COMMENT_DATE";
 			//TODO : SQL USER_NICNAME 오타 확인
 			st = con.prepareStatement(sql);
 			st.setInt(1, postNo);
@@ -179,6 +177,7 @@ public abstract class BoardDAO {
 		
 		return result;
 	}
+	
 	
 	//게시글 하나 셀렉트, 조회수, 댓글>????
 	//

@@ -8,17 +8,27 @@ package com.kooking.dto;
  * */
 
 public class ImageDTO {
+	private String no;
 	private String url;	//이미지 URL
 	private int postNo;	//게시글 번호
 	private int size;	//이미지 크기
 	
 	public ImageDTO() {}
 
-	public ImageDTO(String url, int postNo, int size) {
+	public ImageDTO(String no, String url, int postNo, int size) {
 		super();
+		this.no = no;
 		this.url = url;
 		this.postNo = postNo;
 		this.size = size;
+	}
+	
+	public String getNo() {
+		return no;
+	}
+	
+	public void setNo(String no) {
+		this.no = no;
 	}
 
 	public String getUrl() {
