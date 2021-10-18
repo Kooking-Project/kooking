@@ -25,7 +25,7 @@ public class BoardDAO {
 		try {
 			// String sql = proFile.getProperty("post.insertPost");
 			// 게시글 번호빼고 저장
-			st = con.prepareStatement("INSERT INTO POSTS(POST_NO,POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE) VALUES(POST_NO_SEQ.NEXTVAL,?,?,?,?,0,SYSDATE");
+			st = con.prepareStatement("INSERT INTO POSTS(POST_NO,POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE) VALUES(POST_NO_SEQ.NEXTVAL,?,?,?,?,0,SYSDATE)");
 			st.setInt(1, postDTO.getPostTypeNo());
 			st.setInt(2, postDTO.getUserNo());
 			st.setString(3, postDTO.getTitle());

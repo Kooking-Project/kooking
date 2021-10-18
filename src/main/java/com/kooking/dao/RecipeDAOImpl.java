@@ -90,32 +90,27 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 			insertPost(wrapper.getPost(),con);
 			
 			if(insertPost(wrapper.getPost(), con) <=0 ) {
-				con.rollback();
 				throw new KookingException("게시글 작성에 실패했습니다. : " + wrapper.getPost().getNo());
 			}
 			
 			if(insertRecipe(wrapper.getRecipe(), con) <= 0) {
-				con.rollback();
 				throw new KookingException("레시피 작성에 실패했습니다. : " + wrapper.getRecipe().getNo());
 			}
 			
 			for(int i : insertIngredient(wrapper.getIngredient(), con)) {
 				if(i<=0) {
-					con.rollback();
 					throw new KookingException("재료 등록에 실패했습니다.");
 				}
 			}
 			
 			for(int i : insertImage(wrapper.getImages(), con)){
 				if(i<=0) {
-					con.rollback();
 					throw new KookingException("이미지 등록에 실패했습니다.");
 				}
 			}
 			
 			for(int i : insertProcess(wrapper.getProcess(), con)) {
 				if(i<=0) {
-					con.rollback();
 					throw new KookingException("조리과정 등록에 실패했습니다.");
 				}
 			}
@@ -126,6 +121,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 			
 		}finally {
 			//con.commit();
+			con.rollback();
 			DBTestUtil.dbClose(con);
 		}
 
@@ -232,7 +228,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 	 */
 	public int[] insertImage(List<ImageDTO> images, Connection con) throws Exception{
 		PreparedStatement ps = null;
-		String sql = "INSERT INTO IMAGES(IMAGE_NO,POST_NO, IMAGE_URL,IMAGE_SIZE) VALUES(SQ, POST_NO_SEQ.CURRVAL, ?, ?)";
+		String sql = "INSERT INTO IMAGES(IMAGE_NO,POST_NO, IMAGE_URL,IMAGE_SIZE) VALUES(IMAGE_NO_SEQ.NEXTVAL, POST_NO_SEQ.CURRVAL, ?, ?)";
 		//TODO : 이미지 테이블 변경 후 SQL문 수정
 		int result [] = null;
 		
@@ -260,7 +256,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 	 */
 	public int[] insertProcess(List<ProcessDTO> processes,Connection con) throws Exception{
 		PreparedStatement ps = null;
-		String sql = "INSERT INTO PROCESS(PROCESS_NO,RECIPES_NO,PROCESS_SEQ,PROCESS_DESC,PROCESS_TIP, IMAGE_URL) VALUES(PROCESS_NO_SEQ.NEXTVAL, RECIPE_NO_SEQ.CURRVAL, ?, ?, ?, ?)";
+		String sql = "INSERT INTO PROCESS(PROCESS_NO,RECIPES_NO,PROCESS_SEQ,PROCESS_DESC,PROCESS_TIP, PROCESS_URL) VALUES(PROCESS_NO_SEQ.NEXTVAL, RECIPE_NO_SEQ.CURRVAL, ?, ?, ?, ?)";
 		//TODO : IMAGE_URL 컬럼명 변경
 		int result [] = null;
 
@@ -304,7 +300,6 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 		RecipeDAO recipeDAO = new RecipeDAOImpl();
 		RecipeWrapper rw = new RecipeWrapper();
 		PostDTO post = new PostDTO();
-		post.setNo(15);
 		post.setUserNo(1);
 		post.setPostTypeNo(1);
 		post.setTitle("커넥션 테스트");
@@ -388,6 +383,13 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 		
 		recipeDAO.insert(rw);
 
+	}
+
+
+	@Override
+	public int delete(int postNo, int userNo) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 
