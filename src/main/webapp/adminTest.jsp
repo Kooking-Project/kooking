@@ -28,6 +28,9 @@ function sendUserUpdate(){
 function postSelect(){
 	document.requestForm5.submit();
 }
+function commentSelect(){
+	document.requestForm6.submit();
+}
 
 function userInsert(){
 	document.requestForm99.submit();
@@ -37,14 +40,12 @@ function loginCheck(){
 }
 function logoutCheck(){
 	document.requestForm97.submit();
-
-function commentSelect(){
-	document.requestForm6.submit();
 }
+
 $(function() {
 	$("#upload").on("click", function() {
 		$("#upLoadForm").ajaxForm({
-			url : "${path}/front", // 서버요청주소
+			url : ${path}+"/front", // 서버요청주소
 			type : "post", //get or post요청방식
 			dataType : "json", //서버가보내오는 데이터타입(text,html,json,xml)
 			data:$("#upLoadForm").serialize(), //서버에게 보내는 parameter정보
@@ -70,6 +71,7 @@ $(function() {
 
 })//ready끝
 </script>
+
 </head>
 <body>
 <h1>회원 상태 변경</h1>
