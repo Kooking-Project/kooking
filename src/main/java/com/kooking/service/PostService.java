@@ -1,5 +1,6 @@
 package com.kooking.service;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -19,30 +20,24 @@ public interface PostService {
 	public int updatePost(PostDTO dto) throws Exception;
 	
 	/**
-	 * 게시판 게시글 삭제 - 관리자도 하나씩 삭제
+	 * 게시판 게시글 삭제 - 관리자도 하나씩 삭제- dto로 바꾸고 싶당
 	 */
-	public int deletePost(int userNo, int postNo) throws SQLException;
+	public int deletePost(int userNo, int postNo, Connection con) throws Exception;
 	
 	/**
-	 * 댓글 존재 여부 확인 - 댓글부터 지워야 게시글이 지워짐..
+	 * 게시판 클릭했을 때 해당 게시물 하나보여주기 - 비회원, 회원 공통 여기서 조회수 체크
 	 */
-	public int deleteCommentCheck(int userNo, int postNo) throws SQLException;
+	public PostDTO selectPostDetail(int postNo) throws Exception;
 	
 	/**
-	 * 게시판 클릭했을 때 해당 게시물 보여주기 - 비회원, 회원 공통 여기서 조회수 체크
+	 * 사용자가 쓴 게시물 조회 - user에서 따로 할 예정
 	 */
-	
-	
-	/**
-	 * 사용자가 쓴 게시물 조회
-	 */
-	public List<PostDTO> selectUserPost(int userNo) throws SQLException;
+	//public List<PostDTO> selectUserPost(int userNo) throws SQLException;
 	
 	/**
 	 * 게시판 전체 게시글 조회
-	 * @param userNo 
 	 */
-	public List<PostDTO> selectPost(String userNo) throws SQLException;
+	public List<PostDTO> selectPost() throws Exception;
 	
 	/**
 	 * 게시판 게시글 날짜별 조회(최신순)
@@ -72,17 +67,17 @@ public interface PostService {
 	/**
 	 * 게시판 상위 공간 오늘의 신규 레시피
 	 */
-	public List<RecipeDTO> selectNewRecipe(String todayDate) throws SQLException;
+	//public List<RecipeDTO> selectNewRecipe(String todayDate) throws SQLException;
 	
 	/**
 	 * 게시판 상위 공간 레시피 랭킹
 	 */
-	public List<RecipeDTO> selectRankingRecipe();
+	//public List<RecipeDTO> selectRankingRecipe();
 	
 	/**
 	 * 게시판 상위 공간 오늘의 추천 레시피
 	 */
-	public List<RecipeDTO> selectTodayRecipe();
+	//public List<RecipeDTO> selectTodayRecipe();
 	
 	
 	

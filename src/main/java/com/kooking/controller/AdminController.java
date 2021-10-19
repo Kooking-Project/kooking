@@ -1,12 +1,11 @@
 package com.kooking.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.tomcat.jni.User;
 
 import com.kooking.dto.UserDTO;
 import com.kooking.service.AdminService;
@@ -22,13 +21,25 @@ public class AdminController implements Controller {
 		return null;
 	}
 	
-	public ModelAndView changeUserStatus(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		//접속자가 관리자 no 받기
+	/**
+	 * 전체회원 정보 조회(관리자)
+	 * */
+	public ModelAndView userSelectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
 		
-		//변경할 유저의 활동상태와 유저 no 받기
-		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		List<UserDTO> userList = service.userSelectAll(adminNo);
+		request.setAttribute("userList", userList);
+		
+		return new ModelAndView("adminTest.jsp");
+	}
+
+	/**
+	 * 회원 상태 변경 조회(관리자)
+	 * */
+	public ModelAndView changeUserStatus(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int adminNo = Integer.parseInt(request.getParameter("adminNo"));	//접속자가 관리자 no 받기
+		
+		int userNo = Integer.parseInt(request.getParameter("userNo"));	//변경할 유저의 활동상태와 유저 no 받기
 		int userStatus = Integer.parseInt(request.getParameter("userStatus"));
 		UserDTO userDTO = new UserDTO(userNo,userStatus);
 		
@@ -37,8 +48,10 @@ public class AdminController implements Controller {
 		return new ModelAndView("adminTest.jsp", true);
 	}
 
+	/**
+	 * 댓글 삭제(관리자)
+	 * */
 	public ModelAndView commentDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
 		int commentNo = Integer.parseInt(request.getParameter("commentNo"));
 		
@@ -47,8 +60,10 @@ public class AdminController implements Controller {
 		return new ModelAndView("adminTest.jsp", true);
 	}
 
+	/**
+	 * 게시글 삭제(관리자)
+	 * */
 	public ModelAndView postDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
 		int postNo = Integer.parseInt(request.getParameter("postNo"));
 		
@@ -56,7 +71,5 @@ public class AdminController implements Controller {
 		
 		return new ModelAndView("adminTest.jsp", true);
 	}
-	
-	
 
 }

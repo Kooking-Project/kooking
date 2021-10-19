@@ -1,5 +1,7 @@
 package com.kooking.service;
 
+import java.util.List;
+
 import com.kooking.dao.AdminDAO;
 import com.kooking.dao.AdminDAOImpl;
 import com.kooking.dto.UserDTO;
@@ -46,6 +48,16 @@ public class AdminServiceImpl implements AdminService {
 	public void postDelete(int adminNo, int postNo) throws Exception {
 		if(dao.checkUserStatues(adminNo)!=10)
 			throw new KookingException("관리자가 아닙니다.");
+	}
+
+	@Override
+	public List<UserDTO> userSelectAll(int adminNo) throws Exception {
+		if(dao.checkUserStatues(adminNo)!=10)
+			throw new KookingException("관리자가 아닙니다.");
+		List<UserDTO> userList = dao.userSelectAll();
+		if (userList==null)
+			throw new KookingException("회원 정보가 없습니다.");
+		return userList;
 	}
 
 }

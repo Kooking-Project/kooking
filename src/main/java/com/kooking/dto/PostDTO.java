@@ -14,11 +14,12 @@ public class PostDTO {
 	private String contents;	//게시글 내용
 	private int counts;		//게시글 조회수
 	private String date;	//게시글 작성일
+	private String userNicname; //사용자 닉네임
 	
 	public PostDTO() {
 	}
 	
-	public PostDTO(int no, int postTypeNo, int userNo, String title, String contents, int counts, String date) {
+	public PostDTO(int no, int postTypeNo, int userNo, String title, String contents, int counts, String date, String userNicname) {
 		super();
 		this.no = no;
 		this.postTypeNo = postTypeNo;
@@ -27,6 +28,7 @@ public class PostDTO {
 		this.contents = contents;
 		this.counts = counts;
 		this.date = date;
+		this.userNicname = userNicname;
 	}
 
 	public int getNo() {
@@ -83,6 +85,14 @@ public class PostDTO {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public String getUserNicname() {
+		return userNicname;
+	}
+
+	public void setUserNicname(String userNicname) {
+		this.userNicname = userNicname;
 	}
 
 	@Override

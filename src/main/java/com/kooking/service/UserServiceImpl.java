@@ -2,11 +2,14 @@ package com.kooking.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.kooking.dao.UserDAO;
 import com.kooking.dao.UserDAOImpl;
+import com.kooking.dto.BookmarkDTO;
 import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
+import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
 import com.kooking.exception.KookingException;
 
@@ -33,14 +36,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public void profileImageUpdate(UserDTO userDTO) throws Exception {
+		if( userDao.profileImageUpdate(userDTO) == 0 )
+			throw new KookingException("회원 프로필이 수정되지 않았습니다.");
+	}
+	
+	@Override
 	public void userUpdate(UserDTO userDTO) throws Exception {
 		if( userDao.userUpdate(userDTO) == 0 )
 			throw new KookingException("회원정보가 수정되지 않았습니다.");
 	}
 
 	@Override
-	public List<PostDTO> postSelectByUserNo(int userNo) throws Exception {
-		List<PostDTO> postList = userDao.postSelectByUserNo(userNo);
+	public Entry<PostDTO, RecipeDTO> postSelectByUserNo(int userNo) throws Exception {
+		Entry<PostDTO, RecipeDTO> postList = userDao.postSelectByUserNo(userNo);
 		if(postList==null)
 			throw new KookingException("작성하신 게시물이 없습니다.");
 		return postList;
@@ -53,5 +62,27 @@ public class UserServiceImpl implements UserService {
 			throw new KookingException("작성하신 댓글이 없습니다.");
 		return commentList;
 	}
+
+	@Override
+	public List<BookmarkDTO> bookmarkSelectByUserNo(int userNo) throws Exception {
+		List<BookmarkDTO> bookmarkList = userDao.bookmarkSelectByUserNo(userNo);
+		if(bookmarkList==null)
+			throw new KookingException("즐겨찾기 목록이 없습니다.");
+		return bookmarkList;
+	}
+
+	@Override
+	public void bookmarkInsert(int userNo, int postNo) throws Exception {
+		if(userDao.bookmarkInsert(userNo, postNo)==0)
+			throw new KookingException("즐겨찾기 추가가 실패했습니다.");
+	}
+
+	@Override
+	public void bookmarkDelete(int userNo, int postNo) throws Exception {
+		if(userDao.bookmarkDelete(userNo, postNo)==0)
+			throw new KookingException("즐겨찾기 삭제가 실패했습니다.");
+	}
+
+
 
 }

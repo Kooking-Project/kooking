@@ -20,6 +20,16 @@ public class CommentDTO {
 	public CommentDTO() {
 	}
 
+	public CommentDTO(int no, int postNo, int userNo, int top, String content, String date, boolean deleteYN) {
+		super();
+		this.no = no;
+		this.postNo = postNo;
+		this.userNo = userNo;
+		this.top = top;
+		this.content = content;
+		this.date = date;
+		this.deleteYN = deleteYN;
+	}
 	public CommentDTO(int no, int postNo, int userNo, int top, String content, String date, boolean deleteYN, String userNickName) {
 		super();
 		this.no = no;

@@ -10,8 +10,8 @@
 <style>
 
 </style>
-<script type="text/javascript" src="${path }/js/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="${path }/js/jquery.form.min.js"></script>
+<script type="text/javascript" src="${path}/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="${path}/js/jquery.form.min.js"></script>
 <script type="text/javascript">
 function sendUpdate(){
 	document.requestForm1.submit();
@@ -28,6 +28,9 @@ function sendUserUpdate(){
 function postSelect(){
 	document.requestForm5.submit();
 }
+function commentSelect(){
+	document.requestForm6.submit();
+}
 
 function userInsert(){
 	document.requestForm99.submit();
@@ -37,17 +40,15 @@ function loginCheck(){
 }
 function logoutCheck(){
 	document.requestForm97.submit();
-
-function commentSelect(){
-	document.requestForm6.submit();
 }
+
 $(function() {
 	$("#upload").on("click", function() {
 		$("#upLoadForm").ajaxForm({
-			url : "${path}/front", // 서버요청주소
+			url :"${path}/uploadServlet", // 서버요청주소
 			type : "post", //get or post요청방식
 			dataType : "json", //서버가보내오는 데이터타입(text,html,json,xml)
-			data:$("#upLoadForm").serialize(), //서버에게 보내는 parameter정보
+			//data:, //서버에게 보내는 parameter정보
 			success : function(result) {//중복, 사용가능
 				alert(result +"성공");
 				var str = "";
@@ -58,6 +59,7 @@ $(function() {
 					str += "originalName : " + item.originalName + "<br>";
 					str += "fileSize : " + item.fileSize + "<br>";
 					str += "path : " + item.path + "<br>";
+					str += "img : " + "<img src='${path}/save/"+ item.filesystemName +"'><br>";
 				});
 				$("div").html(str);
 			},
@@ -70,6 +72,7 @@ $(function() {
 
 })//ready끝
 </script>
+
 </head>
 <body>
 <h1>회원 상태 변경</h1>
@@ -248,11 +251,9 @@ $(function() {
 <hr>
 <h1>프로필</h1>
 	<form method="post" enctype="multipart/form-data" id="upLoadForm">
+		회원번호: <input type="text" name="userNo" /><p>
 		이름 :<input type="text" name="name" /><p>
-		제목: <input type="text" name="subject" /><p>
 		파일첨부:<input type="file" name="file" /><p>
-		<input type=hidden name="key" value="user">
-		<input type=hidden name="methodName" value="profileUpload">
 		<input type="button" id="upload" value="업로드하기" />
 	</form>
 	<hr>
