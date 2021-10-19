@@ -42,14 +42,16 @@ public class PostController implements Controller {
 				request.getParameter("content"), 0, "", "");
 
 		int result = postService.insertPost(dto);
+		request.setAttribute("result", result);
+
 
 		// 결과에 따른 성공, 실패 나누기
 		if (result != 0) {
 			// 성공 페이지로 이동? 아니면 팝업창?
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("board.jsp");
 		} else {
 			// 실패
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("board.jsp");
 		}
 
 		// mv.setViewName("boardTest.jsp");

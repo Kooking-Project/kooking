@@ -30,6 +30,15 @@ public class PostDTO {
 		this.date = date;
 		this.userNicname = userNicname;
 	}
+	
+	public PostDTO(int postTypeNo, int userNo, String title, String contents, int counts, String userNicname) {
+		this.postTypeNo = postTypeNo;
+		this.userNo = userNo;
+		this.title = title;
+		this.contents = contents;
+		this.counts = counts;
+		this.userNicname = userNicname;
+	}
 
 	public int getNo() {
 		return no;

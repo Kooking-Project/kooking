@@ -11,6 +11,7 @@ import com.kooking.dao.PostDAO;
 import com.kooking.dao.PostDAOImpl;
 import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
+import com.kooking.exception.KookingException;
 
 public class PostServiceImpl implements PostService {
 	private PostDAO postDAO = new PostDAOImpl();
@@ -24,6 +25,11 @@ public class PostServiceImpl implements PostService {
 		int result = 0;
 		
 		result = boardDAO.insertPost(postDTO, null);
+		
+		if(result == 0)
+		{
+			throw new KookingException("게시물이 안들어갔어....");
+		}
 
 		return result;
 	}

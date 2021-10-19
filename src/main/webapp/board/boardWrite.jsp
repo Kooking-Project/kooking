@@ -203,7 +203,7 @@ function checkValid() {
     
     <!-- BoardContent Start -->
     <form name="boardForm" method="post" action="${pageContext.request.contextPath}/front?key=post&methodName=insertPost" 
-  onSubmit='return checkValid()' enctype="multipart/form-data">
+ 	onSubmit='return checkValid()'>
     <p>
     <div class="wrapper" style="text-align:center">
     <div class="row" id="boardContent">
@@ -223,7 +223,7 @@ function checkValid() {
          	 </select>
          	 </td>
             <th class="success col-md-3">작성자</th>
-            <td><input type="hidden" name="user" value="${loginNickName}" disabled>${loginNickName}</td>
+            <td><!--  <input type="hidden" name="user" value="" disabled>--></td>
         </tr>         
         <tr>
             <th class="success">제목</th>
