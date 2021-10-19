@@ -8,7 +8,7 @@ package com.kooking.dto;
  * */
 
 public class ImageDTO {
-	private int no;
+	private int no;		//이미지번호
 	private String url;	//이미지 URL
 	private int postNo;	//게시글 번호
 	private int size;	//이미지 크기
