@@ -185,49 +185,4 @@ public class UserController implements Controller {
 		
 		return new ModelAndView("adminTest.jsp", true);
 	}
-	
-
-	/**
-	 * 프로필 설정(프로필 사진 업로드)
-	 */
-	public ModelAndView profileUpload(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("profileUpload 시작");
-		response.setContentType("text/html;charset=UTF-8");
-		request.setCharacterEncoding("UTF-8");
-
-		String path = request.getServletContext().getRealPath("/save"); //a.jpg , a1.jpg , a2.jpg
-		int maxSize = 1024 * 1024 * 100;
-		String encoding = "UTF-8";
-
-		MultipartRequest m = new MultipartRequest(request, path, maxSize, encoding, new DefaultFileRenamePolicy());
-
-		String name = m.getParameter("name");
-		String subject = m.getParameter("subject");
-		String filesystemName = m.getFilesystemName("file");//실제 a1.jpg
-		String originalName = m.getOriginalFileName("file"); //a.jpg
-		long fileSize = m.getFile("file").length();
-
-		
-		System.out.println("name : " + name);
-		System.out.println("subject : " + subject);
-		System.out.println("filesystemName : " + filesystemName);
-		System.out.println("originalName : " + originalName);
-		System.out.println("fileSize : " + fileSize);
-
-		Map<String, Object> map = new HashMap<>();
-		map.put("name", name);
-		map.put("subject", subject);
-		map.put("filesystemName", filesystemName);
-		map.put("originalName", originalName);
-		map.put("fileSize", fileSize);
-		map.put("path", path);
-
-		// map을 json의 형태로 변환해서 보낸다.
-		JSONArray jsonArr = JSONArray.fromObject(map);
-
-		PrintWriter out = response.getWriter();
-		out.println(jsonArr);
-
-		return new ModelAndView("adminTest.jsp", true);
-	}
 }

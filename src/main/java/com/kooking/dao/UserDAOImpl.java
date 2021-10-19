@@ -48,7 +48,6 @@ public class UserDAOImpl implements UserDAO {
 				dbDTO = new UserDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
 						rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8));
 			}
-			
 		}finally {
 			DbUtil.dbClose(rs, ps, con);
 		}

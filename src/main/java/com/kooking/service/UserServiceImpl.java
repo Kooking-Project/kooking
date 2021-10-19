@@ -22,8 +22,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO loginCheck(String id, String pwd) throws SQLException, KookingException {
 	    UserDTO userDTO = userDao.loginCheck(id,pwd);
-        if(userDTO==null)
-        	throw new KookingException("정보를 다시 확인해주세요.");
+	    if(userDTO==null)
+	    	throw new KookingException("정보를 다시 확인해주세요.");
+
+	    switch (userDTO.getStatus()) {
+		case 1:
+			throw new KookingException("활동 정지된 회원 입니다.");
+		case 2:
+			throw new KookingException("탈퇴한 회원 입니다.");
+		}
         
 		return userDTO;
 	}
