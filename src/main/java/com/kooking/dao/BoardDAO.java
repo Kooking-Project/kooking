@@ -88,7 +88,7 @@ public class BoardDAO {
 		PreparedStatement st = null;
 		int result = 0;
 		try {
-			String sql = "DELETE FROM POSTS WHERE POST_NO=?";	
+			String sql = "DELETE FROM POSTS WHERE POST_NO=?";
 			st = con.prepareStatement(sql);
 			st.setInt(1, postNo);
 			
