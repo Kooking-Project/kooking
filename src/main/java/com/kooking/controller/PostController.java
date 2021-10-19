@@ -129,6 +129,7 @@ public class PostController implements Controller {
 		int postNo = Integer.parseInt(request.getParameter("postNo")); // 게시물 번호
 
 		PostDTO postDTO = postService.selectPostDetail(postNo); // 저장해야댐 - 사용자 닉네임 가져와야됨 - 추가
+		
 		List<CommentDTO> commentDTO = postService.selectComments(postNo); // 이거 어케쓸지.. 페이징 처리도 해야됨.
 
 		// 결과에 따른 성공, 실패 나누기
