@@ -51,7 +51,6 @@
 
       <div class="cont_line"><p class="cont_tit4">카테고리</p>
         <div class="container">
-                <form action="#" method="post">
                     <div class="row">
                         <div class="col-12 col-lg-3">
                             <select name="receipe_category1" id="receipe_category1" text="종류별">
@@ -131,14 +130,12 @@
                             </select>
                         </div>
                     </div>
-                </form>
             </div>
 		<span class="guide" style="margin:20px 0 20px 40px;">분류를 바르게 설정해주시면, 이용자들이 쉽게 레시피를 검색할 수 있어요.</span>
       	</div>
       	
       	<div class="cont_line"><p class="cont_tit4">요리정보</p>
       	<div class="container">
-                <form action="#" method="post">
                     <div class="row">
                     	 <span class="pad_l_30">인원 </span>
                         <div class="col-12 col-lg-3">
@@ -176,7 +173,6 @@
                             </select>
                         </div>
                     </div>
-                </form>
             </div>
            </div>
             
