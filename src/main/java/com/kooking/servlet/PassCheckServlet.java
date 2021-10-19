@@ -26,10 +26,10 @@ public class PassCheckServlet extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 
-		if (pwd != pwdConfirm) {
-			out.print("암호가 일치하지 않습니다.");
-		} else {
+		if (pwd == pwdConfirm) {
 			out.print("암호가 일치합니다.");
+		} else {
+			out.print("암호가 일치하지 않습니다.");
 		}
 
 	}

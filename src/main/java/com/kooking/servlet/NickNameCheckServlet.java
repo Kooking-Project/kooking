@@ -31,7 +31,7 @@ public class NickNameCheckServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 		try {
-			if (dao.idCheck(nickName)) {
+			if (dao.nicknameCheck(nickName)) {
 				out.print("중복 되는 닉네임입니다.");
 			}else {
 				out.print("사용 가능 합니다.");

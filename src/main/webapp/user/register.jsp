@@ -253,7 +253,7 @@ $(function(){
 //////////////////////////////////////////////////
 	// 아이디 중복체크하기
 	$("#id").keyup(function(){
-		  
+		  		
 		  if($(this).val == ""){
 			  $("#idCheck").text("");
 			  return; // 함수를 빠져나가라.
@@ -265,11 +265,16 @@ $(function(){
 				type : "post", //method방식(get, post, put, delete)
 				dataType : "text", //서버가 응답해주는 데이터의 type(text, html, xml, json)
 				data : {id: $(this).val()},	//서버에게 보낼 parameter정보
-				success : function(result){
-					console.log("result : " + result);
+				success : function(result){	
+					
+					$("#registerBtn").attr('disabled', false); 	
 					
 					$("#idCheck").text(result);
 					
+					if(result == "중복 되는 아이디입니다."){
+					
+						$("#registerBtn").attr('disabled', true); 					
+					}
 				},	// 성공했을때 callback 함수
 				error :	function(err){ 					
 					alert(err+"발생했어요");
@@ -297,7 +302,14 @@ $(function(){
 				data : {nickName: $(this).val()},	//서버에게 보낼 parameter정보
 				success : function(result){
 					
+					$("#registerBtn").attr('disabled', false); 	
+					
 					$("#nickNameCheck").text(result);
+					
+					if(result == "중복 되는 닉네임입니다."){
+						
+						$("#registerBtn").attr('disabled', true); 					
+					}
 					
 				},	// 성공했을때 callback 함수
 				error :	function(err){ 					
@@ -326,7 +338,14 @@ $(function(){
 				data : {pwdConfirm: $(this).val(), pwd: $("#pwd").val()},	//서버에게 보낼 parameter정보
 				success : function(result){
 					
+					$("#registerBtn").attr('disabled', false); 	
+					
 					$("#passwordCheck").text(result);
+					
+					if(result == "암호가 일치하지 않습니다."){
+						
+						$("#registerBtn").attr('disabled', true); 					
+					}
 					
 				},	// 성공했을때 callback 함수
 				error :	function(err){ 					
@@ -410,10 +429,11 @@ $(function(){
 							<option value="0">비공개</option>
 						</select>
 					</div>
+					<p class="genderCheck" id="genderCheck"></p>
 				</div>
 				<input type="hidden" name="profileImg" value="" />
 				<div class="inputfield">
-					<input type="submit" value="가입" class="btn">&nbsp;&nbsp; 
+					<input type="submit" value="가입" class="btn" id="registerBtn">&nbsp;&nbsp; 
 					<a href="javascript:history.back()" class="btn">돌아가기</a>
 				</div>
 			</div>

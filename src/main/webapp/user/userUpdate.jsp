@@ -535,7 +535,122 @@ h5{
 }
 
 </style>
+<script type="text/javascript">
 
+$(function(){
+	
+//////////////////////////////////////////////////
+// 아이디 중복체크하기
+$("#id").keyup(function(){
+
+if($(this).val == ""){
+$("#idCheck").text("");
+return; // 함수를 빠져나가라.
+}
+
+$.ajax({
+
+url : "../idCheck", //서버요청주소
+type : "post", //method방식(get, post, put, delete)
+dataType : "text", //서버가 응답해주는 데이터의 type(text, html, xml, json)
+data : {id: $(this).val()},	//서버에게 보낼 parameter정보
+success : function(result){	
+
+$("#registerBtn").attr('disabled', false); 	
+
+$("#idCheck").text(result);
+
+if(result == "중복 되는 아이디입니다."){
+
+$("#registerBtn").attr('disabled', true); 					
+}
+},	// 성공했을때 callback 함수
+error :	function(err){ 					
+alert(err+"발생했어요");
+
+}//실패했을 때 함수
+}); //ajax끝
+});
+
+/////////////////////////////////////////////////
+
+//////////////////////////////////////////////////
+// 닉네임 중복체크하기
+$("#nickName").keyup(function(){
+
+if($(this).val == ""){
+$("#nickNameCheck").text("");
+return; // 함수를 빠져나가라.
+}
+
+$.ajax({
+
+url : "../nickNameCheck", //서버요청주소
+type : "post", //method방식(get, post, put, delete)
+dataType : "text", //서버가 응답해주는 데이터의 type(text, html, xml, json)
+data : {nickName: $(this).val()},	//서버에게 보낼 parameter정보
+success : function(result){
+
+$("#registerBtn").attr('disabled', false); 	
+
+$("#nickNameCheck").text(result);
+
+if(result == "중복 되는 닉네임입니다."){
+
+$("#registerBtn").attr('disabled', true); 					
+}
+
+},	// 성공했을때 callback 함수
+error :	function(err){ 					
+alert(err+"발생했어요");
+
+}//실패했을 때 함수
+}); //ajax끝
+});
+
+/////////////////////////////////////////////////
+
+//////////////////////////////////////////////////
+// 패스워드 중복체크하기
+$("#pwdConfirm").keyup(function(){
+
+if($(this).val == ""){
+$("#passwordCheck").text("");
+return; // 함수를 빠져나가라.
+}
+
+$.ajax({
+
+url : "../passCheck", //서버요청주소
+type : "post", //method방식(get, post, put, delete)
+dataType : "text", //서버가 응답해주는 데이터의 type(text, html, xml, json)
+data : {pwdConfirm: $(this).val(), pwd: $("#pwd").val()},	//서버에게 보낼 parameter정보
+success : function(result){
+
+$("#registerBtn").attr('disabled', false); 	
+
+$("#passwordCheck").text(result);
+
+if(result == "암호가 일치하지 않습니다."){
+
+$("#registerBtn").attr('disabled', true); 					
+}
+
+},	// 성공했을때 callback 함수
+error :	function(err){ 					
+alert(err+"발생했어요");
+
+}//실패했을 때 함수
+}); //ajax끝
+});
+
+/////////////////////////////////////////////////
+
+});
+
+
+
+</script>
 
 </head>
 
@@ -590,7 +705,7 @@ h5{
             <label for="fname">아이디</label>
           </div>
           <div class="grid-65">
-            <input type="text" id="fname" tabindex="1" disabled/>
+            <input type="text" id="id" tabindex="1" disabled/>
           </div>
         </fieldset>
         <fieldset>
@@ -598,7 +713,7 @@ h5{
             <label for="lname">닉네임</label>
           </div>
           <div class="grid-65">
-            <input type="text" id="lname" tabindex="2" />
+            <input type="text" id="nickName" tabindex="2" />
           </div>
         </fieldset>
         <!-- 비밀번호 -->
@@ -607,21 +722,21 @@ h5{
             <label for="location">이전 비밀번호</label>
           </div>
           <div class="grid-65">
-            <input type="password" id="location" tabindex="4" />
+            <input type="password" id="currentPwd" tabindex="4" />
           </div>    
         <!-- 새 비밀번호 -->
           <div class="grid-35">
             <label for="location">새 비밀번호</label>
           </div>
           <div class="grid-65">
-            <input type="password" id="location" tabindex="4" />
+            <input type="password" id="newPwd" tabindex="4" />
           </div>
         <!-- 새 비밀번호 재입력 -->
           <div class="grid-35">
             <label for="country">새 비밀번호 재입력</label>
           </div>
           <div class="grid-65">
-            <input type="password" id="country" tabindex="5" />
+            <input type="password" id="newPwdConfirm" tabindex="5" />
           </div>
         </fieldset>
         <!-- 성별 -->
