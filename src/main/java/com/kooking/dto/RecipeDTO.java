@@ -1,5 +1,6 @@
 package com.kooking.dto;
 
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -17,6 +18,9 @@ public class RecipeDTO {
 	private String type;	//레시피 분류
 	private String level;	//레시피 조리난이도
 	private double score; //레시피 점수
+	private PostDTO post;
+	private static final String VIEW_NAME = "VIEW_RECIPE_LIST";
+	
 	
 	public RecipeDTO() {}
 
@@ -31,6 +35,14 @@ public class RecipeDTO {
 		this.nation = nation;
 		this.type = type;
 		this.level = level;
+	}
+	
+	public PostDTO getPost() {
+		return post;
+	}
+	
+	public void setPost(PostDTO post) {
+		this.post = post;
 	}
 
 	public int getNo() {
@@ -110,6 +122,4 @@ public class RecipeDTO {
 		return "RecipeDTO [no=" + no + ", name=" + name + ", postNo=" + postNo + ", calorie=" + calorie
 				+ ", cookingTime=" + cookingTime + ", nation=" + nation + ", type=" + type + ", level=" + level +  ", score=" + score +"]";
 	}
-
-	
 }
