@@ -19,7 +19,7 @@
 
 <!-- Core Stylesheet -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/styleTest.css">
+	href="${pageContext.request.contextPath}/style.css">
 
 <!-- JQuery 2.2.4 -->
 <script
@@ -52,197 +52,203 @@
 <body>
 
 	<!-- Search Wrapper -->
-	<div class="search-wrapper">
-		<!-- Close Btn -->
-		<div class="close-btn">
-			<i class="fa fa-times" aria-hidden="true"></i>
-		</div>
+    <div class="search-wrapper">
+        <!-- Close Btn -->
+        <div class="close-btn"><i class="fa fa-times" aria-hidden="true"></i></div>
 
-		<div class="container">
-			<div class="row">
-				<div class="col-12">
-					<form action="#" method="post">
-						<input type="search" name="search" placeholder="레시피를 검색하세요...">
-						<button type="submit">
-							<i class="fa fa-search" aria-hidden="true"></i>
-						</button>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <form action="#" method="post">
+                        <input type="search" name="search" placeholder="레시피를 검색하세요...">
+                        <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+   
+    
 
+    <!-- ##### Header Area Start ##### -->
+    <header class="header-area">
 
+        <!-- Top Header Area -->
+        <div class="top-header-area">
+            <div class="container h-100">
+                <div class="row h-100 align-items-center justify-content-between">
+                    <!-- Breaking News -->
+                    <div class="col-12 col-sm-6">
+                        <div class="breaking-news">
+                            <div id="breakingNewsTicker" class="ticker">
+                                <ul>
+                                    <li><a href="#">쿠킹에 오신 것을 환영합니다!</a></li>
+                                    <li><a href="#">다양한 레시피가 준비 되어 있습니다!</a></li>
+                                    <li><a href="#">쿠킹과 함께 즐거운 식사 어떠실까요?</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- Top Social Info -->
+                    <div class="col-12 col-sm-6">
+                        <div class="top-social-info text-right">
+                            <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                            <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
+                            <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
+                            <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+		                    <c:choose>
+						 		<c:when test ="${empty loginUser}"> 
+		                            <a href="login.jsp">로그인</a>
+		                            <a href="register.jsp">회원가입</a>
+		                            <a href="${pageContext.request.contextPath}/receipe/receipeWrite.jsp">글쓰기</a>
+		   				 		</c:when>
+						 		<c:otherwise>
+						 			<a href="#">글쓰기</a>
+						 			<a href="#">로그아웃</a>
+						 		</c:otherwise>
+						 	</c:choose>  	 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-	<!-- ##### Header Area Start ##### -->
-	<header class="header-area">
+        <!-- Navbar Area -->
+        <div class="delicious-main-menu">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container">
+                    <!-- Menu -->
+                    <nav class="classy-navbar justify-content-between" id="deliciousNav">
 
-		<!-- Top Header Area -->
-		<div class="top-header-area">
-			<div class="container h-100">
-				<div class="row h-100 align-items-center justify-content-between">
-					<!-- Breaking News -->
-					<div class="col-12 col-sm-6">
-						<div class="breaking-news">
-							<div id="breakingNewsTicker" class="ticker">
-								<ul>
-									<li><a href="#">쿠킹에 오신 것을 환영합니다!</a></li>
-									<li><a href="#">다양한 레시피가 준비 되어 있습니다!</a></li>
-									<li><a href="#">쿠킹과 함께 즐거운 식사 어떠실까요?</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
+                        <!-- Logo -->
+                        <a class="nav-brand" href="${pageContext.request.contextPath}/index2.jsp"><img src="${pageContext.request.contextPath}/img/core-img/logo.png" alt=""></a>
 
-					<!-- Top Social Info -->
-					<div class="col-12 col-sm-6">
-						<div class="top-social-info text-right">
-						<c:choose>
-							<c:when test="${empty loginUser}">
-								<a href="${pageContext.request.contextPath}/user/login.jsp">로그인</a>
-								<a href="${pageContext.request.contextPath}/user/register.jsp">회원가입</a>
-							</c:when>
-							<c:otherwise>
-								<span class="loginUser">${loginUser}님 환영합니다!</span>
-								<a href="${pageContext.request.contextPath}/front?key=user&methodName=logout">로그아웃</a>
-							</c:otherwise>
-						</c:choose>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
 
-		<!-- Navbar Area -->
-		<div class="delicious-main-menu">
-			<div class="classy-nav-container breakpoint-off">
-				<div class="container">
-					<!-- Menu -->
-					<nav class="classy-navbar justify-content-between"
-						id="deliciousNav">
+                        <!-- Menu -->
+                        <div class="classy-menu">
 
-						<!-- Logo -->
-						<a class="nav-brand" href="${pageContext.request.contextPath}/index.jsp">
-						<img src="${pageContext.request.contextPath}/img/core-img/logo.png" alt=""></a>
+                            <!-- close btn -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
 
-						<!-- Navbar Toggler -->
-						<div class="classy-navbar-toggler">
-							<span class="navbarToggler"><span></span><span></span><span></span></span>
-						</div>
+                            <!-- Nav Start -->
+                            <div class="classynav">
+                                <ul>
+                                    <li class="active"><a href="${pageContext.request.contextPath}/index2.jsp">Home</a></li>
+                                    <li><a href="#">분류별</a>
+                                        <div class="megamenu">
+                                            <ul class="single-mega cn-col-4">
+                                                <li class="title">Catagory</li>
+                                                <li><a href="resu">Home</a></li>
+                                                <li><a href="about.html">About Us</a></li>
+                                                <li><a href="blog-post.html">Blog Post</a></li>
+                                                <li><a href="receipe-post.html">Receipe Post</a></li>
+                                                <li><a href="contact.html">Contact</a></li>
+                                                <li><a href="elements.html">Elements</a></li>
+                                            </ul>
+                                            <ul class="single-mega cn-col-4">
+                                                <li class="title">Catagory</li>
+                                                <li><a href="index.html">Home</a></li>
+                                                <li><a href="about.html">About Us</a></li>
+                                                <li><a href="blog-post.html">Blog Post</a></li>
+                                                <li><a href="receipe-post.html">Receipe Post</a></li>
+                                                <li><a href="contact.html">Contact</a></li>
+                                                <li><a href="elements.html">Elements</a></li>
+                                            </ul>
+                                            <ul class="single-mega cn-col-4">
+                                                <li class="title">Catagory</li>
+                                                <li><a href="index.html">Home</a></li>
+                                                <li><a href="about.html">About Us</a></li>
+                                                <li><a href="blog-post.html">Blog Post</a></li>
+                                                <li><a href="receipe-post.html">Receipe Post</a></li>
+                                                <li><a href="contact.html">Contact</a></li>
+                                                <li><a href="elements.html">Elements</a></li>
+                                            </ul>
+                                            <div class="single-mega cn-col-4">
+                                                <div class="receipe-slider owl-carousel">
+                                                    <a href="#"><img src="img/bg-img/bg1.jpg" alt=""></a>
+                                                    <a href="#"><img src="img/bg-img/bg6.jpg" alt=""></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li><a href="#">국가별</a>
+                                        <ul class="dropdown">
+                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">한식</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">양식</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">중식</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">일식</a></li>
+                                            <li><a href="#">Dropdown</a>
+                                                <ul class="dropdown">
+                                                    <li><a href="index.html">Home</a></li>
+                                                    <li><a href="about.html">About Us</a></li>
+                                                    <li><a href="blog-post.html">Blog Post</a></li>
+                                                    <li><a href="receipe-post.html">Receipe Post</a></li>
+                                                    <li><a href="contact.html">Contact</a></li>
+                                                    <li><a href="elements.html">Elements</a></li>
+                                                    <li><a href="#">Dropdown</a>
+                                                        <ul class="dropdown">
+                                                            <li><a href="index.html">Home</a></li>
+                                                            <li><a href="about.html">About Us</a></li>
+                                                            <li><a href="blog-post.html">Blog Post</a></li>
+                                                            <li><a href="receipe-post.html">Receipe Post</a></li>
+                                                            <li><a href="contact.html">Contact</a></li>
+                                                            <li><a href="elements.html">Elements</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">난이도별</a>
+                                        <ul class="dropdown">
+                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">상</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">중</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">하</a></li>
+                                        </ul>
+                                    </li>
+                                     <li><a href="#">평점별</a>
+                                        <ul class="dropdown">
+                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">★★★★★</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">★★★★☆</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">★★★☆☆</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">★★☆☆☆</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">★☆☆☆☆</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="receipe-post.html">커뮤니티</a>
+                                    	<ul class="dropdown">
+                                            <li><a href="tipBoard.jsp">요리팁</a></li>
+                                            <li><a href="reviewBoard.jsp">레시피후기</a></li>
+                                            <li><a href="qnaBoard.jsp">질문 Q&A</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="user.jsp">마이페이지</a></li>
+                                </ul>
+                                
+                                <!-- Newsletter Form -->
+                                <div class="search-btn">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </div>
 
-						<!-- Menu -->
-						<div class="classy-menu">
-
-							<!-- close btn -->
-							<div class="classycloseIcon">
-								<div class="cross-wrap">
-									<span class="top"></span><span class="bottom"></span>
-								</div>
-							</div>
-
-							<!-- Nav Start -->
-							<div class="classynav">
-								<ul>
-									<li class="active"><a href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
-									<li><a href="#">카테고리별</a>
-										<ul class="dropdown">
-											<li><a href="#">평점별</a>
-												<ul class="dropdown">
-													<li><a href="index.html">Home</a></li>
-													<li><a href="about.html">About Us</a></li>
-													<li><a href="blog-post.html">Blog Post</a></li>
-													<li><a href="receipe-post.html">Receipe Post</a></li>
-													<li><a href="contact.html">Contact</a></li>
-													<li><a href="elements.html">Elements</a></li>
-												</ul></li>
-											<li><a href="#">재료별</a>
-												<ul class="dropdown">
-													<li><a href="index.html">Home</a></li>
-													<li><a href="about.html">About Us</a></li>
-													<li><a href="blog-post.html">Blog Post</a></li>
-													<li><a href="receipe-post.html">Receipe Post</a></li>
-													<li><a href="contact.html">Contact</a></li>
-													<li><a href="elements.html">Elements</a></li>
-												</ul></li>
-											<li><a href="blog-post.html">Blog Post</a></li>
-											<li><a href="receipe-post.html">Receipe Post</a></li>
-											<li><a href="contact.html">Contact</a></li>
-											<li><a href="elements.html">Elements</a></li>
-											<li><a href="#">Dropdown</a>
-												<ul class="dropdown">
-													<li><a href="index.html">Home</a></li>
-													<li><a href="about.html">About Us</a></li>
-													<li><a href="blog-post.html">Blog Post</a></li>
-													<li><a href="receipe-post.html">Receipe Post</a></li>
-													<li><a href="contact.html">Contact</a></li>
-													<li><a href="elements.html">Elements</a></li>
-													<li><a href="#">Dropdown</a>
-														<ul class="dropdown">
-															<li><a href="index.html">Home</a></li>
-															<li><a href="about.html">About Us</a></li>
-															<li><a href="blog-post.html">Blog Post</a></li>
-															<li><a href="receipe-post.html">Receipe Post</a></li>
-															<li><a href="contact.html">Contact</a></li>
-															<li><a href="elements.html">Elements</a></li>
-														</ul></li>
-												</ul></li>
-										</ul></li>
-									<li><a href="#">추천 레시피</a>
-										<div class="megamenu">
-											<ul class="single-mega cn-col-4">
-												<li class="title">Catagory</li>
-												<li><a href="index.html">Home</a></li>
-												<li><a href="about.html">About Us</a></li>
-												<li><a href="blog-post.html">Blog Post</a></li>
-												<li><a href="receipe-post.html">Receipe Post</a></li>
-												<li><a href="contact.html">Contact</a></li>
-												<li><a href="elements.html">Elements</a></li>
-											</ul>
-											<ul class="single-mega cn-col-4">
-												<li class="title">Catagory</li>
-												<li><a href="index.html">Home</a></li>
-												<li><a href="about.html">About Us</a></li>
-												<li><a href="blog-post.html">Blog Post</a></li>
-												<li><a href="receipe-post.html">Receipe Post</a></li>
-												<li><a href="contact.html">Contact</a></li>
-												<li><a href="elements.html">Elements</a></li>
-											</ul>
-											<ul class="single-mega cn-col-4">
-												<li class="title">Catagory</li>
-												<li><a href="index.html">Home</a></li>
-												<li><a href="about.html">About Us</a></li>
-												<li><a href="blog-post.html">Blog Post</a></li>
-												<li><a href="receipe-post.html">Receipe Post</a></li>
-												<li><a href="contact.html">Contact</a></li>
-												<li><a href="elements.html">Elements</a></li>
-											</ul>
-											<div class="single-mega cn-col-4">
-												<div class="receipe-slider owl-carousel">
-													<a href="#"><img src="../img/bg-img/bg1.jpg" alt=""></a>
-													<a href="#"><img src="../img/bg-img/bg6.jpg" alt=""></a>
-												</div>
-											</div>
-										</div></li>
-									<li><a href="receipe-post.html">랭킹 레시피</a></li>
-									<li><a href="${pageContext.request.contextPath}/board/board.jsp">커뮤니티</a></li>
-									<li><a href="${pageContext.request.contextPath}/user/user.jsp">마이페이지</a></li>
-								</ul>
-
-								<!-- Newsletter Form -->
-								<div class="search-btn">
-									<i class="fa fa-search" aria-hidden="true"></i>
-								</div>
-
-							</div>
-							<!-- Nav End -->
-						</div>
-					</nav>
-				</div>
-			</div>
-		</div>
-	</header>
-	<!-- ##### Header Area End ##### -->
+                            </div>
+                            <!-- Nav End -->
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ##### Header Area End ##### -->
 
 </body>
 

@@ -9,11 +9,11 @@ package com.kooking.dto;
 public class ProcessDTO {
 
     private int no; 			//조리과정 번호
-    private int recipesNo; 			//레시피 번호
-    private String imageUrl; 		//이미지 URL
-    private int seq; 		//조리과정순서
-    private String desc;     //조리과성설명
-    private String tip;				//조리과정팁
+    private int recipesNo; 		//레시피 번호
+    private String imageUrl; 	//이미지 URL -- db에는 PROCESS_URL
+    private int seq; 			//조리과정순서
+    private String desc;     	//조리과성설명
+    private String tip;			//조리과정팁
     
     public ProcessDTO() {}
 

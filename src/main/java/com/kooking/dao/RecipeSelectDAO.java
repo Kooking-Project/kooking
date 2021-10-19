@@ -1,15 +1,10 @@
 package com.kooking.dao;
 
 import java.util.List;
-import java.util.Map.Entry;
 
-import com.kooking.dto.ImageDTO;
-import com.kooking.dto.IngredientDTO;
-import com.kooking.dto.PostDTO;
-import com.kooking.dto.ProcessDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
-import com.kooking.paging.PageCnt;
+import com.kooking.paging.Pagenation;
 
 /**
  * 레시피의 검색, 조건별 검색, 페이징 및 정렬방법을 담당하는 DAO
@@ -33,9 +28,9 @@ public interface RecipeSelectDAO {
 	 * 여러 조건에 따라 레시피를 검색하는 메소드
 	 * @param
 	 * @return
+	 * @throws Exception 
 	 */
-	List<RecipeWrapper> searchQueryAll(PostDTO postDTO, RecipeDTO recipe, PageCnt cnt);
-	List<RecipeWrapper> searchQueryAll(PostDTO postDTO, RecipeDTO recipe);
+	List<RecipeDTO> searchQuery(RecipeDTO recipe, Pagenation page) throws Exception;
 
 	
 	/**

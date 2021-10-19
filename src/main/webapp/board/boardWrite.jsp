@@ -155,31 +155,21 @@ text-align: center;
 function checkValid() {
     var f = window.document.boardForm;
 		
-	if ( f.boardCategory.value == "") {
+	if ( f.type.value == "") {
 	    alert( "게시글 카테고리를 선택해 주세요." );
 	    f.boardCategory.focus();
 		return false;
     }
-	if ( f.model_name.value == "" ) {
-		alert( "모델이름을 입력해 주세요." );
-		f.model_name.focus();
+	if ( f.title.value == "" ) {
+		alert( "제목을 입력해 주세요." );
+		f.title.focus();
 		return false;
 	}
-	if ( f.price.value == "" ) {
-		alert( "가격을 입력해 주세요." );
-		f.price.focus();
+	if ( f.content.value == "" ) {
+		alert( "내용을 입력해 주세요." );
+		f.content.focus();
 		return false;
 	}
-	if ( f.description.value == "" ) {
-        alert( "상품 설명을 입력해 주세요." );
-        f.description.focus();
-        return false;
-    }
-	if ( f.password.value == "" ) {
-        alert( "비밀번호를 입력해 주세요" );
-        f.password.focus();
-        return false;
-    }
 	
     return true;
 }
@@ -212,8 +202,8 @@ function checkValid() {
     <!-- ##### Breadcumb Area End ##### -->
     
     <!-- BoardContent Start -->
-    <form name="boardForm" method="post" action="${path}/front?key=post&methodName=insertPost" 
-  onSubmit='return checkValid()' enctype="multipart/form-data">
+    <form name="boardForm" method="post" action="${pageContext.request.contextPath}/front?key=post&methodName=insertPost" 
+ 	onSubmit='return checkValid()'>
     <p>
     <div class="wrapper" style="text-align:center">
     <div class="row" id="boardContent">
@@ -222,37 +212,36 @@ function checkValid() {
     <div class="table table-responsive">
         <table class="table">     
         <tr>
-            <th class="success">카테고리</th>
+            <th class="success col-md-3">카테고리</th>
      	    <td>
-           	 <select class="select" name="boardCategory" id="boardCategory">
+           	 <select class="select" name="type" id="boardCategory">
              	<option value="" disabled selected>선택</option>
-           	   	<option value="tip">TIP</option>
-          	    <option value="qna">Q&A</option>
-          	    <option value="aftermath">후기</option>
+           	   	<option value="2">TIP</option>
+        	   	<option value="3">후기</option>
+          	    <option value="4">Q&A</option>
+
          	 </select>
          	 </td>
-            <th class="success">작성자</th>
-            <td><input type="hidden" name="idNo" value="${loginUser.idNo}" disabled>${loginUser}</td>
-            <th class="success">작성일</th>
-            <td><input type="hidden" name="currentDate" value="${loginUser.idNo}" disabled>${loginUser}</td>
+            <th class="success col-md-3">작성자</th>
+            <td><!--  <input type="hidden" name="user" value="" disabled>--></td>
         </tr>         
         <tr>
             <th class="success">제목</th>
             <td colspan="6">
-            	<textarea class="form-control" id="messageTitle" placeholder="제목을 입력해주세요."></textarea>
+            	<textarea class="form-control" id="title" placeholder="제목을 입력해주세요."></textarea>
             </td>
         </tr>
          
         <tr>
             <th class="success">글 내용</th>
             <td colspan="6">
-            	<textarea class="form-control" id="messageContent" placeholder="내용을 입력해주세요."></textarea>
+            	<textarea class="form-control" id="content" placeholder="내용을 입력해주세요."></textarea>
            	</td>
         </tr>
          
         <tr>
             <td colspan="6" class="text-center">
-  				<input type="button" class="btn btn-warning" value="확인" onclick="location.href='BoardUpdateForm.jsp?num='">          
+  				<input type=submit class="btn btn-warning" value=작성>       
 				<input type="button" class="btn btn-danger" value="취소" onclick="javascript:history.back()">
             </td>
         </tr>

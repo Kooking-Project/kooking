@@ -53,26 +53,32 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 	/**
 	 * 게시판 클릭했을 때 해당 게시물 하나보여주기 - 비회원, 회원 공통
 	 */
-	/*
-	 * public PostDTO selectPostDetail(int postNo) throws Exception { Connection con
-	 * = null; PreparedStatement st = null; ResultSet rs = null;
-	 * 
-	 * sql = "SELECT * FROM POSTS WHERE POST_NO=?";
-	 * 
-	 * con = DbUtil.getConnection(); st = con.prepareStatement(sql); st.setInt(1,
-	 * postNo);
-	 * 
-	 * rs = st.executeQuery();
-	 * 
-	 * 
-	 * PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3),
-	 * rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7));
-	 * 
-	 * 
-	 * DbUtil.dbClose(con, st, rs);
-	 * 
-	 * // return postDTO; }
-	 */
+
+	public PostDTO selectPostDetail(int postNo) throws Exception {
+		Connection con = null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
+				+ " FROM POSTS P INNER JOIN USERS U" + " ON P.USER_NO = U.USER_NO AND POST_NO=?";
+
+		con = DbUtil.getConnection();
+		st = con.prepareStatement(sql);
+		st.setInt(1, postNo);
+
+		rs = st.executeQuery();
+
+		// int no, int postTypeNo, int userNo, String title, String contents, int
+		// counts, String date, String userNicname
+
+		PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
+				rs.getInt(6), rs.getString(7), rs.getString(8));
+
+		DbUtil.dbClose(con, st, rs);
+
+		return postDTO;
+	}
+
 	/**
 	 * 조회수 증가
 	 */
@@ -105,25 +111,22 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 
 		List<PostDTO> PostList = new ArrayList<PostDTO>();
 
-		sql = "SELECT POST_NO, POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE FROM POSTS";
-
-		/*
-		 * if (!"".equals(userNo)) { sb.append(SPACE).append("WHERE USER_NO=?"); }
-		 */
+		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
+				+ " FROM POSTS P INNER JOIN USERS U"
+				+ " ON P.USER_NO = U.USER_NO";
 
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
 
 		rs = st.executeQuery();
 
-		// int no, int postTypeNo, int userNo, String title, String contents, int
-		// counts, String date
+		// int no, int postTypeNo, int userNo, String title, String contents, int counts, String date, String userNicname
 
-		/*
-		 * while(rs.next()) { PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2),
-		 * rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6),
-		 * rs.getString(7)); PostList.add(postDTO); }
-		 */
+		while (rs.next()) {
+			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
+					rs.getInt(6), rs.getString(7), rs.getString(8));
+			PostList.add(postDTO);
+		}
 
 		DbUtil.dbClose(con, st, rs);
 
@@ -141,19 +144,20 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 
 		List<PostDTO> PostList = new ArrayList<PostDTO>();
 
-		sql = "SELECT POST_NO, POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE"
-				+ "FROM POSTS ORDER BY POST_DATE DESC";
+		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
+				+ " FROM POSTS P INNER JOIN USERS U"
+				+ " ON P.USER_NO = U.USER_NO ORDER BY POST_DATE DESC";
 
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
 
 		rs = st.executeQuery();
 
-		/*
-		 * while(rs.next()) { PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2),
-		 * rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6),
-		 * rs.getString(7)); PostList.add(postDTO); }
-		 */
+		while (rs.next()) {
+			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
+					rs.getInt(6), rs.getString(7), rs.getString(8));
+			PostList.add(postDTO);
+		}
 
 		DbUtil.dbClose(con, st, rs);
 
@@ -171,8 +175,8 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 
 		List<PostDTO> PostList = new ArrayList<PostDTO>();
 
-		sql = "SELECT POST_NO, POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE"
-				+ "FROM POSTS WHERE POST_TYPE_NO=?";
+		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
+				+ " FROM POSTS P INNER JOIN USERS U ON P.USER_NO = U.USER_NO AND POST_TYPE_NO=?";
 
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
@@ -181,11 +185,11 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 
 		rs = st.executeQuery();
 
-		/*
-		 * while(rs.next()) { PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2),
-		 * rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6),
-		 * rs.getString(7)); PostList.add(postDTO); }
-		 */
+		while (rs.next()) {
+			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
+					rs.getInt(6), rs.getString(7), rs.getString(8));
+			PostList.add(postDTO);
+		}
 
 		DbUtil.dbClose(con, st, rs);
 
@@ -196,9 +200,31 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 	 * 게시판 조회수별 조회
 	 */
 	@Override
-	public List<PostDTO> selectPostCount() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<PostDTO> selectPostCount() throws SQLException {
+		Connection con = null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		List<PostDTO> PostList = new ArrayList<PostDTO>();
+
+		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
+				+ " FROM POSTS P INNER JOIN USERS U"
+				+ " ON P.USER_NO = U.USER_NO ORDER BY POST_VIEW_COUNTS DESC";
+
+		con = DbUtil.getConnection();
+		st = con.prepareStatement(sql);
+
+		rs = st.executeQuery();
+
+		while (rs.next()) {
+			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
+					rs.getInt(6), rs.getString(7), rs.getString(8));
+			PostList.add(postDTO);
+		}
+
+		DbUtil.dbClose(con, st, rs);
+
+		return PostList;
 	}
 
 //--------------------------------------------------------------------------------------------------------
@@ -214,8 +240,8 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 
 		List<PostDTO> PostList = new ArrayList<PostDTO>();
 
-		sql = "SELECT POST_NO, POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE"
-				+ " FROM POSTS WHERE POST_TITLE LIKE '%?%'";
+		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
+				+ " FROM POSTS P INNER JOIN USERS U ON P.USER_NO = U.USER_NO AND POST_TITLE LIKE '%?%'";
 
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
@@ -224,11 +250,11 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 
 		rs = st.executeQuery();
 
-		/*
-		 * while(rs.next()) { PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2),
-		 * rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6),
-		 * rs.getString(7)); PostList.add(postDTO); }
-		 */
+		while (rs.next()) {
+			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
+					rs.getInt(6), rs.getString(7), rs.getString(8));
+			PostList.add(postDTO);
+		}
 
 		DbUtil.dbClose(con, st, rs);
 
@@ -266,12 +292,6 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		DbUtil.dbClose(con, st, rs);
 
 		return PostList;
-	}
-
-	@Override
-	public PostDTO selectPostDetail(int postNo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 //----------------------------------------------------------------------------------------------
