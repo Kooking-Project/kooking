@@ -2,7 +2,6 @@ package com.kooking.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -28,55 +27,15 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 		}
 	}
 	
-	
 	/**
-	 * POST_NO_SEQ, RECIPE_NO_SEQ 를 얻어오는 메소드  
-	 * @author 박효승
-	 * @date 2021-10-17
-	 */
-//	private	boolean getSqNumbers(Connection con, RecipeWrapper wrapper) throws Exception {
-//		PreparedStatement ps = null;
-//		ResultSet rs = null;
-//		boolean result = false;
-//		if (wrapper==null || wrapper.getPost() == null || wrapper.getRecipe()==null) {
-//			return false;
-//		}
-//		try {
-//			con = DBTestUtil.getConnection();
-//			ps = con.prepareStatement("SELECT POST_NO_SEQ.NEXTVAL, RECIPE_NO_SEQ.NEXTVAL FROM DUAL");
-//			rs = ps.executeQuery();
-//			
-//			if((result = rs.next())) {
-//				wrapper.getPost().setNo(rs.getInt(1));
-//				wrapper.getRecipe().setNo(rs.getInt(2));
-//				System.out.printf("%d %d\n",wrapper.getPost().getNo(), wrapper.getRecipe().getNo());
-//				
-//			}
-//		}finally {
-//			DBTestUtil.dbClose(ps, rs);
-//		}
-//		return result;
-//	}
-	
-	/*
-	 * insert()
+	 * 레시피 등록하기 
 	 *  - 1. Post 삽입
 	 *  - 2. Recipe 삽입
 	 *  - 3. 재료 삽입
 	 *  - 4. 조리순서 삽입
 	 *  - 5. 이미지 삽입
-	 * 
-	 * 
-	 */
-	/**
 	 * @author 박은솔
 	 * @date 2021-10-17	
-	 * 레시피 등록하기 
-	 * 		0) POSTS 게시글 등록시, 카테고리타입이 레시피라면 레시피등록 메소드 호출
-	 * 		1) RECIPES 테이블에 insert
-	 * 		2) INGREDIENTS 테이블에 insert
-	 * 		3) IMAGES 테이블에 insert
-	 * 		4) PROCESS 테이블에 insert
 	 */
 	@Override
 	public boolean insert(RecipeWrapper wrapper) throws Exception {
@@ -86,8 +45,6 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 		try {
 			con = DBTestUtil.getConnection();
 			con.setAutoCommit(false);
-			
-			insertPost(wrapper.getPost(),con);
 			
 			if(insertPost(wrapper.getPost(), con) <=0 ) {
 				throw new KookingException("게시글 작성에 실패했습니다. : " + wrapper.getPost().getNo());
@@ -114,52 +71,16 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 					throw new KookingException("조리과정 등록에 실패했습니다.");
 				}
 			}
-			
 			result = true;
 			con.commit();
 			
-			
 		}finally {
-			//con.commit();
 			con.rollback();
 			DBTestUtil.dbClose(con);
 		}
-
 		return result;
 	}
 
-	
-	
-	
-	/**
-	 * 게시물 등록하기--> 은솔: 성하님과 겹칠 수 있음으로 지금은 레시피 등록으로 생각중  
-	 * @author 박효승
-	 * @date 2021-10-17	
-	 */
-//	private int insertPost(PostDTO post, Connection con) throws Exception{
-//		PreparedStatement ps = null;
-//		int result = 0;
-//		if(post == null || con == null) {
-//			throw new KookingException("게시물 정보가 없습니다.");
-//		}
-//		
-//		String sql = "INSERT INTO POSTS(POST_NO,POST_TYPE_NO,USER_NO,POST_TITLE,POST_CONTENTS,POST_VIEW_COUNTS,POST_DATE) VALUES(?, ?, ?, ?, ?, 0, SYSDATE)";
-//		
-//		try {
-//			ps = con.prepareStatement(sql);
-//			ps.setInt(1, post.getNo());
-//			ps.setInt(2, 1); // TODO : 나중에 카테고리를 받아와서 수정
-//			ps.setInt(3, post.getUserNo());
-//			ps.setString(4, post.getTitle());
-//			ps.setString(5, post.getContents());
-//			result = ps.executeUpdate();
-//		}finally {
-//			DBTestUtil.dbClose(ps);
-//		}
-//		
-//		return result;
-//	}
-	
 	/**
 	 * 레시피 등록하기
 	 * @author 박효승
@@ -171,24 +92,20 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 		if(recipe == null) {
 			throw new KookingException("레시피 정보가 없습니다.");
 		}
-		
-		String sql = "INSERT INTO RECIPES(RECIPES_NO,POST_NO,RECIPES_NAME,RECIPES_CALORIE,RECIPES_COOKING_TIME,RECIPES_NATION,RECIPES_TYPE,RECIPES_LEVEL) VALUES(RECIPE_NO_SEQ.NEXTVAL,POST_NO_SEQ.CURRVAL,?,?,?,?,?,?)";
-		
+		String sql = proFile.getProperty("query.insertRecipe");		
 		try {
 			ps = con.prepareStatement(sql);
-			ps.setString(1, recipe.getName());
-			ps.setInt(2, recipe.getCalorie());
-			ps.setInt(3, recipe.getCookingTime());
-			ps.setString(4, recipe.getNation());
-			ps.setString(5, recipe.getType());
-			ps.setString(6, recipe.getLevel());
+			ps.setString(1, recipe.getName());//레시피이름
+			ps.setInt(2, recipe.getCalorie());//칼로리
+			ps.setInt(3, recipe.getCookingTime());//조리시간
+			ps.setString(4, recipe.getNation());//레시피국가
+			ps.setString(5, recipe.getType());//레시피분류
+			ps.setString(6, recipe.getLevel());//난이도
 			
 			result = ps.executeUpdate();
-			
 		}finally {
 			DBTestUtil.dbClose(ps);
 		}
-		
 		return result;
 	}
 	
@@ -199,8 +116,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 	 */
 	public int[] insertIngredient(List<IngredientDTO> ingredients, Connection con) throws Exception{
 		PreparedStatement ps = null;
-		String sql = "INSERT INTO INGREDIENTS(INGREDIENT_NO,RECIPES_NO,INGREDIENT_NAME,INGREDIENT_SEQ,INGREDIENT_CACTY) "
-				+ "VALUES(INGREDIENTS_NO_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,?,?,?)";
+		String sql = proFile.getProperty("query.insertIngredient");	
 		int result [] = null;
 
 		try {
@@ -214,7 +130,6 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 				ps.clearParameters();
 			}
 			result = ps.executeBatch();//일괄처리
-			
 		} finally {
 			DBTestUtil.dbClose(ps);
 		}
@@ -228,7 +143,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 	 */
 	public int[] insertImage(List<ImageDTO> images, Connection con) throws Exception{
 		PreparedStatement ps = null;
-		String sql = "INSERT INTO IMAGES(IMAGE_NO,POST_NO, IMAGE_URL,IMAGE_SIZE) VALUES(IMAGE_NO_SEQ.NEXTVAL, POST_NO_SEQ.CURRVAL, ?, ?)";
+		String sql = proFile.getProperty("query.insertImage");		
 		//TODO : 이미지 테이블 변경 후 SQL문 수정
 		int result [] = null;
 		
@@ -242,7 +157,6 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 				ps.clearParameters();
 			}
 			result = ps.executeBatch();
-			
 		} finally {
 			DBTestUtil.dbClose(ps);
 		}
@@ -256,105 +170,240 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 	 */
 	public int[] insertProcess(List<ProcessDTO> processes,Connection con) throws Exception{
 		PreparedStatement ps = null;
-		String sql = "INSERT INTO PROCESS(PROCESS_NO,RECIPES_NO,PROCESS_SEQ,PROCESS_DESC,PROCESS_TIP, PROCESS_URL) VALUES(PROCESS_NO_SEQ.NEXTVAL, RECIPE_NO_SEQ.CURRVAL, ?, ?, ?, ?)";
+		String sql = proFile.getProperty("query.insertProcess");		
 		//TODO : IMAGE_URL 컬럼명 변경
 		int result [] = null;
 
 		try {
 			ps = con.prepareStatement(sql);
 			for(ProcessDTO process : processes) {
-				ps.setInt(1, process.getSeq());//조리과정순서
-				ps.setString(2, process.getDesc());//조리과정설명
-				ps.setString(3, process.getTip());//과정팁
-				ps.setString(4, process.getImageUrl());
+				ps.setString(1, process.getImageUrl());//조리과정이미지URL
+				ps.setInt(2, process.getSeq());//조리과정순서
+				ps.setString(3, process.getDesc());//조리과정설명
+				ps.setString(4, process.getTip());//과정팁
 				
 				ps.addBatch();
 				ps.clearParameters();
 			}
 			result = ps.executeBatch();
-			
 		} finally {
 			DBTestUtil.dbClose(ps);
 		}
 		return result;
 	} 
 	
-
+	/**
+	 * 레시피 수정하기 
+	 *  - 1. Post 수정
+	 *  - 2. Recipe 수정
+	 *  - 3. 재료 수정
+	 *  - 4. 조리순서 수정
+	 *  - 5. 이미지 수정
+	 * @author 박은솔
+	 * @date 2021-10-18	
+	 */
 	@Override
-	public int update(RecipeWrapper recipe) throws Exception {
+	public boolean update(RecipeWrapper wrapper) throws Exception {
 		Connection con = null;
-		PreparedStatement ps = null;
-		int result = 0;
-		String SQL = "UPDATE POSTS SET POST_TITLE='테스트 ㅇㅇㅇㅇ' WHERE POST_NO=1;";
-
+		boolean result = false;
+		
+		try {
 			con = DBTestUtil.getConnection();
-			ps = con.prepareStatement(SQL);
-			result = ps.executeUpdate();
-			System.out.println(result);
-
+			con.setAutoCommit(false);
+			
+			if(updatePost(wrapper.getPost(), con) <=0 ) {
+				throw new KookingException("게시글 수정에 실패했습니다. : " + wrapper.getPost().getNo());
+			}
+			
+			if(updateRecipe(wrapper.getRecipe(), con) <= 0) {
+				throw new KookingException("레시피 수정에 실패했습니다. : " + wrapper.getRecipe().getNo());
+			}
+			
+			for(int i : updateIngredient(wrapper.getIngredient(), con)) {
+				if(i<=0) {
+					throw new KookingException("재료 수정에 실패했습니다.");
+				}
+			}
+			
+//			for(int i : updateImage(wrapper.getImages(), con)){
+//				if(i<=0) {
+//					throw new KookingException("이미지 수정에 실패했습니다.");
+//				}
+//			}
+			
+			for(int i : updateProcess(wrapper.getProcess(), con)) {
+				if(i<=0) {
+					throw new KookingException("조리과정 수정에 실패했습니다.");
+				}
+			}
+			result = true;
+			con.commit();
+		}finally {
+			con.rollback();
+			DBTestUtil.dbClose(con);
+		}
 		return result;
 	}
 
+//	public Object updateImage(List<ImageDTO> images, Connection con) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
+	/**
+	 * 레시피 수정하기
+	 * @author 박은솔
+	 * @date 2021-10-18	
+	 */
+	public int updateRecipe(RecipeDTO recipe, Connection con) throws Exception {
+		PreparedStatement ps = null;
+		int result = 0;
+		if(recipe == null) {
+			throw new KookingException("레시피 정보가 없습니다.");
+		}
+		String sql = proFile.getProperty("query.updateRecipe");		
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setString(1, recipe.getName());//레시피이름
+			ps.setInt(2, recipe.getCalorie());//칼로리
+			ps.setInt(3, recipe.getCookingTime());//조리시간
+			ps.setString(4, recipe.getNation());//레시피국가
+			ps.setString(5, recipe.getType());//레시피분류
+			ps.setString(6, recipe.getLevel());//난이도
+			ps.setInt(7, recipe.getPostNo());//게시글번호
+			result = ps.executeUpdate();
+		}finally {
+			DBTestUtil.dbClose(ps);
+		}
+		return result;
+	}
+
+	/**
+	 * 레시피 재료 수정하기 : 재료이름과 재료용량만 수정가능
+	 * @author 박은솔
+	 * @date 2021-10-18
+	 */
+	public int[] updateIngredient(List<IngredientDTO> ingredients, Connection con) throws Exception{
+		PreparedStatement ps = null;
+		String sql = proFile.getProperty("query.updateIngredient");
+		int result [] = null;
+		try {
+			ps = con.prepareStatement(sql);
+			for(IngredientDTO ingredient : ingredients) {
+				ps.setString(1, ingredient.getName());//재료이름
+				ps.setString(2, ingredient.getCacty());//재료용량
+				ps.setInt(3, ingredient.getRecipesNo());//레시피번호
+				ps.setInt(4, ingredient.getSeq());//재료순서
+				
+				ps.addBatch();//일괄처리할 작업에 추가
+				ps.clearParameters();
+			}
+			result = ps.executeBatch();//일괄처리
+		} finally {
+			DBTestUtil.dbClose(ps);
+		}
+		return result;
+	}
+	
+	/**
+	 * 레시피 조리과정 수정하기
+	 * @author 박은솔
+	 * @date 2021-10-18
+	 */
+	public int[] updateProcess(List<ProcessDTO> processes,Connection con) throws Exception{
+		PreparedStatement ps = null;
+		String sql = proFile.getProperty("query.updateProcess");
+		//TODO : IMAGE_URL 컬럼명 변경
+		
+		int result [] = null;
+		try {
+			ps = con.prepareStatement(sql);
+			for(ProcessDTO process : processes) {
+				ps.setString(1, process.getImageUrl());//조리과정이미지URL
+				ps.setString(2, process.getDesc());//조리과정설명
+				ps.setString(3, process.getTip());//과정팁
+				ps.setInt(4, process.getRecipesNo());//RECIPES_NO
+				ps.setInt(5, process.getSeq());//PROCESS_SEQ
+				
+				ps.addBatch();
+				ps.clearParameters();
+			}
+			result = ps.executeBatch();
+		} finally {
+			DBTestUtil.dbClose(ps);
+		}
+		return result;
+	} 
+	
+	//테스트
 	public static void main(String[] args) throws Exception{
 		RecipeDAO recipeDAO = new RecipeDAOImpl();
 		RecipeWrapper rw = new RecipeWrapper();
 		PostDTO post = new PostDTO();
-		post.setUserNo(1);
+		post.setNo(55);
+		post.setTitle("치킨은 프로젝트 끝나고 먹는게 제일 맛있어");
+		post.setContents("지코바처럼 맛있는 맛");
+		post.setUserNo(2);
 		post.setPostTypeNo(1);
-		post.setTitle("커넥션 테스트");
-		post.setContents("치킨 조리방법 설명");
 		rw.setPost(post);
+		System.out.println(post);
 		
 		RecipeDTO recipe = new RecipeDTO();
-		recipe.setName("치킨");
-		recipe.setCalorie(1200);
-		recipe.setCookingTime(20);
+		recipe.setNo(37);
+		recipe.setPostNo(55); 
+		recipe.setName("양념치킨");
+		recipe.setCalorie(800);
+		recipe.setCookingTime(15);
 		recipe.setNation("한식");
 		recipe.setType("튀김/커틀릿");
-		recipe.setLevel("어려움");
+		recipe.setLevel("보통");
 		rw.setRecipe(recipe);
+		System.out.println(recipe);
 		
 		List<IngredientDTO> ingredients = new ArrayList<IngredientDTO>();
 		IngredientDTO i1 = new IngredientDTO();
 		IngredientDTO i2 = new IngredientDTO();
 		IngredientDTO i3 = new IngredientDTO();
-		i1.setName("닭고기");
+		i1.setName("닭");
+		i1.setCacty("1마리");
+		i1.setRecipesNo(37);
 		i1.setSeq(1);
-		i1.setCacty("한마리");
 		
-		i2.setName("튀김가루");
+		i2.setName("치킨무");
+		i2.setCacty("3개");
+		i2.setRecipesNo(37);
 		i2.setSeq(2);
-		i2.setCacty("한봉지");
 		
-		i3.setName("양념장");
+		i3.setName("환상의 비법 양념소스");
+		i3.setCacty("1통");
+		i3.setRecipesNo(37);
 		i3.setSeq(3);
-		i3.setCacty("한통");
 		
 		ingredients.add(i1);
 		ingredients.add(i2);
 		ingredients.add(i3);
 		rw.setIgredients(ingredients);
-		
-		
+		System.out.println(ingredients);
+
 		List<ImageDTO> images = new ArrayList<ImageDTO>();
 		ImageDTO img1 = new ImageDTO();
 		ImageDTO img2 = new ImageDTO();
 		ImageDTO img3 = new ImageDTO();
 		
-		img1.setUrl("https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/c78ab39d260bfa1b8d49d4e612a918f31.png");
+		img1.setUrl("지코바1.jpg");
 		img1.setSize(1000);
 		
-		img2.setUrl("https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/72d6a27278d2eb32b960ceafd49ea2741.png");
+		img2.setUrl("지코바2.jpg");
 		img2.setSize(1000);
 		
-		img3.setUrl("https://recipe1.ezmember.co.kr/cache/recipe/2019/12/25/f527619b4905735ab8215944771c0e081.jpg");
+		img3.setUrl("지코바3.jpg");
 		img3.setSize(1000);
 		
 		images.add(img1);
 		images.add(img2);
 		images.add(img3);
 		rw.setImages(images);
+		System.out.println(images);
 		
 		List<ProcessDTO> process = new ArrayList<ProcessDTO>();
 		ProcessDTO p1 = new ProcessDTO();
@@ -362,36 +411,31 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 		ProcessDTO p3 = new ProcessDTO();
 		
 		p1.setImageUrl("https://recipe1.ezmember.co.kr/cache/recipe/2021/07/15/c78ab39d260bfa1b8d49d4e612a918f31.png");
+		p1.setRecipesNo(37);
 		p1.setSeq(1);
-		p1.setDesc("그릇에 마요네즈, 설탕, 소금, 다진마늘을 넣고 골고루 섞어주세요.");
+		p1.setDesc("손질한 닭을 준비해서 에어프라이어 180℃에서 12분간 구워주세요.");
 		p1.setTip(null);
 		
-		p2.setImageUrl(null);
+		p2.setImageUrl("지코바2.jpg");
+		p2.setRecipesNo(37);
 		p2.setSeq(2);
-		p2.setDesc("소스를 2등분하여 빵에 골고루 펴발라주세요.");
-		p2.setTip("소스가 도톰하게 발려야 겉은 바삭하고 속은 쫀득해요. 식빵도 좋고 바게트빵도 좋아요");
+		p2.setDesc("치킨무를 먹기 위해 포크를 준비");
+		p2.setTip("치킨무는 차가울 수록 더 맛있어요.");
 		
-		p3.setImageUrl("https://recipe1.ezmember.co.kr/cache/recipe/2019/12/25/f527619b4905735ab8215944771c0e081.jpg");
+		p3.setImageUrl("지코바3.jpg");
+		p3.setRecipesNo(37);
 		p3.setSeq(3);
-		p3.setDesc("에어프라이어에 넣고 180℃에서 8분간 구워주세요.");
+		p3.setDesc("비법소스를 맛있게 부어줍니다.");
 		p3.setTip("위가 살짝 노릇할정도만 구워야 속이 쫀득합니다.");
 		
 		process.add(p1);
 		process.add(p2);
 		process.add(p3);
 		rw.setProcess(process);
+		System.out.println(process);
 		
-		recipeDAO.insert(rw);
+		recipeDAO.update(rw);
 
 	}
-
-
-	@Override
-	public int delete(int postNo, int userNo) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
 
 }

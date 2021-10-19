@@ -19,12 +19,10 @@ public interface RecipeDAO {
 	 * 레시피번호에 해당하는 레코드 수정
 	 * @return : 1-수정성공 , 0 - 수정실패
 	 */
-	int update(RecipeWrapper recipe) throws Exception;
+	boolean update(RecipeWrapper recipe) throws Exception;
 	
-	/**
-	 * 레시피번호에 해당하는 레코드 삭제
-	 * @return : 1-삭제성공 , 0 - 삭제실패
-	 */
-	int delete(int postNo, int userNo) throws Exception;
+	
+	//레시피 삭제  : 게시글번호에 해당하는 레코드 삭제시 레시피 삭제됨.
+
 
 }

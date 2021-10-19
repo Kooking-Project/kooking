@@ -43,8 +43,9 @@ public interface RecipeSelectDAO {
 	 * @param postNo
 	 * @param score
 	 * @return
+	 * @throws Exception 
 	 */
-	int addRecipeScore(int postNo, int userNo, int score);
+	int addRecipeScore(int postNo, int userNo, int score) throws Exception;
 	
 	
 

@@ -9,6 +9,7 @@ import com.kooking.dto.PostDTO;
 import com.kooking.dto.ProcessDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.RecommendDTO;
+import com.kooking.paging.Pagenation;
 
 public class RecipeWrapper {
 	private PostDTO post;
@@ -17,14 +18,15 @@ public class RecipeWrapper {
 	private List<IngredientDTO> ingredient;
 	private List<ImageDTO> images;
 	private List<CommentDTO> comments;
-	private List<RecommendDTO> recommends;
-	
+	private Pagenation pagenation;
+
 	public RecipeWrapper() {
 		super();
 	}
-	
+
+
 	public RecipeWrapper(PostDTO post, RecipeDTO recipe, List<ProcessDTO> process, List<IngredientDTO> ingredient,
-			List<ImageDTO> images, List<CommentDTO> comments, List<RecommendDTO> recommends) {
+			List<ImageDTO> images, List<CommentDTO> comments, Pagenation pagenation) {
 		super();
 		this.post = post;
 		this.recipe = recipe;
@@ -32,48 +34,70 @@ public class RecipeWrapper {
 		this.ingredient = ingredient;
 		this.images = images;
 		this.comments = comments;
+		this.pagenation = pagenation;
 	}
 
 	public PostDTO getPost() {
 		return post;
 	}
+
 	public void setPost(PostDTO post) {
 		this.post = post;
 	}
+
 	public RecipeDTO getRecipe() {
 		return recipe;
 	}
+
 	public void setRecipe(RecipeDTO recipe) {
 		this.recipe = recipe;
 	}
+
 	public List<ProcessDTO> getProcess() {
 		return process;
 	}
+
 	public void setProcess(List<ProcessDTO> process) {
 		this.process = process;
 	}
+
 	public List<IngredientDTO> getIngredient() {
 		return ingredient;
 	}
-	public void setIgredients(List<IngredientDTO> ingredient) {
+
+	public void setIngredient(List<IngredientDTO> ingredient) {
 		this.ingredient = ingredient;
 	}
+
 	public List<ImageDTO> getImages() {
 		return images;
 	}
+
 	public void setImages(List<ImageDTO> images) {
 		this.images = images;
 	}
+
 	public List<CommentDTO> getComments() {
 		return comments;
 	}
+
 	public void setComments(List<CommentDTO> comments) {
 		this.comments = comments;
 	}
-	public List<RecommendDTO> getRecommends() {
-		return recommends;
+
+	public Pagenation getPagenation() {
+		return pagenation;
 	}
-	public void setRecommends(List<RecommendDTO> recommends) {
-		this.recommends = recommends;
+
+	public void setPagenation(Pagenation pagenation) {
+		this.pagenation = pagenation;
 	}
+
+	@Override
+	public String toString() {
+		return "RecipeWrapper [post=" + post + ", recipe=" + recipe + ", process=" + process + ", ingredient="
+				+ ingredient + ", images=" + images + ", comments=" + comments + ", pagenation=" + pagenation + "]";
+	}
+	
+	
 }
