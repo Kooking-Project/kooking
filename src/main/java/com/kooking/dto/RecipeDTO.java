@@ -16,6 +16,7 @@ public class RecipeDTO {
 	private String nation;	//레시피 국가
 	private String type;	//레시피 분류
 	private String level;	//레시피 조리난이도
+	private double score; //레시피 점수
 	
 	public RecipeDTO() {}
 
@@ -95,11 +96,19 @@ public class RecipeDTO {
 	public void setLevel(String level) {
 		this.level = level;
 	}
+	
+	public double getScore() {
+		return score;
+	}
+	
+	public void setScore(double score) {
+		this.score = score;
+	}
 
 	@Override
 	public String toString() {
 		return "RecipeDTO [no=" + no + ", name=" + name + ", postNo=" + postNo + ", calorie=" + calorie
-				+ ", cookingTime=" + cookingTime + ", nation=" + nation + ", type=" + type + ", level=" + level + "]";
+				+ ", cookingTime=" + cookingTime + ", nation=" + nation + ", type=" + type + ", level=" + level +  ", score=" + score +"]";
 	}
 
 	

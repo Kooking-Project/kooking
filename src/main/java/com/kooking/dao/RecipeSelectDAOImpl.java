@@ -18,8 +18,16 @@ import com.kooking.exception.KookingException;
 import com.kooking.paging.PageCnt;
 import com.kooking.util.DBTestUtil;
 
-public class RecipeSelectDAOImpl implements RecipeSelectDAO {
+public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
+	private BoardDAO boardDao = new BoardDAO();
 
+	/**
+	 * 단일 레시피글의 조회 Post, Recipe를 객체로 댓글, 재료, 이미지, 조리순서의 List가 담겨있는 Wrapper를 리턴한다.
+	 * 
+	 * @param postno - 조회할 게시물번호
+	 * @return 각각의 자료가 담겨있는 Wrapper DTO
+	 * @throws Exception
+	 */
 	@Override
 	public RecipeWrapper search(int postNo) throws Exception {
 		Connection con = null;
@@ -37,9 +45,11 @@ public class RecipeSelectDAOImpl implements RecipeSelectDAO {
 
 			int recipeNo = rw.getRecipe().getNo();
 
+			rw.getRecipe().setScore(getScore(postNo, con));
 			rw.setIgredients(getIngredients(recipeNo, con));
 			rw.setProcess(getProcesses(recipeNo, con));
 			rw.setImages(getPostImages(postNo, con));
+			rw.setComments(boardDao.getComments(postNo, con));
 
 		} finally {
 			DBTestUtil.dbClose(con);
@@ -188,14 +198,15 @@ public class RecipeSelectDAOImpl implements RecipeSelectDAO {
 
 	/**
 	 * 게시판에 등록된 이미지 목록 리스트를 가져온다.
+	 * 
 	 * @param con      - 유지할 Connection 정보, null이라면 Connection을 새로 생성함.
 	 * @param recipeNo - 검색할 게시판 번호
 	 * @return 이미지 리스트
 	 * @throws Exception
 	 */
-	private List<ImageDTO> getPostImages(int postNo, Connection con) throws Exception{
+	private List<ImageDTO> getPostImages(int postNo, Connection con) throws Exception {
 		boolean isConnected = (con != null);
-		if(!isConnected) {
+		if (!isConnected) {
 			con = DBTestUtil.getConnection();
 		}
 		PreparedStatement ps = null;
@@ -206,26 +217,127 @@ public class RecipeSelectDAOImpl implements RecipeSelectDAO {
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, postNo);
 			rs = ps.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				ImageDTO img = new ImageDTO();
 				img.setNo(rs.getInt(1));
 				img.setUrl(rs.getString(2));
 				img.setPostNo(rs.getInt(3));
 				img.setSize(rs.getInt(4));
-				
+
 				images.add(img);
 			}
-			
-		}finally {
+
+		} finally {
 			if (isConnected) {
 				DBTestUtil.dbClose(ps, rs);
 			} else {
 				DBTestUtil.dbClose(con, ps, rs);
 			}
 		}
-		
+
 		return images;
+	}
+
+	/**
+	 * 레시피의 평가(recommend)의 평균을 구해오는 메소드
+	 * 
+	 * @param postNo - 평균을 구할 레시피의 postNo
+	 * @param con    - 유지할 커넥션
+	 * @return 해당 레시피의 평가 점수의 평균
+	 * @throws Exception
+	 */
+	public double getScore(int postNo, Connection con) throws Exception {
+		boolean isConnected = (con != null);
+		if (!isConnected) {
+			con = DBTestUtil.getConnection();
+		}
+		double result = 0.0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			con = DBTestUtil.getConnection();
+			ps = con.prepareStatement("SELECT AVG(RECOMMEND_SCORE) FROM RECOMMENDS WHERE POST_NO = ?");
+			ps.setInt(1, postNo);
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				result = rs.getDouble(1);
+			}
+
+		} finally {
+			if (isConnected) {
+				DBTestUtil.dbClose(ps, rs);
+			} else {
+				DBTestUtil.dbClose(con, ps, rs);
+			}
+		}
+
+		return result;
+	}
+
+	public List<RecipeWrapper> getRecipeList(int pageNo, int pageSize) throws Exception{
+		Connection con =null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		//현재 페이지 번호
+		//보여줄 게시글 수
+		
+		//리스트
+		//총 페이지 수
+
+		
+		
+		List<RecipeWrapper> rw = new ArrayList<RecipeWrapper>();
+		int count = getTotalRecipesNum(con);
+		pageSize = (pageSize == 0 ? 20 : pageSize);
+		int totalPage = count%pageSize==0 ? count/pageSize : (count/pageSize)+1;
+		String sql = "SELECT * FROM (SELECT A.*, ROWNUM RNUM FROM VIEW_RECIPE_LIST A) WHERE RNUM BETWEEN ? AND ? ORDER BY POST_DATE DESC";
+		
+		try {
+			con = DBTestUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, pageNo*pageSize);
+			ps.setInt(2, (pageNo-1)*pageSize +1);
+			
+		}finally {
+			
+		}
+		
+		return null;
+	}
+
+	/**
+	 * 레시피의 전체 개수를 가져오는 메소드
+	 * @param con - 유지할 커넥션
+	 * @return 등록된 레시피의 총 개수
+	 * @throws Exception
+	 */
+	public int getTotalRecipesNum(Connection con) throws Exception {
+		boolean isConnected = (con != null);
+		if (!isConnected) {
+			con = DBTestUtil.getConnection();
+		}
+		int result = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = con.prepareStatement("SELECT COUNT(*) FROM VIEW_RECIPE_LIST");
+			rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} finally {
+			if (isConnected) {
+				DBTestUtil.dbClose(ps, rs);
+			} else {
+				DBTestUtil.dbClose(con, ps, rs);
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -241,7 +353,7 @@ public class RecipeSelectDAOImpl implements RecipeSelectDAO {
 	}
 
 	@Override
-	public int addRecipeScore(int postNo, int userNo, int score) throws Exception{
+	public int addRecipeScore(int postNo, int userNo, int score) throws Exception {
 		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
@@ -252,21 +364,18 @@ public class RecipeSelectDAOImpl implements RecipeSelectDAO {
 			ps.setInt(1, postNo);
 			ps.setInt(2, userNo);
 			ps.setInt(3, score);
-			
+
 			result = ps.executeUpdate();
-		}finally {
+		} finally {
 			DBTestUtil.dbClose(con, ps);
 		}
 		return result;
 	}
-	
-	
-	
 
 	public static void main(String[] args) throws Exception {
 		RecipeSelectDAOImpl dao = new RecipeSelectDAOImpl();
-		
-		System.out.println(dao.search(50));
+
+		System.out.println(dao.search(10).getRecipe().getScore());
 	}
 
 }
