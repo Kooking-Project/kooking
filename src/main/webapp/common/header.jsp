@@ -38,7 +38,14 @@
 
 <script src="${pageContext.request.contextPath}/js/plugins/plugins.js"></script>
 
+<style type="text/css">
+.loginUser{
 
+	font-size: 13px;
+	font-weight: bold;
+}
+
+</style>
 
 </head>
 
@@ -97,7 +104,7 @@
 								<a href="${pageContext.request.contextPath}/user/register.jsp">회원가입</a>
 							</c:when>
 							<c:otherwise>
-								<span>${loginUser}!</span>
+								<span class="loginUser">${loginUser}님 환영합니다!</span>
 								<a href="${pageContext.request.contextPath}/front?key=user&methodName=logout">로그아웃</a>
 							</c:otherwise>
 						</c:choose>
@@ -116,8 +123,8 @@
 						id="deliciousNav">
 
 						<!-- Logo -->
-						<a class="nav-brand" href="${pageContext.request.contextPath}/index.jsp"><img
-							src="${pageContext.request.contextPath}/user//img/core-img/logo.png" alt=""></a>
+						<a class="nav-brand" href="${pageContext.request.contextPath}/index.jsp">
+						<img src="${pageContext.request.contextPath}/img/core-img/logo.png" alt=""></a>
 
 						<!-- Navbar Toggler -->
 						<div class="classy-navbar-toggler">
