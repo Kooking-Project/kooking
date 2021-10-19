@@ -49,7 +49,7 @@ public interface PostDAO{
 	/**
 	 * 게시판 전체 게시글 조회
 	 */
-	public List<PostDTO> selectPost(String userNo) throws SQLException;
+	public List<PostDTO> selectPost() throws Exception;
 	
 	/**
 	 * 게시판 게시글 날짜별 조회(최신순)

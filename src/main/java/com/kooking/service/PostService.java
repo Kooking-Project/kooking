@@ -25,11 +25,6 @@ public interface PostService {
 	public int deletePost(int userNo, int postNo, Connection con) throws Exception;
 	
 	/**
-	 * 댓글 존재 여부 확인 - 댓글부터 지워야 게시글이 지워짐.. - cascade를 사용해서 없앨 예정
-	 */
-	//public int deleteCommentCheck(int userNo, int postNo) throws SQLException;
-	
-	/**
 	 * 게시판 클릭했을 때 해당 게시물 하나보여주기 - 비회원, 회원 공통 여기서 조회수 체크
 	 */
 	public PostDTO selectPostDetail(int postNo) throws Exception;
