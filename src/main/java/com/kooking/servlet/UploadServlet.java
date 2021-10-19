@@ -38,24 +38,11 @@ public class UploadServlet extends HttpServlet {
 		MultipartRequest m = new MultipartRequest(request, path, maxSize, encoding, new DefaultFileRenamePolicy());
 
 		String userNo = m.getParameter("userNo");
-		String name = m.getParameter("name");
 		String filesystemName = m.getFilesystemName("file");
 		long fileSize = m.getFile("file").length();
 		
-		UserDTO user = new UserDTO(Integer.parseInt(userNo), ("${path}/save/"+m.getFilesystemName("file")) );
-		
-		try {
-			userService.profileImageUpdate(user);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		System.out.println("name : " + name);
-		System.out.println("filesystemName : " + filesystemName);
-		System.out.println("fileSize : " + fileSize);
-
 		Map<String, Object> map = new HashMap<>();
-		map.put("name", name);
+		map.put("userNo", userNo);
 		map.put("filesystemName", filesystemName);
 		map.put("fileSize", fileSize);
 		map.put("path", path);

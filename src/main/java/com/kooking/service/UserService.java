@@ -22,15 +22,13 @@ public interface UserService {
 	 */
 	void insert(UserDTO userDTO) throws SQLException, KookingException;
 
-	/**
-	 * 회원 프로필 설정
-	 */
-	void profileImageUpdate(UserDTO userDTO) throws Exception;
 
 	/**
-	 * 회원 정보 수정
+	 * 회원 정보 수정 + 회원 프로필 설정
+	 * 	method가 두개인 이유는 비밀번호를 바꾸거나 안바꾸거나 때문
 	 */
 	void userUpdate(UserDTO userDTO) throws Exception;
+	void userUpdate(UserDTO userDTO, String pwd) throws Exception;
 
 	/**
 	 * 본인이 작성한 게시글 확인
@@ -56,5 +54,10 @@ public interface UserService {
 	 * 즐겨찾기 삭제
 	 * */
 	void bookmarkDelete(int userNo, int postNo) throws Exception;
+	
+	/**
+	 * 회원 탈퇴(상태변경 탈퇴=2)
+	 * */
+	void changeUserStatus(UserDTO user) throws Exception;
 
 }

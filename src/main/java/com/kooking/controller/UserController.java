@@ -94,12 +94,19 @@ public class UserController implements Controller {
 	public ModelAndView userUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String no = request.getParameter("no");
 		String pwd = request.getParameter("pwd");
+		String newPwd = request.getParameter("newPwd");
 		String nickName = request.getParameter("nickName");
 		String gender = request.getParameter("gender");
+		String filesystemName = request.getParameter("file");
 
-		UserDTO userDTO = new UserDTO(Integer.parseInt(no), pwd, nickName, Integer.parseInt(gender));
-
-		userSerivce.userUpdate(userDTO);
+		UserDTO userDTO = null;
+		if(newPwd==null) {
+			userDTO = new UserDTO(Integer.parseInt(no), pwd, nickName, Integer.parseInt(gender), filesystemName);
+			userSerivce.userUpdate(userDTO);
+		}else {
+			userDTO = new UserDTO(Integer.parseInt(no), newPwd, nickName, Integer.parseInt(gender), filesystemName);
+			userSerivce.userUpdate(userDTO,pwd);
+		}
 
 		return new ModelAndView("adminTest.jsp", true);
 	}
@@ -165,6 +172,20 @@ public class UserController implements Controller {
 
 		return new ModelAndView("adminTest.jsp");
 	}
+	
+	/**
+	 * 회원 탈퇴 (상태 2번으로 변경)
+	 * */
+	public ModelAndView changeUserStatus(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int userNo = Integer.parseInt(request.getParameter("userNo"));	//변경할 유저의 활동상태와 유저 no 받기
+		int userStatus = Integer.parseInt(request.getParameter("userStatus"));
+		UserDTO userDTO = new UserDTO(userNo,userStatus);
+		
+		userSerivce.changeUserStatus(userDTO);
+		
+		return new ModelAndView("adminTest.jsp", true);
+	}
+	
 
 	/**
 	 * 프로필 설정(프로필 사진 업로드)

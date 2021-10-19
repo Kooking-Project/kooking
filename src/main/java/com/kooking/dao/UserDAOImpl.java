@@ -79,27 +79,6 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 
-
-
-	@Override
-	public int profileImageUpdate(UserDTO user) throws SQLException {
-		Connection con=null;
-		PreparedStatement ps =null;
-		String sql=proFile.getProperty("query.profileImageUpdate");
-		int result = 0;
-		try {
-			con = DbUtil.getConnection();
-			ps = con.prepareStatement(sql);
-			ps.setString(1, user.getProfileImg());
-			ps.setInt(2, user.getNo());
-			
-			result = ps.executeUpdate();
-		}finally {
-			DbUtil.dbClose(ps, con);
-		}
-		return result;
-	}
-
 	@Override
 	public int userUpdate(UserDTO user) throws SQLException {
 		Connection con=null;
@@ -112,7 +91,8 @@ public class UserDAOImpl implements UserDAO {
 			ps.setString(1, user.getPwd());
 			ps.setString(2, user.getNickName());
 			ps.setInt(3, user.getGender());
-			ps.setInt(4, user.getNo());
+			ps.setString(4, user.getProfileImg());
+			ps.setInt(5, user.getNo());
 			
 			result = ps.executeUpdate();
 		}finally {

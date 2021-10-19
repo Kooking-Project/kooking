@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.kooking.dao.AdminDAO;
+import com.kooking.dao.AdminDAOImpl;
 import com.kooking.dao.UserDAO;
 import com.kooking.dao.UserDAOImpl;
 import com.kooking.dto.BookmarkDTO;
@@ -15,6 +17,7 @@ import com.kooking.exception.KookingException;
 
 public class UserServiceImpl implements UserService {
 	private UserDAO userDao = new UserDAOImpl();
+	private AdminDAO adminDao = new AdminDAOImpl();
 
 	@Override
 	public UserDTO loginCheck(String id, String pwd) throws SQLException, KookingException {
@@ -36,13 +39,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void profileImageUpdate(UserDTO userDTO) throws Exception {
-		if( userDao.profileImageUpdate(userDTO) == 0 )
-			throw new KookingException("회원 프로필이 수정되지 않았습니다.");
-	}
-	
-	@Override
 	public void userUpdate(UserDTO userDTO) throws Exception {
+		if(userDao.loginCheck(userDTO.getId(), userDTO.getPwd())==null)
+			throw new KookingException("비밀번호가 틀렸습니다.");
+		if( userDao.userUpdate(userDTO) == 0 )
+			throw new KookingException("회원정보가 수정되지 않았습니다.");
+	}
+	@Override
+	public void userUpdate(UserDTO userDTO, String pwd) throws Exception {
+		if(userDao.loginCheck(userDTO.getId(), pwd)==null)
+			throw new KookingException("이전 비밀번호가 틀렸습니다.");
 		if( userDao.userUpdate(userDTO) == 0 )
 			throw new KookingException("회원정보가 수정되지 않았습니다.");
 	}
@@ -83,6 +89,12 @@ public class UserServiceImpl implements UserService {
 			throw new KookingException("즐겨찾기 삭제가 실패했습니다.");
 	}
 
-
-
+	@Override
+	public void changeUserStatus(UserDTO user) throws Exception {
+		if(user.getStatus()!=2)
+			throw new KookingException("입력된 값이 잘못 되었습니다.");
+		if(adminDao.changeUserStatus(user)==0)
+			throw new KookingException("탈퇴 되지 않았습니다.");
+		
+	}
 }

@@ -13,14 +13,8 @@ import com.kooking.dto.UserDTO;
 
 public interface UserDAO {
 	
-	
 	/**
-	 * 프로필 설정
-	 * */
-	int profileImageUpdate(UserDTO user) throws SQLException;
-	
-	/**
-	 * 회원 정보 수정
+	 * 회원 정보 수정 + 프로필 설정
 	 * */
 	int userUpdate(UserDTO user) throws SQLException;
 	

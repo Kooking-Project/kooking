@@ -24,7 +24,7 @@ public class UserDTO {
 		this.pwd = pwd;
 	}
 	
-	public UserDTO(String id, String nickName, String pwd, int gender) {
+	public UserDTO(String id, String nickName, String pwd, int gender ) {
 		super();
 		this.id = id;
 		this.nickName = nickName;
@@ -43,12 +43,13 @@ public class UserDTO {
 		this.profileImg = profileImg;
 	}
 	
-	public UserDTO(int no, String pwd, String nickName, int gender) {
+	public UserDTO(int no, String pwd, String nickName, int gender,String profileImg) {
 		super();
 		this.no = no;
 		this.pwd = pwd;
 		this.nickName = nickName;
 		this.gender = gender;
+		this.profileImg = profileImg;
 	}
 	
 	public UserDTO(int no, String id, String pwd, String nickName, int gender, String enrollDate, String profileImg,
