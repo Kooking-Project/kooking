@@ -92,7 +92,7 @@ public class UserController implements Controller {
 		case "2":
 			gender = "여자";
 			break;
-		case "3":
+		case "0":
 			gender = "비공개";
 			break;
 
