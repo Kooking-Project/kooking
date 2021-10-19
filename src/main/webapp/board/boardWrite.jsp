@@ -155,31 +155,21 @@ text-align: center;
 function checkValid() {
     var f = window.document.boardForm;
 		
-	if ( f.boardCategory.value == "") {
+	if ( f.type.value == "") {
 	    alert( "게시글 카테고리를 선택해 주세요." );
 	    f.boardCategory.focus();
 		return false;
     }
-	if ( f.model_name.value == "" ) {
-		alert( "모델이름을 입력해 주세요." );
-		f.model_name.focus();
+	if ( f.title.value == "" ) {
+		alert( "제목을 입력해 주세요." );
+		f.title.focus();
 		return false;
 	}
-	if ( f.price.value == "" ) {
-		alert( "가격을 입력해 주세요." );
-		f.price.focus();
+	if ( f.content.value == "" ) {
+		alert( "내용을 입력해 주세요." );
+		f.content.focus();
 		return false;
 	}
-	if ( f.description.value == "" ) {
-        alert( "상품 설명을 입력해 주세요." );
-        f.description.focus();
-        return false;
-    }
-	if ( f.password.value == "" ) {
-        alert( "비밀번호를 입력해 주세요" );
-        f.password.focus();
-        return false;
-    }
 	
     return true;
 }
@@ -212,7 +202,7 @@ function checkValid() {
     <!-- ##### Breadcumb Area End ##### -->
     
     <!-- BoardContent Start -->
-    <form name="boardForm" method="post" action="${path}/front?key=post&methodName=insertPost" 
+    <form name="boardForm" method="post" action="${pageContext.request.contextPath}/front?key=post&methodName=insertPost" 
   onSubmit='return checkValid()' enctype="multipart/form-data">
     <p>
     <div class="wrapper" style="text-align:center">
@@ -226,13 +216,14 @@ function checkValid() {
      	    <td>
            	 <select class="select" name="type" id="boardCategory">
              	<option value="" disabled selected>선택</option>
-           	   	<option value="tip">TIP</option>
-          	    <option value="qna">Q&A</option>
-          	    <option value="aftermath">후기</option>
+           	   	<option value="2">TIP</option>
+        	   	<option value="3">후기</option>
+          	    <option value="4">Q&A</option>
+
          	 </select>
          	 </td>
             <th class="success col-md-3">작성자</th>
-            <td><input type="hidden" name="user" value="${loginUser.idNo}" disabled>${loginUser}</td>
+            <td><input type="hidden" name="user" value="${loginNickName}" disabled>${loginNickName}</td>
         </tr>         
         <tr>
             <th class="success">제목</th>
