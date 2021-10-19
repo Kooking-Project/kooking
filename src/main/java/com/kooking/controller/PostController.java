@@ -104,12 +104,7 @@ public class PostController implements Controller {
 
 		int postNo = Integer.parseInt(request.getParameter("postNo")); // 게시물 번호
 
-		// int no, int postTypeNo, int userNo, String title, String contents, int
-		// counts, String date, String userNicname
-
-		PostDTO dto = new PostDTO(postNo, 0/* 사용자 번호 */, 2 /* userNo */ , null, null, 0, "", "");
-
-		int result = postService.updatePost(dto);
+		int result = postService.deletePost(postNo, null);
 
 		// 결과에 따른 성공, 실패 나누기 if (result != 0) { // 성공 페이지로 이동? 아니면 팝업창?
 		if (result != 0) {

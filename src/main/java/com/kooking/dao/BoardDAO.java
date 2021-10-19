@@ -90,7 +90,7 @@ public class BoardDAO {
 		try {
 			String sql = "DELETE FROM POSTS WHERE POST_NO=?";	
 			st = con.prepareStatement(sql);
-			st.setInt(2, postNo);
+			st.setInt(1, postNo);
 			
 			result = st.executeUpdate();
 		}finally {
