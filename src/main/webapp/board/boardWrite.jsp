@@ -222,37 +222,35 @@ function checkValid() {
     <div class="table table-responsive">
         <table class="table">     
         <tr>
-            <th class="success">카테고리</th>
+            <th class="success col-md-3">카테고리</th>
      	    <td>
-           	 <select class="select" name="boardCategory" id="boardCategory">
+           	 <select class="select" name="type" id="boardCategory">
              	<option value="" disabled selected>선택</option>
            	   	<option value="tip">TIP</option>
           	    <option value="qna">Q&A</option>
           	    <option value="aftermath">후기</option>
          	 </select>
          	 </td>
-            <th class="success">작성자</th>
-            <td><input type="hidden" name="idNo" value="${loginUser.idNo}" disabled>${loginUser}</td>
-            <th class="success">작성일</th>
-            <td><input type="hidden" name="currentDate" value="${loginUser.idNo}" disabled>${loginUser}</td>
+            <th class="success col-md-3">작성자</th>
+            <td><input type="hidden" name="user" value="${loginUser.idNo}" disabled>${loginUser}</td>
         </tr>         
         <tr>
             <th class="success">제목</th>
             <td colspan="6">
-            	<textarea class="form-control" id="messageTitle" placeholder="제목을 입력해주세요."></textarea>
+            	<textarea class="form-control" id="title" placeholder="제목을 입력해주세요."></textarea>
             </td>
         </tr>
          
         <tr>
             <th class="success">글 내용</th>
             <td colspan="6">
-            	<textarea class="form-control" id="messageContent" placeholder="내용을 입력해주세요."></textarea>
+            	<textarea class="form-control" id="content" placeholder="내용을 입력해주세요."></textarea>
            	</td>
         </tr>
          
         <tr>
             <td colspan="6" class="text-center">
-  				<input type="button" class="btn btn-warning" value="확인" onclick="location.href='BoardUpdateForm.jsp?num='">          
+  				<input type=submit class="btn btn-warning" value=작성>       
 				<input type="button" class="btn btn-danger" value="취소" onclick="javascript:history.back()">
             </td>
         </tr>
