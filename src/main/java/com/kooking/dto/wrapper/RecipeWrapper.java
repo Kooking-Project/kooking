@@ -18,15 +18,13 @@ public class RecipeWrapper {
 	private List<IngredientDTO> ingredient;
 	private List<ImageDTO> images;
 	private List<CommentDTO> comments;
-	private Pagenation pagenation;
 
 	public RecipeWrapper() {
 		super();
 	}
 
-
 	public RecipeWrapper(PostDTO post, RecipeDTO recipe, List<ProcessDTO> process, List<IngredientDTO> ingredient,
-			List<ImageDTO> images, List<CommentDTO> comments, Pagenation pagenation) {
+			List<ImageDTO> images, List<CommentDTO> comments) {
 		super();
 		this.post = post;
 		this.recipe = recipe;
@@ -34,7 +32,6 @@ public class RecipeWrapper {
 		this.ingredient = ingredient;
 		this.images = images;
 		this.comments = comments;
-		this.pagenation = pagenation;
 	}
 
 	public PostDTO getPost() {
@@ -85,19 +82,5 @@ public class RecipeWrapper {
 		this.comments = comments;
 	}
 
-	public Pagenation getPagenation() {
-		return pagenation;
-	}
-
-	public void setPagenation(Pagenation pagenation) {
-		this.pagenation = pagenation;
-	}
-
-	@Override
-	public String toString() {
-		return "RecipeWrapper [post=" + post + ", recipe=" + recipe + ", process=" + process + ", ingredient="
-				+ ingredient + ", images=" + images + ", comments=" + comments + ", pagenation=" + pagenation + "]";
-	}
-	
 	
 }

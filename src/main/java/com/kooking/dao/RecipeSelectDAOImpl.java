@@ -15,7 +15,7 @@ import com.kooking.dto.ProcessDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.exception.KookingException;
-import com.kooking.paging.PageCnt;
+import com.kooking.paging.Pagenation;
 import com.kooking.util.DBTestUtil;
 
 public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
@@ -46,7 +46,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 			int recipeNo = rw.getRecipe().getNo();
 
 			rw.getRecipe().setScore(getScore(postNo, con));
-			rw.setIgredients(getIngredients(recipeNo, con));
+			rw.setIngredient(getIngredients(recipeNo, con));
 			rw.setProcess(getProcesses(recipeNo, con));
 			rw.setImages(getPostImages(postNo, con));
 			rw.setComments(boardDao.getComments(postNo, con));
@@ -277,36 +277,72 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 		return result;
 	}
 
-	public List<RecipeWrapper> getRecipeList(int pageNo, int pageSize) throws Exception{
+	public List<RecipeDTO> getRecipeList(Pagenation page) throws Exception{
 		Connection con =null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		//현재 페이지 번호
-		//보여줄 게시글 수
 		
-		//리스트
-		//총 페이지 수
-
-		
-		
-		List<RecipeWrapper> rw = new ArrayList<RecipeWrapper>();
+		List<RecipeDTO> recipes = new ArrayList<RecipeDTO>();
 		int count = getTotalRecipesNum(con);
-		pageSize = (pageSize == 0 ? 20 : pageSize);
-		int totalPage = count%pageSize==0 ? count/pageSize : (count/pageSize)+1;
+		int totalPage = (int) Math.ceil(page.getPageSize()/count);
 		String sql = "SELECT * FROM (SELECT A.*, ROWNUM RNUM FROM VIEW_RECIPE_LIST A) WHERE RNUM BETWEEN ? AND ? ORDER BY POST_DATE DESC";
 		
 		try {
 			con = DBTestUtil.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setInt(1, pageNo*pageSize);
-			ps.setInt(2, (pageNo-1)*pageSize +1);
+			ps.setInt(1, (page.getPageNo()-1)*page.getPageSize() +1);
+			ps.setInt(2, page.getPageNo()*page.getPageSize());
+			rs = ps.executeQuery();
+			/*
+			 * 	POST_NO              NOT NULL NUMBER(20)     1
+				POST_TYPE_NO         NOT NULL NUMBER(5)      2
+				USER_NO              NOT NULL NUMBER(10)     3
+				USER_NICNAME         NOT NULL VARCHAR2(60)   4
+				POST_TITLE           NOT NULL VARCHAR2(150)  5
+				POST_CONTENTS        NOT NULL VARCHAR2(4000) 6
+				POST_VIEW_COUNTS     NOT NULL NUMBER(10)     7
+				POST_DATE            NOT NULL DATE           8
+				RECIPES_NO           NOT NULL NUMBER(20)     9
+				RECIPES_NAME         NOT NULL VARCHAR2(100)  10
+				RECIPES_CALORIE               NUMBER(10)     11
+				RECIPES_COOKING_TIME          NUMBER(8)      12
+				RECIPES_NATION                VARCHAR2(30)   13
+				RECIPES_TYPE                  VARCHAR2(30)   14
+				RECIPES_LEVEL                 VARCHAR2(30)   15
+				SCORE                         NUMBER         16
+
+			 */
+			while(rs.next()) {
+				PostDTO post = new PostDTO();
+				post.setNo(rs.getInt(1));
+				post.setPostTypeNo(rs.getInt(2));
+				post.setUserNo(rs.getInt(3));
+				post.setUserNicname(rs.getString(4));
+				post.setTitle(rs.getString(5));
+				post.setContents(rs.getString(6));
+				post.setCounts(rs.getInt(7));
+				post.setDate(rs.getString(8));
+				
+				RecipeDTO recipe = new RecipeDTO();
+				recipe.setNo(rs.getInt(9));
+				recipe.setName(rs.getString(10));
+				recipe.setCalorie(rs.getInt(11));
+				recipe.setCookingTime(rs.getInt(12));
+				recipe.setNation(rs.getString(13));
+				recipe.setType(rs.getString(14));
+				recipe.setLevel(rs.getString(15));
+				recipe.setScore(rs.getDouble(16));
+				recipe.setPost(post);
+				
+				recipes.add(recipe);
+			}
 			
 		}finally {
 			
 		}
 		
-		return null;
+		return recipes;
 	}
 
 	/**
@@ -341,15 +377,121 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 	}
 
 	@Override
-	public List<RecipeWrapper> searchQueryAll(PostDTO postDTO, RecipeDTO recipe, PageCnt cnt) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<RecipeDTO> searchQuery(RecipeDTO recipe, Pagenation page) throws Exception{
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<RecipeDTO> recipes = new ArrayList<RecipeDTO>();
+		try {
+			con = DBTestUtil.getConnection();
+			ps = parseSearchQuery(recipe, con);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				PostDTO post = new PostDTO();
+				post.setNo(rs.getInt(1));
+				post.setPostTypeNo(rs.getInt(2));
+				post.setUserNo(rs.getInt(3));
+				post.setUserNicname(rs.getString(4));
+				post.setTitle(rs.getString(5));
+				post.setContents(rs.getString(6));
+				post.setCounts(rs.getInt(7));
+				post.setDate(rs.getString(8));
+				
+				RecipeDTO recipeDTO = new RecipeDTO();
+				recipeDTO.setNo(rs.getInt(9));
+				recipeDTO.setName(rs.getString(10));
+				recipeDTO.setCalorie(rs.getInt(11));
+				recipeDTO.setCookingTime(rs.getInt(12));
+				recipeDTO.setNation(rs.getString(13));
+				recipeDTO.setType(rs.getString(14));
+				recipeDTO.setLevel(rs.getString(15));
+				recipeDTO.setScore(rs.getDouble(16));
+				recipeDTO.setPost(post);
+				
+				recipes.add(recipeDTO);
+			}
+		}finally {
+			DBTestUtil.dbClose(con, ps, rs);
+		}
+		
+		return recipes;
 	}
 
-	@Override
-	public List<RecipeWrapper> searchQueryAll(PostDTO postDTO, RecipeDTO recipe) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * 
+	 */
+	private PreparedStatement parseSearchQuery(RecipeDTO recipe, Connection con) throws Exception {
+		StringBuilder sql = new StringBuilder("SELECT * FROM VIEW_RECIPE_LIST");
+		List<String> list = new ArrayList<String>();
+		List<Integer> types = new ArrayList<Integer>(); //0=String, 1=Int, 2=Double
+		List<Object> values = new ArrayList<Object>();
+		if(recipe == null) {
+			return con.prepareStatement(sql.toString());
+		}
+		if(recipe.getPost() != null && recipe.getPost().getUserNicname() !=null) {
+			list.add("USER_NICNAME LIKE '%'||?||'%'");
+			types.add(0);
+			values.add(recipe.getPost().getUserNicname());
+		}
+		if(recipe.getCalorie() >0) {
+			list.add("RECIPES_CALORIE <= ?");
+			types.add(1);
+			values.add(recipe.getCalorie());
+		}
+		if(recipe.getCookingTime()>0) {
+			list.add("RECIPES_COOKING_TIME <= ?");
+			types.add(1);
+			values.add(recipe.getCookingTime());
+		}
+		if(recipe.getNation() != null) {
+			list.add("RECIPES_NATION = ?");
+			types.add(0);
+			values.add(recipe.getNation());
+		}
+		if(recipe.getType() != null) {
+			list.add("RECIPES_TYPE = ?");
+			types.add(0);
+			values.add(recipe.getType());
+		}
+		if(recipe.getLevel() != null) {
+			list.add("RECIPES_Level = ?");
+			types.add(0);
+			values.add(recipe.getLevel());
+		}
+		if(recipe.getScore() > 0.0) {
+			list.add("SCORE <= ?");
+			types.add(3);
+			values.add(recipe.getScore());
+					
+		}
+		if(recipe.getName() != null) {
+			list.add("RECIPES_NAME LIKE '%'||?||'%'");
+			types.add(0);
+			values.add(recipe.getName());
+		}
+		
+		if(list.isEmpty()) {
+			return con.prepareStatement(sql.toString());
+		}
+
+		sql.append(" WHERE ");
+		sql.append(String.join(" AND ", list));
+		PreparedStatement ps = con.prepareStatement(sql.toString());
+		System.out.println(sql.toString());
+		for(int i=0; i<list.size(); i++) {
+			switch(types.get(i)) {
+				case 0 :
+				ps.setString(i+1, (String)values.get(i));
+				break;
+				case 1 :
+				ps.setInt(i+1, (Integer)values.get(i));
+				break;
+				case 3 :
+				ps.setDouble(i+1, (Double)values.get(i));
+				break;
+			}
+		}
+		return ps;
 	}
 
 	@Override
@@ -375,7 +517,14 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 	public static void main(String[] args) throws Exception {
 		RecipeSelectDAOImpl dao = new RecipeSelectDAOImpl();
 
-		System.out.println(dao.search(10).getRecipe().getScore());
+		RecipeDTO recipe = new RecipeDTO();
+		recipe.setName("치킨");
+		recipe.setCookingTime(20);
+		
+		System.out.println(dao.searchQuery(recipe, new Pagenation()));
+
 	}
+
+
 
 }

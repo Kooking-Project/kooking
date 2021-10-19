@@ -134,12 +134,6 @@ function sendDelete(){
 </head>
 
 <body>
-	<!-- Preloader -->
-	<div id="preloader">
-		<i class="circle-preloader"></i> <img src="img/core-img/salad.png"
-			alt="">
-	</div>
-	<!--  Preloader End -->
 
 	<!-- ##### Breadcumb Area Start ##### -->
 	<div class="breadcumb-area bg-img bg-overlay"
@@ -166,52 +160,43 @@ function sendDelete(){
 					<table class="table">
 						<tr>
 							<th class="success">글번호</th>
-							<td></td>
+							<td>${board.no}</td>
 							<th class="success">조회수</th>
-							<td></td>
+							<td>${requestScope.board.no}</td>
 						</tr>
 						<tr>
 							<th class="success">카테고리</th> 	<!--  -->
-							<td>post.catetory?</td>
+							<td>${requestScope.board.category}</td>
 							<th class="success">작성자</th>
-							<td>post.writer?</td>
+							<td>${requestScope.board.writer}</td>
 							<th class="success">작성일</th>
-							<td>post.writeday?</td>
+							<td>${requestScope.board.writeday}</td>
 						</tr>
 
 						<tr>
 							<th class="success">제목</th>
-							<td colspan="6">post.title이 될 것 같기도?</td>
+							<td colspan="6">${requestScope.board.title}</td>
 						</tr>
 
 						<tr>
 							<th class="success">글 내용</th>
-							<td colspan="6">이 편지는 영국에서 최초로 시작되어 일년에 한 바퀴 돌면서 받는 사람에게 행운을
-								주었고 지금 당신에게로 옮겨진 이 편지는 4일 안에 당신 곁을 떠나야 합니다. 이 편지를 포함해서 7통을 행운이
-								필요한 사람에게 보내 주셔야 합니다. 복사를 해도 좋습니다. 혹 미신이라 하실지 모르지만 사실입니다. 영국에서
-								HGXWCH이라는 사람은 1930년에 이 편지를 받았습니다. 그는 비서에게 복사해서 보내라고 했습니다. 며칠 뒤에
-								복권에 당첨되어 20억을 받았습니다. 어떤 이는 이 편지를 받았으나 96시간 이내 자신의 손에서 떠나야 한다는
-								사실을 잊었습니다. 그는 곧 사직되었습니다. 나중에야 이 사실을 알고 7통의 편지를 보냈는데 다시 좋은 직장을
-								얻었습니다. 미국의 케네디 대통령은 이 편지를 받았지만 그냥 버렸습니다. 결국 9일 후 그는 암살 당했습니다.
-								기억해 주세요. 이 편지를 보내면 7년의 행운이 있을 것이고 그렇지 않으면 3년의 불행이 있을 것입니다. 그리고 이
-								편지를 버리거나 낙서를 해서는 절대로 안됩니다. 7통입니다. 이 편지를 받은 사람은 행운이 깃들 것입니다.
-								힘들겠지만 좋은게 좋다고 생각하세요. 7년의 행운을 빌면서..</td>
+							<td colspan="6">${requestScope.board.description}</td>
 						</tr>
 
 						<!-- 댓글 -->
 						<tr>
 							<td colspan="6" class="text-center"><c:choose>
-									<c:when test="${board.writer} == ${loginUser}">
+									<c:when test="${requestScope.board.writer} == ${loginUser.nickName}">
 										<input type="button" class="btn btn-warning" value="수정하기"
-											onclick="location.href='BoardUpdateForm.jsp?num='">
+											onclick="sendUpdate()">
 										<input type="button" class="btn btn-danger" value="삭제하기"
-											onclick="location.href='BoardDeleteForm.jsp?num='">
+											onclick="sendDelete()">
 										<input type="button" class="btn btn-primary" value="목록보기"
-											onclick="location.href='BoardList.jsp'">
+											onclick="location.href='board.jsp'">
 									</c:when>
 									<c:otherwise>
 										<input type="button" class="btn btn-primary" value="목록보기"
-											onclick="location.href='BoardList.jsp'">
+											onclick="location.href='board.jsp'">
 									</c:otherwise>
 								</c:choose></td>
 						</tr>
@@ -230,9 +215,7 @@ function sendDelete(){
 	<!-- Reply Start -->
 
 	<c:choose>
-   	<c:when test="${empty board.repliesList}"> <!-- 댓글 없으면 댓글이 없습니다. 멘트 -->
-		<h1> 댓글이 없습니다.</h1>
-		
+   	<c:when test="${empty board.repliesList}"> <!-- 댓글 없으면 댓글이 없습니다. 멘트 -->		
 			<form>
 				<fieldset>
 					<div class="container bootstrap snippets bootdey">
@@ -258,10 +241,27 @@ function sendDelete(){
 							</div>
 						</div>
 					</div>
-
 				</fieldset>
+
 			</form>
-	</c:when>
+
+			<div class="container bootstrap snippets bootdey">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="blog-comment">
+							<hr>
+							<div class="comments">
+								<div class="clearfix"  style="text-align:center">
+									<span>댓글이 없습니다! 댓글을 달아 아이디어를 공유 해보는 것은 어떨까요?</span>
+									<hr>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</c:when>
 		<c:otherwise>
 			<form>
 				<fieldset>
@@ -328,21 +328,6 @@ function sendDelete(){
 				<div class="blog-comment">
 					<hr>
 					<ul class="comments">
-					<!-- 
-								<c:forEach>
-									<!-- 돌려서 댓글을 꺼낸다. -->
-									<li class="clearfix">
-										<div class="post-comments">
-											<p class="meta">
-												날짜 <a href="#">댓글 작성자</a> 님 : <i
-													class="pull-right"><a href="#"><small>Reply</small></a></i>
-											</p>
-											<p>내용</p>
-										</div>
-									</li>
-								</c:forEach>
-					 -->
-
 						<li class="clearfix">
 							<div class="post-comments">
 								<p class="meta">

@@ -1,9 +1,16 @@
 package com.kooking.dao;
 
+import java.util.List;
+
 import com.kooking.dto.CommentDTO;
 
 public interface CommentDAO {
 
+	/**
+	 * 게시글 번호에 해당하는 댓글 리스트 - 어디서 할지는 미정
+	 */
+	public List<CommentDTO> selectComments(int postNo) throws Exception;
+	
 	/**
 	 * 댓글 추가
 	 */
