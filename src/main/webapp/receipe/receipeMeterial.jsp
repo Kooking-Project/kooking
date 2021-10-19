@@ -169,7 +169,7 @@ function createBox() {
     <!-- 추가 버튼 -->
     <div class="buttons">
         <input type="button" id="addItem" value="추가하기" onclick="createItem();" />
-        <input type="button" id="submitItem" value="등록" onclick="submitItem();" />
+        <!-- <input type="button" id="submitItem" value="등록" onclick="submitItem();" /> -->
     </div>
 </div>
 
