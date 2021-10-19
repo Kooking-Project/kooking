@@ -12,7 +12,6 @@ public interface RecipeService {
 	 * RecipeDAOImpl의 레시피 레코드 삽입하는 메소드 호출
 	 */
 	boolean insert(RecipeWrapper wrapper) throws Exception;
-//	boolean insert(RecipeDTO recipe, ArrayList<IngredientDTO> ingredientList, ArrayList<ProcessDTO> processList);
 
 	/**
 	 * RecipeDAOImpl의 레시피번호 해당하는 레코드 수정 메소드 호출
