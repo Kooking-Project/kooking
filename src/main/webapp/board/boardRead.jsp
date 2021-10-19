@@ -328,6 +328,7 @@ function sendDelete(){
 				<div class="blog-comment">
 					<hr>
 					<ul class="comments">
+					<!-- 
 								<c:forEach>
 									<!-- 돌려서 댓글을 꺼낸다. -->
 									<li class="clearfix">
@@ -340,7 +341,7 @@ function sendDelete(){
 										</div>
 									</li>
 								</c:forEach>
-
+					 -->
 
 						<li class="clearfix">
 							<div class="post-comments">
