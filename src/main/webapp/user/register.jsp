@@ -309,9 +309,9 @@ function checkValid() {
 					<div class="gender_select" id="gender_select">
 						<select class="select" name="gender" id="gender">
 							<option value="" disabled selected>선택</option>
-							<option value="male">남자</option>
-							<option value="female">여자</option>
-							<option value="hide">비공개</option>
+							<option value="1">남자</option>
+							<option value="2">여자</option>
+							<option value="0">비공개</option>
 						</select>
 					</div>
 				</div>
