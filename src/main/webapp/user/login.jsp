@@ -26,12 +26,6 @@
 </head>
 
 <body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <i class="circle-preloader"></i>
-        <img src="${pageContext.request.contextPath}/img/core-img/salad.png" alt="">
-    </div>
-    <!--  Preloader End -->
     
     <!-- ##### Breadcumb Area Start ##### -->
     <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(${pageContext.request.contextPath}/img/bg-img/breadcumb5.jpg);">

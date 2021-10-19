@@ -22,7 +22,7 @@ public interface PostService {
 	/**
 	 * 게시판 게시글 삭제 - 관리자도 하나씩 삭제- dto로 바꾸고 싶당
 	 */
-	public int deletePost(int userNo, int postNo, Connection con) throws Exception;
+	public int deletePost(int postNo, Connection con) throws Exception;
 	
 	/**
 	 * 게시판 클릭했을 때 해당 게시물 하나보여주기 - 비회원, 회원 공통 여기서 조회수 체크

@@ -121,14 +121,14 @@ tr {
 <body>
 	<!-- Preloader -->
 	<div id="preloader">
-		<i class="circle-preloader"></i> <img src="img/core-img/salad.png"
+		<i class="circle-preloader"></i> <img src="${pageContext.request.contextPath}/img/core-img/salad.png"
 			alt="">
 	</div>
 	<!--  Preloader End -->
 
 	<!-- ##### Breadcumb Area Start ##### -->
 	<div class="breadcumb-area bg-img bg-overlay"
-		style="background-image: url(img/bg-img/breadcumb5.jpg);">
+		style="background-image: url(${pageContext.request.contextPath}/img/bg-img/breadcumb5.jpg);">
 		<div class="container h-100">
 			<div class="row h-100 align-items-center">
 				<div class="col-12">
@@ -153,9 +153,10 @@ tr {
 					<!-- Breadcrumb -->
 					<div aria-label="breadcrumb" class="main-breadcrumb">
 						<div class="breadcrumb">
-							<span style="text-align: left">유저 정보</span> <a
-								href="userUpdate.jsp" class="btn delicious-Xsmall-btn btn-3">프로필
-								수정</a>
+							<span style="text-align: left">유저 정보</span>
+							<c:if test="${loginUser} == ${user.nickname}">
+								<a href="userUpdate.jsp" class="btn delicious-Xsmall-btn btn-3">프로필 수정</a>
+							</c:if> 
 						</div>
 					</div>
 					<!-- /Breadcrumb -->

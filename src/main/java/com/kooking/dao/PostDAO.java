@@ -10,21 +10,6 @@ import com.kooking.exception.KookingException;
 public interface PostDAO{
 
 	/**
-	 * 게시판 게시글 추가
-	 */
-	//public int insertPost(PostDTO dto) throws Exception;
-	
-	/**
-	 * 게시판 게시글 수정 - 게시글 번호, 사용자 번호, 조회수, 게시글 타입, 조회수, 작성일 변경 불가
-	 */
-	//public int updatePost(PostDTO dto) throws Exception;
-	
-	/**
-	 * 게시판 게시글 삭제 - 관리자도 하나씩 삭제
-	 */
-	//public int deletePost(PostDTO dto) throws Exception;
-	
-	/**
 	 * 댓글 존재 여부 확인 - 댓글부터 지워야 게시글이 지워짐.. 삭제예정
 	 */
 	//public int deleteCommentCheck(int userNo, int postNo) throws SQLException;
