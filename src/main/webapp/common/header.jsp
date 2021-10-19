@@ -13,7 +13,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     
     <!-- Favicon -->
-    <link rel="icon" href="${pageContext.request.contextPath}/img/core-img/favicon.ico">
+    <link rel="icon" href="${pageContext.request.contextPath}/img/core-img/kfavicon.ico">
     
     <!-- Core Stylesheet -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styleTest.css">
