@@ -382,7 +382,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 		ingredients.add(i1);
 		ingredients.add(i2);
 		ingredients.add(i3);
-		rw.setIgredients(ingredients);
+		rw.setIngredient(ingredients);
 		System.out.println(ingredients);
 
 		List<ImageDTO> images = new ArrayList<ImageDTO>();
