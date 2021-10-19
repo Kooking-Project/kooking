@@ -198,17 +198,18 @@ tr {
 
 			<!-- 어드민이면 정지 기능 보여라 -->
 
-			<c:if test="${loginUser} == admin">
+			<c:if test="${userDTO.status} == 10">
 
 				<div aria-label="breadcrumb" class="main-breadcrumb">
 					<div class="breadcrumb">
 						<span style="text-align: left">유저 Status 메뉴</span>
 
 						<form name=Form method=post action="/front">
-							<input type="hidden" name="key" value="user"> 
-							<input type="hidden" name="methodName" value="update"> 
-							<input type='hidden' name='userNo' value="${elec.modelNum}">
-							<input type='hidden' name='userStatus' value="${elec.modelNum}">
+							<input type="hidden" name="key" value="admin"> 
+							<input type="hidden" name="methodName" value="changeUserStatus"> 
+							<input type='hidden' name='userNo' value="${}">
+							<input type='hidden' name='adminNo' value="${userDTO.no}">
+							<input type='hidden' name='userStatus' value="1">
 
 							<button type="submit" class="btn btn-info" style="background-color: red">정지</button>
 						</form>

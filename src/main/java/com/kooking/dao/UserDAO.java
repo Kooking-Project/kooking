@@ -58,4 +58,14 @@ public interface UserDAO {
 	 * */
 	int bookmarkDelete(int userNo, int postNo) throws SQLException;
 	
+	/**
+	 * 비밀번호 중복체크
+	 * */
+	boolean pwdCheck(String pwd) throws SQLException;
+	
+	/**
+	 * 닉네임 중복체크
+	 * */
+	boolean nicknameCheck(String nickName) throws SQLException;
+	
 }

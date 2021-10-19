@@ -99,8 +99,8 @@ $(function() {
 /** 아이템 순서 조정 */
 function reorder() {
     $(".itemBox").each(function(i, box) {
-       // $(box).find(".itemNum").html(i + 1);
-    	$(box).find(".itemNum");
+       $(box).find(".ingredient_seq").html(i + 1);
+    	//$(box).find(".itemNum");
     });
 }
 
@@ -143,9 +143,9 @@ function createItem() {
 function createBox() {
     var contents = "<div class='itemBox'>"
                  + "<div style='float:left;'>"
-                 + "<span class='itemNum'></span> "
-                 + "<input type='text' name='receipe_meterial' style='width:200px; margin-right:10px' placeholder='예) 돼지고기'/>"
-                 + "<input type='text' name='recipe_weight' style='width:200px;' placeholder='예) 300g 또는 1/2개'/>"
+                 + "<span class='ingredient_seq'></span> "
+                 + "<input type='text' name='ingredient_name' style='width:200px; margin-right:10px' placeholder='예) 돼지고기'/>"
+                 + "<input type='text' name='ingredient_cacty' style='width:200px;' placeholder='예) 300g 또는 1/2개'/>"
                  + "</div>"
                  + "</div>";
     return contents;
@@ -161,9 +161,9 @@ function createBox() {
 <div>
 	<div class="itemBox">
 		<div style="float:left">
-			<span class="itemNum"></span>
-			<input type="text" name="receipe_meterial" style="width:200px; margin-right:10px;" placeholder="예) 돼지고기"/>
-			<input type="text" name="recipe_weight" style="width:200px;" placeholder="예) 300g 또는 1/2개"/>
+			<span class="ingredient_seq"></span>
+			<input type="text" name="ingredient_name" style="width:200px; margin-right:10px;" placeholder="예) 돼지고기"/>
+			<input type="text" name="ingredient_cacty" style="width:200px;" placeholder="예) 300g 또는 1/2개"/>
 		</div>
 	</div>
     <!-- 추가 버튼 -->

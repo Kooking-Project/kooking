@@ -102,8 +102,8 @@
                             <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
 		                    <c:choose>
 						 		<c:when test ="${empty loginUser}"> 
-		                            <a href="login.jsp">로그인</a>
-		                            <a href="register.jsp">회원가입</a>
+		                            <a href="${pageContext.request.contextPath}/user/login.jsp">로그인</a>
+		                            <a href="${pageContext.request.contextPath}/user/register.jsp">회원가입</a>
 		                            <a href="${pageContext.request.contextPath}/receipe/receipeWrite.jsp">글쓰기</a>
 		   				 		</c:when>
 						 		<c:otherwise>
