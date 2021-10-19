@@ -82,9 +82,22 @@ public class UserDAOImpl implements UserDAO {
 
 
 	@Override
-	public int imageUpdate(int userNo) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+	public int profileImageUpdate(UserDTO user) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps =null;
+		String sql=proFile.getProperty("query.profileImageUpdate");
+		int result = 0;
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, user.getProfileImg());
+			ps.setInt(2, user.getNo());
+			
+			result = ps.executeUpdate();
+		}finally {
+			DbUtil.dbClose(ps, con);
+		}
+		return result;
 	}
 
 	@Override

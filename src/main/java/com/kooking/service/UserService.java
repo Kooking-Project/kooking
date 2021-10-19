@@ -23,6 +23,11 @@ public interface UserService {
 	void insert(UserDTO userDTO) throws SQLException, KookingException;
 
 	/**
+	 * 회원 프로필 설정
+	 */
+	void profileImageUpdate(UserDTO userDTO) throws Exception;
+
+	/**
 	 * 회원 정보 수정
 	 */
 	void userUpdate(UserDTO userDTO) throws Exception;

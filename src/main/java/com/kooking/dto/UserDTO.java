@@ -29,6 +29,11 @@ public class UserDTO {
 		this.no = no;
 		this.status = status;
 	}
+	public UserDTO(int no, 	String profileImg) {	//프로필 설정
+		super();
+		this.no = no;
+		this.profileImg = profileImg;
+	}
 	
 	public UserDTO(int no, String pwd, String nickName, int gender) {
 		super();

@@ -17,7 +17,7 @@ public interface UserDAO {
 	/**
 	 * 프로필 설정
 	 * */
-	int imageUpdate(int userNo) throws SQLException;
+	int profileImageUpdate(UserDTO user) throws SQLException;
 	
 	/**
 	 * 회원 정보 수정

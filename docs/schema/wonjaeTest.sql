@@ -2,6 +2,7 @@
 
 select * from users;
 
+update USERS set USER_PROFILE_IMG='test.jpg' where USER_NO=4;
 insert into USERS(USER_NO, USER_ID, USER_PWD, USER_NICNAME, USER_GENDER, USER_STATUS) values(3,'Jeon',1111,'전원재',0,10);
 insert into USERS(USER_NO, USER_ID, USER_PWD, USER_NICNAME, USER_GENDER, USER_STATUS) values(4,'TestUser',1111,'테스트용',0,0);
 

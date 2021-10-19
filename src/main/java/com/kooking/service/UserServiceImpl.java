@@ -36,6 +36,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public void profileImageUpdate(UserDTO userDTO) throws Exception {
+		if( userDao.profileImageUpdate(userDTO) == 0 )
+			throw new KookingException("회원 프로필이 수정되지 않았습니다.");
+	}
+	
+	@Override
 	public void userUpdate(UserDTO userDTO) throws Exception {
 		if( userDao.userUpdate(userDTO) == 0 )
 			throw new KookingException("회원정보가 수정되지 않았습니다.");
@@ -76,5 +82,7 @@ public class UserServiceImpl implements UserService {
 		if(userDao.bookmarkDelete(userNo, postNo)==0)
 			throw new KookingException("즐겨찾기 삭제가 실패했습니다.");
 	}
+
+
 
 }
