@@ -84,21 +84,6 @@ public class UserController implements Controller {
 		UserDTO userDTO = new UserDTO( id, nickName, pwd, Integer.parseInt(gender));
 	
 		userSerivce.insert(userDTO);
-	
-		switch (gender) {
-		case "1":
-			gender = "남자";
-			break;
-		case "2":
-			gender = "여자";
-			break;
-		case "0":
-			gender = "비공개";
-			break;
-
-		default:
-			break;
-		}
 
 		return new ModelAndView("adminTest.jsp", true);
 	}
