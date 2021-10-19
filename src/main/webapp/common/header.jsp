@@ -101,12 +101,13 @@
                             <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
                             <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
 		                    <c:choose>
-						 		<c:when test ="${empty loginUser}"> 
+						 		<c:when test ="${empty userDTO}"> 
 		                            <a href="${pageContext.request.contextPath}/user/login.jsp">로그인</a>
 		                            <a href="${pageContext.request.contextPath}/user/register.jsp">회원가입</a>
 		                            <a href="${pageContext.request.contextPath}/receipe/receipeWrite.jsp">글쓰기</a>
 		   				 		</c:when>
 						 		<c:otherwise>
+						 			<span>${userDTO.nickName}님 환영합니다!!</span>
 						 			<a href="#">글쓰기</a>
 						 			<a href="#">로그아웃</a>
 						 		</c:otherwise>

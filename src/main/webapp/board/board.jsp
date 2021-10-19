@@ -248,21 +248,21 @@ input#search-bar {
 			</thead>
 			<tbody>
 				<c:choose>
-					<c:when test="${empty requestScope.boardList}">
+					<c:when test="${empty postList}">
 						<tr>
 							<td colspan="6">등록된 게시글이 없습니다.</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
-						<c:forEach items="${requestScope.boardList}" var="board">
+						<c:forEach items="${postList}" var="board">
 							<tr>
 								<td>${board.no}</td>
-								<td><a href="#">${board.category}</a></td>
+								<td><a href="#">${board.type}</a></td>
 								<td><a
-									href="${pageContext.request.contextPath}/front?key=elec&methodName=selectByModelNum&modelNum=${elecDto.modelNum}">${board.title}</a></td>
-								<td>${board.writer}</td>
-								<td>${board.regDate}</td>
-								<td>${board.count}</td>
+									href="${pageContext.request.contextPath}/front?key=post&methodName=selectPost&no=${board.no}">${board.title}</a></td>
+								<td>${board.userNicName}</td>
+								<td>${board.date}</td>
+								<td>${board.counts}</td>
 							</tr>
 						</c:forEach>
 					</c:otherwise>

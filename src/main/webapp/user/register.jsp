@@ -247,6 +247,102 @@ function checkValid() {
 }
 
 
+
+$(function(){
+		
+//////////////////////////////////////////////////
+	// 아이디 중복체크하기
+	$("#id").keyup(function(){
+		  
+		  if($(this).val == ""){
+			  $("#idCheck").text("");
+			  return; // 함수를 빠져나가라.
+		  }
+		  
+			$.ajax({
+				
+				url : "../idCheck", //서버요청주소
+				type : "post", //method방식(get, post, put, delete)
+				dataType : "text", //서버가 응답해주는 데이터의 type(text, html, xml, json)
+				data : {id: $(this).val()},	//서버에게 보낼 parameter정보
+				success : function(result){
+					console.log("result : " + result);
+					
+					$("#idCheck").text(result);
+					
+				},	// 성공했을때 callback 함수
+				error :	function(err){ 					
+					alert(err+"발생했어요");
+					
+				}//실패했을 때 함수
+			}); //ajax끝
+	});
+
+	/////////////////////////////////////////////////
+	
+	//////////////////////////////////////////////////
+	// 닉네임 중복체크하기
+	$("#nickName").keyup(function(){
+		  
+		  if($(this).val == ""){
+			  $("#nickNameCheck").text("");
+			  return; // 함수를 빠져나가라.
+		  }
+		  
+			$.ajax({
+				
+				url : "../nickNameCheck", //서버요청주소
+				type : "post", //method방식(get, post, put, delete)
+				dataType : "text", //서버가 응답해주는 데이터의 type(text, html, xml, json)
+				data : {nickName: $(this).val()},	//서버에게 보낼 parameter정보
+				success : function(result){
+					
+					$("#nickNameCheck").text(result);
+					
+				},	// 성공했을때 callback 함수
+				error :	function(err){ 					
+					alert(err+"발생했어요");
+					
+				}//실패했을 때 함수
+			}); //ajax끝
+	});
+
+	/////////////////////////////////////////////////
+	
+		//////////////////////////////////////////////////
+	// 패스워드 중복체크하기
+	$("#pwdConfirm").keyup(function(){
+		  
+		  if($(this).val == ""){
+			  $("#passwordCheck").text("");
+			  return; // 함수를 빠져나가라.
+		  }
+		  
+			$.ajax({
+				
+				url : "../passCheck", //서버요청주소
+				type : "post", //method방식(get, post, put, delete)
+				dataType : "text", //서버가 응답해주는 데이터의 type(text, html, xml, json)
+				data : {pwdConfirm: $(this).val(), pwd: $("#pwd").val()},	//서버에게 보낼 parameter정보
+				success : function(result){
+					
+					$("#passwordCheck").text(result);
+					
+				},	// 성공했을때 callback 함수
+				error :	function(err){ 					
+					alert(err+"발생했어요");
+					
+				}//실패했을 때 함수
+			}); //ajax끝
+	});
+
+	/////////////////////////////////////////////////
+
+});
+
+
+
+
 </script>
 
 
@@ -287,13 +383,13 @@ function checkValid() {
 					<label>아이디</label> <input type="text" class="input" id="id" name="id">
 				</div>
 				<div class="explanation">
-					<p>아이디는 최대 10글자까지 입력 가능합니다.</p>
+					<p class="idCheck" id="idCheck">아이디는 최대 10글자까지 입력 가능합니다.</p>
 				</div>
 				<div class="inputfield">
 					<label>닉네임</label> <input type="text" class="input" id="nickName" name="nickName">
 				</div>
 				<div class="explanation">
-					<p>닉네임은 최대 10글자까지 입력 가능합니다.</p>
+					<p class="nickNameCheck" id="nickNameCheck">닉네임은 최대 10글자까지 입력 가능합니다.</p>
 				</div>
 				<div class="inputfield">
 					<label>비밀번호</label> <input type="password" class="input" id="pwd" name="pwd">
@@ -302,7 +398,7 @@ function checkValid() {
 					<label>비밀번호 확인</label> <input type="password" class="input" id="pwdConfirm" name="pwdConfirm">
 				</div>
 				<div class="explanation">
-					<p>정확하게 일치하도록 입력 해주십시오.</p>
+					<p class="passwordCheck" id="passwordCheck">정확하게 일치하도록 입력 해주십시오.</p>
 				</div>
 				<div class="inputfield">
 					<label>성별</label>

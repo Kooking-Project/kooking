@@ -214,7 +214,7 @@ function checkValid() {
         <tr>
             <th class="success col-md-3">카테고리</th>
      	    <td>
-           	 <select class="select" name="type" id="boardCategory">
+           	 <select class="select" name="type" name="boardCategory">
              	<option value="" disabled selected>선택</option>
            	   	<option value="2">TIP</option>
         	   	<option value="3">후기</option>
@@ -228,20 +228,20 @@ function checkValid() {
         <tr>
             <th class="success">제목</th>
             <td colspan="6">
-            	<textarea class="form-control" id="title" placeholder="제목을 입력해주세요."></textarea>
+            	<textarea class="form-control" name="title" placeholder="제목을 입력해주세요."></textarea>
             </td>
         </tr>
          
         <tr>
             <th class="success">글 내용</th>
             <td colspan="6">
-            	<textarea class="form-control" id="content" placeholder="내용을 입력해주세요."></textarea>
+            	<textarea class="form-control" name="content" placeholder="내용을 입력해주세요."></textarea>
            	</td>
         </tr>
          
         <tr>
             <td colspan="6" class="text-center">
-  				<input type=submit class="btn btn-warning" value=작성>       
+  				<input type="submit" class="btn btn-warning" value=작성>       
 				<input type="button" class="btn btn-danger" value="취소" onclick="javascript:history.back()">
             </td>
         </tr>
