@@ -13,20 +13,20 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     
     <!-- Favicon -->
-    <link rel="icon" href="../img/core-img/favicon.ico">
+    <link rel="icon" href="${pageContext.request.contextPath}/img/core-img/favicon.ico">
     
     <!-- Core Stylesheet -->
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styleTest.css">
     
     <!-- JQuery 2.2.4 -->
-    <script src="../js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery/jquery-2.2.4.min.js"></script>
     
     <!-- BootStrap 5.1 -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     
 
-    <script src="../js/plugins/plugins.js"></script>
+    <script src="${pageContext.request.contextPath}/js/plugins/plugins.js"></script>
     
 
     
