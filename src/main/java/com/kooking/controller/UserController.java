@@ -74,13 +74,15 @@ public class UserController implements Controller {
 		String pwd = request.getParameter("pwd");
 		String nickName = request.getParameter("nickName");
 		String gender = request.getParameter("gender");
-		String enrollDate = request.getParameter("enrollDate");
+		
 		String profileImg = request.getParameter("profileImg");
-		String status = request.getParameter("status");
+		
 
-		UserDTO userDTO = new UserDTO(Integer.parseInt(no), id, pwd, nickName, Integer.parseInt(gender), enrollDate,
-				profileImg, Integer.parseInt(status));
+		//UserDTO userDTO = new UserDTO(Integer.parseInt(no), id, pwd, nickName, Integer.parseInt(gender), enrollDate,
+		//		profileImg, Integer.parseInt(status));
 
+		UserDTO userDTO = new UserDTO( id, nickName, pwd, Integer.parseInt(gender));
+	
 		userSerivce.insert(userDTO);
 
 		return new ModelAndView("adminTest.jsp", true);

@@ -32,7 +32,7 @@
                     </div>
                     <!-- Footer Logo -->
                     <div class="footer-logo">
-                        <a href="index.html"><img src="../img/core-img/logo.png" alt=""></a>
+                        <a href="index.html"><img src="${pageContext.request.contextPath}/img/core-img/logo.png" alt=""></a>
                     </div>
                     <!-- Copywrite -->
                     <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -45,7 +45,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <!-- ##### Footer Area End ##### -->   
       
     <!-- Active js -->
-    <script src="../js/active.js"></script>
+    <script src="${pageContext.request.contextPath}/js/active.js"></script>
       
 </body>
 

@@ -6,9 +6,9 @@ package com.kooking.paging;
  *
  */
 public class Pagenation {
-	private int pageNo;//현재 페이지번호
-	private int pageSize;// 한 페이지 당 5개 출력물
-	private int pageCnt; //총페이지 수Math.ceil(전체레코드수 /pagesize) 
+	private int pageNo = 1;
+	private int pageSize = 10;
+	private int pageCnt = 1;
 	
 	public Pagenation() {}
 	

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <jsp:include page="../common/header.jsp"/>    
 <!DOCTYPE html>
 <html lang="en">
@@ -25,15 +26,9 @@
 </head>
 
 <body>
-    <!-- Preloader -->
-    <div id="preloader">
-        <i class="circle-preloader"></i>
-        <img src="../img/core-img/salad.png" alt="">
-    </div>
-    <!--  Preloader End -->
     
     <!-- ##### Breadcumb Area Start ##### -->
-    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(..img/bg-img/breadcumb5.jpg);">
+    <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(${pageContext.request.contextPath}/img/bg-img/breadcumb5.jpg);">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">

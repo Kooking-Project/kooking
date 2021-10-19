@@ -24,6 +24,14 @@ public class UserDTO {
 		this.pwd = pwd;
 	}
 	
+	public UserDTO(String id, String nickName, String pwd, int gender) {
+		super();
+		this.id = id;
+		this.nickName = nickName;
+		this.pwd = pwd;
+		this.gender = gender;
+	}
+	
 	public UserDTO(int no, 	int status) {	//상태변경
 		super();
 		this.no = no;
