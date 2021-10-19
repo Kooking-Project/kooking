@@ -15,7 +15,7 @@
 <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 <!-- Title -->
-<title>유저 페이지 | KOOKING</title>
+<title>어드민 페이지 | KOOKING</title>
 
 
 
@@ -116,17 +116,13 @@ tr {
 </style>
 
 
-<script type="text/javascript">
-
-</script>
-
-
 </head>
 
 <body>
 	<!-- Preloader -->
 	<div id="preloader">
-		<i class="circle-preloader"></i> <img src="${pageContext.request.contextPath}/img/core-img/salad.png"
+		<i class="circle-preloader"></i> <img
+			src="${pageContext.request.contextPath}/img/core-img/salad.png"
 			alt="">
 	</div>
 	<!--  Preloader End -->
@@ -138,7 +134,7 @@ tr {
 			<div class="row h-100 align-items-center">
 				<div class="col-12">
 					<div class="breadcumb-text text-center">
-						<h2>로그인</h2>
+						<h2>관리자님 환영합니다!</h2>
 					</div>
 				</div>
 			</div>
@@ -158,10 +154,10 @@ tr {
 					<!-- Breadcrumb -->
 					<div aria-label="breadcrumb" class="main-breadcrumb">
 						<div class="breadcrumb">
-							<span style="text-align: left">유저 정보</span>
+							<span style="text-align: left">관리자 정보</span>
 							<c:if test="${loginUser} == ${user.nickname}">
 								<a href="userUpdate.jsp" class="btn delicious-Xsmall-btn btn-3">프로필 수정</a>
-							</c:if> 
+							</c:if>
 						</div>
 					</div>
 					<!-- /Breadcrumb -->
@@ -193,50 +189,94 @@ tr {
 					<!-- /Breadcrumb -->
 					<div class="card mb-3">
 						<div class="card-body">
-							<!--  여기에 -->
+							<table>
+								<tr>
+									<th>게시글번호</th>
+									<th>댓글내용</th>
+									<th>댓글작성날짜</th>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td><a href="#">아이가 너무 좋아해요!</a></td>
+									<td>1302.12.21</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td><a href="#">먹어도 먹어도 감자튀김이 안 줄어!!!!</a></td>
+									<td>1899.03.01</td>
+								</tr>								
+								<tr>
+									<td>3</td>
+									<td><a href="#">악 달고나 부러졌어!!! 선생님 살려주세요!!!</a></td>
+									<td>2018.10.03</td>
+								</tr>								
+								<tr>
+									<td>4</td>
+									<td><a href="#">Fry loves you.</a></td>
+									<td>2021.07.02</td>
+								</tr>
+							</table>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="main-body">
+			<!-- Breadcrumb -->
+			<div aria-label="breadcrumb" class="main-breadcrumb">
+				<div class="breadcrumb">
+					<span style="text-align: left">유저 리스트</span>
+				</div>
+			</div>
+			<!-- /Breadcrumb -->
 
-			<!-- 어드민이면 정지 기능 보여라 -->
-
-			<c:if test="${userDTO.status} == 10">
-
-				<div aria-label="breadcrumb" class="main-breadcrumb">
-					<div class="breadcrumb">
-						<span style="text-align: left">유저 Status 메뉴</span>
-
-						<form name=Form method=post action="/front">
-							<input type="hidden" name="key" value="admin"> 
-							<input type="hidden" name="methodName" value="changeUserStatus"> 
-							<input type='hidden' name='userNo' value="${userDTO.no}">
-							<input type='hidden' name='adminNo' value="${userDTO.no}">
-							<input type='hidden' name='userStatus' value="1">
-
-							<button type="submit" class="btn btn-info" style="background-color: red">정지</button>
-						</form>
-
-						<form name=Form method=post action="${path}/front"
-							onSubmit="return checkValid()">
-							<input type="hidden" name="key" value="user"> 
-							<input type="hidden" name="methodName" value="update"> 
-							<input type='hidden' name='userNo' value="${elec.modelNum}">
-							<input type='hidden' name='userStatus' value="${elec.modelNum}">
-
-							<div aria-label="breadcrumb" class="main-breadcrumb">
-								<div class="breadcrumb">
-									<span style="text-align: left">유저 Status 메뉴</span>&nbsp;&nbsp;&nbsp;
-									<a class="btn btn-info " target="__blank"
-										href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">해제</a>
-								</div>
-							</div>
-						</form>
+			<div class="row gutters-sm">
+				<div class="col-md-12">
+					<div class="card mb-3">
+						<div class="card-body">
+							<table>
+								<tr>
+									<th>유저번호</th>
+									<th>아이디</th>
+									<th>닉네임</th>
+									<th>성별</th>
+									<th>가입일</th>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td><a href="#">kimcw89</a></td>
+									<td>김찬원</td>
+									<td>남자</td>
+									<td>1302.12.21</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td><a href="#">ninjaturtle0301</a></td>
+									<td>거북쓰</td>
+									<td>비공개</td>
+									<td>1899.03.01</td>
+								</tr>								
+								<tr>
+									<td>3</td>
+									<td><a href="#">smokingTiger</a></td>
+									<td>담배피는호랑이</td>
+									<td>남자</td>
+									<td>2018.10.03</td>
+								</tr>								
+								<tr>
+									<td>4</td>
+									<td><a href="#">bunny</a></td>
+									<td>토끼</td>
+									<td>여자</td>
+									<td>2021.07.02</td>
+								</tr>
+							</table>
+						</div>
 					</div>
 				</div>
-			</c:if>
+			</div>
+		</div>
+		<div class="main-body">
 			<!-- Breadcrumb -->
 			<div aria-label="breadcrumb" class="main-breadcrumb">
 				<div class="breadcrumb">
@@ -249,7 +289,39 @@ tr {
 				<div class="col-md-12">
 					<div class="card mb-3">
 						<div class="card-body">
-							<!--  여기에 -->
+							<table>
+								<tr>
+									<th>번호</th>
+									<th>제목</th>
+									<th>날짜</th>
+									<th>조회수</th>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td><a href="#">강원도에서 직접 공수해온 고라니 고기를 가지고 만든 고라니탕</a></td>
+									<td>2019.10.14</td>
+									<td>131</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td><a href="#">이베리아 반도의 탱고의 여인이 친숙하게 느껴지는 느낌을 주는 와인</a></td>
+									<td>2019.10.14</td>
+									<td>1522</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td><a href="#">겐스케군의 스고이 한 니혼제 돈까스</a></td>
+									<td>2019.10.14</td>
+									<td>7777</td>
+								</tr>
+								<tr>
+									<td>33333</td>
+									<td><a href="#">영국식 정어리 머리 파이</a></td>
+									<td>2019.10.14</td>
+									<td>0</td>
+								</tr>
+							</table>
+
 
 						</div>
 					</div>
@@ -272,7 +344,38 @@ tr {
 				<div class="col-md-12">
 					<div class="card mb-3">
 						<div class="card-body">
-							<!-- 여기에 -->
+							<table>
+								<tr>
+									<th>번호</th>
+									<th>제목</th>
+									<th>날짜</th>
+									<th>조회수</th>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td><a href="#">강원도에서 직접 공수해온 고라니 고기를 가지고 만든 고라니탕</a></td>
+									<td>2019.10.14</td>
+									<td>131</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td><a href="#">이베리아 반도의 탱고의 여인이 친숙하게 느껴지는 느낌을 주는 와인</a></td>
+									<td>2019.10.14</td>
+									<td>1522</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td><a href="#">겐스케군의 스고이 한 니혼제 돈까스</a></td>
+									<td>2019.10.14</td>
+									<td>7777</td>
+								</tr>
+								<tr>
+									<td>33333</td>
+									<td><a href="#">영국식 정어리 머리 파이</a></td>
+									<td>2019.10.14</td>
+									<td>0</td>
+								</tr>
+							</table>
 
 						</div>
 					</div>
@@ -293,8 +396,7 @@ tr {
 
 				<div class="col-md-12">
 					<div class="card mb-3">
-						<div class="card-body"
-							style="text-align: center; position: relative;">
+						<div class="card-body">
 							<table>
 								<tr>
 									<th>번호</th>

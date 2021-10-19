@@ -186,7 +186,7 @@ function sendDelete(){
 						<!-- 댓글 -->
 						<tr>
 							<td colspan="6" class="text-center"><c:choose>
-									<c:when test="${requestScope.board.writer} == ${loginUser.nickName} or  ">
+									<c:when test="${requestScope.board.writer} == ${loginUser.nickName}"> <!--  "${userDTO.status} == 10" -->
 										<input type="button" class="btn btn-warning" value="수정하기"
 											onclick="sendUpdate()">
 										<input type="button" class="btn btn-danger" value="삭제하기"

@@ -94,12 +94,6 @@
                     <!-- Top Social Info -->
                     <div class="col-12 col-sm-6">
                         <div class="top-social-info text-right">
-                            <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a>
-                            <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
 		                    <c:choose>
 						 		<c:when test ="${empty userDTO}"> 
 		                            <a href="${pageContext.request.contextPath}/user/login.jsp">로그인</a>
@@ -109,7 +103,7 @@
 						 		<c:otherwise>
 						 			<span>${userDTO.nickName}님 환영합니다!!</span>
 						 			<a href="#">글쓰기</a>
-						 			<a href="#">로그아웃</a>
+						 			<a href="${pageContext.request.contextPath}/front?key=user&methodName=logout">로그아웃</a>
 						 		</c:otherwise>
 						 	</c:choose>  	 
                         </div>
@@ -226,14 +220,16 @@
                                             <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">★☆☆☆☆</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="receipe-post.html">커뮤니티</a>
-                                    	<ul class="dropdown">
-                                            <li><a href="tipBoard.jsp">요리팁</a></li>
-                                            <li><a href="reviewBoard.jsp">레시피후기</a></li>
-                                            <li><a href="qnaBoard.jsp">질문 Q&A</a></li>
-                                        </ul>
+                                    <li><a href="board.jsp">커뮤니티</a>
                                     </li>
-                                    <li><a href="user.jsp">마이페이지</a></li>
+                                    	<c:choose>
+                                   		<c:when test="${userDTO.status}==10">
+                                   			<li><a href="${pageContext.request.contextPath}/admin.jsp">마이 페이지</a></li>
+                                  		 </c:when>
+                                   		<c:otherwise>
+                                   			<li><a href="${pageContext.request.contextPath}/user.jsp">마이 페이지</a></li>
+                                   		</c:otherwise> 
+                                   		</c:choose>
                                 </ul>
                                 
                                 <!-- Newsletter Form -->
