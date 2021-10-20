@@ -27,6 +27,12 @@ public interface PostDAO{
 	public List<PostDTO> selectPost() throws Exception;
 	
 	/**
+	 * 게시판 전체 게시글 조회 (페이징) by 김찬원
+	 */
+	
+	public List<PostDTO> selectPost(int pageNo) throws Exception;
+	
+	/**
 	 * 게시판 게시글 날짜별 조회(최신순)
 	 */
 	public List<PostDTO> selectPostDate() throws SQLException;

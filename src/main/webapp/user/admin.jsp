@@ -168,10 +168,20 @@ tr {
 								<img src="https://bootdey.com/img/Content/avatar/avatar7.png"
 									alt="Admin" class="rounded-circle" width="150">
 								<div class="mt-3">
-									<h4>닉네임</h4>
+									<h4>${user.nickName}</h4>
 									<!-- 마이 페이지로 들어갔으면 내 닉네임 아니면 다른 사람 닉네임  -->
 									<p class="text-secondary mb-1">성별</p>
-									<p class="text-muted font-size-sm">성별이 들어갈 부분입니다.</p>
+									<c:choose>
+										<c:when test= "${user.gender == 1}">
+											<p class="text-muted font-size-sm">남자</p>
+										</c:when>
+										<c:when test= "${user.gender == 2}">
+											<p class="text-muted font-size-sm">여자</p>
+										</c:when>
+										<c:otherwise>
+												<p class="text-muted font-size-sm">비공개</p>
+										</c:otherwise>
+									</c:choose>
 									<h5>어서오세요!</h5>
 								</div>
 							</div>

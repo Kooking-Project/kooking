@@ -46,7 +46,7 @@
          <div class="row">
              <div class="col-12">           
              <c:choose>
-				 	<c:when test ="${empty loginUser}">
+				 	<c:when test ="${empty userDTO.id}">
 				 	<!-- 아이디 / 비밀번호 폼 시작 -->
 				 	<form class="form-horizontal" method="post" action="../front">
 				 		<input type="hidden" name="key" value = "user" /> 
@@ -80,7 +80,7 @@
 				 	<!-- 아이디 / 비밀번호 폼 끝 -->
 				 	</c:when>
 				 	<c:otherwise>
-				 	
+				 		<h1>${userDTO.nickName} 님 환영합니다!!</h1>
 				 	</c:otherwise>
 				 </c:choose>  	         
              </div>
