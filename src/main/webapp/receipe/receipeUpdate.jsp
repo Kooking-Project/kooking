@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,13 +11,14 @@
 
 	<!-- Favicon -->
     <link rel="icon" href="${pageContext.request.contextPath}/img/core-img/kfavicon.ico">
-    
-    <!-- Script -->
-    <script type="text/javascript">
-	    function checkValid() {
-	        var f = window.document.insFrm;
-	    		
-	    	if ( f.post_title.value == "") {
+	<title>레시피 수정하기 | Kooking</title>
+	<style>
+	</style>
+	<script type="text/javascript">
+		function checkValid() {
+		    var f = window.document.updFrm;
+				
+		    if ( f.post_title.value == "") {
 	    	    alert( "레시피제목을 입력해 주세요." );
 	    	    f.post_title.focus();
 	    		return false;
@@ -55,25 +55,22 @@
 	        }
 	    	
 	        return true;
-	    }
-    </script>
-    
-    
-    <!-- Title -->
-    <title>레시피 등록하기 | Kooking</title>    
+		}
+	</script>
 </head>
 <body>
 	<!-- header -->
 	<jsp:include page="../common/header.jsp"/>
 	
-    <!-- Preloader -->
+	<!-- Preloader -->
     <div id="preloader">
         <i class="circle-preloader"></i>
         <img src="${pageContext.request.contextPath}/img/core-img/salad.png" alt="">
     </div>
+    <!-- ---------------------------------------------------------------------------- -->
     
-    <!-- 레시피 등록하기 Start -->
-    <form name="insFrm" id="insFrm" method="post" action="" onSubmit='return checkValid()' enctype="multipart/form-data">
+    <!-- 레시피 수정하기 Start -->
+    <form name="updFrm" id="updFrm" method="post" action="" onSubmit='return checkValid()' enctype="multipart/form-data">
     <div class="container recipe_regi">
     <div class="regi_center">
     <div class="regi_title">레시피 등록</div>
@@ -235,15 +232,31 @@
    	<!-- process 요리순서 start -->
    	  <div>
       	<p class="cont_tit4">요리순서</p>
-	 	 <span class="guide mag_b_15">요리의 맛이 좌우될 수 있는 중요한 부분은 빠짐없이 적어주세요.</span>
-	 	 <jsp:include page="receipeProcess.jsp"/>
-	   </div>
+	 	 <span class="guide mag_b_15">요리의 맛이 좌우될 수 있는 중요한 부분은 빠짐없이 적어주세요.<br></span>
+		  <!-- 요리순서 SCRIPT START -->
+		  <script type="text/javascript">
+				const add_textbox = () => {
+				    const box = document.getElementById("processAddbtn");
+				    const newP = document.createElement('div');
+				    newP.innerHTML ="<input type='file' maxlength='60' size='40' style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'> <input type='text' name='process_desc' style='width:610px; margin:10px;' placeholder='예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요.'> <input type='button' value='삭제' onclick='remove(this)'>";
+				    box.appendChild(newP);
+				}
+				const remove = (obj) => {
+				    document.getElementById('processAddbtn').removeChild(obj.parentNode);
+				}
+			</script>
+			<!-- 요리순서 SCRIPT END -->
+			<div id="processAddbtn">
+	      	 <input type="button" id="addItem" value="추가하기" onclick="add_textbox();" />
+	    	</div>
+	    </div>
+	    <hr>
     <!-- 요리순서 End -->
     
     <!-- 비밀번호 입력 -->
     <div>
     	<p class="cont_tit4">비밀번호</p>
-    	<span class="guide mag_b_15">글 수정,삭제시 필요합니다.</span>
+    	<span class="guide mag_b_15">비밀번호가 맞아야 수정이 가능합니다.</span>
     	<div>
     		<input type=password name="password" size="12">
     	</div>
@@ -263,7 +276,7 @@
     	  <!-- 확인, 취소 버튼 start -->
     	  <div class="delicious-buttons-area">
     	  	<div class=" btn delicious-btn">
-    	  		<input type="submit" value="확인" style="background-color:transparent;  border:0px transparent solid; font-weight: bold; color: #fff;">
+    	  		<input type="submit" value="수정" style="background-color:transparent;  border:0px transparent solid; font-weight: bold; color: #fff;">
     	  	</div>
     	  	<div class=" btn delicious-btn">
     	  	  	<input type="reset" value="취소" style="background-color:transparent;  border:0px transparent solid; font-weight: bold; color: #fff;">
@@ -274,6 +287,7 @@
 </div><!-- /container -->
 </form>
 <!-- 레시피 등록하기 End -->
+    
     
     <!-- footer -->
     <jsp:include page="../common/footer.jsp"/>  
