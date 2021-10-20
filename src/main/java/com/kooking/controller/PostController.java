@@ -156,16 +156,16 @@ public class PostController implements Controller {
 
 		List<PostDTO> postList = postService.selectPost(); // 페이징 처리, 어떻게 쓸지 고민
 
-		request.setAttribute("post", postList);
+		request.setAttribute("postList", postList);
 		
 		// 결과에 따른 성공, 실패 나누기
 		if (postList != null) { // 성공 페이지로 이동? 아니면 팝업창?
-			mv.setViewName("board.jsp");
+			mv.setViewName("board/board.jsp");
 		} else { // 실패
-			mv.setViewName("board.jsp");
+			mv.setViewName("board/board.jsp");
 		}
 
-		mv.setViewName("board.jsp");
+		mv.setViewName("board/board.jsp");
 		mv.setRedirect(false);
 
 		return mv;

@@ -224,10 +224,10 @@
                                     </li>
                                     	<c:choose>
                                    		<c:when test="${userDTO.status}==10">
-                                   			<li><a href="${pageContext.request.contextPath}/admin.jsp">마이 페이지</a></li>
+                                   			<li><a href="${pageContext.request.contextPath}/user/admin.jsp">마이 페이지</a></li>
                                   		 </c:when>
                                    		<c:otherwise>
-                                   			<li><a href="${pageContext.request.contextPath}/user.jsp">마이 페이지</a></li>
+                                   			<li><a href="${pageContext.request.contextPath}/user/user.jsp">마이 페이지</a></li>
                                    		</c:otherwise> 
                                    		</c:choose>
                                 </ul>
