@@ -430,43 +430,60 @@ tr {
 				<div class="col-md-12">
 					<div class="card mb-3">
 						<div class="card-body">
-							<table>
-								<tr>
-									<th>번호</th>
-									<th>카테고리</th>
-									<th>제목</th>
-									<th>날짜</th>
-									<th>조회수</th>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td><a href="#">Q&A</a></td>
-									<td><a href="#">고라니탕을 만들려고 직접 고라니를 잡으러가는대여...</a></td>
-									<td>2019.10.14</td>
-									<td>11</td>
-								</tr>
-								<tr>
-									<td>2</td>
+		<table>
+			<colgroup>
+				<col class="no">
+				<col class="category">
+				<col class="title">
+				<col class="writer">
+				<col class="date">
+				<col class="views">
+			</colgroup>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>카테고리</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>날짜</th>
+					<th>조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${empty requestScope.postList}">
+						<tr>
+							<td colspan="6">등록된 게시글이 없습니다.</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach items="${requestScope.postList}" var="board">
+							<c:if test="${board.postTypeNo != 1}">						
+							<tr>
+								<td>${board.no}</td>
+								<c:choose>
+									<c:when test="${board.postTypeNo == 2}">
 									<td><a href="#">TIP</a></td>
-									<td><a href="#">선생님 잠자고 싶어요...ㅠㅠ</a></td>
-									<td>2019.10.14</td>
-									<td>152</td>
-								</tr>
-								<tr>
-									<td>33333</td>
+									</c:when>
+									<c:when test="${board.postTypeNo == 3}">
 									<td><a href="#">후기</a></td>
-									<td><a href="#">으악 살려줘!!!</a></td>
-									<td>2019.10.14</td>
-									<td>7777</td>
-								</tr>
-								<tr>
-									<td>33333</td>
-									<td><a href="#">후기</a></td>
-									<td><a href="#">점심 나가서 먹을것 가태!!!!!!!!!!</a></td>
-									<td>2019.10.14</td>
-									<td>7777</td>
-								</tr>
-							</table>
+									</c:when>
+									<c:otherwise>
+									<td><a href="#">QNA</a></td>
+									</c:otherwise>
+								</c:choose>
+								<td><a
+									href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.no}">${board.title}</a></td>
+								<td>${board.userNicname}</td>
+								<td>${board.date}</td>
+								<td>${board.counts}</td>
+							</tr>
+						</c:if>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
+		</table>
 							<a class="btn" href="#">&lt;&lt;</a> <a class="btn" href="#">&lt;</a>
 							<a class="btn number" href="#">1</a> <a class="btn number"
 								href="#">2</a> <a class="btn number on" href="#">3</a> <a

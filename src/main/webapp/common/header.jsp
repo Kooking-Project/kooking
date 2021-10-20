@@ -224,15 +224,14 @@
                                     </li>
                                     	<c:choose>
                                    		<c:when test="${userDTO.status}==10">
-                                   			<li><a href="${pageContext.request.contextPath}/user/admin.jsp">마이 페이지</a></li>
+                                   			<li><a href="${pageContext.request.contextPath}/front?key=admin&methodName=userSelectByNo&userNo=${userDTO.no}">마이 페이지</a></li>
                                    			<!--  <a href="${path}/front?key=user&methodName=selectByModelNum&modelNum=${elecDto.modelNum}"> ${elecDto.modelName} -->
                                   		 </c:when>
                                    		<c:otherwise>
-                                   			<li><a href="${pageContext.request.contextPath}/user/user.jsp">마이 페이지</a></li>
+                                   			<li><a href="${pageContext.request.contextPath}/front?key=user&methodName=userInfoByNo&userNo=${userDTO.no}">마이 페이지</a></li>
                                    		</c:otherwise> 
                                    		</c:choose>
-                                </ul>
-                                
+                                </ul> 
                                 <!-- Newsletter Form -->
                                 <div class="search-btn">
                                     <i class="fa fa-search" aria-hidden="true"></i>

@@ -219,6 +219,7 @@ a {
 						</tr>
 
 						<tr>
+							<td><a href="${pageContext.request.contextPath}/front?key=post&methodName=updatePost&postNo=${postDTO.no}type=${postDTO.postTypeNo}user=${postDTO.userNo}title=${postDTO.title}contents=${postDTO.contents}nickName=${postDTO.nickName}" class="btn btn-danger">수정하기</a>
 							<td colspan="6" class="text-center"><input type="button"
 								class="btn btn-warning" value="확인"
 								onclick="location.href='BoardUpdateForm.jsp?num='"> <input
