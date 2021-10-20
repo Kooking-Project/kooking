@@ -26,4 +26,12 @@ public class RecipeSelectServiceImpl implements RecipeSelectService{
 		return dao.addRecipeScore(postNo, userNo, score);
 	}
 
+	@Override
+	public List<RecipeDTO> getRecipeList(Pagenation page) throws Exception {
+		if(page == null) {
+			page = new Pagenation();
+		}
+		
+		return dao.getRecipeList(page);
+	}
 }

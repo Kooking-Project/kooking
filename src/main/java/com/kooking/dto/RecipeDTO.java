@@ -19,7 +19,7 @@ public class RecipeDTO {
 	private String level;	//레시피 조리난이도
 	private double score; 	//레시피 점수
 	private PostDTO post;
-	private static final String VIEW_NAME = "VIEW_RECIPE_LIST";
+	private String thumbnail; //대표 이미지
 	
 	public RecipeDTO() {}
 
@@ -117,6 +117,14 @@ public class RecipeDTO {
 	
 	public void setScore(double score) {
 		this.score = score;
+	}
+	
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 
 	@Override
