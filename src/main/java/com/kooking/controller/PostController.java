@@ -69,6 +69,7 @@ public class PostController implements Controller {
 	public ModelAndView updatePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
 
+		
 		// HttpSession session = request.getSession();
 		// int userNo = (int)session.getAttribute("loginUserNo"); //회원번호
 
