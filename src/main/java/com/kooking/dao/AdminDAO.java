@@ -13,6 +13,10 @@ public interface AdminDAO {
 	 * 회원의 모든정보 출력
 	 * */
 	List<UserDTO> userSelectAll() throws SQLException;
+	/**
+	 * 회원의 상세정보 출력
+	 * */
+	UserDTO userSelectByNo(int userNo) throws SQLException;
 	
 	/**
 	 * 유저 상태 확인

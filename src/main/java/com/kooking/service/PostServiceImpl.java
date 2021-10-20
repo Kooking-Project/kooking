@@ -50,10 +50,10 @@ public class PostServiceImpl implements PostService {
 	 * 게시판 게시글 삭제 - 관리자도 하나씩 삭제
 	 */
 	@Override
-	public int deletePost(int postNo, Connection con) throws Exception {
+	public int deletePost(int postNo, int userNo, Connection con) throws Exception {
 		int result = 0;
 		
-		result = boardDAO.deletePost(postNo, null);
+		result = boardDAO.deletePost(postNo, userNo, null);
 		
 		return result;
 	}
@@ -152,18 +152,53 @@ public class PostServiceImpl implements PostService {
 	 * return null; }
 	 */
 
+	/**
+	 * 댓글 추가
+	 */
+	@Override
+	public int insertComment(CommentDTO postDTO) throws Exception{
+		int result = 0;
+		
+		result = boardDAO.insertComment(postDTO, null);
+		
+		if(result == 0)
+		{
+			throw new KookingException("게시물이 안들어갔어....");
+		}
+
+		return result;
+	}
+	
+
+	/**
+	 * 댓글 수정
+	 */
+	public int updateComment(int UserNo, CommentDTO dto) {
+		return 0;
+	}
+
+
+	/**
+	 * 댓글 삭제
+	 */
+	@Override
+	public int deleteComment(int UserNo, int postNo, CommentDTO dto) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	
+	/**
+	 * 댓글 상태 확인 - 삭제된 댓글입니다 보여줘야 됨
+	 */
+	public int stateComment(CommentDTO dto) {
+		return 0;
+	}
+	
 	@Override
 	public List<PostDTO> boardList(String userNo) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public int insertComment(int UserNo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
 	
 }

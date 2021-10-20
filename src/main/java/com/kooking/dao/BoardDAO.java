@@ -82,7 +82,7 @@ public class BoardDAO {
 	/**
 	 * 게시판 게시글 삭제 - 관리자도 하나씩 삭제
 	 */
-	public int deletePost(int postNo, Connection con) throws Exception { // 댓글도 같이 삭제되는지 확인
+	public int deletePost(int postNo, int userNo, Connection con) throws Exception { // 댓글도 같이 삭제되는지 확인
 		boolean isConnected = (con != null);
 		if(!isConnected) {
 			con = DBTestUtil.getConnection();
@@ -90,9 +90,10 @@ public class BoardDAO {
 		PreparedStatement st = null;
 		int result = 0;
 		try {
-			String sql = "DELETE FROM POSTS WHERE POST_NO=?";
+			String sql = "DELETE FROM POSTS WHERE POST_NO=? AND USER_NO = ?";
 			st = con.prepareStatement(sql);
 			st.setInt(1, postNo);
+			st.setInt(2, userNo);
 			
 			result = st.executeUpdate();
 		}finally {
@@ -105,6 +106,50 @@ public class BoardDAO {
 		return result;
 	}
 	
+	/**
+	 * 댓글 추가
+	 */
+	public int insertComment(CommentDTO postDTO, Connection con) throws Exception {
+		boolean isConnected = (con != null);
+		if(!isConnected) {
+			con = DBTestUtil.getConnection();
+		}
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		int result = 0;
+		try {
+			// String sql = proFile.getProperty("post.insertPost");
+			// 게시글 번호빼고 저장
+			/*
+			 * st = con.
+			 * prepareStatement("INSERT INTO POSTS(POST_NO,POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS,"
+			 * +
+			 * " POST_VIEW_COUNTS, POST_DATE) VALUES(POST_NO_SEQ.NEXTVAL,?,?,?,?,0,SYSDATE)"
+			 * ); st.setInt(1, postDTO.getPostTypeNo()); st.setInt(2, postDTO.getUserNo());
+			 * st.setString(3, postDTO.getTitle()); st.setString(4, postDTO.getContents());
+			 */
+
+			result = st.executeUpdate();
+			System.out.println(result);
+			
+		}finally {
+			
+			if(isConnected) {
+				DBTestUtil.dbClose(st, rs);
+			}else {
+				DBTestUtil.dbClose(con, st, rs);
+			}
+			
+		}
+		
+		return result;
+	}
+	
+	
+	
+	/**
+	 * 댓글 조회
+	 */
 	public List<CommentDTO> getComments(int postNo, Connection con) throws Exception{
 		boolean isConnected = (con != null);
 		if(!isConnected) {
@@ -142,6 +187,9 @@ public class BoardDAO {
 		return comments;
 	}
 	
+	/**
+	 * 댓글 수정
+	 */
 	public int updateComments(CommentDTO comment, Connection con) throws Exception{
 		boolean isConnected = (con != null);
 		if(!isConnected) {
@@ -167,6 +215,9 @@ public class BoardDAO {
 		return result;
 	}
 	
+	/**
+	 * 댓글 삭제
+	 */
 	public int deleteComment(int commentNo, int userNo, Connection con) throws Exception{
 		boolean isConnected = (con != null);
 		if(!isConnected) {
@@ -178,10 +229,9 @@ public class BoardDAO {
 		
 		return result;
 	}
+
 	
 	
-	//게시글 하나 셀렉트, 조회수, 댓글>????
-	//
 	
 }
 

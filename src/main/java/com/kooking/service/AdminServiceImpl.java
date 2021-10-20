@@ -4,28 +4,30 @@ import java.util.List;
 
 import com.kooking.dao.AdminDAO;
 import com.kooking.dao.AdminDAOImpl;
+import com.kooking.dao.BoardDAO;
 import com.kooking.dto.UserDTO;
 import com.kooking.exception.KookingException;
 
 public class AdminServiceImpl implements AdminService {
-	private AdminDAO dao = new AdminDAOImpl();
+	private AdminDAO adminDao = new AdminDAOImpl();
+	private BoardDAO boardDao = new BoardDAO();
 	
 	@Override
 	public void changeUserStatus(int adminNo, UserDTO user) throws Exception {
 		int result = 0;
 		
-		if(dao.checkUserStatues(adminNo)!=10)
+		if(adminDao.checkUserStatues(adminNo)!=10)
 			throw new KookingException("관리자가 아닙니다.");
 		
 		switch(user.getStatus()) {
 			case 0:
-				result = dao.changeUserStatus(user);
+				result = adminDao.changeUserStatus(user);
 				break;
 			case 1:
-				result = dao.changeUserStatus(user);
+				result = adminDao.changeUserStatus(user);
 				break;
 			case 2:
-				result = dao.changeUserStatus(user);
+				result = adminDao.changeUserStatus(user);
 				break;
 			case 10:	//일반 회원이 관리자가 될수 없다.
 				throw new KookingException("입력된 값이 잘못 되었습니다.");
@@ -39,25 +41,40 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public void commentDelete(int adminNo, int commentNo) throws Exception {
-		if(dao.checkUserStatues(adminNo)!=10)
+	public void commentDelete(int adminNo, int userNo, int commentNo) throws Exception {
+		if(adminDao.checkUserStatues(adminNo)!=10)
 			throw new KookingException("관리자가 아닙니다.");
+		if(boardDao.deleteComment(commentNo, userNo, null)==0);
+			throw new KookingException("게시글이 삭제되지 않았습니다.");
 	}
 
 	@Override
-	public void postDelete(int adminNo, int postNo) throws Exception {
-		if(dao.checkUserStatues(adminNo)!=10)
+	public void postDelete(int adminNo, int userNo, int postNo) throws Exception {
+		if(adminDao.checkUserStatues(adminNo)!=10)
 			throw new KookingException("관리자가 아닙니다.");
+		if(boardDao.deletePost(postNo, userNo, null)==0);	//유저 넘버 추가
+			throw new KookingException("게시글이 삭제되지 않았습니다.");
+		
 	}
 
 	@Override
 	public List<UserDTO> userSelectAll(int adminNo) throws Exception {
-		if(dao.checkUserStatues(adminNo)!=10)
+		if(adminDao.checkUserStatues(adminNo)!=10)
 			throw new KookingException("관리자가 아닙니다.");
-		List<UserDTO> userList = dao.userSelectAll();
+		List<UserDTO> userList = adminDao.userSelectAll();
 		if (userList==null)
 			throw new KookingException("회원 정보가 없습니다.");
 		return userList;
+	}
+
+	@Override
+	public UserDTO userSelectByNo(int adminNo, int userNo) throws Exception {
+		if(adminDao.checkUserStatues(adminNo)!=10)
+			throw new KookingException("관리자가 아닙니다.");
+		UserDTO user = adminDao.userSelectByNo(userNo);
+		if (user==null)
+			throw new KookingException("회원 정보가 없습니다.");
+		return user;
 	}
 
 }

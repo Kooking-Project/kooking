@@ -32,6 +32,19 @@ public class AdminController implements Controller {
 		
 		return new ModelAndView("adminTest.jsp");
 	}
+	
+	/**
+	 * 전체회원 정보 조회(관리자)
+	 * */
+	public ModelAndView userSelectByNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		
+		UserDTO user = service.userSelectByNo(adminNo, userNo);
+		request.setAttribute("user", user);
+		
+		return new ModelAndView("adminTest.jsp");
+	}
 
 	/**
 	 * 회원 상태 변경 조회(관리자)
@@ -53,9 +66,10 @@ public class AdminController implements Controller {
 	 * */
 	public ModelAndView commentDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		int commentNo = Integer.parseInt(request.getParameter("commentNo"));
 		
-		service.commentDelete(adminNo, commentNo);
+		service.commentDelete(adminNo, userNo, commentNo);
 		
 		return new ModelAndView("adminTest.jsp", true);
 	}
@@ -65,9 +79,10 @@ public class AdminController implements Controller {
 	 * */
 	public ModelAndView postDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		int postNo = Integer.parseInt(request.getParameter("postNo"));
 		
-		service.postDelete(adminNo, postNo);
+		service.postDelete(adminNo, userNo, postNo);
 		
 		return new ModelAndView("adminTest.jsp", true);
 	}

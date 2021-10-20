@@ -13,15 +13,20 @@ public interface AdminService {
 	/**
 	 * 댓글 삭제
 	 * */
-	void commentDelete(int adminNo, int commentNo) throws Exception;
+	void commentDelete(int adminNo, int userNo, int commentNo) throws Exception;
 
 	/**
 	 * 게시글 삭제
 	 * */
-	void postDelete(int adminNo, int postNo) throws Exception;
+	void postDelete(int adminNo, int userNo, int postNo) throws Exception;
 	
 	/**
 	 * 유저정보 전체 검색
 	 * */
 	List<UserDTO> userSelectAll(int adminNo) throws Exception;
+
+	/**
+	 * 유저정보 상세정보 검색
+	 * */
+	UserDTO userSelectByNo(int adminNo, int userNo) throws Exception;
 }

@@ -248,13 +248,13 @@ input#search-bar {
 			</thead>
 			<tbody>
 				<c:choose>
-					<c:when test="${empty postList}">
+					<c:when test="${empty requestScope.postList}">
 						<tr>
 							<td colspan="6">등록된 게시글이 없습니다.</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
-						<c:forEach items="${postList}" var="board">
+						<c:forEach items="${requestScope.postList}" var="board">
 							<tr>
 								<td>${board.no}</td>
 								<td><a href="#">${board.type}</a></td>
