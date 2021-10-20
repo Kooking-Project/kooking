@@ -17,38 +17,7 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 
 	// private Properties proFile = DBUtil.getProFile();
 
-	private static final String SPACE = " ";
-
 	String sql;
-
-	/**
-	 * 사용자가 쓴 게시물 조회 - user에서 할 예정
-	 */
-	/*
-	 * @Override public List<PostDTO> selectUserPost(int userNo) throws SQLException
-	 * { List<PostDTO> PostList = new ArrayList<PostDTO>();
-	 * 
-	 * if (userNo == 0 && "".equals(userNo)) { //사용자 있으면 sql구문 추가 & int로 받을지
-	 * String으로 받을지
-	 * 
-	 * } sql =
-	 * "SELECT POST_NO, POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE "
-	 * + "FROM POSTS WHERE USER_NO=?";
-	 * 
-	 * con = DbUtil.getConnection(); st = con.prepareStatement(sql);
-	 * 
-	 * st.setInt(1, userNo);
-	 * 
-	 * rs = st.executeQuery();
-	 * 
-	 * while(rs.next()) { PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2),
-	 * rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6),
-	 * rs.getString(7)); // 컬럼의 첫번째 값을 int형 가져옴 PostList.add(postDTO); }
-	 * 
-	 * DbUtil.dbClose(con, st, rs);
-	 * 
-	 * return PostList; }
-	 */
 
 	/**
 	 * 게시판 클릭했을 때 해당 게시물 하나보여주기 - 비회원, 회원 공통
@@ -130,7 +99,7 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		DbUtil.dbClose(con, st, rs);
 
 		return postList;
-		
+
 	}
 
 	/**

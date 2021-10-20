@@ -73,35 +73,16 @@ public interface PostService {
 	/**
 	 * 댓글 수정
 	 */
-	public int updateComment(int UserNo, CommentDTO dto);
+	public int updateComment(CommentDTO dto) throws Exception;
 	
 	/**
 	 * 댓글 삭제 - 상태만 바꾸는거
 	 */
-	public int deleteComment(int UserNo, int postNo, CommentDTO dto);
+	public int deleteComment(int userNo, int postNo) throws Exception;
 	
 	/**
-	 * 댓글 상태 확인 - 삭제된 댓글입니다 보여줘야 됨
+	 * 댓글 하나만 찾아오기 - commentNo로
 	 */
-	public int stateComment(CommentDTO dto);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	List<PostDTO> boardList(String userNo) throws Exception;
+	public CommentDTO stateComment(int commentNo) throws Exception;
 	
 }

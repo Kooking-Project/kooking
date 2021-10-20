@@ -69,8 +69,10 @@ public class PostController implements Controller {
 		// HttpSession session = request.getSession();
 		// int userNo = (int)session.getAttribute("loginUserNo"); //회원번호
 
-		// 수정하기 전 사용자 원래 게시글 정보 가져오는 메소드 호출해서 뿌려줄꺼임
-
+		int postNo = Integer.parseInt(request.getParameter("postNo"));
+		
+		PostDTO beforeDTO = postService.selectPostDetail(postNo); //수정하기전 사용자 기존 게시글 정보
+		
 		int type = Integer.parseInt(request.getParameter("type"));
 
 		// int no, int postTypeNo, int userNo, String title, String contents, int
@@ -145,6 +147,7 @@ public class PostController implements Controller {
 
 		return mv;
 	}
+
 
 	/**
 	 * 게시판 전체 게시글 조회 - PostDTO <- postDTO에 사용자 닉네임 추가
@@ -305,30 +308,66 @@ public class PostController implements Controller {
 		return mv;
 	}
 
-	// 밑에는 테스트용으로 사용했던거
-	// -------------------------------------------------------------------------------------------
-
-	public ModelAndView insertPost2(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return null;
-
-		/*
-		 * public ModelAndView boardList(HttpServletRequest request, HttpServletResponse
-		 * response) throws Exception { ModelAndView mv = new ModelAndView(); String
-		 * userNo = request.getParameter("userNo"); List<PostDTO> dto =
-		 * boardService.boardList(userNo); request.setAttribute("boardDto", dto);
-		 * 
-		 * mv.setViewName("boardTest.jsp"); mv.setRedirect(false);
-		 * 
-		 * return mv; }
-		 */
-	}
-
-	public ModelAndView read(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	/**
+	 * 댓글 수정
+	 */
+	public ModelAndView updateComment(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		System.out.println("read 실행..");
 
-		mv.setViewName("post.jsp");
-		mv.setRedirect(true);
+		// HttpSession session = request.getSession();
+		// int userNo = (int)session.getAttribute("loginUserNo"); //회원번호
+
+		int commentNo = Integer.parseInt(request.getParameter("commentNo")); // 게시물 번호
+		int top = Integer.parseInt(request.getParameter("top")); //상위
+		
+		CommentDTO beforeDTO = postService.stateComment(commentNo); //수정하기전 사용자 기존 게시글 정보
+
+		/// int no, int postNo, int userNo, int top, String content, String date, boolean deleteYN
+
+		// 사용자는 session 번호 알아내면 넣기
+		CommentDTO dto = new CommentDTO(commentNo, 0, 2/* 사용자번호 */, top, request.getParameter("content"), "", true);
+
+		int result = postService.updateComment(dto);
+
+		// 결과에 따른 성공, 실패 나누기
+		if (result != 0) {
+			// 성공 페이지로 이동? 아니면 팝업창?
+			mv.setViewName("boardRead.jsp");
+		} else {
+			// 실패
+			mv.setViewName("boardRead.jsp");
+		}
+
+		// mv.setViewName("boardTest.jsp");
+		mv.setRedirect(false);
+
+		return mv;
+	}
+	
+	/**
+	 * 댓글 삭제 - 상태만 바꾸는거 - 사용자가 관리자인지 구분하는 기준이 필요 그냥 관리자의 유저번호는 의미 없음
+	 */
+	public ModelAndView deleteComment(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mv = new ModelAndView();
+
+		// HttpSession session = request.getSession();
+		// int userNo = (int)session.getAttribute("loginUserNo"); //회원번호
+
+		int commentNo = Integer.parseInt(request.getParameter("commentNo")); // 게시물 번호
+
+		int result = postService.deleteComment(2/*사용자 번호*/, commentNo);
+
+		// 결과에 따른 성공, 실패 나누기
+		if (result != 0) {
+			// 성공 페이지로 이동? 아니면 팝업창?
+			mv.setViewName("boardRead.jsp");
+		} else {
+			// 실패
+			mv.setViewName("boardRead.jsp");
+		}
+
+		// mv.setViewName("boardTest.jsp");
+		mv.setRedirect(false);
 
 		return mv;
 	}
