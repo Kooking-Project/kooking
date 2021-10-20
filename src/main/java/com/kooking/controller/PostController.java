@@ -88,9 +88,9 @@ public class PostController implements Controller {
 
 		// 결과에 따른 성공, 실패 나누기
 		if (result != 0) { // 성공 페이지로 이동? 아니면 팝업창?
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("board/boardUpdate.jsp");
 		} else { // 실패
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("board/boardUpdate.jsp");
 		}
 
 		mv.setRedirect(false);
@@ -115,12 +115,12 @@ public class PostController implements Controller {
 
 		// 결과에 따른 성공, 실패 나누기
 		if (result != 0) {
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("front");
 		} else { // 실패
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("front");
 		}
 
-		mv.setViewName("boardTest.jsp");
+		mv.setViewName("front");
 		mv.setRedirect(false);
 
 		return mv;
