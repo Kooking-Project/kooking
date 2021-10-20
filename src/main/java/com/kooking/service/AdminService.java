@@ -24,4 +24,9 @@ public interface AdminService {
 	 * 유저정보 전체 검색
 	 * */
 	List<UserDTO> userSelectAll(int adminNo) throws Exception;
+
+	/**
+	 * 유저정보 상세정보 검색
+	 * */
+	UserDTO userSelectByNo(int adminNo, int userNo) throws Exception;
 }

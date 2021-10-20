@@ -93,5 +93,26 @@ public class AdminDAOImpl implements AdminDAO {
 		return result;
 	}
 
-
+	@Override
+	public UserDTO userSelectByNo(int userNo) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps =null;
+		ResultSet rs =null;
+		String sql=proFile.getProperty("query.userSelectByNo");
+		UserDTO user=null;
+		
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				user = new UserDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6), rs.getString(7), rs.getInt(8));
+			}
+			
+		}finally {
+			DbUtil.dbClose(rs, ps, con);
+		}
+		return user;
+	}
 }

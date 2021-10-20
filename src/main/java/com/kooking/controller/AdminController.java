@@ -32,6 +32,19 @@ public class AdminController implements Controller {
 		
 		return new ModelAndView("adminTest.jsp");
 	}
+	
+	/**
+	 * 전체회원 정보 조회(관리자)
+	 * */
+	public ModelAndView userSelectByNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		
+		UserDTO user = service.userSelectByNo(adminNo, userNo);
+		request.setAttribute("user", user);
+		
+		return new ModelAndView("adminTest.jsp");
+	}
 
 	/**
 	 * 회원 상태 변경 조회(관리자)
