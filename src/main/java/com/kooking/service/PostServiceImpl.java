@@ -91,11 +91,14 @@ public class PostServiceImpl implements PostService {
 	 * 게시판 전체 게시글 조회 - 사용자 닉네임 어떻게 보여줄 지 & 페이징 처리
 	 */
 	@Override
-	public List<PostDTO> selectPost() throws Exception {
-		
-		List<PostDTO> postDTO = postDAO.selectPost();
-
-		return postDTO;
+	public List<PostDTO> selectPost() throws Exception{
+		try {
+			List<PostDTO> postDTO = postDAO.selectPost();
+			return postDTO;
+		} catch (NullPointerException e) {
+			System.out.println("널포인드");
+		}
+		return null;
 	}
 
 	/**
@@ -133,35 +136,34 @@ public class PostServiceImpl implements PostService {
 	 */
 	@Override
 	public List<PostDTO> searchPostName(String postTitle) throws SQLException {
+		
 		List<PostDTO> postDTO = postDAO.searchPostName(postTitle);
-		/*
-		 * List<PostDTO> selectPostDTO;
-		 * 
-		 * for (PostDTO post : postDTO) { int num = post.getPostTypeNo(); switch() }
-		 */
+
 		return postDTO;
 	}
 
 	/**
 	 * 게시판 타입으로 검색  - 굳이?
 	 */
-	@Override
-	public List<PostDTO> searchPostType(String postType) throws SQLException {
-		List<PostDTO> postDTO = null;
-		
-		return null;
-	}
+	/*
+	 * @Override public List<PostDTO> searchPostType(String postType) throws
+	 * SQLException { List<PostDTO> postDTO = null;
+	 * 
+	 * return null; }
+	 */
 
-	//테스트용
 	@Override
 	public List<PostDTO> boardList(String userNo) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	
+	@Override
+	public int insertComment(int UserNo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
-	
 
 	
 }

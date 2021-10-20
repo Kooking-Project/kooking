@@ -32,6 +32,8 @@ public class BoardDAO {
 			st.setString(4, postDTO.getContents());
 
 			result = st.executeUpdate();
+			System.out.println(result);
+			
 		}finally {
 			
 			if(isConnected) {
