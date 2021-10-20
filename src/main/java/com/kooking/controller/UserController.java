@@ -210,5 +210,26 @@ public class UserController implements Controller {
 		return new ModelAndView("adminTest.jsp", true);
 	}
 	
+	/**
+	 * 전체회원 정보 조회
+	 * */
+	public ModelAndView userSelectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<UserDTO> userList = userSerivce.userSelectAll();
+		request.setAttribute("userList", userList);
+		
+		return new ModelAndView("adminTest.jsp");
+	}
+	
+	/**
+	 * 회원 상세정보 조회
+	 * */
+	public ModelAndView userSelectByNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		
+		UserDTO user = userSerivce.userSelectByNo(userNo);
+		request.setAttribute("user", user);
+		
+		return new ModelAndView("adminTest.jsp");
+	}
 	
 }

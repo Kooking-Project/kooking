@@ -17,38 +17,7 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 
 	// private Properties proFile = DBUtil.getProFile();
 
-	private static final String SPACE = " ";
-
 	String sql;
-
-	/**
-	 * 사용자가 쓴 게시물 조회 - user에서 할 예정
-	 */
-	/*
-	 * @Override public List<PostDTO> selectUserPost(int userNo) throws SQLException
-	 * { List<PostDTO> PostList = new ArrayList<PostDTO>();
-	 * 
-	 * if (userNo == 0 && "".equals(userNo)) { //사용자 있으면 sql구문 추가 & int로 받을지
-	 * String으로 받을지
-	 * 
-	 * } sql =
-	 * "SELECT POST_NO, POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE "
-	 * + "FROM POSTS WHERE USER_NO=?";
-	 * 
-	 * con = DbUtil.getConnection(); st = con.prepareStatement(sql);
-	 * 
-	 * st.setInt(1, userNo);
-	 * 
-	 * rs = st.executeQuery();
-	 * 
-	 * while(rs.next()) { PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2),
-	 * rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6),
-	 * rs.getString(7)); // 컬럼의 첫번째 값을 int형 가져옴 PostList.add(postDTO); }
-	 * 
-	 * DbUtil.dbClose(con, st, rs);
-	 * 
-	 * return PostList; }
-	 */
 
 	/**
 	 * 게시판 클릭했을 때 해당 게시물 하나보여주기 - 비회원, 회원 공통
@@ -58,6 +27,7 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		Connection con = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
+		PostDTO postDTO = null;
 
 		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
 				+ " FROM POSTS P INNER JOIN USERS U" + " ON P.USER_NO = U.USER_NO AND POST_NO=?";
@@ -71,9 +41,10 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		// int no, int postTypeNo, int userNo, String title, String contents, int
 		// counts, String date, String userNicname
 
-		PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
+		if(rs.next()) {
+			postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
 				rs.getInt(6), rs.getString(7), rs.getString(8));
-
+		}
 		DbUtil.dbClose(con, st, rs);
 
 		return postDTO;
@@ -94,9 +65,11 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 
 		st.setInt(1, postNo);
 
+		int result = st.executeUpdate();
+		
 		DbUtil.dbClose(con, st, rs);
 
-		return st.executeUpdate();
+		return result;
 
 	}
 
@@ -105,7 +78,6 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 	 */
 	@Override
 	public List<PostDTO> selectPost() throws Exception {
-		try {
 		Connection con = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -131,10 +103,7 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		DbUtil.dbClose(con, st, rs);
 
 		return postList;
-		} catch (NullPointerException e) {
-			System.out.println("널포인트 - 다오임플");
-		}
-		return null;
+
 	}
 
 	/**

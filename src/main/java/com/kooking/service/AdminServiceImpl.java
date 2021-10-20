@@ -73,7 +73,7 @@ public class AdminServiceImpl implements AdminService {
 			throw new KookingException("관리자가 아닙니다.");
 		UserDTO user = adminDao.userSelectByNo(userNo);
 		if (user==null)
-			throw new KookingException("회원 정보가 없습니다.");
+			throw new KookingException("선택한 회원 정보가 없습니다.");
 		return user;
 	}
 

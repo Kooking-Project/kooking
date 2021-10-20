@@ -160,33 +160,33 @@ function sendDelete(){
 					<table class="table">
 						<tr>
 							<th class="success">글번호</th>
-							<td>${board.no}</td>
+							<td>${postDTO.no}</td>
 							<th class="success">조회수</th>
-							<td>${requestScope.board.no}</td>
+							<td>${postDTO.counts}</td>
 						</tr>
 						<tr>
 							<th class="success">카테고리</th> 	<!--  -->
-							<td>${requestScope.board.category}</td>
+							<td>${postDTO.postTypeNo}</td>
 							<th class="success">작성자</th>
-							<td>${requestScope.board.writer}</td>
+							<td>${postDTO.userNicname}</td>
 							<th class="success">작성일</th>
-							<td>${requestScope.board.writeday}</td>
+							<td>${postDTO.date}</td>
 						</tr>
 
 						<tr>
 							<th class="success">제목</th>
-							<td colspan="6">${requestScope.board.title}</td>
+							<td colspan="6">${postDTO.title}</td>
 						</tr>
 
 						<tr>
 							<th class="success">글 내용</th>
-							<td colspan="6">${requestScope.board.description}</td>
+							<td colspan="6">${postDTO.contents}</td>
 						</tr>
 
 						<!-- 댓글 -->
 						<tr>
 							<td colspan="6" class="text-center"><c:choose>
-									<c:when test="${requestScope.board.writer} == ${loginUser.nickName}"> <!--  "${userDTO.status} == 10" -->
+									<c:when test="${(board.userNicname == userDTO.nickName) or (userDTO.status == 10)}">
 										<input type="button" class="btn btn-warning" value="수정하기"
 											onclick="sendUpdate()">
 										<input type="button" class="btn btn-danger" value="삭제하기"

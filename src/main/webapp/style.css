@@ -1474,6 +1474,7 @@ textarea:focus {
 .regi_cont div:last-child {border:none;}
 /*cont_line*/
 .cont_line {width:800px; padding:8px 0 0 0;}
+.cont_line .col-lg-4 {font-size: 16px; font-weight:normal; display: inline-block;}
 .cont_line input {display:inline-block;}
 .cont_line .cont_check {vertical-align:middle; height:35px; margin:4px;}
 
@@ -1488,7 +1489,7 @@ textarea:focus {
 
 ::i-block-chrome, .cont_box select {padding:0px 12px;}
 .cont_box li input {display:inline-block; margin:0 3px; vertical-align:middle;}
-.cont_box p {font-size:20px; padding:0 0 0 2px; margin:0 0 20px 0; line-height:50px;  display:inline-block;}
+/*.cont_box p {font-size:20px; padding:0 0 0 2px; margin:0 0 20px 0; line-height:50px;  display:inline-block;}*/
 .cont_box p label {font-weight:normal; display:inline-block; font-size:18px;}
 .cont_box .guide {font-size:14px; display:inline-block; line-height:1.8; margin-top:6px; color:#999; background:url(//recipe1.ezmember.co.kr/img/icon_tip.png) left 2px no-repeat; padding:0 0 0 20px; vertical-align:top;}
 .cont_box .cont_tit {width:100px; display:inline-block; font-size:20px; font-weight:normal; vertical-align:top;}
