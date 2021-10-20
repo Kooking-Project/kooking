@@ -16,6 +16,7 @@ import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.exception.KookingException;
 import com.kooking.paging.Pagenation;
+import com.kooking.util.DBTestUtil;
 import com.kooking.util.DbUtil;
 
 public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
@@ -290,7 +291,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 		String sql = "SELECT * FROM (SELECT A.*, ROWNUM RNUM FROM VIEW_RECIPE_LIST A) WHERE RNUM BETWEEN ? AND ? ORDER BY POST_DATE DESC";
 
 		try {
-			con = DbUtil.getConnection();
+			con = DBTestUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, (page.getPageNo() - 1) * page.getPageSize() + 1);
 			ps.setInt(2, page.getPageNo() * page.getPageSize());
@@ -326,12 +327,13 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 				recipe.setLevel(rs.getString(15));
 				recipe.setScore(rs.getDouble(16));
 				recipe.setPost(post);
+				recipe.setThumbnail(rs.getString(17));
 
 				recipes.add(recipe);
 			}
 
 		} finally {
-
+			DBTestUtil.dbClose(ps, rs, con);
 		}
 
 		return recipes;
@@ -347,7 +349,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 	public int getTotalRecipesNum(Connection con) throws Exception {
 		boolean isConnected = (con != null);
 		if (!isConnected) {
-			con = DbUtil.getConnection();
+			con = DBTestUtil.getConnection();
 		}
 		int result = 0;
 		PreparedStatement ps = null;
@@ -361,9 +363,9 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 			}
 		} finally {
 			if (isConnected) {
-				DbUtil.dbClose(ps, rs);
+				DBTestUtil.dbClose(ps, rs);
 			} else {
-				DbUtil.dbClose(con, ps, rs);
+				DBTestUtil.dbClose(con, ps, rs);
 			}
 		}
 		return result;
@@ -510,11 +512,8 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 	public static void main(String[] args) throws Exception {
 		RecipeSelectDAOImpl dao = new RecipeSelectDAOImpl();
 
-		RecipeDTO recipe = new RecipeDTO();
-		recipe.setName("치킨");
-		recipe.setCookingTime(20);
 
-		System.out.println(dao.searchQuery(recipe, new Pagenation()));
+		System.out.println(dao.getRecipeList(new Pagenation()));
 
 	}
 
