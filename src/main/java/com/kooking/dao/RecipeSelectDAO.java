@@ -1,6 +1,7 @@
 package com.kooking.dao;
 
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
@@ -49,7 +50,7 @@ public interface RecipeSelectDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	List<RecipeDTO> getRecipeList(Pagenation page) throws Exception;
+	Entry<List<RecipeDTO>, Pagenation> getRecipeList(Pagenation page) throws Exception;
 	
 	
 

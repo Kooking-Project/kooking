@@ -280,7 +280,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 	}
 
 	@Override
-	public List<RecipeDTO> getRecipeList(Pagenation page) throws Exception {
+	public Entry<List<RecipeDTO>, Pagenation> getRecipeList(Pagenation page) throws Exception {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -288,6 +288,8 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 		List<RecipeDTO> recipes = new ArrayList<RecipeDTO>();
 		int count = getTotalRecipesNum(con);
 		int totalPage = (int) Math.ceil(page.getPageSize() / count);
+		page.setPageCnt(totalPage);
+		page.setTotal(count);
 		String sql = "SELECT * FROM (SELECT A.*, ROWNUM RNUM FROM VIEW_RECIPE_LIST A) WHERE RNUM BETWEEN ? AND ? ORDER BY POST_DATE DESC";
 
 		try {
@@ -335,8 +337,8 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 		} finally {
 			DBTestUtil.dbClose(ps, rs, con);
 		}
-
-		return recipes;
+		
+		return new SimpleEntry<List<RecipeDTO>, Pagenation>(recipes, page);
 	}
 
 	/**

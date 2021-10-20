@@ -31,6 +31,7 @@
 	private String userNicname; //사용자 닉네임
 	//대표 이미지 -->
 	<tr>
+	<th>썸네일</th>
 	<th>NO</th>
 	<th>요리이름</th>
 	<th>칼로리</th>
@@ -39,7 +40,7 @@
 	<th>조리방법</th>
 	<th>난이도</th>
 	<th>점수</th>
-	<th>썸네일</th>
+	
 	
 	<th>닉네임</th>
 	<th>내용</th>
@@ -47,7 +48,26 @@
 	<th>작성일</th>
 	
 	</tr>
-
+	<c:forEach items="${recipeList}" var="recipe" varStatus="state">
+	<tr>
+		<td><img src="${path}/img/${recipe.thumbnail}" width='100px' height='100px'></td>
+		<td>${recipe.no}</td>
+		<td><a href='${path}/front?key=search&methodName=view&no=${recipe.post.no}'>${recipe.name}</a></td>
+		<td>${recipe.calorie}</td>
+		<td>${recipe.cookingTime}</td>
+		<td>${recipe.nation}</td>
+		<td>${recipe.type}</td>
+		<td>${recipe.level}</td>
+		<td>${recipe.score}</td>
+		<td>${recipe.post.userNicname}</td>
+		<td>${recipe.post.contents}</td>
+		<td>${recipe.post.counts}</td>
+		<td>${recipe.post.date}</td>
+	</tr>
+	</c:forEach>
 	</table>
+	<c:forEach begin="1" end="${page.pageCnt}" var="idx">
+		<a href="${path}/front?key=search&methodName=list&pageNum=${idx}">${idx}</a> 
+	</c:forEach>
 </body>
 </html>

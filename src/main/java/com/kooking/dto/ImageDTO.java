@@ -12,6 +12,8 @@ public class ImageDTO {
 	private String url;	//이미지 URL
 	private int postNo;	//게시글 번호
 	private int size;	//이미지 크기
+	private int position; //이미지 조리과정 순서
+	private int seq;	//이미지를 보여줄 순서
 	
 	public ImageDTO() {}
 
@@ -60,6 +62,20 @@ public class ImageDTO {
 		return "ImageDTO [no=" + no + ", url=" + url + ", postNo=" + postNo + ", size=" + size + "]";
 	};
 	
+	public int getSeq() {
+		return seq;
+	}
+	
+	public void setSeq(int seq) {
+		this.seq = seq;
+	}
+	
+	public int getPosition() {
+		return position;
+	}
+	public void setPosition(int position) {
+		this.position = position;
+	}
 	
 	
 

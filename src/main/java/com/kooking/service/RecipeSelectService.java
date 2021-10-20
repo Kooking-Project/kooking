@@ -1,6 +1,7 @@
 package com.kooking.service;
 
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
@@ -34,5 +35,5 @@ public interface RecipeSelectService {
 	 */
 	int addRecipeScore(int postNo, int userNo, int score) throws Exception;
 	
-	List<RecipeDTO> getRecipeList(Pagenation page) throws Exception;
+	Entry<List<RecipeDTO>, Pagenation> getRecipeList(Pagenation page) throws Exception;
 }

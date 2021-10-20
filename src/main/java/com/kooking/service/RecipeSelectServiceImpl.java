@@ -1,6 +1,7 @@
 package com.kooking.service;
 
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.kooking.dao.RecipeSelectDAOImpl;
 import com.kooking.dto.RecipeDTO;
@@ -27,7 +28,7 @@ public class RecipeSelectServiceImpl implements RecipeSelectService{
 	}
 
 	@Override
-	public List<RecipeDTO> getRecipeList(Pagenation page) throws Exception {
+	public Entry<List<RecipeDTO>, Pagenation> getRecipeList(Pagenation page) throws Exception {
 		if(page == null) {
 			page = new Pagenation();
 		}

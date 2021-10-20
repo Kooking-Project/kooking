@@ -82,5 +82,11 @@ public class RecipeWrapper {
 		this.comments = comments;
 	}
 
+	@Override
+	public String toString() {
+		return "RecipeWrapper [post=" + post + ", recipe=" + recipe + ", process=" + process + ", ingredient="
+				+ ingredient + ", images=" + images + ", comments=" + comments + "]";
+	}
+
 	
 }

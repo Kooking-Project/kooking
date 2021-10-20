@@ -2,12 +2,14 @@ package com.kooking.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kooking.dto.RecipeDTO;
+import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.paging.Pagenation;
 import com.kooking.service.RecipeSelectService;
 import com.kooking.service.RecipeSelectServiceImpl;
@@ -21,20 +23,28 @@ public class RecipeSelectController implements Controller{
 		return null;
 	}
 	
-	public ModelAndView recipeList(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ModelAndView list(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		String order = request.getParameter("order");
 		String pageNum = request.getParameter("pageNum");
+		Pagenation page = new Pagenation();
 		
-		List<RecipeDTO> list = service.getRecipeList(new Pagenation());
-		request.setAttribute("recipeList", list);
+		if(order!=null)
+		page.setOrder(Integer.parseInt(order));
+		if(pageNum!=null)
+		page.setPageNo(Integer.parseInt(pageNum));
 		
-
+		Entry<List<RecipeDTO>, Pagenation> entry = service.getRecipeList(page);
+		request.setAttribute("recipeList", entry.getKey());
+		request.setAttribute("page", entry.getValue());
 		return new ModelAndView("RecipeTest.jsp");
 		
 	}
 	
-	public static void main(String[] args) throws Exception {
-		RecipeSelectController rc = new RecipeSelectController();
-		System.out.println(rc.service.getRecipeList(null));
+	public ModelAndView view(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		int recipeNo = Integer.parseInt(request.getParameter("no"));
+		RecipeWrapper wrapper = service.search(recipeNo);
+		request.setAttribute("wrapper", wrapper);
+		
+		return new ModelAndView("RecipeTestView.jsp");
 	}
 }

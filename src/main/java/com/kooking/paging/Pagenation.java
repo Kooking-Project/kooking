@@ -10,6 +10,7 @@ public class Pagenation {
 	private int pageSize = 10;	//한 페이지에 보여질 게시글 수
 	private int pageCnt = 1;	//총 페이지
 	private int total=0;		//총 게시글 수
+	private int order=0; 		//정렬 방법 0=날짜(기본값), 1=추천수, 2=평점수
 	
 	public Pagenation() {}
 	
@@ -62,6 +63,11 @@ public class Pagenation {
 		return "Pagenation [pageNo=" + pageNo + ", pageSize=" + pageSize + ", pageCnt=" + pageCnt + "]";
 	}
 	
+	public void setOrder(int order) {
+		this.order = order;
+	}
 	
-	
+	public int getOrder() {
+		return order;
+	}
 }
