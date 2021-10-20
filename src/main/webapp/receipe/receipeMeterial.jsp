@@ -58,7 +58,7 @@ function submitItem() {
 }
 
 /** 아이템 체크 */
-function validateItem() {
+/*function validateItem() {
     var items = $("input[type='text'][name='item']");
     if(items.length == 0) {
         alert("작성된 아이템이 없습니다.");
@@ -75,7 +75,7 @@ function validateItem() {
     }
 
     return flag;
-}
+}*/
 
 /** UI 설정 */
 $(function() {
