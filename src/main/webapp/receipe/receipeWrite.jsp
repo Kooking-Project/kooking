@@ -82,24 +82,40 @@
         <input type="hidden" name="main_photo" id="main_photo" value="">
         <input type="hidden" name="new_main_photo" id="new_main_photo" value="">
 		<input type="hidden" name="del_main_photo" id="del_main_photo" value="">
-        <div style="position:absolute;left:-3000px">
+        <!-- <div style="position:absolute;left:-3000px">
         	<input type="file" name="q_main_file" id="q_main_file" file_gubun="main" accept="jpeg,png,gif" style="display:;width:0px;height:0px;font-size:0px;" text="">
-        </div>
+        </div> -->
         <!-- 요리대표사진등록 -->
-        <div id="divMainPhotoBox" is_over="0">
-            <img id="mainPhotoHolder" onclick="browseMainFile()" src="https://recipe1.ezmember.co.kr/img/pic_none4.gif" style="width: 200px; height: 200px; cursor:pointer">
-        </div>
+        <!-- <div id="divMainPhotoBox">
+            <img id="mainPhotoHolder" src="https://recipe1.ezmember.co.kr/img/pic_none4.gif" style="width: 200px; height: 200px; cursor:pointer">
+            <input type="file" style="background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;">
+        </div>-->
       </div>
-      <div class="cont_line"><p class="cont_tit4">레시피 제목</p>
-      	<input type="text" name="cok_title" id="cok_title" value="" class="form-control" placeholder="예) 소고기 미역국 끓이기" style="width:610px; ">
+      <!-- 레시피제목 start -->
+      <div>
+      	<p class="cont_tit4">레시피 제목</p>
+      	<span>
+      		<input type="text" name="cok_title" id="cok_title" value="" size="50" placeholder="예) 소고기 미역국 끓이기">
+      	</span>
+      	<span>
+      		<input type="file" style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'>
+      	</span>
       </div>
-      <div class="cont_line pad_b_25"><p class="cont_tit4">요리소개</p>
-      	<input type="text" name="cok_intro" id="cok_intro" class="form-control step_cont" placeholder="이 레시피의 탄생배경을 적어주세요. 예) 남편의 생일을 맞아 소고기 미역국을 끓여봤어요. 어머니로부터 배운 미역국 레시피를 남편의 입맛에 맞게 고안했습니다." style="height:100px; width:610px; resize:none;"/>
+      <hr>
+      <!-- 레시피제목 end -->
+
+      <div>
+      	<p class="cont_tit4">요리소개</p>
+      	<span>
+      		<input type="text" name="cok_intro" id="cok_intro" size="80" placeholder="이 레시피의 탄생배경을 적어주세요. 예) 남편의 생일을 맞아 소고기 미역국을 끓여봤어요." style="height:80px; resize:none;"/>
+      	</span>
       </div>
+      <hr>
 
 
-      <div class="cont_line"><p class="cont_tit4">카테고리</p>
-      	<span class="guide" style="margin:20px 0 20px 40px;">분류를 바르게 설정해주시면, 이용자들이 쉽게 레시피를 검색할 수 있어요.</span>
+      <div>
+      	<p class="cont_tit4">카테고리</p>
+      	<span class="guide">분류를 바르게 설정해주시면, 이용자들이 쉽게 레시피를 검색할 수 있어요.</span>
         <div class="container">
                     <div class="row">
                         <div class="col-12 col-lg-3">
@@ -147,51 +163,54 @@
 								<option value="7">초보환영</option>
                             </select>
                         </div>
-                    </div>
+                    </div><!-- /div row -->
             </div>
       	</div>    
-    </div><!--/cont_box-->
     
+
     <!-- 재료 start -->
-    <div class="cont_box pad_l_60">
-    	<div class="cont_line"><p class="cont_tit4">재료</p>
-        <span class="guide mag_b_15" style="width:100%;">재료가 남거나 부족하지 않도록 정확한 계량정보를 적어주세요.</span>
+    <hr>
+    <div>
+    	<p class="cont_tit4">재료</p>
+        <span class="guide">재료가 남거나 부족하지 않도록 정확한 계량정보를 적어주세요.</span>
         <jsp:include page="receipeMeterial.jsp"/>
-    	</div>
    	</div>
+   	<hr>
    	<!-- 재료 end -->
    	
    	<!-- 요리순서 start -->
-    <div class="cont_box pad_l_60">
-      <p class="cont_tit4">요리순서</p>
-	  <span class="guide mag_b_15">요리의 맛이 좌우될 수 있는 중요한 부분은 빠짐없이 적어주세요.<br></span>
-	  <!-- 요리순서 SCRIPT START -->
-	  <script type="text/javascript">
-			const add_textbox = () => {
-			    const box = document.getElementById("process");
-			    const newP = document.createElement('div');
-			    newP.innerHTML ="<input type='file' maxlength='60' size='40' style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'> <input type='text' name='receipe_process' style='width:610px; margin:10px;' placeholder='예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요.'> <input type='button' value='삭제' onclick='remove(this)'>";
-			    box.appendChild(newP);
-			}
-			const remove = (obj) => {
-			    document.getElementById('process').removeChild(obj.parentNode);
-			}
-		</script>
-		<!-- 요리순서 SCRIPT END -->
-		<div id="process">
-      	 <input type="button" id="addItem" value="추가하기" onclick="add_textbox();" />
-    	</div>
-    </div>
+   	  <div>
+      	<p class="cont_tit4">요리순서</p>
+	 	 <span class="guide mag_b_15">요리의 맛이 좌우될 수 있는 중요한 부분은 빠짐없이 적어주세요.<br></span>
+		  <!-- 요리순서 SCRIPT START -->
+		  <script type="text/javascript">
+				const add_textbox = () => {
+				    const box = document.getElementById("process");
+				    const newP = document.createElement('div');
+				    newP.innerHTML ="<input type='file' maxlength='60' size='40' style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'> <input type='text' name='receipe_process' style='width:610px; margin:10px;' placeholder='예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요.'> <input type='button' value='삭제' onclick='remove(this)'>";
+				    box.appendChild(newP);
+				}
+				const remove = (obj) => {
+				    document.getElementById('process').removeChild(obj.parentNode);
+				}
+			</script>
+			<!-- 요리순서 SCRIPT END -->
+			<div id="process">
+	      	 <input type="button" id="addItem" value="추가하기" onclick="add_textbox();" />
+	    	</div>
+	    </div>
+	    <hr>
     <!-- 요리순서 End -->
     
     <!-- 비밀번호 입력 -->
-    <div class="cont_box pad_l_60">
+    <div>
     	<p class="cont_tit4">비밀번호</p>
     	<span class="guide mag_b_15">글 수정,삭제시 필요합니다.</span>
     	<div>
     		<input type=password name="password" size="12">
     	</div>
     </div>
+    </div><!--/cont_box-->
     
     <!-- 태그 보류 xxxxxxx -->
     <!-- <div class="cont_box pad_l_60">
