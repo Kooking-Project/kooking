@@ -53,7 +53,7 @@ public interface UserService {
 	/**
 	 * 즐겨찾기 삭제
 	 * */
-	void bookmarkDelete(int userNo, int bookmarkNo) throws Exception;
+	void bookmarkDelete(int userNo, int postNo) throws Exception;
 	
 	/**
 	 * 회원 탈퇴(상태변경 탈퇴=2)

@@ -93,15 +93,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void bookmarkInsert(int userNo, int bookmarkNo) throws Exception {
-		if(userDao.bookmarkInsert(userNo, bookmarkNo)==0)
-			throw new KookingException("즐겨찾기 추가가 실패했습니다.");
+	public void bookmarkInsert(int userNo, int postNo) throws Exception {
+		if(userDao.bookmarkInsert(userNo, postNo)==0)
+			throw new KookingException("즐겨찾기 추가를 실패했습니다.");
 	}
 
 	@Override
-	public void bookmarkDelete(int userNo, int bookmarkNo) throws Exception {
-		if(userDao.bookmarkDelete(userNo, bookmarkNo)==0)
-			throw new KookingException("즐겨찾기 삭제가 실패했습니다.");
+	public void bookmarkDelete(int userNo, int postNo) throws Exception {
+		if(userDao.bookmarkDelete(userNo, postNo)==0)
+			throw new KookingException("즐겨찾기 삭제를 실패했습니다.");
 	}
 
 	@Override
@@ -114,14 +114,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void postDelete(int userNo, int postNo) throws Exception {
-		if(boardDao.deletePost(userNo, postNo)==0)
-			throw new KookingException("즐겨찾기 삭제가 실패했습니다.");
-		
+		if(boardDao.deletePost(postNo, userNo, null)==0)
+			throw new KookingException("게시물 삭제를 실패했습니다.");
 	}
 
 	@Override
 	public void commentDelete(int userNo, int commentNo) throws Exception {
-		// TODO Auto-generated method stub
-		
+		if(boardDao.deleteComment(commentNo, userNo, null)==0)
+			throw new KookingException("댓글 삭제를 실패했습니다.");
 	}
 }

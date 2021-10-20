@@ -185,4 +185,30 @@ public class UserController implements Controller {
 		
 		return new ModelAndView("adminTest.jsp", true);
 	}
+
+	/**
+	 * 게시글 삭제
+	 * */
+	public ModelAndView postDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int userNo = Integer.parseInt(request.getParameter("userNo"));	//변경할 유저의 활동상태와 유저 no 받기
+		int postNo = Integer.parseInt(request.getParameter("postNo"));
+		
+		userSerivce.postDelete(userNo, postNo);
+		
+		return new ModelAndView("adminTest.jsp", true);
+	}
+
+	/**
+	 * 게시글 삭제
+	 * */
+	public ModelAndView commentDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int userNo = Integer.parseInt(request.getParameter("userNo"));	//변경할 유저의 활동상태와 유저 no 받기
+		int commentNo = Integer.parseInt(request.getParameter("commentNo"));
+		
+		userSerivce.commentDelete(userNo, commentNo);
+		
+		return new ModelAndView("adminTest.jsp", true);
+	}
+	
+	
 }

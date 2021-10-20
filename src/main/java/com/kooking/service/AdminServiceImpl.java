@@ -45,14 +45,14 @@ public class AdminServiceImpl implements AdminService {
 		if(adminDao.checkUserStatues(adminNo)!=10)
 			throw new KookingException("관리자가 아닙니다.");
 		if(boardDao.deleteComment(commentNo, userNo, null)==0);
-		throw new KookingException("게시글이 삭제되지 않았습니다.");
+			throw new KookingException("게시글이 삭제되지 않았습니다.");
 	}
 
 	@Override
 	public void postDelete(int adminNo, int userNo, int postNo) throws Exception {
 		if(adminDao.checkUserStatues(adminNo)!=10)
 			throw new KookingException("관리자가 아닙니다.");
-		if(boardDao.deletePost(postNo, null)==0);	//유저 넘버 추가
+		if(boardDao.deletePost(postNo, userNo, null)==0);	//유저 넘버 추가
 			throw new KookingException("게시글이 삭제되지 않았습니다.");
 		
 	}
