@@ -47,10 +47,10 @@ public class PostController implements Controller {
 		// 결과에 따른 성공, 실패 나누기
 		if (result != 0) {
 			// 성공 페이지로 이동? 아니면 팝업창?
-			mv.setViewName("boardRead.jsp");
+			mv.setViewName("${pageContext.request.contextPath}/board/board.jsp");
 		} else {
 			// 실패
-			mv.setViewName("boardRead.jsp");
+			mv.setViewName("${pageContext.request.contextPath}/board/board.jsp");
 		}
 
 		// mv.setViewName("boardTest.jsp");
@@ -165,9 +165,9 @@ public class PostController implements Controller {
 		// 결과에 따른 성공, 실패 나누기
 
 		if (postList != null) { // 성공 페이지로 이동? 아니면 팝업창?
-			mv.setViewName("board/board.jsp");
+			mv.setViewName("${pageContext.request.contextPath}/board/board.jsp");
 		} else { // 실패
-			mv.setViewName("board/board.jsp");
+			mv.setViewName("${pageContext.request.contextPath}/board/board.jsp");
 		}
 
 		// mv.setViewName("board.jsp");

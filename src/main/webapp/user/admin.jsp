@@ -155,8 +155,9 @@ tr {
 					<div aria-label="breadcrumb" class="main-breadcrumb">
 						<div class="breadcrumb">
 							<span style="text-align: left">관리자 정보</span>
-							<c:if test="${loginUser} == ${user.nickname}">
-								<a href="userUpdate.jsp" class="btn delicious-Xsmall-btn btn-3">프로필 수정</a>
+							<c:if test="${userDTO.nickName} == ${user.nickName}">
+								<a href="userUpdate.jsp" class="btn delicious-Xsmall-btn btn-3">프로필
+									수정</a>
 							</c:if>
 						</div>
 					</div>
@@ -204,12 +205,12 @@ tr {
 									<td>2</td>
 									<td><a href="#">먹어도 먹어도 감자튀김이 안 줄어!!!!</a></td>
 									<td>1899.03.01</td>
-								</tr>								
+								</tr>
 								<tr>
 									<td>3</td>
 									<td><a href="#">악 달고나 부러졌어!!! 선생님 살려주세요!!!</a></td>
 									<td>2018.10.03</td>
-								</tr>								
+								</tr>
 								<tr>
 									<td>4</td>
 									<td><a href="#">Fry loves you.</a></td>
@@ -242,34 +243,66 @@ tr {
 									<th>성별</th>
 									<th>가입일</th>
 								</tr>
-								<tr>
-									<td>1</td>
-									<td><a href="#">kimcw89</a></td>
-									<td>김찬원</td>
-									<td>남자</td>
-									<td>1302.12.21</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td><a href="#">ninjaturtle0301</a></td>
-									<td>거북쓰</td>
-									<td>비공개</td>
-									<td>1899.03.01</td>
-								</tr>								
-								<tr>
-									<td>3</td>
-									<td><a href="#">smokingTiger</a></td>
-									<td>담배피는호랑이</td>
-									<td>남자</td>
-									<td>2018.10.03</td>
-								</tr>								
-								<tr>
-									<td>4</td>
-									<td><a href="#">bunny</a></td>
-									<td>토끼</td>
-									<td>여자</td>
-									<td>2021.07.02</td>
-								</tr>
+								<c:choose>
+								<c:when test="${empty requestScope.userList}">
+									<tr>
+										<td colspan="5">
+											<p align="center">
+												<b><span style="font-size: 9pt;">등록된 유저가 없습니다.</span></b>
+											</p>
+										</td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									<c:forEach items="${requestScope.userList}" var="user">
+										<tr>
+											<td>${user.no}</td>
+											<td><a
+												href="${path}/front?key=user&methodName=selectByModelNum&modelNum=${user.no}">${user.id}</a></td>
+											<td>${user.nickName}</td>
+											<td>${user.gender}</td>
+											<td>${user.date}</td>
+										</tr>
+									</c:forEach>
+									</c:otherwise>	
+									</c:choose>
+									
+									
+									
+									
+									
+									
+									
+									<tr>
+										<td>1</td>
+										<td><a
+											href="${path}/front?key=user&methodName=selectByModelNum&modelNum=${elecDto.modelNum}">${elecDto.modelName}</a></td>
+										<td>김찬원</td>
+										<td>남자</td>
+										<td>1302.12.21</td>
+									</tr>
+									
+									<tr>
+										<td>2</td>
+										<td><a href="#">ninjaturtle0301</a></td>
+										<td>거북쓰</td>
+										<td>비공개</td>
+										<td>1899.03.01</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td><a href="#">smokingTiger</a></td>
+										<td>담배피는호랑이</td>
+										<td>남자</td>
+										<td>2018.10.03</td>
+									</tr>
+									<tr>
+										<td>4</td>
+										<td><a href="#">bunny</a></td>
+										<td>토끼</td>
+										<td>여자</td>
+										<td>2021.07.02</td>
+									</tr>
 							</table>
 						</div>
 					</div>
