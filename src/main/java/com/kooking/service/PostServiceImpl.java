@@ -50,10 +50,10 @@ public class PostServiceImpl implements PostService {
 	 * 게시판 게시글 삭제 - 관리자도 하나씩 삭제
 	 */
 	@Override
-	public int deletePost(int postNo, Connection con) throws Exception {
+	public int deletePost(int postNo, int userNo, Connection con) throws Exception {
 		int result = 0;
 		
-		result = boardDAO.deletePost(postNo, null);
+		result = boardDAO.deletePost(postNo, userNo, null);
 		
 		return result;
 	}
@@ -160,6 +160,15 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public int insertComment(int UserNo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/**
+	 * 댓글 삭제
+	 */
+	@Override
+	public int deleteComment(int UserNo, int postNo, CommentDTO dto) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

@@ -159,7 +159,7 @@ tr {
 					<div aria-label="breadcrumb" class="main-breadcrumb">
 						<div class="breadcrumb">
 							<span style="text-align: left">유저 정보</span>
-							<c:if test="${loginUser} == ${user.nickname}">
+							<c:if test="${userDTO.id} == ${user.nickname}">
 								<a href="userUpdate.jsp" class="btn delicious-Xsmall-btn btn-3">프로필 수정</a>
 							</c:if> 
 						</div>

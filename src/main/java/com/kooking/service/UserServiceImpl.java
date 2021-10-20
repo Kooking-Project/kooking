@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import com.kooking.dao.AdminDAO;
 import com.kooking.dao.AdminDAOImpl;
+import com.kooking.dao.BoardDAO;
 import com.kooking.dao.UserDAO;
 import com.kooking.dao.UserDAOImpl;
 import com.kooking.dto.BookmarkDTO;
@@ -18,6 +19,7 @@ import com.kooking.exception.KookingException;
 public class UserServiceImpl implements UserService {
 	private UserDAO userDao = new UserDAOImpl();
 	private AdminDAO adminDao = new AdminDAOImpl();
+	private BoardDAO boardDao = new BoardDAO(); 
 
 	@Override
 	public UserDTO loginCheck(String id, String pwd) throws SQLException, KookingException {
@@ -93,13 +95,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void bookmarkInsert(int userNo, int postNo) throws Exception {
 		if(userDao.bookmarkInsert(userNo, postNo)==0)
-			throw new KookingException("즐겨찾기 추가가 실패했습니다.");
+			throw new KookingException("즐겨찾기 추가를 실패했습니다.");
 	}
 
 	@Override
 	public void bookmarkDelete(int userNo, int postNo) throws Exception {
 		if(userDao.bookmarkDelete(userNo, postNo)==0)
-			throw new KookingException("즐겨찾기 삭제가 실패했습니다.");
+			throw new KookingException("즐겨찾기 삭제를 실패했습니다.");
 	}
 
 	@Override
@@ -108,6 +110,17 @@ public class UserServiceImpl implements UserService {
 			throw new KookingException("입력된 값이 잘못 되었습니다.");
 		if(adminDao.changeUserStatus(user)==0)
 			throw new KookingException("탈퇴 되지 않았습니다.");
-		
+	}
+
+	@Override
+	public void postDelete(int userNo, int postNo) throws Exception {
+		if(boardDao.deletePost(postNo, userNo, null)==0)
+			throw new KookingException("게시물 삭제를 실패했습니다.");
+	}
+
+	@Override
+	public void commentDelete(int userNo, int commentNo) throws Exception {
+		if(boardDao.deleteComment(commentNo, userNo, null)==0)
+			throw new KookingException("댓글 삭제를 실패했습니다.");
 	}
 }
