@@ -105,32 +105,36 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 	 */
 	@Override
 	public List<PostDTO> selectPost() throws Exception {
+		try {
 		Connection con = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
 
-		List<PostDTO> PostList = new ArrayList<PostDTO>();
+		List<PostDTO> postList = new ArrayList<PostDTO>();
 
-		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
-				+ " FROM POSTS P INNER JOIN USERS U"
-				+ " ON P.USER_NO = U.USER_NO";
+		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME FROM POSTS P INNER JOIN USERS U ON P.USER_NO = U.USER_NO";
 
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
 
 		rs = st.executeQuery();
 
-		// int no, int postTypeNo, int userNo, String title, String contents, int counts, String date, String userNicname
+		// int no, int postTypeNo, int userNo, String title, String contents, int
+		// counts, String date, String userNicname
 
 		while (rs.next()) {
-			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
-					rs.getInt(6), rs.getString(7), rs.getString(8));
-			PostList.add(postDTO);
+			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8));
+			System.out.println(postDTO.getNo());
+			postList.add(postDTO);
 		}
 
 		DbUtil.dbClose(con, st, rs);
 
-		return PostList;
+		return postList;
+		} catch (NullPointerException e) {
+			System.out.println("널포인트 - 다오임플");
+		}
+		return null;
 	}
 
 	/**
@@ -145,8 +149,7 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		List<PostDTO> PostList = new ArrayList<PostDTO>();
 
 		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
-				+ " FROM POSTS P INNER JOIN USERS U"
-				+ " ON P.USER_NO = U.USER_NO ORDER BY POST_DATE DESC";
+				+ " FROM POSTS P INNER JOIN USERS U" + " ON P.USER_NO = U.USER_NO ORDER BY POST_DATE DESC";
 
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
@@ -208,8 +211,7 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		List<PostDTO> PostList = new ArrayList<PostDTO>();
 
 		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
-				+ " FROM POSTS P INNER JOIN USERS U"
-				+ " ON P.USER_NO = U.USER_NO ORDER BY POST_VIEW_COUNTS DESC";
+				+ " FROM POSTS P INNER JOIN USERS U" + " ON P.USER_NO = U.USER_NO ORDER BY POST_VIEW_COUNTS DESC";
 
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
@@ -262,100 +264,38 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 	}
 
 	/**
-	 * 게시판 타입으로 검색 - 단어로
+	 * 게시판 타입으로 단어로 검색 - 굳이?
 	 */
 	@Override
 	public List<PostDTO> searchPostType(String postType) throws SQLException {
-		Connection con = null;
-		PreparedStatement st = null;
-		ResultSet rs = null;
-
-		List<PostDTO> PostList = new ArrayList<PostDTO>();
-
-		sql = "SELECT POSTS.POST_NO, POSTS.POST_TYPE_NO, POSTS.USER_NO, POSTS.POST_TITLE, POSTS.POST_CONTENTS, POSTS.POST_VIEW_COUNTS, POSTS.POST_DATE"
-				+ " FROM POSTS INNER JOIN POST_TYPE ON(POSTS.POST_TYPE_NO=POST_TYPE.POST_TYPE_NO)\r\n"
-				+ " WHERE POST_TYPE.POST_TYPE_NAME LIKE ?";
-
-		con = DbUtil.getConnection();
-		st = con.prepareStatement(sql);
-
-		st.setString(1, postType);
-
-		rs = st.executeQuery();
-
 		/*
+		 * Connection con = null; PreparedStatement st = null; ResultSet rs = null;
+		 * 
+		 * List<PostDTO> PostList = new ArrayList<PostDTO>();
+		 * 
+		 * sql =
+		 * "SELECT POSTS.POST_NO, POSTS.POST_TYPE_NO, POSTS.USER_NO, POSTS.POST_TITLE, POSTS.POST_CONTENTS, POSTS.POST_VIEW_COUNTS, POSTS.POST_DATE"
+		 * +
+		 * " FROM POSTS INNER JOIN POST_TYPE ON(POSTS.POST_TYPE_NO=POST_TYPE.POST_TYPE_NO)\r\n"
+		 * + " WHERE POST_TYPE.POST_TYPE_NAME LIKE ?";
+		 * 
+		 * con = DbUtil.getConnection(); st = con.prepareStatement(sql);
+		 * 
+		 * st.setString(1, postType);
+		 * 
+		 * rs = st.executeQuery();
+		 * 
+		 * 
 		 * while(rs.next()) { PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2),
 		 * rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6),
 		 * rs.getString(7)); PostList.add(postDTO); }
+		 * 
+		 * 
+		 * DbUtil.dbClose(con, st, rs);
+		 * 
+		 * return PostList;
 		 */
-
-		DbUtil.dbClose(con, st, rs);
-
-		return PostList;
+		return null;
 	}
-
-//----------------------------------------------------------------------------------------------
-
-	/**
-	 * 게시판 상위 공간 오늘의 신규 레시피 - 오늘 날짜에 등록된 레시피 - 일단 패스
-	 */
-	/*
-	 * @Override public List<RecipeDTO> selectNewRecipe(String todayDate) throws
-	 * SQLException{
-	 * 
-	 * List<PostDTO> PostList = new ArrayList<PostDTO>();
-	 * 
-	 * sql =
-	 * "SELECT POST_NO, POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE"
-	 * + " FROM POSTS WHERE TO_CHAR(POST_DATE, 'YYYYMMDD') LIKE ?";
-	 * 
-	 * con = DbUtil.getConnection(); st = con.prepareStatement(sql);
-	 * 
-	 * st.setString(1, todayDate);
-	 * 
-	 * rs = st.executeQuery();
-	 * 
-	 * while(rs.next()) { PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2),
-	 * rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6),
-	 * rs.getString(7)); PostList.add(postDTO); }
-	 * 
-	 * DbUtil.dbClose(con, st, rs);
-	 * 
-	 * return null; }
-	 */
-
-	/**
-	 * 게시판 상위 공간 레시피 랭킹
-	 */
-	/*
-	 * @Override
-	 * 
-	 * public List<RecipeDTO> selectRankingRecipe() { List<PostDTO> PostList = new
-	 * ArrayList<PostDTO>();
-	 * 
-	 * sql =
-	 * "SELECT POST_NO, POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE"
-	 * + " FROM POSTS WHERE TO_CHAR(POST_DATE, 'YYYYMMDD') LIKE ?";
-	 * 
-	 * con = DbUtil.getConnection(); st = con.prepareStatement(sql);
-	 * 
-	 * st.setString(1, todayDate);
-	 * 
-	 * rs = st.executeQuery();
-	 * 
-	 * while(rs.next()) { PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2),
-	 * rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6),
-	 * rs.getString(7)); PostList.add(postDTO); }
-	 * 
-	 * DbUtil.dbClose(con, st, rs); return null; }
-	 */
-
-	/**
-	 * 게시판 상위 공간 오늘의 추천 레시피
-	 */
-	/*
-	 * @Override public List<RecipeDTO> selectTodayRecipe() { // TODO Auto-generated
-	 * method stub return null; }
-	 */
 
 }

@@ -50,19 +50,5 @@ public interface PostDAO{
 	 * 게시판 타입으로 검색 
 	 */
 	public List<PostDTO> searchPostType(String postType) throws SQLException;
-	
-	/**
-	 * 게시판 상위 공간 오늘의 신규 레시피
-	 */
-	//public List<RecipeDTO> selectNewRecipe(String todayDate) throws SQLException;
-	
-	/**
-	 * 게시판 상위 공간 레시피 랭킹
-	 */
-	//public List<RecipeDTO> selectRankingRecipe();
-	
-	/**
-	 * 게시판 상위 공간 오늘의 추천 레시피
-	 */
-	//public List<RecipeDTO> selectTodayRecipe();
+
 }

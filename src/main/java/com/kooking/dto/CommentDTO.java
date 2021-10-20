@@ -42,7 +42,6 @@ public class CommentDTO {
 		this.userNickName = userNickName;
 	}
 	
-	
 	public int getNo() {
 		return no;
 	}
