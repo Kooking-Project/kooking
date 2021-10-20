@@ -104,6 +104,16 @@
       <hr>
       <!-- 레시피제목 end -->
 
+	  <!-- 요리제목 start -->
+	  <div>
+	  	<p class="cont_tit4">요리제목 </p>
+	  	<span>
+	  		<input type="text" name="recipes_name" id="recipes_name" size="50" placeholder="예) 미역국">
+	  	</span>
+	  </div>
+	  <hr>
+	  <!-- 요리제목 end -->
+
       <div>
       	<p class="cont_tit4">요리소개</p>
       	<span>
