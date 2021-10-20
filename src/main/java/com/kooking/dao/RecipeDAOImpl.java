@@ -101,6 +101,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 			ps.setString(4, recipe.getNation());//레시피국가
 			ps.setString(5, recipe.getType());//레시피분류
 			ps.setString(6, recipe.getLevel());//난이도
+			ps.setString(7, recipe.getThumbnail());//레시피 대표 이미지
 
 			result = ps.executeUpdate();
 		}finally {
@@ -266,7 +267,8 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 			ps.setString(4, recipe.getNation());//레시피국가
 			ps.setString(5, recipe.getType());//레시피분류
 			ps.setString(6, recipe.getLevel());//난이도
-			ps.setInt(7, recipe.getPostNo());//게시글번호
+			ps.setString(7, recipe.getThumbnail());//레시피 대표 이미지
+			ps.setInt(8, recipe.getPostNo());//게시글번호
 			result = ps.executeUpdate();
 		}finally {
 			DBTestUtil.dbClose(ps);
@@ -380,6 +382,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 		recipe.setNation("한식");
 		recipe.setType("튀김/커틀릿");
 		recipe.setLevel("쉬움");
+		recipe.setThumbnail("RECIPE_DEFAULT.PNG");
 		rw.setRecipe(recipe);
 		System.out.println(recipe);
 

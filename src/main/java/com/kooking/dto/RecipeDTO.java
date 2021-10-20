@@ -24,7 +24,7 @@ public class RecipeDTO {
 	public RecipeDTO() {}
 
 	public RecipeDTO(String name, int calorie, int cookingTime, String nation, String type,
-			String level) {
+			String level, String thumbnail) {
 		super();
 		this.name = name;
 		this.calorie = calorie;
@@ -32,10 +32,11 @@ public class RecipeDTO {
 		this.nation = nation;
 		this.type = type;
 		this.level = level;
+		this.thumbnail = thumbnail;
 	}
 	public RecipeDTO(int no, String name, int postNo, int calorie, int cookingTime, String nation, String type,
-			String level) {
-		this(name, calorie, cookingTime, nation, type, level);
+			String level, String thumbnail) {
+		this(name, calorie, cookingTime, nation, type, level,thumbnail);
 		this.no = no;
 		this.postNo = postNo;
 	}

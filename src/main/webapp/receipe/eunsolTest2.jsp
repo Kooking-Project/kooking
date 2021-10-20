@@ -13,7 +13,6 @@
     
     margin:10px;
 }
-
 .itemBox input {
 	background:#f5f5f5;
 	border:1px solid #e1e1e1;
@@ -22,7 +21,6 @@
 	height:50px;
 	vertical-align:middle;
 }
-
 .itemBoxHighlight {
     width:400px;
     height:50px;
@@ -38,7 +36,6 @@
 .buttons {
 	margin: 10px;
 }
-
 </style>
 <style>
 #sortable { list-style-type: none; margin: 0; padding: 0; width: 400px; }
@@ -56,7 +53,6 @@ function submitItem() {
     }
     alert("등록");
 }
-
 /** 아이템 체크 */
 function validateItem() {
     var items = $("input[type='text'][name='item']");
@@ -64,7 +60,6 @@ function validateItem() {
         alert("작성된 아이템이 없습니다.");
         return false;
     }
-
     var flag = true;
     for(var i = 0; i < items.length; i++) {
         if($(items.get(i)).val().trim() == "") {
@@ -73,10 +68,8 @@ function validateItem() {
             break;
         }
     }
-
     return flag;
 }
-
 /** UI 설정 */
 $(function() {
     $("#itemBoxWrap").sortable({
@@ -95,7 +88,6 @@ $(function() {
     $( "#sortable" ).sortable();
     $( "#sortable" ).disableSelection();
 });
-
 /** 아이템 순서 조정 */
 function reorder() {
     $(".itemBox").each(function(i, box) {
@@ -105,7 +97,6 @@ function reorder() {
        $(box).find(".itemNum");
     });
 }
-
 /** 아이템 추가 */
 function createItem() {
     $(createBox())
@@ -128,7 +119,6 @@ function createItem() {
                 valueCheck = true;
             }
         });
-
         if(valueCheck) {
             var delCheck = confirm('입력하신 내용이 있습니다.\n삭제하시겠습니까?');
         }
@@ -140,7 +130,6 @@ function createItem() {
     // 숫자를 다시 붙인다.
     reorder();
 }
-
 /** 아이템 박스 작성 */
 function createBox() {
     var contents = "<div class='itemBox'>"

@@ -2,6 +2,7 @@ package com.kooking.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -41,13 +42,13 @@ public class RecipeController implements Controller {
 	 * 레시피 등록하기 : 게시판 타입이 레시피라면 
 	 */
 	public ModelAndView insert(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		String saveDir=request.getServletContext().getRealPath("/save/recipe");
+		String saveDir=request.getServletContext().getRealPath("/save/recipe"); //a.jpg ,a1.jpg, a2.jpg 
 		int maxSize = 1024*1024*100; //100M 
 		String encoding="UTF-8";
 
 		MultipartRequest m = new MultipartRequest(request, saveDir, maxSize, encoding, new DefaultFileRenamePolicy());
 
-		//    	//게시글 등록 insertPost() 에서 ??
+		//게시글 등록 insertPost() 에서 ??
 		String title = m.getParameter("post_title"); //레시피제목
 		String contents = m.getParameter("post_content"); //요리소개
 
@@ -55,9 +56,6 @@ public class RecipeController implements Controller {
 		System.out.println("post_content = " + contents);
 		
 		
-		//요리대표사진 썸네일 등록 필요한데 이미지를 어떻게??? 
-		String thumbnail = m.getParameter("thumbnail");
-
 		//레시피등록 파라미터 추출
 		String name = m.getParameter("recipe_name");			//레시피 이름
 		String calorie = m.getParameter("calorie");				//칼로리
@@ -65,6 +63,7 @@ public class RecipeController implements Controller {
 		String nation = m.getParameter("recipe_nation");		//레시피 국가
 		String type = m.getParameter("recipe_type");			//레시피 분류
 		String level = m.getParameter("recipe_level");			//레시피 난이도
+		String thumbnail = m.getFilesystemName("recipe_thumbnail");  //레시피 대표이미지
 
 		System.out.println("name = " + name);
 		System.out.println("nation = " + nation);
@@ -72,14 +71,15 @@ public class RecipeController implements Controller {
 		System.out.println("level = " + level);
 		System.out.println("calorie = " + calorie);
 		System.out.println("cookingTime = " + cookingTime);
+		System.out.println("thumbnail = " + thumbnail);
 
 		//유효성체크
-		if(name.isEmpty() || calorie.isEmpty() || cookingTime.isEmpty() || nation.isEmpty() || type.isEmpty() || level.isEmpty()) {
-			request.setAttribute("error", "레시피 정보의 모든 항목을 빠짐없이 입력해주시기 바랍니다!");
-		}
+//		if(name.isEmpty() || calorie.isEmpty() || cookingTime.isEmpty() || nation.isEmpty() || type.isEmpty() || level.isEmpty()) {
+//			request.setAttribute("error", "레시피 정보의 모든 항목을 빠짐없이 입력해주시기 바랍니다!");
+//		}
 
 		//DTO 객체에 데이터 바인딩 
-		RecipeDTO recipe = new RecipeDTO(name, Integer.parseInt(calorie), Integer.parseInt(cookingTime), nation, type, level);
+		RecipeDTO recipe = new RecipeDTO(name, Integer.parseInt(calorie), Integer.parseInt(cookingTime), nation, type, level, thumbnail);
 
 		//재료등록
 		List<IngredientDTO> ingredientsList = new ArrayList<IngredientDTO>();
@@ -93,19 +93,30 @@ public class RecipeController implements Controller {
 		}
 
 		System.out.println("ingredientsList : " + ingredientsList);
-
 		
-		//조리과정수정
+	
+		//조리과정등록
 		List<ProcessDTO> processList = new ArrayList<ProcessDTO>();
-		String processUrl [] = m.getParameterValues("process_url"); 	//조리과정이미지 URL
+
+	    
+		
+		
 		String processSeq [] = m.getParameterValues("process_seq"); 	//조리과정순서
 		String desc [] = m.getParameterValues("process_desc");     		//조리과성설명
 		String tip [] = m.getParameterValues("process_tip");			//조리과정팁
+		
+		
+		
 
-		for(int i=0; i< processUrl.length ; i++) {
-			ProcessDTO process = new ProcessDTO(0, 0, processUrl[i], Integer.parseInt(processSeq[i]), desc[i], tip[i]);
+		for(int i=0; i< processSeq.length ; i++) {
+			String processUrl = m.getFilesystemName("process_url"+i); 	//조리과정이미지 URL  process_url1
+			System.out.println("processUrl = " + processUrl);
+			
+			ProcessDTO process = new ProcessDTO(0, 0, processUrl, Integer.parseInt(processSeq[i]), desc[i], tip[i]);
 			processList.add(process);
 		}
+		
+		System.out.println("processList = " + processList);
 
 		//이미지등록
 		List<ImageDTO> imagesList = new ArrayList<ImageDTO>();
@@ -159,8 +170,10 @@ public class RecipeController implements Controller {
 		String nation = request.getParameter("recipe_nation");		//레시피 국가
 		String type = request.getParameter("recipe_type");			//레시피 분류
 		String level = request.getParameter("recipe_level");		//레시피 난이도
+		String thumbnail = request.getParameter("recipe_thumbnail");  //레시피 대표이미지
 
-		RecipeDTO recipe = new RecipeDTO(name, Integer.parseInt(calorie), Integer.parseInt(cookingTime), nation, type, level);
+		//DTO 객체에 데이터 바인딩 
+		RecipeDTO recipe = new RecipeDTO(name, Integer.parseInt(calorie), Integer.parseInt(cookingTime), nation, type, level, thumbnail);
 
 		//재료수정
 		String ingredientName = request.getParameter("ingredient_name");//재료이름

@@ -16,10 +16,25 @@
 
 <!-- Title -->
 <title>레시피 등록하기 | Kooking</title>
+<style type="text/css">
+.image_container {
+  width: 70%;
+  height: 200px;
+  overflow: hidden;
+}
+.image_container img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+</style>
+
+<script type="text/javascript" src="../js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="../js/jquery.form.min.js"></script>
 </head>
 <body>
 
-<SCRIPT language=javascript>
+<script language=javascript>
 
 /*	function checkValid() {
 		var f = window.document.writeForm;
@@ -93,7 +108,44 @@
 	function SetSelectBox(){
 	    var schField = $("#itemBox(); option:selected").text(); // 제목, 작성자
 	}
-</SCRIPT>
+    
+	// 등록 이미지 등록 미리보기
+	function readInputFile(input) {
+	    if(input.files && input.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function (e) {
+	            $('#preview').html("<img src="+ e.target.result +">");
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+	 
+	$(".inp-img").on('change', function(){
+	    readInputFile(this);
+	});
+	// 등록 이미지 삭제 ( input file reset )
+	function resetInputFile($input, $preview) {
+	    var agent = navigator.userAgent.toLowerCase();
+	    if((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
+	        // ie 일때
+	        $input.replaceWith($input.clone(true));
+	        $preview.empty();
+	    } else {
+	        //other
+	        $input.val("");
+	        $preview.empty();
+	    }       
+	}
+	 
+	$(".btn-delete").click(function(event) {
+	    var $input = $(".inp-img");
+	    var $preview = $('#preview');
+	    resetInputFile($input, $preview);
+	});
+
+	function setThumbnail(event) { for (var image of event.target.files) { var reader = new FileReader(); reader.onload = function(event) { var img = document.createElement("img"); img.setAttribute("src", event.target.result); document.querySelector("div#image_container").appendChild(img); }; console.log(image); reader.readAsDataURL(image); } }
+
+</script>
 
 </HEAD>
 <BODY>
@@ -110,8 +162,7 @@
 	<input type="hidden" name="methodName" value = "insert" />  
 
  -->
-		<table width="570" border="1" cellspacing="0" cellpadding="3"
-			bordercolor="#000000">
+		<table width="570" border="1" cellspacing="0" cellpadding="3" bordercolor="#000000">
 
 			<tr>
 				<td width="1220" height="20" colspan="2" bgcolor="#00cc00">
@@ -126,9 +177,8 @@
 						<b><span style="font-size: 9pt;">게시글제목</span></b>
 					</p>
 				</td>
-				<td width="450" height="20"><b><span
-						style="font-size: 9pt;"> <input type=text name="post_title"
-							size="30"></span></b></td>
+				<td width="450" height="20"><b><span style="font-size: 9pt;"> 
+				<input type=text name="post_title" size="30"></span></b></td>
 			</tr>
 			<tr>
 				<td width="150" height="20">
@@ -136,9 +186,12 @@
 						<b><span style="font-size: 9pt;">*요리썸네일등록</span></b>
 					</p>
 				</td>
-				<td width="450" height="20"><b><span
-						style="font-size: 9pt;"> <input type="file" name="file"
-							maxlength="60" size="40"></span></b></td>
+				<td width="450" height="20"><b><span style="font-size: 9pt;"> 
+			      		<input type="file" name="recipe_thumbnail" class="inp-img" accept="image/*" onchange="setThumbnail(event);" width=""/>
+						<div id="image_container" ></div>
+			      		<span class="btn-delete">삭제</span>
+			      	</span>
+				</td>
 			</tr>
 			<tr>
 				<td width="150" height="20">
@@ -233,21 +286,50 @@
 						<option value="999">2시간이상</option>
 				</select>
 			</tr>
-
-
-
+				<!-- 재료등록 start -->
 			<tr>
 				<td width="200" height="20">
 					<p align="right">
 						<b><span style="font-size: 9pt;">재료등록</span></b>
 					</p>
 				</td>
-				<td width="450" height="20"><span class="guide mag_b_15" style="width: 100%;">
-					재료가 남거나 부족하지 않도록 정확한 계량정보를 적어주세요.</span>
-					<div class="mag_b_25" id="divMaterialGroupArea"></div> 
-					<jsp:include page="eunsolTest2.jsp" /></td>
+				<td width="450" height="20">
+				<span class="guide mag_b_15" style="width: 100%;"> 재료가 남거나 부족하지 않도록 정확한 계량정보를 적어주세요.</span>
+					<div class="mag_b_25" id="divMaterialGroupArea"></div> <jsp:include
+						page="eunsolTest2.jsp" /></td>
 			</tr>
-			
+				<!-- 재료등록 END -->
+			<tr>
+				<td width="200" height="20">
+					<p align="right">
+						<b><span style="font-size: 9pt;">조리과정등록</span></b>
+					</p>
+				</td>
+				<td width="450" height="20">
+				<span class="guide mag_b_15" style="width: 100%;"> 요리의 맛이 좌우될 수 있는 중요한 부분은 빠짐없이 적어주세요.<br></span>
+					<div class="mag_b_25" id="divMaterialGroupArea"></div> 
+					<script type="text/javascript">
+					let index=0;
+				const add_textbox = () => {
+				    const box = document.getElementById("processAddbtn");
+				    const newP = document.createElement('div');
+				    newP.innerHTML ="<input type='file' name='process_url"+ index++ +"' maxlength='60' size='40' style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'>"
+				    + "<span class='process_seq'></span><input type='hidden' name='process_seq' value='"+index +"'>"
+				    + "<input type='text' name='process_desc' style='width:610px; margin:10px;' placeholder='예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요.'>"
+				    + "<input type='text' name='process_tip' style='width:610px; margin:10px;' placeholder='요리 tip! 예) 위가 살짝 노릇할정도만 구워야 속이 쫀득합니다.'>"
+				    + "<input type='button' value='삭제' onclick='remove(this)'>";
+				    box.appendChild(newP);
+				}
+				const remove = (obj) => {
+				    document.getElementById('processAddbtn').removeChild(obj.parentNode);
+				}
+			</script>
+			<!-- 요리순서 SCRIPT END -->
+			<div id="processAddbtn">
+	      	 <input type="button" id="addItem" value="추가하기" onclick="add_textbox();" />
+					</td>
+			</tr>
+		
 			<tr>
 				<td width="450" height="20" colspan="2" align="center"><b><span
 						style="font-size: 9pt;"><input type=submit value=글쓰기>
