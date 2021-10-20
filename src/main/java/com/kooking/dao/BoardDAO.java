@@ -106,6 +106,50 @@ public class BoardDAO {
 		return result;
 	}
 	
+	/**
+	 * 댓글 추가
+	 */
+	public int insertComment(CommentDTO postDTO, Connection con) throws Exception {
+		boolean isConnected = (con != null);
+		if(!isConnected) {
+			con = DBTestUtil.getConnection();
+		}
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		int result = 0;
+		try {
+			// String sql = proFile.getProperty("post.insertPost");
+			// 게시글 번호빼고 저장
+			/*
+			 * st = con.
+			 * prepareStatement("INSERT INTO POSTS(POST_NO,POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS,"
+			 * +
+			 * " POST_VIEW_COUNTS, POST_DATE) VALUES(POST_NO_SEQ.NEXTVAL,?,?,?,?,0,SYSDATE)"
+			 * ); st.setInt(1, postDTO.getPostTypeNo()); st.setInt(2, postDTO.getUserNo());
+			 * st.setString(3, postDTO.getTitle()); st.setString(4, postDTO.getContents());
+			 */
+
+			result = st.executeUpdate();
+			System.out.println(result);
+			
+		}finally {
+			
+			if(isConnected) {
+				DBTestUtil.dbClose(st, rs);
+			}else {
+				DBTestUtil.dbClose(con, st, rs);
+			}
+			
+		}
+		
+		return result;
+	}
+	
+	
+	
+	/**
+	 * 댓글 조회
+	 */
 	public List<CommentDTO> getComments(int postNo, Connection con) throws Exception{
 		boolean isConnected = (con != null);
 		if(!isConnected) {
@@ -143,6 +187,9 @@ public class BoardDAO {
 		return comments;
 	}
 	
+	/**
+	 * 댓글 수정
+	 */
 	public int updateComments(CommentDTO comment, Connection con) throws Exception{
 		boolean isConnected = (con != null);
 		if(!isConnected) {
@@ -168,6 +215,9 @@ public class BoardDAO {
 		return result;
 	}
 	
+	/**
+	 * 댓글 삭제
+	 */
 	public int deleteComment(int commentNo, int userNo, Connection con) throws Exception{
 		boolean isConnected = (con != null);
 		if(!isConnected) {
@@ -179,10 +229,9 @@ public class BoardDAO {
 		
 		return result;
 	}
+
 	
 	
-	//게시글 하나 셀렉트, 조회수, 댓글>????
-	//
 	
 }
 
