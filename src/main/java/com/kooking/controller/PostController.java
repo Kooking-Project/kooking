@@ -74,6 +74,12 @@ public class PostController implements Controller {
 
 		int postNo = Integer.parseInt(request.getParameter("postNo"));
 		
+		int type = Integer.parseInt(request.getParameter("type"));
+		int user = Integer.parseInt(request.getParameter("user"));
+		String title = request.getParameter("title");
+		String contents = request.getParameter("contents");
+		String nickName = request.getParameter("nickName");
+		
 		PostDTO beforeDTO = postService.selectPostDetail(postNo); //수정하기전 사용자 기존 게시글 정보
 		
 		int type = Integer.parseInt(request.getParameter("type"));
@@ -81,8 +87,7 @@ public class PostController implements Controller {
 		// int no, int postTypeNo, int userNo, String title, String contents, int
 		// counts, String date
 
-		PostDTO dto = new PostDTO(0, type, 2 /* userNo */ , request.getParameter("title"),
-				request.getParameter("content"), 0, "", "");
+		PostDTO dto = new PostDTO(type, user, title, contents, 0, nickName);
 
 		int result = postService.updatePost(dto);
 
@@ -110,8 +115,10 @@ public class PostController implements Controller {
 		// int userNo = (int)session.getAttribute("loginUserNo"); //회원번호
 
 		int postNo = Integer.parseInt(request.getParameter("postNo")); // 게시물 번호
+		
+		int user = Integer.parseInt(request.getParameter("user"));
 
-		int result = postService.deletePost(postNo, 2/*유저번호 삭제*/, null); //이거는 좀 고민...
+		int result = postService.deletePost(postNo, user, null); //이거는 좀 고민...
 
 		// 결과에 따른 성공, 실패 나누기
 		if (result != 0) {
@@ -185,12 +192,12 @@ public class PostController implements Controller {
 
 		// 결과에 따른 성공, 실패 나누기
 		if (postList != null) { // 성공 페이지로 이동? 아니면 팝업창?
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("front");
 		} else { // 실패
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("front");
 		}
 
-		mv.setViewName("boardTest.jsp");
+		mv.setViewName("front");
 		mv.setRedirect(false);
 		return mv;
 	}
@@ -208,12 +215,12 @@ public class PostController implements Controller {
 
 		// 결과에 따른 성공, 실패 나누기
 		if (postList != null) { // 성공 페이지로 이동? 아니면 팝업창? 해당 게시물 없는 상태
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("front");
 		} else { // 실패
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("front");
 		}
 
-		mv.setViewName("boardTest.jsp");
+		mv.setViewName("front");
 		mv.setRedirect(false);
 
 		return mv;
@@ -230,12 +237,12 @@ public class PostController implements Controller {
 
 		// 결과에 따른 성공, 실패 나누기
 		if (postList != null) { // 성공 페이지로 이동? 아니면 팝업창? 해당 게시물 없는 상태
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("front");
 		} else { // 실패
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("front");
 		}
 
-		mv.setViewName("boardTest.jsp");
+		mv.setViewName("front");
 		mv.setRedirect(false);
 
 		return mv;
@@ -256,12 +263,12 @@ public class PostController implements Controller {
 
 		// 결과에 따른 성공, 실패 나누기
 		if (postList != null) { // 성공 페이지로 이동? 아니면 팝업창? 해당 게시물 없는 상태
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("front");
 		} else { // 실패
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("front");
 		}
 
-		mv.setViewName("boardTest.jsp");
+		mv.setViewName("front");
 		mv.setRedirect(false);
 
 		return mv;

@@ -160,12 +160,6 @@ a {
 </head>
 
 <body>
-	<!-- Preloader -->
-	<div id="preloader">
-		<i class="circle-preloader"></i> <img src="img/core-img/salad.png"
-			alt="">
-	</div>
-	<!--  Preloader End -->
 
 	<!-- ##### Breadcumb Area Start ##### -->
 	<div class="breadcumb-area bg-img bg-overlay"
@@ -183,7 +177,7 @@ a {
 	<!-- ##### Breadcumb Area End ##### -->
 
 	<!-- BoardContent Start -->
-    <form name="boardForm" method="post" action="${path}/front?key=post&methodName=insertPost" 
+    <form name="boardForm" method="post" action="${pageContext.request.contextPath}/front?key=post&methodName=insertPost" 
   onSubmit='return checkValid()' enctype="multipart/form-data">
 	<p>
 	<div class="wrapper" style="text-align: center">

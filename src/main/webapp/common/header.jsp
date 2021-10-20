@@ -142,7 +142,7 @@
                                     <li><a href="#">분류별</a>
                                         <div class="megamenu">
                                             <ul class="single-mega cn-col-4">
-                                                <li class="title">Catagory</li>
+                                                <li class="title">Category</li>
                                                 <li><a href="resu">Home</a></li>
                                                 <li><a href="about.html">About Us</a></li>
                                                 <li><a href="blog-post.html">Blog Post</a></li>

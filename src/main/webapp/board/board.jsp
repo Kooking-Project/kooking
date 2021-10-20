@@ -283,8 +283,9 @@ input#search-bar {
 		</table>
 		<div class="boardWrite" align="right">
 			<div class="col-lg-6">
-				<a href="${pageContext.request.contextPath}/board/boardWrite.jsp"
-					class="btn delicious-small-btn btn-3">글쓰기</a>
+				<c:if test="${userDTO != null}">
+					<a href="${pageContext.request.contextPath}/board/boardWrite.jsp" class="btn delicious-small-btn btn-3">글쓰기</a>
+				</c:if>	
 			</div>
 		</div>
 
