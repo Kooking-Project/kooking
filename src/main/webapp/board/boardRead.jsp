@@ -119,6 +119,7 @@ a {
 
 
 <SCRIPT language=javascript>
+
 function sendUpdate(){
 	document.requestForm.methodName.value ="updateForm";
 	document.requestForm.submit();
@@ -129,6 +130,12 @@ function sendDelete(){
 	document.requestForm.methodName.value ="delete";
 	document.requestForm.submit();
 }
+
+function showList(){	
+	document.requestForm.methodName.value ="selectPost";
+	document.requestForm.submit();
+}
+
 </script>
 
 </head>
@@ -191,12 +198,10 @@ function sendDelete(){
 											onclick="sendUpdate()">
 										<input type="button" class="btn btn-danger" value="삭제하기"
 											onclick="sendDelete()">
-										<input type="button" class="btn btn-primary" value="목록보기"
-											onclick="location.href='board.jsp'">
+										<a href="${pageContext.request.contextPath}/front?key=post&methodName=selectPost" class="btn btn-danger">목록보기</a>
 									</c:when>
 									<c:otherwise>
-										<input type="button" class="btn btn-primary" value="목록보기"
-											onclick="location.href='board.jsp'">
+										<a href="${pageContext.request.contextPath}/front?key=post&methodName=selectPost" class="btn btn-danger">목록보기</a>
 									</c:otherwise>
 								</c:choose></td>
 						</tr>
@@ -227,7 +232,7 @@ function sendDelete(){
 										<div class="clearfix">
 											<div class="post-comments">
 												<p class="meta">
-													2021년 10월 15일 <a href="#">거북쓰</a> 님 :
+													2021년 10월 15일 <a href="#">${userDTO.nickName}</a> 님 :
 												</p>
 												<textarea class="form-control" id="message"
 													placeholder="메세지를 입력해주세요."></textarea>
