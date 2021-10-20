@@ -64,17 +64,16 @@ public interface PostService {
 	 * 게시판 타입으로 검색 - 굳이?
 	 */
 	//public List<PostDTO> searchPostType(String postType) throws SQLException;
-
 	
 	/**
 	 * 댓글 추가
 	 */
-	public int insertComment(int UserNo);
+	public int insertComment(CommentDTO dto) throws Exception;
 	
 	/**
 	 * 댓글 수정
 	 */
-	//public int updateComment(int UserNo, CommentDTO dto);
+	public int updateComment(int UserNo, CommentDTO dto);
 	
 	/**
 	 * 댓글 삭제 - 상태만 바꾸는거
@@ -84,7 +83,7 @@ public interface PostService {
 	/**
 	 * 댓글 상태 확인 - 삭제된 댓글입니다 보여줘야 됨
 	 */
-	//public int stateComment(CommentDTO dto);
+	public int stateComment(CommentDTO dto);
 	
 	
 	
