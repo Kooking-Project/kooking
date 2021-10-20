@@ -271,7 +271,7 @@ function checkValid() {
 									</c:otherwise>
 								</c:choose>
 								<td><a href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.no}">${board.title}</a></td>
-								<td><a href = "${pageContext.request.contextPath}/front?key=user&methodName=userSelectByNo&userNo=${board.userNo}">${board.userNicname}</a></td>
+								<td><a href = "${pageContext.request.contextPath}/front?key=user&methodName=userInfoByNo&userNo=${userDTO.no}">${board.userNicname}</a></td>
 								<td>${board.date}</td>
 								<td>${board.counts}</td>
 							</tr>

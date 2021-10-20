@@ -117,7 +117,7 @@ tr {
 
 
 <script type="text/javascript">
-
+	
 </script>
 
 
@@ -126,7 +126,8 @@ tr {
 <body>
 	<!-- Preloader -->
 	<div id="preloader">
-		<i class="circle-preloader"></i> <img src="${pageContext.request.contextPath}/img/core-img/salad.png"
+		<i class="circle-preloader"></i> <img
+			src="${pageContext.request.contextPath}/img/core-img/salad.png"
 			alt="">
 	</div>
 	<!--  Preloader End -->
@@ -159,9 +160,10 @@ tr {
 					<div aria-label="breadcrumb" class="main-breadcrumb">
 						<div class="breadcrumb">
 							<span style="text-align: left">유저 정보</span>
-							<c:if test="${userDTO.id} == ${user.nickname}">
-								<a href="userUpdate.jsp" class="btn delicious-Xsmall-btn btn-3">프로필 수정</a>
-							</c:if> 
+							<c:if test="${userDTO.no} == ${user.no}">
+								<a href="userUpdate.jsp" class="btn delicious-Xsmall-btn btn-3">프로필
+									수정</a>
+							</c:if>
 						</div>
 					</div>
 					<!-- /Breadcrumb -->
@@ -171,10 +173,21 @@ tr {
 								<img src="https://bootdey.com/img/Content/avatar/avatar7.png"
 									alt="Admin" class="rounded-circle" width="150">
 								<div class="mt-3">
-									<h4>닉네임</h4>
+									<h4>${user.nickName}</h4>
 									<!-- 마이 페이지로 들어갔으면 내 닉네임 아니면 다른 사람 닉네임  -->
 									<p class="text-secondary mb-1">성별</p>
-									<p class="text-muted font-size-sm">성별이 들어갈 부분입니다.</p>
+									<c:choose>
+										<c:when test= "${user.gender == 1}">
+											<p class="text-muted font-size-sm">남자</p>
+										</c:when>
+										<c:when test= "${user.gender == 2}">
+											<p class="text-muted font-size-sm">여자</p>
+										</c:when>
+										<c:otherwise>
+												<p class="text-muted font-size-sm">비공개</p>
+										</c:otherwise>
+									</c:choose>
+									<p class="text-muted font-size-sm"></p>
 									<h5>어서오세요!</h5>
 								</div>
 							</div>
@@ -210,21 +223,22 @@ tr {
 						<span style="text-align: left">유저 Status 메뉴</span>
 
 						<form name=Form method=post action="/front">
-							<input type="hidden" name="key" value="admin"> 
-							<input type="hidden" name="methodName" value="changeUserStatus"> 
+							<input type="hidden" name="key" value="admin"> <input
+								type="hidden" name="methodName" value="changeUserStatus">
 							<input type='hidden' name='userNo' value="${userDTO.no}">
 							<input type='hidden' name='adminNo' value="${userDTO.no}">
 							<input type='hidden' name='userStatus' value="1">
 
-							<button type="submit" class="btn btn-info" style="background-color: red">정지</button>
+							<button type="submit" class="btn btn-info"
+								style="background-color: red">정지</button>
 						</form>
 
 						<form name=Form method=post action="${path}/front"
 							onSubmit="return checkValid()">
-							<input type="hidden" name="key" value="user"> 
-							<input type="hidden" name="methodName" value="update"> 
-							<input type='hidden' name='userNo' value="${elec.modelNum}">
-							<input type='hidden' name='userStatus' value="${elec.modelNum}">
+							<input type="hidden" name="key" value="user"> <input
+								type="hidden" name="methodName" value="update"> <input
+								type='hidden' name='userNo' value="${elec.modelNum}"> <input
+								type='hidden' name='userStatus' value="${elec.modelNum}">
 
 							<div aria-label="breadcrumb" class="main-breadcrumb">
 								<div class="breadcrumb">
@@ -295,43 +309,57 @@ tr {
 					<div class="card mb-3">
 						<div class="card-body"
 							style="text-align: center; position: relative;">
-							<table>
-								<tr>
-									<th>번호</th>
-									<th>카테고리</th>
-									<th>제목</th>
-									<th>날짜</th>
-									<th>조회수</th>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td><a href="#">Q&A</a></td>
-									<td><a href="#">고라니탕을 만들려고 직접 고라니를 잡으러가는대여...</a></td>
-									<td>2019.10.14</td>
-									<td>11</td>
-								</tr>
-								<tr>
-									<td>2</td>
+		<table>
+			<colgroup>
+				<col class="no">
+				<col class="category">
+				<col class="title">
+				<col class="writer">
+				<col class="date">
+				<col class="views">
+			</colgroup>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>카테고리</th>
+					<th>제목</th>
+					<th>날짜</th>
+					<th>조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:choose>
+					<c:when test="${empty postList}">
+						<tr>
+							<td colspan="6">등록된 게시글이 없습니다.</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach items="${postList}" var="board">
+							<c:if test="${board.PostDTO.postTypeNo != 1}">						
+							<tr>
+								<td>${board.no}</td>
+								<c:choose>
+									<c:when test="${board.PostDTO.postTypeNo == 2}">
 									<td><a href="#">TIP</a></td>
-									<td><a href="#">선생님 잠자고 싶어요...ㅠㅠ</a></td>
-									<td>2019.10.14</td>
-									<td>152</td>
-								</tr>
-								<tr>
-									<td>33333</td>
+									</c:when>
+									<c:when test="${board.PostDTO.postTypeNo == 3}">
 									<td><a href="#">후기</a></td>
-									<td><a href="#">으악 살려줘!!!</a></td>
-									<td>2019.10.14</td>
-									<td>7777</td>
-								</tr>
-								<tr>
-									<td>33333</td>
-									<td><a href="#">후기</a></td>
-									<td><a href="#">점심 나가서 먹을것 가태!!!!!!!!!!</a></td>
-									<td>2019.10.14</td>
-									<td>7777</td>
-								</tr>
-							</table>
+									</c:when>
+									<c:otherwise>
+									<td><a href="#">QNA</a></td>
+									</c:otherwise>
+								</c:choose>
+								<td><a href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.PostDTO.no}">${board.PostDTO.title}</a></td>
+								<td>${board.PostDTO.date}</td>
+								<td>${board.PostDTO.counts}</td>
+							</tr>
+						</c:if>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</tbody>
+		</table>
 							<a class="btn" href="#">&lt;&lt;</a> <a class="btn" href="#">&lt;</a>
 							<a class="btn number" href="#">1</a> <a class="btn number"
 								href="#">2</a> <a class="btn number on" href="#">3</a> <a

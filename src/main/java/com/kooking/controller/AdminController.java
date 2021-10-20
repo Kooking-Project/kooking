@@ -43,7 +43,7 @@ public class AdminController implements Controller {
 		UserDTO user = service.userSelectByNo(adminNo, userNo);
 		request.setAttribute("user", user);
 		
-		return new ModelAndView("adminTest.jsp");
+		return new ModelAndView("admin.jsp");
 	}
 
 	/**

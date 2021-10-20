@@ -108,7 +108,7 @@ public class UserController implements Controller {
 			userSerivce.userUpdate(userDTO,pwd);
 		}
 
-		return new ModelAndView("user.jsp", true);
+		return new ModelAndView("user/user.jsp", true);
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class UserController implements Controller {
 		Entry<PostDTO, RecipeDTO> postList = userSerivce.postSelectByUserNo(Integer.parseInt(no));
 		request.setAttribute("postList", postList);
 
-		return new ModelAndView("adminTest.jsp");
+		return new ModelAndView("user/user.jsp");
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class UserController implements Controller {
 		List<CommentDTO> commentList = userSerivce.commentSelectByUserNo(Integer.parseInt(no));
 		request.setAttribute("commentList", commentList);
 
-		return new ModelAndView("adminTest.jsp");
+		return new ModelAndView("user/user.jsp");
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class UserController implements Controller {
 		List<BookmarkDTO> bookmarkList = userSerivce.bookmarkSelectByUserNo(Integer.parseInt(no));
 		request.setAttribute("bookmarkList", bookmarkList);
 
-		return new ModelAndView("adminTest.jsp");
+		return new ModelAndView("user/user.jsp");
 	}
 
 	/**
@@ -232,4 +232,27 @@ public class UserController implements Controller {
 		return new ModelAndView("user/user.jsp");
 	}
 	
+	/**
+	 * 유저 페이지 통합 by 김찬원
+	 */
+	
+	public ModelAndView userInfoByNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
+
+		UserDTO user = userSerivce.userSelectByNo(userNo);
+		request.setAttribute("user", user);
+		
+		List<BookmarkDTO> bookmarkList = userSerivce.bookmarkSelectByUserNo(userNo);
+		request.setAttribute("bookmarkList", bookmarkList);
+		
+		List<CommentDTO> commentList = userSerivce.commentSelectByUserNo(userNo);
+		request.setAttribute("commentList", commentList);
+		
+		Entry<PostDTO, RecipeDTO> postList = userSerivce.postSelectByUserNo(userNo);
+		request.setAttribute("postList", postList);
+
+		return new ModelAndView("user/user.jsp");
+	
+	}
 }
