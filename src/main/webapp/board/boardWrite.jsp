@@ -204,6 +204,8 @@ function checkValid() {
     <!-- BoardContent Start -->
     <form name="boardForm" method="post" action="${pageContext.request.contextPath}/front?key=post&methodName=insertPost" 
  	onSubmit='return checkValid()'>
+ 				<input type="hidden" name="user" value="${userDTO.no}">
+            	<input type="hidden" name="nickName" value="${userDTO.nickName}">
     <p>
     <div class="wrapper" style="text-align:center">
     <div class="row" id="boardContent">
@@ -223,7 +225,7 @@ function checkValid() {
          	 </select>
          	 </td>
             <th class="success col-md-3">작성자</th>
-            <td><!--  <input type="hidden" name="user" value="" disabled>--></td>
+            <td>${userDTO.nickName}</td>
         </tr>         
         <tr>
             <th class="success">제목</th>
@@ -235,7 +237,7 @@ function checkValid() {
         <tr>
             <th class="success">글 내용</th>
             <td colspan="6">
-            	<textarea class="form-control" name="content" placeholder="내용을 입력해주세요."></textarea>
+            	<textarea class="form-control" name="contents" placeholder="내용을 입력해주세요."></textarea>
            	</td>
         </tr>
          

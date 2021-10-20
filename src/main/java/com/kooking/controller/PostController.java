@@ -37,24 +37,27 @@ public class PostController implements Controller {
 		// 닉네임 session에 넣어주면 jsp에서 조회 후 사용
 
 		int type = Integer.parseInt(request.getParameter("type"));
+		int user = Integer.parseInt(request.getParameter("user"));
+		String title = request.getParameter("title");
+		String contents = request.getParameter("contents");
+		String nickName = request.getParameter("nickName");
 
 		// 사용자는 session 번호 알아내면 넣기
-		PostDTO dto = new PostDTO(0, type, 2, request.getParameter("title"), request.getParameter("content"), 0, "",
-				null);
+		PostDTO dto = new PostDTO(type, user, title, contents, 0, nickName);
 
 		int result = postService.insertPost(dto);
 
 		// 결과에 따른 성공, 실패 나누기
 		if (result != 0) {
 			// 성공 페이지로 이동? 아니면 팝업창?
-			mv.setViewName("/board/board.jsp");
+			mv.setViewName("front");
 		} else {
 			// 실패
-			mv.setViewName("/board/board.jsp");
+			mv.setViewName("front");
 		}
 
 		// mv.setViewName("boardTest.jsp");
-		mv.setRedirect(false);
+		mv.setRedirect(true);
 
 		return mv;
 	}
@@ -85,9 +88,9 @@ public class PostController implements Controller {
 
 		// 결과에 따른 성공, 실패 나누기
 		if (result != 0) { // 성공 페이지로 이동? 아니면 팝업창?
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("board/boardUpdate.jsp");
 		} else { // 실패
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("board/boardUpdate.jsp");
 		}
 
 		mv.setRedirect(false);
@@ -112,12 +115,12 @@ public class PostController implements Controller {
 
 		// 결과에 따른 성공, 실패 나누기
 		if (result != 0) {
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("front");
 		} else { // 실패
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("front");
 		}
 
-		mv.setViewName("boardTest.jsp");
+		mv.setViewName("front");
 		mv.setRedirect(false);
 
 		return mv;
