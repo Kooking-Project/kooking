@@ -66,11 +66,12 @@ public class BoardDAO {
 		PreparedStatement st = null;
 
 		try {
-			st = con.prepareStatement("UPDATE POSTS SET POST_TITLE=?, POST_CONTENTS=? WHERE USER_NO=? AND POST_NO=?");
+			st = con.prepareStatement("UPDATE POSTS SET POST_TITLE=?, POST_CONTENTS=?, POST_TYPE=? WHERE USER_NO=? AND POST_NO=?");
 			st.setString(1, post.getTitle());
 			st.setString(2, post.getContents());
-			st.setInt(3, post.getUserNo());
-			st.setInt(4, post.getNo());
+			st.setInt(3, post.getPostTypeNo());
+			st.setInt(4, post.getUserNo());
+			st.setInt(5, post.getNo());
 			result = st.executeUpdate();
 		} finally {
 
@@ -95,7 +96,7 @@ public class BoardDAO {
 		PreparedStatement st = null;
 		int result = 0;
 		try {
-			String sql = "DELETE FROM POSTS WHERE POST_NO=?"/* + "AND USER_NO = ?" */;
+			String sql = "DELETE FROM POSTS WHERE POST_NO=?" + "AND USER_NO = ?" ;
 			st = con.prepareStatement(sql);
 			st.setInt(1, postNo);
 			st.setInt(2, userNo);
@@ -192,7 +193,7 @@ public class BoardDAO {
 		int result = 0;
 		try {
 			//조건이 있어야 할 듯
-			String sql = "UPDATE COMMENTS SET COMMENT_DELETE_YN=1  WHERE COMMENT_NO = ?"/* + "AND USER_NO = ?" */;
+			String sql = "UPDATE COMMENTS SET COMMENT_DELETE_YN=1  WHERE COMMENT_NO = ?" + "AND USER_NO = ?" ;
 			st = con.prepareStatement(sql);
 			st.setInt(1, commentNo);
 			st.setInt(2, userNo);
