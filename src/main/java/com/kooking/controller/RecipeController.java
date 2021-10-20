@@ -16,6 +16,7 @@ import com.kooking.dto.IngredientDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.ProcessDTO;
 import com.kooking.dto.RecipeDTO;
+import com.kooking.dto.UserDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.service.PostService;
 import com.kooking.service.PostServiceImpl;
@@ -47,15 +48,22 @@ public class RecipeController implements Controller {
 		String encoding="UTF-8";
 
 		MultipartRequest m = new MultipartRequest(request, saveDir, maxSize, encoding, new DefaultFileRenamePolicy());
+		UserDTO user = (UserDTO)(request.getSession().getAttribute("userDTO"));
 
-		//게시글 등록 insertPost() 에서 ??
+		//게시글 등록 insertPost() 에서 게시글 타입을 못 찾음... 흑 
 		String title = m.getParameter("post_title"); //레시피제목
 		String contents = m.getParameter("post_content"); //요리소개
 
+		PostDTO post = new PostDTO();
+		post.setTitle(title);
+		post.setContents(contents);
+		post.setPostTypeNo(1);
+		post.setUserNo(user.getNo());
+		post.setUserNicname(user.getNickName());
+		
 		System.out.println("post_title = " + title);
 		System.out.println("post_content = " + contents);
-		
-		
+				
 		//레시피등록 파라미터 추출
 		String name = m.getParameter("recipe_name");			//레시피 이름
 		String calorie = m.getParameter("calorie");				//칼로리
@@ -73,11 +81,6 @@ public class RecipeController implements Controller {
 		System.out.println("cookingTime = " + cookingTime);
 		System.out.println("thumbnail = " + thumbnail);
 
-		//유효성체크
-//		if(name.isEmpty() || calorie.isEmpty() || cookingTime.isEmpty() || nation.isEmpty() || type.isEmpty() || level.isEmpty()) {
-//			request.setAttribute("error", "레시피 정보의 모든 항목을 빠짐없이 입력해주시기 바랍니다!");
-//		}
-
 		//DTO 객체에 데이터 바인딩 
 		RecipeDTO recipe = new RecipeDTO(name, Integer.parseInt(calorie), Integer.parseInt(cookingTime), nation, type, level, thumbnail);
 
@@ -94,56 +97,44 @@ public class RecipeController implements Controller {
 
 		System.out.println("ingredientsList : " + ingredientsList);
 		
-	
 		//조리과정등록
 		List<ProcessDTO> processList = new ArrayList<ProcessDTO>();
-
-	    
-		
-		
+	
 		String processSeq [] = m.getParameterValues("process_seq"); 	//조리과정순서
 		String desc [] = m.getParameterValues("process_desc");     		//조리과성설명
 		String tip [] = m.getParameterValues("process_tip");			//조리과정팁
-		
-		
-		
 
 		for(int i=0; i< processSeq.length ; i++) {
 			String processUrl = m.getFilesystemName("process_url"+i); 	//조리과정이미지 URL  process_url1
-			System.out.println("processUrl = " + processUrl);
 			
 			ProcessDTO process = new ProcessDTO(0, 0, processUrl, Integer.parseInt(processSeq[i]), desc[i], tip[i]);
 			processList.add(process);
 		}
-		
 		System.out.println("processList = " + processList);
 
 		//이미지등록
-		List<ImageDTO> imagesList = new ArrayList<ImageDTO>();
-		String imageUrl = m.getParameter("image_url"); 	//이미지 URL
-		String size = m.getParameter("image_size");		//이미지 크기
-
-		ImageDTO image = new ImageDTO(0, imageUrl, 0, Integer.parseInt(size));
-		imagesList.add(image);
-
-		//파일 첨부가 되었다면...
-		if(m.getFilesystemName("file")!=null) {
-			//파일이름
-			//	    	process.setImageUrl(m.getFilesystemName("file"));	//TODO Image를 Hash 값으로 변환하기
-			image.setUrl(m.getFilesystemName("file"));
-			//파일크기 
-			image.setSize((int)m.getFile("file").length());
-		}
+//		List<ImageDTO> imagesList = new ArrayList<ImageDTO>();
+//		String imageUrl = m.getParameter("image_url"); 	//이미지 URL
+//		String size = m.getParameter("image_size");		//이미지 크기
+//
+//		ImageDTO image = new ImageDTO();
+//		imagesList.add(image);
+//
+//		//파일 첨부가 되었다면...
+//		if(m.getFilesystemName("file")!=null) {
+//			//파일이름
+//			//	    	process.setImageUrl(m.getFilesystemName("file"));	
+//			image.setUrl(m.getFilesystemName("file"));
+//			//파일크기 
+//			image.setSize((int)m.getFile("file").length());
+//		}
 
 		RecipeWrapper rw = new RecipeWrapper();
-		//		rw.setPost(post);
+		rw.setPost(post);
 		rw.setRecipe(recipe);
 		rw.setIngredient(ingredientsList);
 		rw.setProcess(processList);
-		rw.setImages(imagesList);
-
-		System.out.println("rw.getComments() : "+rw.getComments());
-		//		System.out.println("rw.getComments() : "+rw.get);
+//		rw.setImages(imagesList);
 
 		//Service 객체의 메소드 호출
 		recipeService.insert(rw);
