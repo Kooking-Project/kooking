@@ -53,9 +53,10 @@ public class AdminController implements Controller {
 	 * */
 	public ModelAndView commentDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		int commentNo = Integer.parseInt(request.getParameter("commentNo"));
 		
-		service.commentDelete(adminNo, commentNo);
+		service.commentDelete(adminNo, userNo, commentNo);
 		
 		return new ModelAndView("adminTest.jsp", true);
 	}
@@ -65,9 +66,10 @@ public class AdminController implements Controller {
 	 * */
 	public ModelAndView postDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
+		int userNo = Integer.parseInt(request.getParameter("userNo"));
 		int postNo = Integer.parseInt(request.getParameter("postNo"));
 		
-		service.postDelete(adminNo, postNo);
+		service.postDelete(adminNo, userNo, postNo);
 		
 		return new ModelAndView("adminTest.jsp", true);
 	}
