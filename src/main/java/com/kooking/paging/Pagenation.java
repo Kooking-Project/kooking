@@ -6,9 +6,10 @@ package com.kooking.paging;
  *
  */
 public class Pagenation {
-	private int pageNo = 1;
-	private int pageSize = 10;
-	private int pageCnt = 1;
+	private int pageNo = 1;		//현재 페이지
+	private int pageSize = 10;	//한 페이지에 보여질 게시글 수
+	private int pageCnt = 1;	//총 페이지
+	private int total=0;		//총 게시글 수
 	
 	public Pagenation() {}
 	
@@ -18,7 +19,13 @@ public class Pagenation {
 		this.pageSize = pageSize;
 		this.pageCnt = pageCnt;
 	}
-
+	
+	public int getTotal() {
+		return total;
+	}
+	public void setTotal(int total) {
+		this.total = total;
+	}
 
 	public int getPageNo() {
 		return pageNo;

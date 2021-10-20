@@ -18,29 +18,29 @@
 	    function checkValid() {
 	        var f = window.document.insFrm;
 	    		
-	    	if ( f.cok_title.value == "") {
+	    	if ( f.post_title.value == "") {
 	    	    alert( "레시피제목을 입력해 주세요." );
-	    	    f.cok_title.focus();
+	    	    f.post_title.focus();
 	    		return false;
 	        }
-	    	if ( f.cok_intro.value == "" ) {
+	    	if ( f.post_content.value == "" ) {
 	    		alert( "요리소개를 입력해 주세요." );
-	    		f.cok_intro.focus();
+	    		f.post_content.focus();
 	    		return false;
 	    	}
-	    	if ( f.receipe_category1.value == "" ) {
+	    	if ( f.recipe_nation.value == "" ) {
 	    		alert( "국가별 카테고리를 선택해 주세요." );
-	    		f.receipe_category1.focus();
+	    		f.recipe_nation.focus();
 	    		return false;
 	    	}
-	    	if ( f.receipe_category2.value == "" ) {
+	    	if ( f.recipe_type.value == "" ) {
 	    		alert( "분류별 카테고리를 선택해 주세요." );
-	    		f.receipe_category2.focus();
+	    		f.recipe_type.focus();
 	    		return false;
 	    	}
-	    	if ( f.receipe_category3.value == "" ) {
+	    	if ( f.recipe_level.value == "" ) {
 	    		alert( "난이도 카테고리를 선택해 주세요." );
-	    		f.receipe_category3.focus();
+	    		f.recipe_level.focus();
 	    		return false;
 	    	}
 	    	if ( f.ingredient_name.value == "" ) {
@@ -48,9 +48,9 @@
 	            f.ingredient_name.focus();
 	            return false;
 	        }
-	    	if ( f.receipe_process.value == "" ) {
+	    	if ( f.process_desc.value == "" ) {
 	            alert( "요리과정을 입력해 주세요" );
-	            f.receipe_process.focus();
+	            f.process_desc.focus();
 	            return false;
 	        }
 	    	
@@ -91,11 +91,11 @@
             <input type="file" style="background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;">
         </div>-->
       </div>
-      <!-- 레시피제목 start -->
+      <!-- post_title 레시피제목 start -->
       <div>
       	<p class="cont_tit4">레시피 제목</p>
       	<span>
-      		<input type="text" name="cok_title" id="cok_title" value="" size="50" placeholder="예) 소고기 미역국 끓이기">
+      		<input type="text" name="post_title" id="post_title" value="" size="50" placeholder="예) 소고기 미역국 끓이기">
       	</span>
       	<span>
       		<input type="file" style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'>
@@ -104,7 +104,7 @@
       <hr>
       <!-- 레시피제목 end -->
 
-	  <!-- 요리제목 start -->
+	  <!-- recipes_name 요리제목 start -->
 	  <div>
 	  	<p class="cont_tit4">요리제목 </p>
 	  	<span>
@@ -113,23 +113,64 @@
 	  </div>
 	  <hr>
 	  <!-- 요리제목 end -->
-
+	
+	  <!-- post_content 요리소개 start -->
       <div>
       	<p class="cont_tit4">요리소개</p>
       	<span>
-      		<input type="text" name="cok_intro" id="cok_intro" size="80" placeholder="이 레시피의 탄생배경을 적어주세요. 예) 남편의 생일을 맞아 소고기 미역국을 끓여봤어요." style="height:80px; resize:none;"/>
+      		<input type="text" name="post_content" id="post_content" size="80" placeholder="이 레시피의 탄생배경을 적어주세요. 예) 남편의 생일을 맞아 소고기 미역국을 끓여봤어요." style="height:80px; resize:none;"/>
       	</span>
       </div>
       <hr>
+      <!-- 요리소개 end -->
 
+	  <!-- 요리정보 start -->
+	  <div>
+      	<p class="cont_tit4">요리정보</p>
+        <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-lg-3">
+                            <select name="calorie" id="calorie" onchange="SetSelectBox();">
+                            	<option value="">칼로리</option>
+                                <option value="100">100kcal이하</option>
+								<option value="200">200kcal</option>
+								<option value="300">300kcal</option>
+								<option value="400">400kcal</option>
+								<option value="500">500kcal</option>
+								<option value="600">600kcal</option>
+								<option value="700">700kcal</option>
+								<option value="800">800kcal</option>
+								<option value="900">900kcal이상</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-lg-3">
+                            <select name="cookingTime" id="cookingTime" onchange="SetSelectBox();">
+								<option value="">시간</option>
+								<option value="5">5분이내</option>
+								<option value="10">10분이내</option>
+								<option value="15">15분이내</option>
+								<option value="20">20분이내</option>
+								<option value="30">30분이내</option>
+								<option value="60">60분이내</option>
+								<option value="90">90분이내</option>
+								<option value="120">2시간이내</option>
+								<option value="999">2시간이상</option>
+							</select>
+                        </div>
+                    </div>
+            </div>
+      	</div>
+      	<hr>
+	  <!-- 요리정보 end -->
 
+	  <!-- 카테고리 start -->
       <div>
       	<p class="cont_tit4">카테고리</p>
       	<span class="guide">분류를 바르게 설정해주시면, 이용자들이 쉽게 레시피를 검색할 수 있어요.</span>
         <div class="container">
                     <div class="row">
                         <div class="col-12 col-lg-3">
-                            <select name="receipe_category1" id="receipe_category1" text="국가별">
+                            <select name="recipe_nation" id="recipe_nation" text="국가별">
                                 <option value="" >국가별</option>
 								<option value="56">동남아시아</option>
 								<option value="54">서양</option>
@@ -141,7 +182,7 @@
                             </select>
                         </div>
                         <div class="col-12 col-lg-3">
-                            <select name="receipe_category2" id="receipe_category2" text="분류별">
+                            <select name="recipe_type" id="recipe_type" text="분류별">
                                 <option value="" >분류별</option>
 								<option value="18">국</option>
 								<option value="13">그라탕/리조또</option>
@@ -166,16 +207,19 @@
                             </select>
                         </div>
                         <div class="col-12 col-lg-3">
-                            <select name="receipe_category3" id="receipe_category3" text="난이도">
-                                <option value="" >난이도</option>
-								<option value="1">보통</option>
-								<option value="1">어려움</option>
-								<option value="7">초보환영</option>
+                            <select name="recipe_level" id="recipe_level" text="난이도">
+                                <option value="">난이도</option>
+								<option value="아무나">아무나</option>
+								<option value="초보환영">초보환영</option>
+								<option value="보통">보통</option>
+								<option value="어려움">어려움</option>
+								<option value="신의경지">신의경지</option>
                             </select>
                         </div>
                     </div><!-- /div row -->
             </div>
       	</div>    
+      	<!-- 카테고리 end -->
     
 
     <!-- 재료 start -->
@@ -188,24 +232,24 @@
    	<hr>
    	<!-- 재료 end -->
    	
-   	<!-- 요리순서 start -->
+   	<!-- process 요리순서 start -->
    	  <div>
       	<p class="cont_tit4">요리순서</p>
 	 	 <span class="guide mag_b_15">요리의 맛이 좌우될 수 있는 중요한 부분은 빠짐없이 적어주세요.<br></span>
 		  <!-- 요리순서 SCRIPT START -->
 		  <script type="text/javascript">
 				const add_textbox = () => {
-				    const box = document.getElementById("process");
+				    const box = document.getElementById("processAddbtn");
 				    const newP = document.createElement('div');
-				    newP.innerHTML ="<input type='file' maxlength='60' size='40' style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'> <input type='text' name='receipe_process' style='width:610px; margin:10px;' placeholder='예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요.'> <input type='button' value='삭제' onclick='remove(this)'>";
+				    newP.innerHTML ="<input type='file' maxlength='60' size='40' style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'> <input type='text' name='process_desc' style='width:610px; margin:10px;' placeholder='예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요.'> <input type='button' value='삭제' onclick='remove(this)'>";
 				    box.appendChild(newP);
 				}
 				const remove = (obj) => {
-				    document.getElementById('process').removeChild(obj.parentNode);
+				    document.getElementById('processAddbtn').removeChild(obj.parentNode);
 				}
 			</script>
 			<!-- 요리순서 SCRIPT END -->
-			<div id="process">
+			<div id="processAddbtn">
 	      	 <input type="button" id="addItem" value="추가하기" onclick="add_textbox();" />
 	    	</div>
 	    </div>

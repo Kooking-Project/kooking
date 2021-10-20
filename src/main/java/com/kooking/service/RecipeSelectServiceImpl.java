@@ -34,4 +34,5 @@ public class RecipeSelectServiceImpl implements RecipeSelectService{
 		
 		return dao.getRecipeList(page);
 	}
+	
 }
