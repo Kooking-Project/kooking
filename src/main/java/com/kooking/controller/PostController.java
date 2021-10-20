@@ -38,20 +38,19 @@ public class PostController implements Controller {
 
 		int type = Integer.parseInt(request.getParameter("type"));
 
-		PostDTO dto = new PostDTO(0, type, 2/* userNo */, request.getParameter("title"),
-				request.getParameter("content"), 0, "", "");
+		// 사용자는 session 번호 알아내면 넣기
+		PostDTO dto = new PostDTO(0, type, 2, request.getParameter("title"), request.getParameter("content"), 0, "",
+				null);
 
 		int result = postService.insertPost(dto);
-		request.setAttribute("result", result);
-
 
 		// 결과에 따른 성공, 실패 나누기
 		if (result != 0) {
 			// 성공 페이지로 이동? 아니면 팝업창?
-			mv.setViewName("board.jsp");
+			mv.setViewName("boardRead.jsp");
 		} else {
 			// 실패
-			mv.setViewName("board.jsp");
+			mv.setViewName("boardRead.jsp");
 		}
 
 		// mv.setViewName("boardTest.jsp");
@@ -107,7 +106,7 @@ public class PostController implements Controller {
 
 		int postNo = Integer.parseInt(request.getParameter("postNo")); // 게시물 번호
 
-		int result = postService.deletePost(postNo, null);
+		int result = postService.deletePost(postNo, 2/*유저번호 삭제*/, null); //이거는 좀 고민...
 
 		// 결과에 따른 성공, 실패 나누기
 		if (result != 0) {
@@ -131,7 +130,7 @@ public class PostController implements Controller {
 		int postNo = Integer.parseInt(request.getParameter("postNo")); // 게시물 번호
 
 		PostDTO postDTO = postService.selectPostDetail(postNo); // 저장해야댐 - 사용자 닉네임 가져와야됨 - 추가
-		
+
 		List<CommentDTO> commentDTO = postService.selectComments(postNo); // 이거 어케쓸지.. 페이징 처리도 해야됨.
 
 		// 결과에 따른 성공, 실패 나누기
@@ -154,18 +153,24 @@ public class PostController implements Controller {
 	public ModelAndView selectPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
 
+		request.setCharacterEncoding("UTF-8");
 		List<PostDTO> postList = postService.selectPost(); // 페이징 처리, 어떻게 쓸지 고민
 
-		request.setAttribute("post", postList);
-		
-		// 결과에 따른 성공, 실패 나누기
-		if (postList != null) { // 성공 페이지로 이동? 아니면 팝업창?
-			mv.setViewName("board.jsp");
-		} else { // 실패
-			mv.setViewName("board.jsp");
+		if (postList == null) {
+			System.out.println("null");
 		}
 
-		mv.setViewName("board.jsp");
+		request.setAttribute("postList", postList);
+
+		// 결과에 따른 성공, 실패 나누기
+
+		if (postList != null) { // 성공 페이지로 이동? 아니면 팝업창?
+			mv.setViewName("board/board.jsp");
+		} else { // 실패
+			mv.setViewName("board/board.jsp");
+		}
+
+		// mv.setViewName("board.jsp");
 		mv.setRedirect(false);
 
 		return mv;
@@ -242,32 +247,76 @@ public class PostController implements Controller {
 	/**
 	 * 게시판 게시글 이름으로 검색
 	 */
-	/*
-	 * public ModelAndView searchPostName(HttpServletRequest request,
-	 * HttpServletResponse response) throws Exception {
-	 * 
-	 * ModelAndView mv = new ModelAndView();
-	 * 
-	 * String postName = request.getParameter("postName");
-	 * 
-	 * List<PostDTO> postList = postService.searchPostName(postName); // 페이징 처리, 어떻게
-	 * 쓸지 고민
-	 * 
-	 * // 결과에 따른 성공, 실패 나누기 if (postList != null) { // 성공 페이지로 이동? 아니면 팝업창? 해당 게시물
-	 * 없는 상태 mv.setViewName("boardTest.jsp"); } else { // 실패
-	 * mv.setViewName("boardTest.jsp"); }
-	 * 
-	 * mv.setViewName("boardTest.jsp"); mv.setRedirect(false);
-	 * 
-	 * return mv; }
-	 */
+
+	public ModelAndView searchPostName(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		ModelAndView mv = new ModelAndView();
+
+		String postName = request.getParameter("postName");
+
+		List<PostDTO> postList = postService.searchPostName(postName); // 페이징 처리, 어떻게 쓸지 고민
+
+		// 결과에 따른 성공, 실패 나누기
+		if (postList != null) { // 성공 페이지로 이동? 아니면 팝업창? 해당 게시물 없는 상태
+			mv.setViewName("boardTest.jsp");
+		} else { // 실패
+			mv.setViewName("boardTest.jsp");
+		}
+
+		mv.setViewName("boardTest.jsp");
+		mv.setRedirect(false);
+
+		return mv;
+	}
 
 	/**
 	 * 게시판 타입으로 검색 - 굳이?
 	 */
-	//public ModelAndView searchPostType(HttpServletRequest request, HttpServletResponse response) throws Exception {}
+	// public ModelAndView searchPostType(HttpServletRequest request,
+	// HttpServletResponse response) throws Exception {}
+
+	// ------------------------------------------------------------------------------------------------------------------
+
+	/**
+	 * 댓글 추가 - 회원이거나 관리자(?)일 때 댓글 추가 메소드 접근가능.
+	 */
+
+	public ModelAndView insertComment(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mv = new ModelAndView();
+
+		// HttpSession session = request.getSession();
+		// int userNo = (int) session.getAttribute("loginUserNo"); //회원번호
+
+		// 닉네임 session에 넣어주면 jsp에서 조회 후 사용
+
+		int postNo = Integer.parseInt(request.getParameter("postNo")); // 게시물 번호
+		int top = Integer.parseInt(request.getParameter("top"));
+
+		// int no, int postNo, int userNo, int top, String content, String date, boolean
+		// deleteYN
+
+		// 사용자는 session 번호 알아내면 넣기
+		CommentDTO dto = new CommentDTO(0, postNo, 2/* 사용자번호 */, top, request.getParameter("content"), "", true);
+
+		int result = postService.deleteComment(2/* 사용자번호 */, postNo, null);
+
+		// 결과에 따른 성공, 실패 나누기
+		if (result != 0) {
+			// 성공 페이지로 이동? 아니면 팝업창?
+			mv.setViewName("boardRead.jsp");
+		} else {
+			// 실패
+			mv.setViewName("boardRead.jsp");
+		}
+
+		// mv.setViewName("boardTest.jsp");
+		mv.setRedirect(false);
+
+		return mv;
+	}
 
 	// 밑에는 테스트용으로 사용했던거
+	// -------------------------------------------------------------------------------------------
 
 	public ModelAndView insertPost2(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		return null;
