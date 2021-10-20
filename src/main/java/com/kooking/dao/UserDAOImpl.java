@@ -216,7 +216,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public int bookmarkInsert(int userNo, int postNo) throws SQLException {
+	public int bookmarkInsert(int userNo, int bookmarkNo) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		String sql=proFile.getProperty("query.bookmarkInsert");
@@ -226,7 +226,7 @@ public class UserDAOImpl implements UserDAO {
 			ps = con.prepareStatement(sql);
 			
 			ps.setInt(1, userNo);
-			ps.setInt(2, postNo);
+			ps.setInt(2, bookmarkNo);
 			
 			result = ps.executeUpdate();
 		} finally {
