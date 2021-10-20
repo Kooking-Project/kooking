@@ -177,17 +177,18 @@ input#search-bar {
 
 <script type="text/javascript">
 	
-	$('.check.all').on('change', function(){
-		  $('.check').prop('checked', $(this).prop('checked'));
-		});
-
-		$(document).on('click', '.page-box .btn.number', function(){
-		  $('.page-box .btn.number').removeClass('on');
-		  $(this).addClass('on');
-		  return false;
-		})
+function checkValid() {
+    var f = window.document.search-container;
+		
+	if ( f.search-bar.value == "" ) {
+		alert( "제목을 입력해 주세요." );
+		f.content.focus();
+		return false;
+	}
 	
-	</script>
+    return true;
+}
+</script>
 
 </head>
 
@@ -269,9 +270,8 @@ input#search-bar {
 									<td><a href="#">QNA</a></td>
 									</c:otherwise>
 								</c:choose>
-								<td><a
-									href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.no}">${board.title}</a></td>
-								<td>${board.userNicname}</td>
+								<td><a href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.no}">${board.title}</a></td>
+								<td><a href = "${pageContext.request.contextPath}/front?key=user&methodName=userSelectByNo&userNo=${board.userNo}">${board.userNicname}</a></td>
 								<td>${board.date}</td>
 								<td>${board.counts}</td>
 							</tr>
@@ -289,14 +289,11 @@ input#search-bar {
 			</div>
 		</div>
 
-		<form class="search-container">
-			<input type="hidden" name="key" value="user" /> <input type="hidden"
-				name="methodName" value="login" /> <input type="text"
-				id="search-bar" placeholder="제목을 입력해 주세요."> <a href="#"><img
-				class="search-icon"
-				src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
-			<!-- "${pageContext.request.contextPath}/front?key=user&methodName=logout" 검색 메소드 -->
-		</form>
+    <form name="search-container" method="post" action="${pageContext.request.contextPath}/front?key=post&methodName=searchPostName" onSubmit='return checkValid()'>
+		<input type="text" id="search-bar" name="search-bar" placeholder="제목을 입력해 주세요."> 
+		<img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
+			<!-- "" 검색 메소드 -->
+	</form>
 
 	</div>
 </body>

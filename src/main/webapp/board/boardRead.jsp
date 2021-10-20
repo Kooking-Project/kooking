@@ -178,7 +178,7 @@ a {
 						<tr>
 							<td colspan="6" class="text-center"><c:choose>
 									<c:when test="${(postDTO.userNicname == userDTO.nickName) or (userDTO.status == 10)}">
-										<a href="${pageContext.request.contextPath}/front?key=post&methodName=updatePost&postNo=${postDTO.no}&type=${postDTO.postTypeNo}&title=${postDTO.title}&contents=${postDTO.contents}" class="btn btn-danger">수정하기</a>
+										<a href="${pageContext.request.contextPath}/front?key=post&methodName=selectBeforePost&postNo=${postDTO.no}" class="btn btn-danger">수정하기</a>
 										<a href="${pageContext.request.contextPath}/front?key=post&methodName=deletePost&postNo=${postDTO.no}" class="btn btn-danger">삭제하기</a>
 										<a href="${pageContext.request.contextPath}/front?key=post&methodName=selectPost" class="btn btn-danger">목록보기</a>
 									</c:when>

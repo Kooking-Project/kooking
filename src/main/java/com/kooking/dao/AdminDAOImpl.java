@@ -104,6 +104,7 @@ public class AdminDAOImpl implements AdminDAO {
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
+			ps.setInt(1, userNo);
 			
 			rs = ps.executeQuery();
 			if(rs.next()) {

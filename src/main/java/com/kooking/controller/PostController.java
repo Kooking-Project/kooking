@@ -103,11 +103,11 @@ public class PostController implements Controller {
 		// int no, int postTypeNo, int userNo, String title, String contents, int
 		// counts, String date, String userNicname
 
-		PostDTO dto = new PostDTO(postNo, type, user, title, contents, 0, "", "");
+		PostDTO dto = new PostDTO(postNo, type, user, title, contents, 0, "", nickName);
 
 		int result = postService.updatePost(dto);
 
-		mv.setViewName("board/boardUpdate.jsp");
+		mv.setViewName("board/board.jsp");
 
 		mv.setRedirect(false);
 

@@ -229,7 +229,7 @@ public class UserController implements Controller {
 		UserDTO user = userSerivce.userSelectByNo(userNo);
 		request.setAttribute("user", user);
 		
-		return new ModelAndView("adminTest.jsp");
+		return new ModelAndView("user/user.jsp");
 	}
 	
 }
