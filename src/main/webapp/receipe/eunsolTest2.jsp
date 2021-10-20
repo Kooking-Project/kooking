@@ -58,7 +58,7 @@ function submitItem() {
 }
 
 /** 아이템 체크 */
-/*function validateItem() {
+function validateItem() {
     var items = $("input[type='text'][name='item']");
     if(items.length == 0) {
         alert("작성된 아이템이 없습니다.");
@@ -75,7 +75,7 @@ function submitItem() {
     }
 
     return flag;
-}*/
+}
 
 /** UI 설정 */
 $(function() {
@@ -100,8 +100,9 @@ $(function() {
 function reorder() {
     $(".itemBox").each(function(i, box) {
        $(box).find(".ingredient_seq").html(i + 1);
-       $(box).find("[name=ingredient_seq]").val(i + 1);//eunsol - ingredient_seq 추가
-       $(box).find(".itemNum");//eunsol - 실행시 드래그로 순서 가능한 부분이라 사용 가능할 것 같아요
+       $(box).find("[name=ingredient_seq]").val(i + 1);//ingredient_seq 추가
+       
+       $(box).find(".itemNum");
     });
 }
 
@@ -144,7 +145,7 @@ function createItem() {
 function createBox() {
     var contents = "<div class='itemBox'>"
                  + "<div style='float:left;'>"
-                 + "<span class='ingredient_seq'></span><input type='hidden' name='ingredient_seq'>"//eunsol - <span>값을 넘길 수 없음. hidden으로 ingredient_seq 값 추가
+                 + "<span class='ingredient_seq'></span><input type='hidden' name='ingredient_seq'>"//<span>값을 넘길 수 없음. hidden으로 ingredient_seq 값 추가
                  + "<input type='text' name='ingredient_name' style='width:200px; margin-right:10px' placeholder='예) 돼지고기'/>"
                  + "<input type='text' name='ingredient_cacty' style='width:200px;' placeholder='예) 300g 또는 1/2개'/>"
                  + "</div>"
@@ -162,7 +163,7 @@ function createBox() {
 <div>
 	<div class="itemBox">
 		<div style="float:left">
-			<span class="ingredient_seq"></span>
+			<span class="ingredient_seq"></span><input type="hidden" name="ingredient_seq" value="1">
 			<input type="text" name="ingredient_name" style="width:200px; margin-right:10px;" placeholder="예) 돼지고기"/>
 			<input type="text" name="ingredient_cacty" style="width:200px;" placeholder="예) 300g 또는 1/2개"/>
 		</div>
@@ -170,7 +171,7 @@ function createBox() {
     <!-- 추가 버튼 -->
     <div class="buttons">
         <input type="button" id="addItem" value="추가하기" onclick="createItem();" />
-        <!-- <input type="button" id="submitItem" value="등록" onclick="submitItem();" /> -->
+        <input type="button" id="submitItem" value="등록" onclick="submitItem();" />
     </div>
 </div>
 

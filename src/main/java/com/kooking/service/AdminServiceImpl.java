@@ -67,4 +67,14 @@ public class AdminServiceImpl implements AdminService {
 		return userList;
 	}
 
+	@Override
+	public UserDTO userSelectByNo(int adminNo, int userNo) throws Exception {
+		if(adminDao.checkUserStatues(adminNo)!=10)
+			throw new KookingException("관리자가 아닙니다.");
+		UserDTO user = adminDao.userSelectByNo(userNo);
+		if (user==null)
+			throw new KookingException("회원 정보가 없습니다.");
+		return user;
+	}
+
 }

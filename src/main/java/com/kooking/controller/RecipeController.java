@@ -94,11 +94,12 @@ public class RecipeController implements Controller {
 
 		System.out.println("ingredientsList : " + ingredientsList);
 
+		
 		//조리과정수정
 		List<ProcessDTO> processList = new ArrayList<ProcessDTO>();
 		String processUrl [] = m.getParameterValues("process_url"); 	//조리과정이미지 URL
 		String processSeq [] = m.getParameterValues("process_seq"); 	//조리과정순서
-		String desc [] = m.getParameterValues("process_desc");     	//조리과성설명
+		String desc [] = m.getParameterValues("process_desc");     		//조리과성설명
 		String tip [] = m.getParameterValues("process_tip");			//조리과정팁
 
 		for(int i=0; i< processUrl.length ; i++) {
