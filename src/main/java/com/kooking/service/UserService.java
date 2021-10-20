@@ -69,4 +69,14 @@ public interface UserService {
 	 * 댓글 삭제
 	 * */
 	void commentDelete(int userNo, int commentNo) throws Exception;
+	
+	/**
+	 * 유저정보 전체 검색
+	 * */
+	List<UserDTO> userSelectAll() throws Exception;
+
+	/**
+	 * 유저정보 상세정보 검색
+	 * */
+	UserDTO userSelectByNo(int userNo) throws Exception;
 }

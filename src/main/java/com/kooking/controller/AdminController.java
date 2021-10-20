@@ -34,7 +34,7 @@ public class AdminController implements Controller {
 	}
 	
 	/**
-	 * 전체회원 정보 조회(관리자)
+	 * 회원 상세정보 조회(관리자)
 	 * */
 	public ModelAndView userSelectByNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
