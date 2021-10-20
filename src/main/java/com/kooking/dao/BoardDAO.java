@@ -32,6 +32,8 @@ public class BoardDAO {
 			st.setString(4, postDTO.getContents());
 
 			result = st.executeUpdate();
+			System.out.println(result);
+			
 		}finally {
 			
 			if(isConnected) {
@@ -80,7 +82,7 @@ public class BoardDAO {
 	/**
 	 * 게시판 게시글 삭제 - 관리자도 하나씩 삭제
 	 */
-	public int deletePost(int postNo, Connection con) throws Exception { // 댓글도 같이 삭제되는지 확인
+	public int deletePost(int postNo, int userNo, Connection con) throws Exception { // 댓글도 같이 삭제되는지 확인
 		boolean isConnected = (con != null);
 		if(!isConnected) {
 			con = DBTestUtil.getConnection();
@@ -88,9 +90,10 @@ public class BoardDAO {
 		PreparedStatement st = null;
 		int result = 0;
 		try {
-			String sql = "DELETE FROM POSTS WHERE POST_NO=?";
+			String sql = "DELETE FROM POSTS WHERE POST_NO=? AND USER_NO = ?";
 			st = con.prepareStatement(sql);
 			st.setInt(1, postNo);
+			st.setInt(2, userNo);
 			
 			result = st.executeUpdate();
 		}finally {

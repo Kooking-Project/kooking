@@ -23,7 +23,7 @@ public interface PostService {
 	/**
 	 * 게시판 게시글 삭제 - 관리자도 하나씩 삭제- dto로 바꾸고 싶당
 	 */
-	public int deletePost(int postNo, Connection con) throws Exception;
+	public int deletePost(int postNo, int userNo, Connection con) throws Exception;
 	
 	/**
 	 * 게시판 클릭했을 때 해당 게시물 하나보여주기 - 비회원, 회원 공통 여기서 조회수 체크
@@ -61,31 +61,15 @@ public interface PostService {
 	public List<PostDTO> searchPostName(String postTitle) throws SQLException;
 	
 	/**
-	 * 게시판 타입으로 검색 
+	 * 게시판 타입으로 검색 - 굳이?
 	 */
-	public List<PostDTO> searchPostType(String postType) throws SQLException;
-	
-	/**
-	 * 게시판 상위 공간 오늘의 신규 레시피
-	 */
-	//public List<RecipeDTO> selectNewRecipe(String todayDate) throws SQLException;
-	
-	/**
-	 * 게시판 상위 공간 레시피 랭킹
-	 */
-	//public List<RecipeDTO> selectRankingRecipe();
-	
-	/**
-	 * 게시판 상위 공간 오늘의 추천 레시피
-	 */
-	//public List<RecipeDTO> selectTodayRecipe();
-	
-	
+	//public List<PostDTO> searchPostType(String postType) throws SQLException;
+
 	
 	/**
 	 * 댓글 추가
 	 */
-	//public int insertComment(int UserNo);
+	public int insertComment(int UserNo);
 	
 	/**
 	 * 댓글 수정
@@ -93,12 +77,12 @@ public interface PostService {
 	//public int updateComment(int UserNo, CommentDTO dto);
 	
 	/**
-	 * 댓글 삭제 (댓글번호만 가져올까?)
+	 * 댓글 삭제 - 상태만 바꾸는거
 	 */
-	//public int deleteComment(int UserNo, CommentDTO dto);
+	public int deleteComment(int UserNo, int postNo, CommentDTO dto);
 	
 	/**
-	 * 댓글 상태 확인 (댓글번호만 가져올까?)
+	 * 댓글 상태 확인 - 삭제된 댓글입니다 보여줘야 됨
 	 */
 	//public int stateComment(CommentDTO dto);
 	
