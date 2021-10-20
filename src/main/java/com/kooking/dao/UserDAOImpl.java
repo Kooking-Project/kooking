@@ -105,7 +105,7 @@ public class UserDAOImpl implements UserDAO {
 		Connection con = null; // 커넥션이 없다면 새로운 커넥션을 생성
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql=proFile.getProperty("query.userUpdate");
+		String sql=proFile.getProperty("query.postSelectByUserNo");
 		Entry<PostDTO, RecipeDTO> result = null;
 		
 		try {
@@ -172,7 +172,7 @@ public class UserDAOImpl implements UserDAO {
 		Connection con=null;
 		PreparedStatement ps =null;
 		ResultSet rs =null;
-		String sql=proFile.getProperty("query.commentSelectByUserNo");
+		String sql=proFile.getProperty("query.bookmarkSelectByUserNo");
 		BookmarkDTO bookmark=null;
 		List<BookmarkDTO> bookmarkList = new ArrayList<BookmarkDTO>();
 		
