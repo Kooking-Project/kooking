@@ -95,7 +95,7 @@ public class BoardDAO {
 		PreparedStatement st = null;
 		int result = 0;
 		try {
-			String sql = "DELETE FROM POSTS WHERE POST_NO=?"/* + "AND USER_NO = ?" */;
+			String sql = "DELETE FROM POSTS WHERE POST_NO=?" + "AND USER_NO = ?" ;
 			st = con.prepareStatement(sql);
 			st.setInt(1, postNo);
 			st.setInt(2, userNo);
@@ -192,7 +192,7 @@ public class BoardDAO {
 		int result = 0;
 		try {
 			//조건이 있어야 할 듯
-			String sql = "UPDATE COMMENTS SET COMMENT_DELETE_YN=1  WHERE COMMENT_NO = ?"/* + "AND USER_NO = ?" */;
+			String sql = "UPDATE COMMENTS SET COMMENT_DELETE_YN=1  WHERE COMMENT_NO = ?" + "AND USER_NO = ?" ;
 			st = con.prepareStatement(sql);
 			st.setInt(1, commentNo);
 			st.setInt(2, userNo);

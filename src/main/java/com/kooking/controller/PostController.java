@@ -63,9 +63,29 @@ public class PostController implements Controller {
 	}
 
 	/**
+	 * 회원 정보에 해당하는 게시글 하나 가져오기 - 수정용
+	 */
+	public ModelAndView selectBeforePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mv = new ModelAndView();
+
+		// HttpSession session = request.getSession();
+		// int userNo = (int)session.getAttribute("loginUserNo"); //회원번호
+
+		int postNo = Integer.parseInt(request.getParameter("postNo"));
+
+		PostDTO beforeDTO = postService.selectPostDetail(postNo); // 수정하기전 사용자 기존 게시글 정보
+
+		request.setAttribute("beforePostDTO", beforeDTO);
+
+		mv.setViewName("board/boardUpdate.jsp");
+		mv.setRedirect(false);
+
+		return mv;
+	}
+
+	/**
 	 * 게시판 게시글 수정 - 제목, 내용만 수정가능
 	 */
-
 	public ModelAndView updatePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
 
@@ -73,25 +93,16 @@ public class PostController implements Controller {
 		// int userNo = (int)session.getAttribute("loginUserNo"); //회원번호
 
 		int postNo = Integer.parseInt(request.getParameter("postNo"));
-		
-		PostDTO beforeDTO = postService.selectPostDetail(postNo); //수정하기전 사용자 기존 게시글 정보
-		
-		int type = Integer.parseInt(request.getParameter("type"));
 
 		// int no, int postTypeNo, int userNo, String title, String contents, int
 		// counts, String date
 
-		PostDTO dto = new PostDTO(0, type, 2 /* userNo */ , request.getParameter("title"),
+		PostDTO dto = new PostDTO(postNo, 0, 2 /* userNo */ , request.getParameter("title"),
 				request.getParameter("content"), 0, "", "");
 
 		int result = postService.updatePost(dto);
 
-		// 결과에 따른 성공, 실패 나누기
-		if (result != 0) { // 성공 페이지로 이동? 아니면 팝업창?
-			mv.setViewName("board/boardUpdate.jsp");
-		} else { // 실패
-			mv.setViewName("board/boardUpdate.jsp");
-		}
+		mv.setViewName("board/boardUpdate.jsp");
 
 		mv.setRedirect(false);
 
@@ -111,7 +122,7 @@ public class PostController implements Controller {
 
 		int postNo = Integer.parseInt(request.getParameter("postNo")); // 게시물 번호
 
-		int result = postService.deletePost(postNo, 2/*유저번호 삭제*/, null); //이거는 좀 고민...
+		int result = postService.deletePost(postNo, 2/* 유저번호 삭제 */, null); // 이거는 좀 고민...
 
 		// 결과에 따른 성공, 실패 나누기
 		if (result != 0) {
@@ -137,7 +148,7 @@ public class PostController implements Controller {
 		PostDTO postDTO = postService.selectPostDetail(postNo); // 저장해야댐 - 사용자 닉네임 가져와야됨 - 추가
 
 		request.setAttribute("postDTO", postDTO);
-				
+
 		List<CommentDTO> commentDTO = postService.selectComments(postNo); // 이거 어케쓸지.. 페이징 처리도 해야됨.
 
 		// 결과에 따른 성공, 실패 나누기
@@ -153,7 +164,6 @@ public class PostController implements Controller {
 		return mv;
 	}
 
-
 	/**
 	 * 게시판 전체 게시글 조회 - PostDTO <- postDTO에 사용자 닉네임 추가
 	 */
@@ -162,11 +172,10 @@ public class PostController implements Controller {
 		ModelAndView mv = new ModelAndView();
 
 		List<PostDTO> postList = postService.selectPost(); // 페이징 처리, 어떻게 쓸지 고민
-		
-		request.setAttribute("postList", postList);
-		
-		// 결과에 따른 성공, 실패 나누기
 
+		request.setAttribute("postList", postList);
+
+		// 결과에 따른 성공, 실패 나누기
 
 		mv.setViewName("board/board.jsp");
 		mv.setRedirect(false);
@@ -323,11 +332,12 @@ public class PostController implements Controller {
 		// int userNo = (int)session.getAttribute("loginUserNo"); //회원번호
 
 		int commentNo = Integer.parseInt(request.getParameter("commentNo")); // 게시물 번호
-		int top = Integer.parseInt(request.getParameter("top")); //상위
-		
-		CommentDTO beforeDTO = postService.stateComment(commentNo); //수정하기전 사용자 기존 게시글 정보
+		int top = Integer.parseInt(request.getParameter("top")); // 상위
 
-		/// int no, int postNo, int userNo, int top, String content, String date, boolean deleteYN
+		CommentDTO beforeDTO = postService.stateComment(commentNo); // 수정하기전 사용자 기존 게시글 정보
+
+		/// int no, int postNo, int userNo, int top, String content, String date,
+		/// boolean deleteYN
 
 		// 사용자는 session 번호 알아내면 넣기
 		CommentDTO dto = new CommentDTO(commentNo, 0, 2/* 사용자번호 */, top, request.getParameter("content"), "", true);
@@ -348,7 +358,7 @@ public class PostController implements Controller {
 
 		return mv;
 	}
-	
+
 	/**
 	 * 댓글 삭제 - 상태만 바꾸는거 - 사용자가 관리자인지 구분하는 기준이 필요 그냥 관리자의 유저번호는 의미 없음
 	 */
@@ -360,7 +370,7 @@ public class PostController implements Controller {
 
 		int commentNo = Integer.parseInt(request.getParameter("commentNo")); // 게시물 번호
 
-		int result = postService.deleteComment(2/*사용자 번호*/, commentNo);
+		int result = postService.deleteComment(2/* 사용자 번호 */, commentNo);
 
 		// 결과에 따른 성공, 실패 나누기
 		if (result != 0) {
