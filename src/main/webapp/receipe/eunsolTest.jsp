@@ -21,7 +21,7 @@
 
 <SCRIPT language=javascript>
 
-	function checkValid() {
+/*	function checkValid() {
 		var f = window.document.writeForm;
 
 		if (f.post_title.value == "") {
@@ -69,7 +69,29 @@
 			$("#cookingTime").focus();
 			return isSubmit = false;
 		}
+		if ($("#ingredient_seq").val() == '') {
+			alert('재료순서를 맞춰 주세요.');
+			$("#ingredient_seq").focus();
+			return isSubmit = false;
+		}
+		if ($("#ingredient_name").val() == '') {
+			alert('재료용량을 선택해 주세요.');
+			$("#ingredient_name").focus();
+			return isSubmit = false;
+		}
+		if ($("#ingredient_cacty").val() == '') {
+			alert('요리시간을 선택해 주세요.');
+			$("#ingredient_cacty").focus();
+			return isSubmit = false;
+		}
 		return true;
+	}*/
+	
+	function SetSelectBox(){
+	    var schField = $("#SetSelectBox(); option:selected").text(); // 제목, 작성자
+	}
+	function SetSelectBox(){
+	    var schField = $("#itemBox(); option:selected").text(); // 제목, 작성자
 	}
 </SCRIPT>
 
@@ -198,8 +220,7 @@
 						<option value="700">700kcal</option>
 						<option value="800">800kcal</option>
 						<option value="900">900kcal이상</option>
-				</select> <select name="cookingTime" id="cookingTime"
-					onchange="SetSelectBox();">
+				</select> <select name="cookingTime" id="cookingTime"onchange="SetSelectBox();">
 						<option value="">시간</option>
 						<option value="5">5분이내</option>
 						<option value="10">10분이내</option>
@@ -216,20 +237,23 @@
 
 
 			<tr>
-				<td width="150" height="20">
+				<td width="200" height="20">
 					<p align="right">
 						<b><span style="font-size: 9pt;">재료등록</span></b>
 					</p>
 				</td>
-				<td width="450" height="20"><b> <span
-						style="font-size: 9pt;"> <!-- <input type=password name="password" size="12">(글 수정, 삭제시 필요합니다.) -->
-					</span></b></td>
+				<td width="450" height="20"><span class="guide mag_b_15" style="width: 100%;">
+					재료가 남거나 부족하지 않도록 정확한 계량정보를 적어주세요.</span>
+					<div class="mag_b_25" id="divMaterialGroupArea"></div> 
+					<jsp:include page="eunsolTest2.jsp" /></td>
 			</tr>
+			
 			<tr>
 				<td width="450" height="20" colspan="2" align="center"><b><span
 						style="font-size: 9pt;"><input type=submit value=글쓰기>
 							<input type=reset value=다시쓰기></span></b></td>
 			</tr>
+
 		</table>
 
 	</form>
@@ -239,12 +263,6 @@
 		<span style="font-size: 9pt;">&lt;<a href="${path}/front">리스트로 돌아가기</a>&gt;
 		</span>
 	</div>
-
-
-
-
-
-
 
 
 </body>
