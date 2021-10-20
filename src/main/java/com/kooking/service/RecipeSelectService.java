@@ -34,5 +34,5 @@ public interface RecipeSelectService {
 	 */
 	int addRecipeScore(int postNo, int userNo, int score) throws Exception;
 	
-	
+	List<RecipeDTO> getRecipeList(Pagenation page) throws Exception;
 }

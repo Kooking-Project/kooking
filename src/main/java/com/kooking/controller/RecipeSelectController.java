@@ -18,8 +18,15 @@ public class RecipeSelectController implements Controller{
 		return null;
 	}
 	
-	public ModelAndView recipeList(HttpServletRequest request, HttpServletResponse response) {
-		return null;
+	public ModelAndView recipeList(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		String order = request.getParameter("order");
+		String pageNum = request.getParameter("pageNum");
+		
+	
+		request.setAttribute("recipeList", service.getRecipeList(null));
+		
+		
+		return new ModelAndView("receipe/receipeList.jsp");
 		
 	}
 }

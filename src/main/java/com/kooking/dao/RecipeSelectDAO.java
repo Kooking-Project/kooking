@@ -41,6 +41,15 @@ public interface RecipeSelectDAO {
 	 * @throws Exception 
 	 */
 	int addRecipeScore(int postNo, int userNo, int score) throws Exception;
+
+
+	/**
+	 * 레시피의 리스트 검색
+	 * @param page - 검색할 페이지 수
+	 * @return
+	 * @throws Exception
+	 */
+	List<RecipeDTO> getRecipeList(Pagenation page) throws Exception;
 	
 	
 

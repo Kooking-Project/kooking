@@ -42,7 +42,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 			}
 			rw.setPost(entry.getKey());
 			rw.setRecipe(entry.getValue());
-
+			rw.getRecipe().setPost(rw.getPost());
 			int recipeNo = rw.getRecipe().getNo();
 
 			rw.getRecipe().setScore(getScore(postNo, con));
@@ -50,6 +50,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 			rw.setProcess(getProcesses(recipeNo, con));
 			rw.setImages(getPostImages(postNo, con));
 			rw.setComments(boardDao.getComments(postNo, con));
+			
 
 		} finally {
 			DbUtil.dbClose(con);
@@ -277,6 +278,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 		return result;
 	}
 
+	@Override
 	public List<RecipeDTO> getRecipeList(Pagenation page) throws Exception {
 		Connection con = null;
 		PreparedStatement ps = null;

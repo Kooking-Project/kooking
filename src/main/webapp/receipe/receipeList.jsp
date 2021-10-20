@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
 <meta charset="UTF-8">
@@ -72,12 +73,13 @@
 			<div class="row">
 				<div class="col-12 col-lg-8">
 					<div class="blog-posts-area">
-
+						
+						${recipeList}
 						<!-- Single Blog Area -->
 						<div class="single-blog-area mb-80">
 							<!-- Thumbnail -->
 							<div class="blog-thumbnail">
-								<a href="receipeRead.jsp"><img src="${pageContext.request.contextPath}/img/blog-img/1.jpg"
+								<a href="receipeRead.jsp"><img src="${path}/img/blog-img/1.jpg"
 									alt=""></a>
 								<!-- Post Date -->
 								<div class="post-date">
