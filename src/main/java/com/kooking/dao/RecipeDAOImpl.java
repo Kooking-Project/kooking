@@ -65,11 +65,11 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 				}
 			}
 
-//			for(int i : insertImage(wrapper.getImages(), con)){
-//				if(i<=0) {
-//					throw new KookingException("이미지 등록에 실패했습니다.");
-//				}
-//			}
+			for(int i : insertImage(wrapper.getImages(), con)){
+				if(i<=0) {
+					throw new KookingException("이미지 등록에 실패했습니다.");
+				}
+			}
 
 			result = true;
 			con.commit();
@@ -142,27 +142,27 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 	 * @author 박은솔
 	 * @date 2021-10-17	
 	 */
-//	public int[] insertImage(List<ImageDTO> images, Connection con) throws Exception{
-//		PreparedStatement ps = null;
-//		String sql = proFile.getProperty("query.insertImage");		
-//		//TODO : 이미지 테이블 변경 후 SQL문 수정
-//		int result [] = null;
-//
-//		try {
-//			ps = con.prepareStatement(sql); 
-//			for(ImageDTO image : images) {
-//				ps.setString(1, image.getUrl());//이미지 URL
-//				ps.setInt(2, image.getSize());//이미지용량
-//
-//				ps.addBatch();
-//				ps.clearParameters();
-//			}
-//			result = ps.executeBatch();
-//		} finally {
-//			DBTestUtil.dbClose(ps);
-//		}
-//		return result;
-//	} 
+	public int[] insertImage(List<ImageDTO> images, Connection con) throws Exception{
+		PreparedStatement ps = null;
+		String sql = proFile.getProperty("query.insertImage");		
+		//TODO : 이미지 테이블 변경 후 SQL문 수정
+		int result [] = null;
+
+		try {
+			ps = con.prepareStatement(sql); 
+			for(ImageDTO image : images) {
+				ps.setString(1, image.getUrl());//이미지 URL
+				ps.setInt(2, image.getSize());//이미지용량
+
+				ps.addBatch();
+				ps.clearParameters();
+			}
+			result = ps.executeBatch();
+		} finally {
+			DBTestUtil.dbClose(ps);
+		}
+		return result;
+	} 
 
 	/**
 	 * 레시피 조리과정 등록하기
