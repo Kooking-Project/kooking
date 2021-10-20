@@ -58,6 +58,7 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		Connection con = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
+		PostDTO postDTO = null;
 
 		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
 				+ " FROM POSTS P INNER JOIN USERS U" + " ON P.USER_NO = U.USER_NO AND POST_NO=?";
@@ -71,9 +72,10 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		// int no, int postTypeNo, int userNo, String title, String contents, int
 		// counts, String date, String userNicname
 
-		PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
+		if(rs.next()) {
+			postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
 				rs.getInt(6), rs.getString(7), rs.getString(8));
-
+		}
 		DbUtil.dbClose(con, st, rs);
 
 		return postDTO;
@@ -94,9 +96,11 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 
 		st.setInt(1, postNo);
 
+		int result = st.executeUpdate();
+		
 		DbUtil.dbClose(con, st, rs);
 
-		return st.executeUpdate();
+		return result;
 
 	}
 

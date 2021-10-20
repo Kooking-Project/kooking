@@ -47,10 +47,10 @@ public class PostController implements Controller {
 		// 결과에 따른 성공, 실패 나누기
 		if (result != 0) {
 			// 성공 페이지로 이동? 아니면 팝업창?
-			mv.setViewName("${pageContext.request.contextPath}/board/board.jsp");
+			mv.setViewName("/board/board.jsp");
 		} else {
 			// 실패
-			mv.setViewName("${pageContext.request.contextPath}/board/board.jsp");
+			mv.setViewName("/board/board.jsp");
 		}
 
 		// mv.setViewName("boardTest.jsp");
@@ -131,16 +131,18 @@ public class PostController implements Controller {
 
 		PostDTO postDTO = postService.selectPostDetail(postNo); // 저장해야댐 - 사용자 닉네임 가져와야됨 - 추가
 
+		request.setAttribute("postDTO", postDTO);
+				
 		List<CommentDTO> commentDTO = postService.selectComments(postNo); // 이거 어케쓸지.. 페이징 처리도 해야됨.
 
 		// 결과에 따른 성공, 실패 나누기
 		if (postDTO != null) { // 성공 페이지로 이동? 아니면 팝업창?
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("board/boardRead.jsp");
 		} else { // 실패
-			mv.setViewName("boardTest.jsp");
+			mv.setViewName("board/boardRead.jsp");
 		}
 
-		mv.setViewName("boardTest.jsp");
+		mv.setViewName("board/boardRead.jsp");
 		mv.setRedirect(false);
 
 		return mv;
