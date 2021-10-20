@@ -105,7 +105,6 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 	 */
 	@Override
 	public List<PostDTO> selectPost() throws Exception {
-		try {
 		Connection con = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -131,10 +130,7 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		DbUtil.dbClose(con, st, rs);
 
 		return postList;
-		} catch (NullPointerException e) {
-			System.out.println("널포인트 - 다오임플");
-		}
-		return null;
+		
 	}
 
 	/**

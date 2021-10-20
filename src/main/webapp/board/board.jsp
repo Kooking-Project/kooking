@@ -255,15 +255,27 @@ input#search-bar {
 					</c:when>
 					<c:otherwise>
 						<c:forEach items="${requestScope.postList}" var="board">
+							<c:if test="${board.postTypeNo != 1}">						
 							<tr>
 								<td>${board.no}</td>
-								<td><a href="#">${board.type}</a></td>
+								<c:choose>
+									<c:when test="${board.postTypeNo == 2}">
+									<td><a href="#">TIP</a></td>
+									</c:when>
+									<c:when test="${board.postTypeNo == 3}">
+									<td><a href="#">후기</a></td>
+									</c:when>
+									<c:otherwise>
+									<td><a href="#">QNA</a></td>
+									</c:otherwise>
+								</c:choose>
 								<td><a
-									href="${pageContext.request.contextPath}/front?key=post&methodName=selectPost&no=${board.no}">${board.title}</a></td>
-								<td>${board.userNicName}</td>
+									href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.no}">${board.title}</a></td>
+								<td>${board.userNicname}</td>
 								<td>${board.date}</td>
 								<td>${board.counts}</td>
 							</tr>
+						</c:if>
 						</c:forEach>
 					</c:otherwise>
 				</c:choose>

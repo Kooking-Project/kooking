@@ -92,13 +92,9 @@ public class PostServiceImpl implements PostService {
 	 */
 	@Override
 	public List<PostDTO> selectPost() throws Exception{
-		try {
+		
 			List<PostDTO> postDTO = postDAO.selectPost();
 			return postDTO;
-		} catch (NullPointerException e) {
-			System.out.println("널포인드");
-		}
-		return null;
 	}
 
 	/**

@@ -220,7 +220,7 @@
                                             <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">★☆☆☆☆</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="${pageContext.request.contextPath}/board/board.jsp">커뮤니티</a>
+                                    <li><a href="${pageContext.request.contextPath}/front">커뮤니티</a>
                                     </li>
                                     	<c:choose>
                                    		<c:when test="${userDTO.status}==10">

@@ -35,7 +35,7 @@
 			<td>POST_VIEW_COUNTS</td>
 			<td>POST_DATE</td>
 		</tr>
-		<c:forEach items="${postList}" var="board" varStatus="loop">
+		<c:forEach items="${requestScope.postList}" var="board" varStatus="loop">
 			<tr>
 				<td>${board.no }</td>
 				<td>${board.postTypeNo }</td>
