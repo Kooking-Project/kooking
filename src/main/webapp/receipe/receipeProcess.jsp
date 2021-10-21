@@ -7,22 +7,6 @@
 <title>jQuery UI Sortable</title>
 <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
 <style>
-.processitemBox {
-    width:600px;
-    height:50px;
-    
-    margin:10px;
-}
-
-.processitemBox input {
-	background:#f5f5f5;
-	border:1px solid #e1e1e1;
-	border-radius: 4px;
-	font-size:16px;
-	height:50px;
-	vertical-align:middle;
-}
-
 .itemBoxHighlight {
     width:400px;
     height:50px;
