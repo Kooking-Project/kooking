@@ -248,7 +248,7 @@ public class PostController implements Controller {
 	 */
 	public ModelAndView selectPostCount(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
-		
+
 		String pageSize = request.getParameter("pageSize"); // 한 페이지에 보여질 게시글 수
 		String pageNo = request.getParameter("pageNo"); // 현재 페이지
 		Pagenation page = new Pagenation();
@@ -257,11 +257,11 @@ public class PostController implements Controller {
 			page.setPageSize(Integer.parseInt(pageSize));
 		if (pageNo != null)
 			page.setPageNo(Integer.parseInt(pageNo));
-		
+
 		Entry<List<PostDTO>, Pagenation> entry = postService.selectPostCount(page);
 		request.setAttribute("postList", entry.getKey());
 		request.setAttribute("page", entry.getValue());
-		
+
 		mv.setViewName("board.jsp");
 		mv.setRedirect(false);
 
@@ -286,11 +286,11 @@ public class PostController implements Controller {
 			page.setPageSize(Integer.parseInt(pageSize));
 		if (pageNo != null)
 			page.setPageNo(Integer.parseInt(pageNo));
-		
+
 		Entry<List<PostDTO>, Pagenation> entry = postService.searchPostName(page, postName);
 		request.setAttribute("postList", entry.getKey());
 		request.setAttribute("page", entry.getValue());
-		
+
 		mv.setViewName("board.jsp");
 		mv.setRedirect(false);
 
@@ -315,20 +315,42 @@ public class PostController implements Controller {
 		// HttpSession session = request.getSession();
 		// int userNo = (int) session.getAttribute("loginUserNo"); //회원번호
 
-		int user = Integer.parseInt(request.getParameter("user")); // 사용자 번호
-		int postNo = Integer.parseInt(request.getParameter("postNo")); // 게시물 번호
-		int top = Integer.parseInt(request.getParameter("top"));
+		String user = request.getParameter("user");
+		String postNo = request.getParameter("postNo");
+		String top = request.getParameter("top");
+		String comments = request.getParameter("contents"); //널이 안들어갈꺼라서 상관 없지 않나?
+		
+		int topNullCheck;
 
+		if (user == null) {
+			user = "2";
+			System.out.println("userNull");
+		}
+		if (postNo == null) {
+			postNo = "14";
+			System.out.println("postNoNull");
+		}
+		if (top==null) {
+			topNullCheck = -1;
+		} else {
+			topNullCheck = Integer.parseInt(top);
+		}
+		if(comments == null) {
+			comments="아아";
+			System.out.println("commentNull");
+		}
 		// int no, int postNo, int userNo, int top, String content, String date, boolean
 		// deleteYN
 
 		// 사용자는 session 번호 알아내면 넣기
-		CommentDTO dto = new CommentDTO(0, postNo, user, top, request.getParameter("content"), "", true);
+		CommentDTO dto = new CommentDTO(0, Integer.parseInt(postNo), Integer.parseInt(user), topNullCheck,
+				comments, "", true);
 
 		int result = postService.insertComment(dto);
 
 		mv.setViewName("board/boardRead.jsp");
-		//mv.setViewName("front?key=post&methodName=selectPostDetail&postNo=" + postNo);
+		// mv.setViewName("front?key=post&methodName=selectPostDetail&postNo=" +
+		// postNo);
 		mv.setRedirect(false);
 
 		return mv;

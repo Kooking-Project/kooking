@@ -238,7 +238,7 @@ public class UserDAOImpl implements UserDAO {
 		try {
 			ps = con.prepareStatement("SELECT COUNT(*) FROM BOOKMARKS where USER_NO=?");
 			ps.setInt(1, userNo);
-			
+
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				if(rs.getInt(1)==0)
@@ -279,6 +279,7 @@ public class UserDAOImpl implements UserDAO {
 			while(rs.next()) {
 				bookmark = new BookmarkDTO(rs.getInt(1), rs.getInt(2), rs.getString(3));
 				bookmarkList.add(bookmark);
+							
 			}
 			result = new SimpleEntry<List<BookmarkDTO>, Pagenation>(bookmarkList, page);
 		}finally {

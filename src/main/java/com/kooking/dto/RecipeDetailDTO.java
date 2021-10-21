@@ -1,5 +1,7 @@
 package com.kooking.dto;
 
+import java.util.Objects;
+
 /**
  * 원재
 
@@ -40,6 +42,22 @@ public class RecipeDetailDTO {
 	public String toString() {
 		return "RecipeDetailDTO [name=" + name + ", recipeCategoryNo=" + recipeCategoryNo + ", recipeCategoryName="
 				+ recipeCategoryName + "]";
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(name, recipeCategoryName, recipeCategoryNo);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RecipeDetailDTO other = (RecipeDetailDTO) obj;
+		return Objects.equals(name, other.name) && Objects.equals(recipeCategoryName, other.recipeCategoryName)
+				&& recipeCategoryNo == other.recipeCategoryNo;
 	}
 	
 	

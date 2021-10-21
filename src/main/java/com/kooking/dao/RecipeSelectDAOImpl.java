@@ -16,7 +16,7 @@ import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.exception.KookingException;
 import com.kooking.paging.Pagenation;
-import com.kooking.util.DBTestUtil;
+import com.kooking.util.DbUtil;
 import com.kooking.util.DbUtil;
 
 public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
@@ -35,7 +35,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 		RecipeWrapper rw = new RecipeWrapper();
 		try {
 			con = DbUtil.getConnection();
-
+			System.out.println(postNo);
 			Entry<PostDTO, RecipeDTO> entry = getRecipe(postNo, con);
 
 			if (entry == null || entry.getKey() == null || entry.getValue() == null) {
@@ -59,9 +59,10 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 
 		return rw;
 	}
+	
 
 	/**
-	 * 레시피 번호로 레시피 게시글을 가져오는 메소드. 레시피 DTO와 POST DTO를 조인하여 Entry 형태로 가져옴.
+	 * 게시글 번호로 레시피 게시글을 가져오는 메소드. 레시피 DTO와 POST DTO를 조인하여 Entry 형태로 가져옴.
 	 * 
 	 * @param con    - 유지할 Connection 정보, null이라면 Connection을 새로 생성함.
 	 * @param postNo - 검색할 레시피 번호
@@ -84,6 +85,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 			PostDTO post = new PostDTO();
 			RecipeDTO recipe = new RecipeDTO();
 			if (rs.next()) {
+				System.out.println("테스트!!");
 				post.setNo(rs.getInt(1));
 				recipe.setPostNo(rs.getInt(1));
 				post.setPostTypeNo(rs.getInt(2));
@@ -221,6 +223,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
+				System.out.println("여기까지>????");
 				ImageDTO img = new ImageDTO();
 				img.setNo(rs.getInt(1));
 				img.setUrl(rs.getString(2));
@@ -275,8 +278,9 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 				DbUtil.dbClose(con, ps, rs);
 			}
 		}
+		
 
-		return result;
+		return Math.round(result*10)/10.0;
 	}
 
 	@Override
@@ -293,7 +297,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 		String sql = "SELECT * FROM (SELECT A.*, ROWNUM RNUM FROM VIEW_RECIPE_LIST A) WHERE RNUM BETWEEN ? AND ? ORDER BY POST_DATE DESC";
 
 		try {
-			con = DBTestUtil.getConnection();
+			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, (page.getPageNo() - 1) * page.getPageSize() + 1);
 			ps.setInt(2, page.getPageNo() * page.getPageSize());
@@ -320,6 +324,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 				post.setDate(rs.getString(8));
 
 				RecipeDTO recipe = new RecipeDTO();
+				recipe.setPostNo(post.getNo());
 				recipe.setNo(rs.getInt(9));
 				recipe.setName(rs.getString(10));
 				recipe.setCalorie(rs.getInt(11));
@@ -335,7 +340,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 			}
 
 		} finally {
-			DBTestUtil.dbClose(ps, rs, con);
+			DbUtil.dbClose(ps, rs, con);
 		}
 		
 		return new SimpleEntry<List<RecipeDTO>, Pagenation>(recipes, page);
@@ -351,7 +356,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 	public int getTotalRecipesNum(Connection con) throws Exception {
 		boolean isConnected = (con != null);
 		if (!isConnected) {
-			con = DBTestUtil.getConnection();
+			con = DbUtil.getConnection();
 		}
 		int result = 0;
 		PreparedStatement ps = null;
@@ -365,9 +370,9 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 			}
 		} finally {
 			if (isConnected) {
-				DBTestUtil.dbClose(ps, rs);
+				DbUtil.dbClose(ps, rs);
 			} else {
-				DBTestUtil.dbClose(con, ps, rs);
+				DbUtil.dbClose(con, ps, rs);
 			}
 		}
 		return result;
@@ -515,7 +520,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 		RecipeSelectDAOImpl dao = new RecipeSelectDAOImpl();
 
 
-		System.out.println(dao.getRecipeList(new Pagenation()));
+		System.out.println(dao.search(5));
 
 	}
 

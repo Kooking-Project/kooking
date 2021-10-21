@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.kooking.dto.ImageDTO;
 import com.kooking.dto.IngredientDTO;
@@ -15,8 +16,11 @@ import com.kooking.dto.ProcessDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
+import com.kooking.exception.KookingException;
 import com.kooking.service.PostService;
 import com.kooking.service.PostServiceImpl;
+import com.kooking.service.RecipeSelectService;
+import com.kooking.service.RecipeSelectServiceImpl;
 import com.kooking.service.RecipeService;
 import com.kooking.service.RecipeServiceImpl;
 import com.oreilly.servlet.MultipartRequest;
@@ -28,7 +32,8 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 public class RecipeController implements Controller {
 	private RecipeService recipeService = new RecipeServiceImpl();
 	private PostService postService = new PostServiceImpl();
-
+	private RecipeSelectService selectService = new RecipeSelectServiceImpl();
+	
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -141,19 +146,32 @@ public class RecipeController implements Controller {
 		return new ModelAndView("front?key=search&methodName=list", true);
 	}
 
-
 	/**
-	 * 수정하기 폼 : 게시글의 게시판 유형이 레시피라면  
+	 * 수정하기 폼
 	 * */
 	public ModelAndView updateForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		return new ModelAndView("recipe/update.jsp");
+		int postNo = Integer.parseInt(request.getParameter("postNo")); 
+//		int userNo = Integer.parseInt(request.getParameter("userNo")); 
+		
+		RecipeWrapper wrapper = selectService.search(postNo);
+		
+//		if(((UserDTO)(request.getSession().getAttribute("userDTO"))).getNo()!=userNo) {
+//			throw new KookingException("게시글 작성자가 아닙니다.");
+//		}
+		System.out.println("postNo : " + postNo);
+//		System.out.println("userNo : " + userNo);
+		
+		request.setAttribute("search", wrapper);
+		
+		//http://localhost:8000/kooking/front?key=recipe&methodName=updateForm&postNo=13
+		//http://localhost:8000/kooking/recipe/update.jsp
+		return new ModelAndView("recipe/receipeUpdate.jsp");
 	}
 
 	/**
-	 * 수정하기
+	 * 수정하기 : 파일 첨부를 제외한 수정??
 	 * */
-	public ModelAndView updateRecipe(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView update(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String saveDir=request.getServletContext().getRealPath("/save/recipe"); //a.jpg ,a1.jpg, a2.jpg 
 		int maxSize = 1024*1024*100; //100M 
 		String encoding="UTF-8";
@@ -233,9 +251,10 @@ public class RecipeController implements Controller {
 		//Service 객체의 메소드 호출
 		recipeService.update(rw);
 
-		//수정이 완료되면 상세보기페이지로 이동한다 ???
+		//수정이 완료되면 레시피상세보기 페이지로 간다?
 
-		return new ModelAndView("front?key=search&methodName=list", true);
+		
+		return new ModelAndView("front?key=search&methodName=", true);
 	}
 
 }

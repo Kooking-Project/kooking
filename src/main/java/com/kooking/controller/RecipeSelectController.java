@@ -33,10 +33,11 @@ public class RecipeSelectController implements Controller{
 		if(pageNum!=null)
 		page.setPageNo(Integer.parseInt(pageNum));
 		
+		page.setPageSize(12);
 		Entry<List<RecipeDTO>, Pagenation> entry = service.getRecipeList(page);
 		request.setAttribute("recipeList", entry.getKey());
 		request.setAttribute("page", entry.getValue());
-		return new ModelAndView("receipe/receipeList.jsp");
+		return new ModelAndView("recipe/recipeList.jsp");
 		
 	}
 	
@@ -45,6 +46,6 @@ public class RecipeSelectController implements Controller{
 		RecipeWrapper wrapper = service.search(recipeNo);
 		request.setAttribute("wrapper", wrapper);
 		
-		return new ModelAndView("receipe/receipeRead.jsp");
+		return new ModelAndView("recipe/recipeRead.jsp");
 	}
 }

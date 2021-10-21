@@ -27,8 +27,8 @@ public class RecipeServiceImpl implements RecipeService {
 	 * 레시피 수정
 	 */
 	@Override
-	public boolean update(RecipeWrapper recipe) throws Exception {
-		if(recipeDao.update(recipe)==false)
+	public boolean update(RecipeWrapper wrapper) throws Exception {
+		if(recipeDao.update(wrapper)==false)
 			throw new SQLException("수정되지 않았습니다.");
 		return true;
 	}
