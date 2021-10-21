@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -28,34 +27,57 @@
 	    		f.post_content.focus();
 	    		return false;
 	    	}
-	    	if ( f.recipe_nation.value == "" ) {
-	    		alert( "국가별 카테고리를 선택해 주세요." );
-	    		f.recipe_nation.focus();
-	    		return false;
-	    	}
-	    	if ( f.recipe_type.value == "" ) {
-	    		alert( "분류별 카테고리를 선택해 주세요." );
-	    		f.recipe_type.focus();
-	    		return false;
-	    	}
-	    	if ( f.recipe_level.value == "" ) {
-	    		alert( "난이도 카테고리를 선택해 주세요." );
-	    		f.recipe_level.focus();
-	    		return false;
-	    	}
-	    	if ( f.process_desc.value == "" ) {
-	            alert( "요리과정을 입력해 주세요" );
-	            f.process_desc.focus();
-	            return false;
-	        }
-	    	if ( f.password.value == "" ) {
+	    	if ($("#recipe_nation").val() == '') {
+				alert('국가별 카테고리를 선택해 주세요.');
+				$("#recipe_nation").focus();
+				return isSubmit = false;
+			}
+			if ($("#recipe_type").val() == '') {
+				alert('음식분류별 카테고리를 선택해 주세요.');
+				$("#recipe_type").focus();
+				return isSubmit = false;
+			}
+			if ($("#recipe_level").val() == '') {
+				alert('난이도를 선택해 주세요.');
+				$("#recipe_level").focus();
+				return isSubmit = false;
+			}
+			if ($("#calorie").val() == '') {
+				alert('칼로리를 선택해 주세요.');
+				$("#calorie").focus();
+				return isSubmit = false;
+			}
+			if ($("#cookingTime").val() == '') {
+				alert('요리시간을 선택해 주세요.');
+				$("#cookingTime").focus();
+				return isSubmit = false;
+			}
+			if ($("#ingredient_seq").val() == '') {
+				alert('재료를 입력해 주세요.');
+				$("#ingredient_seq").focus();
+				return isSubmit = false;
+			}
+			if ($("#ingredient_name").val() == '') {
+				alert('요리과정을 입력해 주세요.');
+				$("#ingredient_name").focus();
+				return isSubmit = false;
+			}
+	    	/*if ( f.password.value == "" ) {
 	            alert( "비밀번호를 입력해 주세요" );
 	            f.password.focus();
 	            return false;
-	        }
+	        }*/
 	    	
 	        return true;
 	    }
+	    
+		function SetSelectBox(){
+		    var schField = $("#SetSelectBox(); option:selected").text(); // 제목, 작성자
+		}
+		function SetSelectBox(){
+		    var schField = $("#itemBox(); option:selected").text(); // 제목, 작성자
+		}
+	    
     </script>
     
     
@@ -73,7 +95,8 @@
     </div>
     
     <!-- 레시피 등록하기 Start -->
-    <form name="insFrm" id="insFrm" method="post" action="" onSubmit='return checkValid()' enctype="multipart/form-data">
+    <form name="writeForm" id="writeForm" method="post" action="${path}/front?key=recipe&methodName=insert" 
+    		onSubmit='return checkValid()' enctype="multipart/form-data">
     <div class="container recipe_regi">
     <div class="regi_center">
     <div class="regi_title">레시피 등록</div>
@@ -98,7 +121,7 @@
       		<input type="text" name="post_title" id="post_title" value="" size="50" placeholder="예) 소고기 미역국 끓이기">
       	</span>
       	<span>
-      		<input type="file" style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'>
+      		<input type="file" name="recipe_thumbnail" id="recipe_thumbnail" style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'>
       	</span>
       </div>
       <hr>
@@ -106,9 +129,9 @@
 
 	  <!-- recipes_name 요리제목 start -->
 	  <div>
-	  	<p class="cont_tit4">요리제목 </p>
+	  	<p class="cont_tit4">요리이름</p>
 	  	<span>
-	  		<input type="text" name="recipes_name" id="recipes_name" size="50" placeholder="예) 미역국">
+	  		<input type="text" name="recipe_name" id="recipe_name" size="50" placeholder="예) 미역국">
 	  	</span>
 	  </div>
 	  <hr>
@@ -170,44 +193,45 @@
         <div class="container">
                     <div class="row">
                         <div class="col-12 col-lg-3">
-                            <select name="recipe_nation" id="recipe_nation" text="국가별">
-                                <option value="" >국가별</option>
-								<option value="56">동남아시아</option>
-								<option value="54">서양</option>
-								<option value="55">이탈리아</option>
-								<option value="60">일본</option>
-								<option value="53">중국</option>
-								<option value="52">퓨전</option>
-								<option value="61">한식</option>
+                            <select name="recipe_nation" id="recipe_nation" text="국가별" onchange="SetSelectBox();">
+                                <option value="">국가별</option>
+								<option value="한식">한식</option>
+								<option value="서양">서양</option>
+								<option value="일본">일본</option>
+								<option value="중국">중국</option>
+								<option value="퓨전">퓨전</option>
+								<option value="이탈리아">이탈리아</option>
+								<option value="동남아시아">동남아시아</option>
                             </select>
                         </div>
                         <div class="col-12 col-lg-3">
-                            <select name="recipe_type" id="recipe_type" text="분류별">
-                                <option value="" >분류별</option>
-								<option value="18">국</option>
-								<option value="13">그라탕/리조또</option>
-								<option value="19">나물/생채/샐러드</option>
-								<option value="21">도시락/간식</option>
-								<option value="15">떡/한과</option>
-								<option value="43">만두/면류</option>
-								<option value="17">밑반찬/김치</option>
-								<option value="45">밥</option>
-								<option value="20">볶음</option>
-								<option value="46">부침</option>
-								<option value="44">빵/과자</option>
-								<option value="14">샌드위치/햄버거</option>
-								<option value="22">양념장</option>
-								<option value="22">양식</option>
-								<option value="22">음료</option>
-								<option value="22">조림</option>
-								<option value="22">찌개/전골/스튜</option>
-								<option value="22">찜</option>
-								<option value="22">튀김/커틀릿</option>
-								<option value="22">피자</option>
+                            <select name="recipe_type" id="recipe_type" text="분류별" onchange="SetSelectBox();">
+								<option value="">음식분류별</option>
+								<option value="구이">구이</option>
+								<option value="국">국</option>
+								<option value="그라탕/리조또">그라탕/리조또</option>
+								<option value="나물/생채/샐러드">나물/생채/샐러드</option>
+								<option value="도시락/간식">도시락/간식</option>
+								<option value="떡/한과">떡/한과</option>
+								<option value="만두/면류">만두/면류</option>
+								<option value="밑반찬/김치">밑반찬/김치</option>
+								<option value="밥">밥</option>
+								<option value="볶음">볶음</option>
+								<option value="부침">부침</option>
+								<option value="빵/과자">빵/과자</option>
+								<option value="샌드위치/햄버거">샌드위치/햄버거</option>
+								<option value="양념장">양념장</option>
+								<option value="양식">양식</option>
+								<option value="음료">음료</option>
+								<option value="조림">조림</option>
+								<option value="찌개/전골/스튜">찌개/전골/스튜</option>
+								<option value="찜">찜</option>
+								<option value="튀김/커틀릿">튀김/커틀릿</option>
+								<option value="피자">피자</option>
                             </select>
                         </div>
                         <div class="col-12 col-lg-3">
-                            <select name="recipe_level" id="recipe_level" text="난이도">
+                            <select name="recipe_level" id="recipe_level" text="난이도" onchange="SetSelectBox();">
                                 <option value="">난이도</option>
 								<option value="아무나">아무나</option>
 								<option value="초보환영">초보환영</option>
@@ -241,13 +265,13 @@
     <!-- 요리순서 End -->
     
     <!-- 비밀번호 입력 -->
-    <div>
+<!--    <div>
     	<p class="cont_tit4">비밀번호</p>
     	<span class="guide mag_b_15">글 수정,삭제시 필요합니다.</span>
     	<div>
     		<input type=password name="password" size="12">
     	</div>
-    </div>
+    </div>   비밀번호 값 추후 확인-->
     </div><!--/cont_box-->
     
     <!-- 태그 보류 xxxxxxx -->
@@ -277,5 +301,19 @@
     
     <!-- footer -->
     <jsp:include page="../common/footer.jsp"/>  
+    
+    <!-- ##### All Javascript Files ##### -->
+	<!-- jQuery-2.2.4 js -->
+	<script src="${pageContext.request.contextPath}/js/jquery/jquery-2.2.4.min.js"></script>
+	<!-- Popper js -->
+	<script src="${pageContext.request.contextPath}/js/bootstrap/popper.min.js"></script>
+	<!-- Bootstrap js -->
+	<script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.min.js"></script>
+	<!-- All Plugins js -->
+	<script src="${pageContext.request.contextPath}/js/plugins/plugins.js"></script>
+	<!-- Active js -->
+	<script src="${pageContext.request.contextPath}/js/active.js"></script>
+	
+	
 </body>
 </html>

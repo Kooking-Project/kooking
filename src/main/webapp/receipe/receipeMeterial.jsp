@@ -13,7 +13,7 @@
     
     margin:10px;
 }
-/*
+
 .itemBox input {
 	background:#f5f5f5;
 	border:1px solid #e1e1e1;
@@ -21,7 +21,7 @@
 	font-size:16px;
 	height:50px;
 	vertical-align:middle;
-}*/
+}
 
 .itemBoxHighlight {
     width:400px;
@@ -58,7 +58,7 @@ function submitItem() {
 }
 
 /** 아이템 체크 */
-/*function validateItem() {
+function validateItem() {
     var items = $("input[type='text'][name='item']");
     if(items.length == 0) {
         alert("작성된 아이템이 없습니다.");
@@ -75,7 +75,7 @@ function submitItem() {
     }
 
     return flag;
-}*/
+}
 
 /** UI 설정 */
 $(function() {
