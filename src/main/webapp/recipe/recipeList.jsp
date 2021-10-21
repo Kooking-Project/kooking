@@ -190,6 +190,29 @@ button, a {
 .option-value {
 	padding-top: 5px;
 }
+
+.recipe-text{
+	padding: 20px;
+	font-size:20px;
+	font-weight:bold;
+
+}
+
+.recipe-alert img{
+	max-height: 40px;
+	width:auto;
+	padding:5px;
+	margin-right:20px;
+}
+
+.recipe-alert{
+	font-size:17px;
+}
+
+.pagination .active{
+	
+}
+
 </style>
 </head>
 
@@ -203,22 +226,35 @@ button, a {
 
 
 	<!-- header -->
-	<jsp:include page="${path}/common/header.jsp" />
+	<jsp:include page="../common/header.jsp" />
 	<div class="inner">
+		<div class="alert alert-success recipe-alert">
+		<img src="${path}/img/blog-img/KnifeAndFork.svg" />
+		  맛있는 레시피가 <span class="text-danger">${page.total}</span>개 있어요!
+		</div>
 		<ul class="lst_recipe">
 		<c:forEach items="${recipeList}" var="recipe" varStatus="state">
-			<li><a class="call_recipe thmb" href="${path}/front?key=search&methodName=view&no=${recipe.no}"> <img
-					src="https://cloudfront.haemukja.com/vh.php?url=https://d1hk7gw6lgygff.cloudfront.net/uploads/recipe/image_file/5980/mid_thumb_4._%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B5%E1%84%82%E1%85%B5%E1%84%8F%E1%85%B5%E1%84%8E%E1%85%B5%E1%86%AB_%E1%84%83%E1%85%A1%E1%86%AB%E1%84%92%E1%85%A9%E1%84%87%E1%85%A1%E1%86%A8_%E1%84%89%E1%85%B3%E1%84%91%E1%85%B3_A.jpg&amp;convert=jpgmin&amp;rt=600"
+			<li><a class="call_recipe thmb" href="${path}/front?key=search&methodName=view&no=${recipe.post.no}"> 
+			<img src="${path}/img/${recipe.thumbnail}"
 					alt="">
-			</a> <span class="judge">평가점수<strong>1.5</strong></span> <span
-				class="author"> <a href="/profile/1713889"> <img
+			</a> <span class="judge">평가점수
+			<c:choose>
+				<c:when test="${recipe.score}>=0">
+				<strong>${recipe.score}</strong>
+				</c:when>
+				<c:otherwise>
+				<strong>?</strong>
+				</c:otherwise>
+			</c:choose>
+			</span> <span
+				class="author"> <a href="${path}/front?key=search&methodName=view&no=${recipe.post.no}"> <img
 						alt="프로필 이미지"
 						src="https://cloudfront.haemukja.com/vh.php?url=https://d1hk7gw6lgygff.cloudfront.net/uploads/user/image_file/1713889/thumb_profile1576666692409.jpg&amp;convert=jpgmin&amp;rt=600">
-				</a> <strong><a href="/profile/1713889">쿠킹</a></strong>
+				</a> <strong><a href="${path}/front?key=search&methodName=view&no=${recipe.post.no}">${recipe.post.userNicname }</a></strong>
 			</span>
 				<p>
-					<a class="call_recipe" href="/recipes/5980"> 스키니키친 <strong>단호박
-							스프</strong>
+					<a class="call_recipe" href="${path}/front?key=search&methodName=view&no=${recipe.post.no}"> ${recipe.name } 
+					<strong>${recipe.post.title }</strong>
 					</a>
 				</p>
 				<div class="option">
@@ -232,7 +268,7 @@ button, a {
 									d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
 		</svg>
 						</div>
-						<div class="option-value">5분</div>
+						<div class="option-value">${recipe.cookingTime}분</div>
 					</div>
 					<div class="option-col">
 						<div class="option-svg">
@@ -248,7 +284,10 @@ button, a {
 </c:forEach>
 
 		</ul>
-	</div>
+		
+		
+	
+</div>
 
 	<!-- footer -->
 	<jsp:include page="../common/footer.jsp" />

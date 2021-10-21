@@ -33,6 +33,7 @@ public class RecipeSelectController implements Controller{
 		if(pageNum!=null)
 		page.setPageNo(Integer.parseInt(pageNum));
 		
+		page.setPageSize(12);
 		Entry<List<RecipeDTO>, Pagenation> entry = service.getRecipeList(page);
 		request.setAttribute("recipeList", entry.getKey());
 		request.setAttribute("page", entry.getValue());
