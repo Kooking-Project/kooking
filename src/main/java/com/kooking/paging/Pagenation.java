@@ -11,6 +11,7 @@ public class Pagenation {
 	private int pageCnt = 1;	//총 페이지
 	private int total=0;		//총 게시글 수
 	private int order=0; 		//정렬 방법 0=날짜(기본값), 1=추천수, 2=평점수
+	private int blockcount = 3;
 	
 	public Pagenation() {}
 	
@@ -57,6 +58,14 @@ public class Pagenation {
 		this.pageCnt = pageCnt;
 	}
 
+
+	public int getBlockcount() {
+		return blockcount;
+	}
+
+	public void setBlockcount(int blockcount) {
+		this.blockcount = blockcount;
+	}
 
 	@Override
 	public String toString() {

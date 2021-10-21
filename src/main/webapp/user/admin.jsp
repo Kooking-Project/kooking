@@ -265,6 +265,32 @@ tr {
 									</c:otherwise>	
 									</c:choose>
 							</table>
+							 <jsp:useBean class="com.kooking.paging.Pagenation" id="p"/> 
+    
+ <!--  블럭당  -->
+ <nav class="pagination-container">
+		<div class="pagination">
+		<c:set var="doneLoop" value="false"/>	
+		<c:set var="temp" value="${(pageNo-1) % 10}"/> 
+		<c:set var="startPage" value="${pageNo - temp}"/> 				
+		  <c:if test="${(startPage-p.blockcount) > 0}"> 
+		      <a class="pagination-newer" href="${path}/front?key=postc&methodName=selectPost&pageNo=${startPage-1}">PREV</a>
+		  </c:if>		  		 		
+		<span class="pagination-inner"> 
+			  <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+ 10}'> 
+				  <c:if test="${(i-1)>=p.pageCnt}">
+				       <c:set var="doneLoop" value="true"/>
+				    </c:if> 
+				  <c:if test="${not doneLoop}" >
+				         <a class="${i==pageNo?'pagination-active':page}" href="${path}/front?key=postmethodName=selectPost&pageNo=${i}">${i}</a> 
+				  </c:if>	  
+			</c:forEach>
+		</span> 
+			 <c:if test="${(startPage+p.blockcount)<=p.pageCnt}">
+			     <a class="pagination-older" href="${path}/front?key=post&methodName=selectPost&pageNo=${startPage+p.blockcount}">NEXT</a>
+			 </c:if>		
+		</div>
+	</nav>
 						</div>
 					</div>
 				</div>
