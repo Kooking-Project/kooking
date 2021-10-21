@@ -20,6 +20,23 @@
 <script type="text/javascript">
 
 
+function checkValid() {
+    var f = window.document.loginForm;
+		
+	if ( f.id.value == "") {
+	    alert( "아이디를 입력해 주세요." );
+	    f.id.focus();
+		return false;
+    }
+	if ( f.pwd.value == "" ) {
+		alert( "비밀번호를 입력해 주세요." );
+		f.pwd.focus();
+		return false;
+	}
+	
+    return true;
+}
+
 
 </script>    
     
@@ -48,7 +65,7 @@
              <c:choose>
 				 	<c:when test ="${empty userDTO.id}">
 				 	<!-- 아이디 / 비밀번호 폼 시작 -->
-				 	<form class="form-horizontal" method="post" action="../front">
+				 	<form class="form-horizontal" name="loginForm" id="loginForm" method="post" action="../front">
 				 		<input type="hidden" name="key" value = "user" /> 
 						<input type="hidden" name="methodName" value = "login" />
 				 	<fieldset>
@@ -71,8 +88,8 @@
 								<p>
 								<div class="form-group text-center d-flex justify-content-lg-center">
 									<div class="col-lg-6">
-										<button type="submit" class="btn delicious-small-btn m-1">확인</button>
-										<a href="javascript:history.back()" class="btn delicious-small-btn btn-3">뒤로가기</a>
+    	  								<input class="btn delicious-btn" type=submit value="등록" style=" border:0px transparent solid; font-weight: bold; color: #fff;">
+										<a href="javascript:history.back()" class="btn delicious-btn" style=" border:0px transparent solid; font-weight: bold; color: #fff;">뒤로가기</a>
 									</div>
 								</div>								
 							</fieldset>
@@ -80,7 +97,7 @@
 				 	<!-- 아이디 / 비밀번호 폼 끝 -->
 				 	</c:when>
 				 	<c:otherwise>
-				 		<h1>${userDTO.nickName} 님 환영합니다!!</h1>
+				 		<h1 style="text-align: center">${userDTO.nickName} 님 환영합니다!!</h1>
 				 	</c:otherwise>
 				 </c:choose>  	         
              </div>

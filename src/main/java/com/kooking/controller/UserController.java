@@ -74,6 +74,7 @@ public class UserController implements Controller {
 	 * 유저 정보 변경
 	 */
 	public ModelAndView userUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 		String saveDir=request.getServletContext().getRealPath("/save"); //a.jpg ,a1.jpg, a2.jpg 
 		int maxSize = 1024*1024*100; //100M 
 		String encoding="UTF-8";

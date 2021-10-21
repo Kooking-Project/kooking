@@ -368,14 +368,6 @@ $(function(){
 </head>
 
 <body>
-	<!-- Preloader -->
-	<div id="preloader">
-		<i class="circle-preloader"></i> <img src="${pageContext.request.contextPath}/img/core-img/salad.png"
-			alt="">
-	</div>
-	<!--  Preloader End -->
-
-
 	<!-- ##### Breadcumb Area Start ##### -->
 	<div class="breadcumb-area bg-img bg-overlay"
 		style="background-image: url(${pageContext.request.contextPath}/img/bg-img/breadcumb5.jpg);">
@@ -391,56 +383,95 @@ $(function(){
 	</div>
 	<!-- ##### Breadcumb Area End ##### -->
 
-	<!-- register form start -->
-	<form class="form-horizontal" name="registerForm" method="post" action="${pageContext.request.contextPath}/front" onSubmit='return checkValid()'>
-		<input type="hidden" name="key" value="user" /> 
-		<input type="hidden" name="methodName" value="insert" />
-		<div class="wrapper">
-			<div class="title">회원가입</div>
-			<div class="form">
-				<div class="inputfield">
-					<label>아이디</label> <input type="text" class="input" id="id" name="id">
+
+
+	<form class="form-horizontal" name="registerForm" method="post"
+		action="${pageContext.request.contextPath}/front"
+		onSubmit='return checkValid()'>
+		<input type="hidden" name="key" value="user" /> <input type="hidden"
+			name="methodName" value="insert" />
+		<div class="container recipe_regi">
+			<div class="regi_center">
+				<div class="regi_title" style="text-align: center">
+					<h3>회원 가입</h3>
 				</div>
-				<div class="explanation">
-					<p class="idCheck" id="idCheck">아이디는 최대 10글자까지 입력 가능합니다.</p>
-				</div>
-				<div class="inputfield">
-					<label>닉네임</label> <input type="text" class="input" id="nickName" name="nickName">
-				</div>
-				<div class="explanation">
-					<p class="nickNameCheck" id="nickNameCheck">닉네임은 최대 10글자까지 입력 가능합니다.</p>
-				</div>
-				<div class="inputfield">
-					<label>비밀번호</label> <input type="password" class="input" id="pwd" name="pwd">
-				</div>
-				<div class="inputfield">
-					<label>비밀번호 확인</label> <input type="password" class="input" id="pwdConfirm" name="pwdConfirm">
-				</div>
-				<div class="explanation">
-					<p class="passwordCheck" id="passwordCheck">정확하게 일치하도록 입력 해주십시오.</p>
-				</div>
-				<div class="inputfield">
-					<label>성별</label>
-					<div class="gender_select" id="gender_select">
-						<select class="select" name="gender" id="gender">
-							<option value="" disabled selected>선택</option>
-							<option value="1">남자</option>
-							<option value="2">여자</option>
-							<option value="0">비공개</option>
-						</select>
+				<div class="cont_box pad_l_60">
+					<div id="divMainPhotoUpload" class="cont_pic2"></div>
+
+					<div>
+						<p class="cont_tit4">아이디</p>
+						<span class="inputfield"> <input type="text" class="input"
+							id="id" name="id" size="30">
+						</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
+							class="guide" class="idCheck" id="idCheck">기억하기 쉬운 아이디로
+							지어보아요!</span>
 					</div>
-					<p class="genderCheck" id="genderCheck"></p>
-				</div>
-				<input type="hidden" name="profileImg" value="" />
-				<div class="inputfield">
-					<input type="submit" value="가입" class="btn" id="registerBtn">&nbsp;&nbsp; 
-					<a href="javascript:history.back()" class="btn">돌아가기</a>
+					<hr>
+
+					<div>
+						<p class="cont_tit4">비밀번호</p>
+						<span> <input type="password" class="pwd" name="pwd"
+							id="pwd" size="30">
+						</span>
+					</div>
+					<hr>
+
+					<div>
+						<p class="cont_tit4">비밀번호 확인</p>
+						<span> <input type="password" name="pwdConfirm"
+							id="pwdConfirm" size="30">
+						</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
+							class="guide" class="passwordCheck" id="passwordCheck">비밀번호는
+							정확하게 일치하도록 입력 해주세요!</span>
+					</div>
+					<hr>
+
+					<div>
+						<p class="cont_tit4">닉네임</p>
+						<span class="inputfield"> <input type="text" class="input"
+							id="nickName" name="nickName" size="30">
+						</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
+							class="guide" class="nickNameCheck" id="nickNameCheck">자기만의
+							개성을 보여줄 수 있는 멋진 닉네임을 입력해주세요!</span>
+					</div>
+					<hr>
+					<div>
+						<p class="cont_tit4">성별</p>
+						<div class="container">
+							<div class="row">
+								<div class="col-12 col-lg-6">
+									<select class="select" name="gender" id="gender">
+										<option value="" disabled selected>선택</option>
+										<option value="1">남자</option>
+										<option value="2">여자</option>
+										<option value="0">비공개</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div>
+
+						<hr>
+					</div>
 				</div>
 			</div>
+
+			<!-- 확인, 취소 버튼 start -->
+			<div class="delicious-buttons-area">
+				<div class="btn delicious-btn">
+					<input type=submit value="회원가입" id="registerBtn"
+						style="background-color: transparent; border: 0px transparent solid; font-weight: bold; color: #fff;">
+				</div>
+				<a href="javascript:history.back()" class="btn delicious-btn"
+					style="border: 0px transparent solid; font-weight: bold; color: #fff;">취소</a>
+			</div>
+			<!-- 확인, 취소 버튼 end -->
 		</div>
+		<!-- /container -->
 	</form>
 
 </body>
-
 </html>
-<jsp:include page="../common/footer.jsp" />
+	<jsp:include page="../common/footer.jsp" />
