@@ -776,8 +776,8 @@ h5 {
 				<h5>수정을 원하는 칸만 입력하신 후,</h5>
 				<h5>변경 하시면 됩니다.</h5>
 				<form class="form-horizontal" name="userUpdateForm" method="post"
-					action="${pageContext.request.contextPath}/front"
-					onSubmit='return checkValid()'>
+					action="${pageContext.request.contextPath}/front?key=user&methodName=userUpdate"
+					onSubmit='return checkValid()' enctype="multipart/form-data">
 					<input type="hidden" name="key" value="user" /> 
 					<input type="hidden" name="methodName" value="userUpdate" />
 					<input type="hidden" name="no" value="${userDTO.no}" />

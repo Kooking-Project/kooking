@@ -125,6 +125,8 @@ tr {
 </head>
 
 <body>
+
+
 	<!-- Preloader -->
 	<div id="preloader">
 		<i class="circle-preloader"></i> <img
@@ -171,7 +173,7 @@ tr {
 					<div class="card">
 						<div class="card-body">
 							<div class="d-flex flex-column align-items-center text-center">
-								<img src="${pageContext.request.contextPath}/${userDTO.profileImg}"
+								<img src="${pageContext.request.contextPath}/save/${sessionScope.userDTO.profileImg}"
 									 class="rounded-circle" width="150" onerror="this.src='https://bootdey.com/img/Content/avatar/avatar7.png'">
 								<div class="mt-3">
 									<h4>${user.nickName}</h4>

@@ -72,6 +72,7 @@ public class UserController implements Controller {
 	 * 유저 정보 변경
 	 */
 	public ModelAndView userUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
 		String no = request.getParameter("no");
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
@@ -89,7 +90,7 @@ public class UserController implements Controller {
 			userSerivce.userUpdate(userDTO,pwd);
 		}
 
-		return new ModelAndView("user/user.jsp", true);
+		return new ModelAndView("front?key=user&methodName=userInfoByNo&userNo="+no+"&pageNum=1", true);
 
 	}
 

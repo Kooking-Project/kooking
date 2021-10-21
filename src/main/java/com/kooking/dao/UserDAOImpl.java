@@ -112,8 +112,10 @@ public class UserDAOImpl implements UserDAO {
 		ResultSet rs = null;
 		try {
 			ps = con.prepareStatement("SELECT COUNT(*) FROM POSTS where USER_NO=? and POST_TYPE_NO=1");
-			rs = ps.executeQuery();
 			ps.setInt(1, userNo);
+			
+			rs = ps.executeQuery();
+			
 			
 			if (rs.next()) {
 				result = rs.getInt(1);
@@ -174,8 +176,8 @@ public class UserDAOImpl implements UserDAO {
 		ResultSet rs = null;
 		try {
 			ps = con.prepareStatement("SELECT COUNT(*) FROM COMMENTS where USER_NO=?");
+			ps.setInt(1, userNo);			
 			rs = ps.executeQuery();
-			ps.setInt(1, userNo);
 			
 			if (rs.next()) {
 				result = rs.getInt(1);
@@ -233,9 +235,8 @@ public class UserDAOImpl implements UserDAO {
 		ResultSet rs = null;
 		try {
 			ps = con.prepareStatement("SELECT COUNT(*) FROM BOOKMARKS where USER_NO=?");
-			rs = ps.executeQuery();
 			ps.setInt(1, userNo);
-			
+			rs = ps.executeQuery();
 			if (rs.next()) {
 				result = rs.getInt(1);
 			}
@@ -273,7 +274,11 @@ public class UserDAOImpl implements UserDAO {
 			while(rs.next()) {
 				bookmark = new BookmarkDTO(rs.getInt(1), rs.getInt(2), rs.getString(3));
 				bookmarkList.add(bookmark);
+							
 			}
+			
+			result = new SimpleEntry<List<BookmarkDTO>, Pagenation>(bookmarkList, page);
+			
 		}finally {
 			DbUtil.dbClose(rs, ps, con);
 		}
