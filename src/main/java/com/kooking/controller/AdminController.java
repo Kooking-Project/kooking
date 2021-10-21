@@ -116,15 +116,23 @@ public class AdminController implements Controller {
 	 */
 	
 	public ModelAndView adminInfoByNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 		int userNo = Integer.parseInt(request.getParameter("userNo"));		
 		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
+		String order = request.getParameter("order");
+		String pageNum = request.getParameter("pageNum");
+		Pagenation page = new Pagenation();
+		
+		if(order!=null)
+		page.setOrder(Integer.parseInt(order));
+		if(pageNum!=null)
+		page.setPageNo(Integer.parseInt(pageNum));
 		
 		UserDTO user = service.userSelectByNo(adminNo, userNo);
 		request.setAttribute("user", user);
 		
-		List<UserDTO> userList = service.userSelectAll(adminNo);
-		request.setAttribute("userList", userList);		
+		Entry<List<UserDTO>, Pagenation> userList = service.userSelectAll(adminNo, page);
+		request.setAttribute("userList", userList.getKey());
+		request.setAttribute("page", userList.getValue());
 		
 		List<BookmarkDTO> bookmarkList = userSerivce.bookmarkSelectByUserNo(userNo);
 		request.setAttribute("bookmarkList", bookmarkList);
@@ -132,13 +140,10 @@ public class AdminController implements Controller {
 		List<CommentDTO> commentList = userSerivce.commentSelectByUserNo(userNo);
 		request.setAttribute("commentList", commentList);
 		
-		List<PostDTO> postList = postService.selectPost(); 
-
-		request.setAttribute("postList", postList);
-		
+		Entry<List<PostDTO>, Pagenation> postList = postService.selectPost(page);
+		request.setAttribute("postList", postList.getKey());
+		request.setAttribute("page", postList.getValue());
 
 		return new ModelAndView("user/admin.jsp");
-	
 	}
-
 }
