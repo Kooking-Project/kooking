@@ -2,6 +2,7 @@ package com.kooking.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -469,5 +470,27 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 		recipeDAO.update(rw);
 
 	}
+
+	@Override
+	public int delete(String modelNum) throws SQLException {
+		Connection con=null;
+		PreparedStatement ps=null;
+		int result=0;
+//		String sql = proFile.getProperty("query.delete");
+		String sql = "DELETE FROM POSTS WHERE POST_NO=?";
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, modelNum);
+			
+			result = ps.executeUpdate();
+		}finally {
+			DbUtil.dbClose(ps, con);
+		}
+		return result;
+	}
+	
+	
+	
 
 }

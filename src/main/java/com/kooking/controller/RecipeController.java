@@ -1,6 +1,7 @@
 package com.kooking.controller;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -249,5 +250,20 @@ public class RecipeController implements Controller {
 		//수정이 완료되면 레시피리스트 페이지로
 		return new ModelAndView("front?key=search&methodName=list", true);
 	}
+	
+	/**
+	 * 삭제하기
+	 */
+	public ModelAndView delete(HttpServletRequest request , HttpServletResponse response) throws Exception{
+		String postNo = request.getParameter("postNo");
+		String password =  request.getParameter("password");
+
+		String saveDir=request.getServletContext().getRealPath("/save/recipe");
+
+		recipeService.delete(postNo, password, saveDir);
+		
+		return new ModelAndView("front?key=search&methodName=list", true);
+	}
+
 
 }

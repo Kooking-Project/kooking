@@ -1,5 +1,7 @@
 package com.kooking.dao;
 
+import java.sql.SQLException;
+
 import com.kooking.dto.wrapper.RecipeWrapper;
 
 /**
@@ -21,8 +23,11 @@ public interface RecipeDAO {
 	 */
 	boolean update(RecipeWrapper recipe) throws Exception;
 	
-	
-	//레시피 삭제  : 게시글번호에 해당하는 레코드 삭제시 레시피 삭제됨.
+	/**
+	 * 게시글번호에 해당하는 레코드 삭제
+	 * @return : 1-삭제성공 , 0 - 삭제실패
+	 */
+	int delete(String modelNum) throws SQLException;
 
 
 }

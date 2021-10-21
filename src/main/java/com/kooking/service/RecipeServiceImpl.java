@@ -1,10 +1,12 @@
 package com.kooking.service;
 
+import java.io.File;
 import java.sql.SQLException;
 
+import com.kooking.dao.PostDAO;
+import com.kooking.dao.PostDAOImpl;
 import com.kooking.dao.RecipeDAO;
 import com.kooking.dao.RecipeDAOImpl;
-
 import com.kooking.dto.wrapper.RecipeWrapper;
 /**
  * @author 박은솔
@@ -12,6 +14,7 @@ import com.kooking.dto.wrapper.RecipeWrapper;
  */
 public class RecipeServiceImpl implements RecipeService {
 	private RecipeDAO recipeDao = new RecipeDAOImpl();
+	private PostDAO postDao = new PostDAOImpl();
 	
 	/**
 	 * 레시피 등록
@@ -32,7 +35,13 @@ public class RecipeServiceImpl implements RecipeService {
 			throw new SQLException("수정되지 않았습니다.");
 		return true;
 	}
-	
-	//레시피 삭제  : 게시글번호에 해당하는 레코드 삭제시 레시피 삭제됨.
+
+	/**
+	 * 레시피 삭제  : 게시글번호에 해당하는 레코드 삭제시 레시피 삭제됨.
+	 */
+	@Override
+	public void delete(int postNo, String path) throws Exception {
+		
+	}
 
 }

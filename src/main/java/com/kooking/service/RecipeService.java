@@ -1,5 +1,7 @@
 package com.kooking.service;
 
+import java.sql.SQLException;
+
 import com.kooking.dto.wrapper.RecipeWrapper;
 
 /**
@@ -18,6 +20,9 @@ public interface RecipeService {
 	 */
 	boolean update(RecipeWrapper wrapper) throws Exception;
 
+	/**
+	 * RecipeDAOImpl의 게시글 번호에 해당하는 레코드 삭제 메소드 호출
+	 */
+	void delete(int postNo, String path) throws Exception;
 
-	//레시피 삭제  : 게시글번호에 해당하는 레코드 삭제시 레시피 삭제됨.
 }
