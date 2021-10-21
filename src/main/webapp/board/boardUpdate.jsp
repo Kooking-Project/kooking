@@ -155,6 +155,29 @@ a {
 
 <script type="text/javascript">
 
+var f = window.document.boardForm;
+
+function checkValid() {
+if ( f.type.value == "") {
+    alert( "카테고리를 선택해 주세요!" );
+	return false;
+}
+
+if ( f.title.value == "") {
+    alert( "제목을 입력해 주세요!" );
+    f.title.focus();
+	return false;
+}
+
+if ( f.contents.value == "") {
+    alert( "내용을 입력해 주세요!" );
+    f.contents.focus();
+	return false;
+}
+
+	return true;
+}
+
 </script>
 
 </head>
@@ -177,8 +200,11 @@ a {
 	<!-- ##### Breadcumb Area End ##### -->
 
 	<!-- BoardContent Start -->
-    <form name="boardForm" method="post" action="${pageContext.request.contextPath}/front?key=post&methodName=insertPost" 
+    <form class="form-horizontal" name="boardForm" method="post" action="${pageContext.request.contextPath}/front?key=post&methodName=updatePost" 
   onSubmit='return checkValid()' enctype="multipart/form-data">
+  <input type="hidden" name="postNo" value="${beforePostDTO.no}" />
+  <input type="hidden" name="user" value="${beforePostDTO.userNo}" />
+   <input type="hidden" name="nickName" value="${beforePostDTO.userNicname}" />
 	<p>
 	<div class="wrapper" style="text-align: center">
 		<div class="row" id="boardContent">
@@ -188,43 +214,44 @@ a {
 					<table class="table">
 						<tr>
 							<th class="success">글번호</th>
-							<td></td>
+							<td>${beforePostDTO.no}</td>
 							<th class="success">조회수</th>
-							<td></td>
+							<td>${beforePostDTO.counts}</td>
 						</tr>
 						<tr>
 							<th class="success">카테고리</th>
 							<!--  -->
-							<td><select class="select" name="gender" id="gender">
+							<td><select class="select" name="type" id="type">
 									<option value="" disabled selected>선택</option>
-									<option value="tip">TIP</option>
-									<option value="qna">Q&A</option>
-									<option value="aftermath">후기</option>
+									<option value="2">TIP</option>
+									<option value="3">후기</option>
+									<option value="4">Q&A</option>
 							</select></td>
 							<th class="success">작성자</th>
-							<td>post.writer?</td>
+							<td>${beforePostDTO.userNicname}</td>
 							<th class="success">작성일</th>
-							<td>post.writeday?</td>
+							<td>${beforePostDTO.date}</td>
 						</tr>
 						<tr>
 							<th class="success">제목</th>
 							<td colspan="6"><textarea class="form-control"
-									id="messageTitle" placeholder="제목을 입력해주세요."></textarea></td>
+									name="title" id="title" placeholder="제목을 입력해주세요.">${beforePostDTO.title}</textarea></td>
 						</tr>
 
 						<tr>
 							<th class="success">글 내용</th>
 							<td colspan="6"><textarea class="form-control"
-									id="messageContent" placeholder="내용을 입력해주세요."></textarea></td>
+									name="contents" id="contents" placeholder="내용을 입력해주세요.">${beforePostDTO.contents}</textarea></td>
 						</tr>
 
 						<tr>
-							<td><a href="${pageContext.request.contextPath}/front?key=post&methodName=updatePost&postNo=${postDTO.no}type=${postDTO.postTypeNo}user=${postDTO.userNo}title=${postDTO.title}contents=${postDTO.contents}nickName=${postDTO.nickName}" class="btn btn-danger">수정하기</a>
-							<td colspan="6" class="text-center"><input type="button"
-								class="btn btn-warning" value="확인"
-								onclick="location.href='BoardUpdateForm.jsp?num='"> <input
-								type="button" class="btn btn-danger" value="취소"
-								onclick="javascript:history.back()"></td>
+							<td>
+							<td colspan="6" class="text-center">
+								<input type="submit" class="btn btn-danger" value="수정">
+							</td>
+							<td>
+								<a href="javascript:history.back()" class="btn btn-danger">돌아가기</a>
+							</td>
 						</tr>
 
 					</table>

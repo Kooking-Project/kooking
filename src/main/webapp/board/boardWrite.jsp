@@ -218,9 +218,9 @@ function checkValid() {
      	    <td>
            	 <select class="select" name="type" name="boardCategory">
              	<option value="" disabled selected>선택</option>
-           	   	<option value="2">TIP</option>
-        	   	<option value="3">후기</option>
-          	    <option value="4">Q&A</option>
+           	   	<option value="3">TIP</option>
+        	   	<option value="4">후기</option>
+          	    <option value="5">Q&A</option>
 
          	 </select>
          	 </td>

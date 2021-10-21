@@ -46,7 +46,6 @@
 	min-height: 1px;
 	padding: 1rem;
 	height: 450px;
-	
 }
 
 .gutters-sm {
@@ -173,8 +172,10 @@ tr {
 					<div class="card">
 						<div class="card-body">
 							<div class="d-flex flex-column align-items-center text-center">
-								<img src="${pageContext.request.contextPath}/save/${sessionScope.userDTO.profileImg}"
-									 class="rounded-circle" width="150" onerror="this.src='https://bootdey.com/img/Content/avatar/avatar7.png'">
+								<img
+									src="${pageContext.request.contextPath}/save/${sessionScope.userDTO.profileImg}"
+									class="rounded-circle" width="150"
+									onerror="this.src='https://bootdey.com/img/Content/avatar/avatar7.png'">
 								<div class="mt-3">
 									<h4>${user.nickName}</h4>
 									<!-- 마이 페이지로 들어갔으면 내 닉네임 아니면 다른 사람 닉네임  -->
@@ -264,7 +265,7 @@ tr {
 					</div>
 				</div>
 			</c:if>
-			
+
 			<!-- Breadcrumb -->
 			<div aria-label="breadcrumb" class="main-breadcrumb">
 				<div class="breadcrumb">
@@ -284,12 +285,12 @@ tr {
 									<th>조회수</th>
 								</tr>
 								<c:forEach items="${bookmarkList}" var="bookmark">
-								<tr>
-									<td>${bookmarkList.postNo}</td>
-									<td><a href="#">강원도에서 직접 공수해온 고라니 고기를 가지고 만든 고라니탕</a></td>
-									<td>${bookmarkList.date}</td>
-									<td>131</td>
-								</tr>
+									<tr>
+										<td>${bookmarkList.postNo}</td>
+										<td><a href="#">강원도에서 직접 공수해온 고라니 고기를 가지고 만든 고라니탕</a></td>
+										<td>${bookmarkList.date}</td>
+										<td>131</td>
+									</tr>
 								</c:forEach>
 							</table>
 
@@ -322,12 +323,12 @@ tr {
 									<th>조회수</th>
 								</tr>
 								<c:forEach items="${recipeList}" var="bookmark">
-								<tr>
-									<td>${recipeList.no}</td>
-									<td><a href="#">${recipeList.name}</a></td>
-									<td>${recipeList.post.date}</td>
-									<td>${recipeList.post.counts}</td>
-								</tr>
+									<tr>
+										<td>${recipeList.no}</td>
+										<td><a href="#">${recipeList.name}</a></td>
+										<td>${recipeList.post.date}</td>
+										<td>${recipeList.post.counts}</td>
+									</tr>
 								</c:forEach>
 							</table>
 						</div>
@@ -370,37 +371,32 @@ tr {
 									</tr>
 								</thead>
 								<tbody>
-									<c:choose>
-										<c:when test="${empty postList}">
+									<c:if test="${empty postList}">
+										<tr>
+											<td colspan="6">등록된 게시글이 없습니다.</td>
+										</tr>
+									</c:if>
+									<c:forEach items="${postList}" var="board">
+										<c:if test="${board.postTypeNo != 1}">
 											<tr>
-												<td colspan="6">등록된 게시글이 없습니다.</td>
-											</tr>
-										</c:when>
-										<c:otherwise>
-											<c:forEach items="${postList}" var="board">
-												<c:if test="${board.postTypeNo != 1}">
-													<tr>
-														<td>${board.no}</td>
-														<c:choose>
-															<c:when test="${board.postTypeNo == 2}">
-																<td><a href="#">TIP</a></td>
-															</c:when>
-															<c:when test="${board.postTypeNo == 3}">
-																<td><a href="#">후기</a></td>
-															</c:when>
-															<c:otherwise>
-																<td><a href="#">QNA</a></td>
-															</c:otherwise>
-														</c:choose>
-														<td><a
-															href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.no}">${board.title}</a></td>
-														<td>${board.date}</td>
-														<td>${board.counts}</td>
-													</tr>
+												<td>${board.no}</td>
+									
+												<c:if test="${board.postTypeNo == 3}">
+													<td><a href="#">TIP</a></td>
 												</c:if>
-											</c:forEach>
-										</c:otherwise>
-									</c:choose>
+												<c:if test="${board.postTypeNo == 4}">
+													<td><a href="#">후기</a></td>
+												</c:if>
+												<c:if test="${board.postTypeNo == 5}">
+													<td><a href="#">QNA</a></td>
+												</c:if>
+												<td><a
+													href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.no}">${board.title}</a></td>
+												<td>${board.date}</td>
+												<td>${board.counts}</td>
+											</tr>
+										</c:if>	
+									</c:forEach>
 								</tbody>
 							</table>
 							<a class="btn" href="#">&lt;&lt;</a> <a class="btn" href="#">&lt;</a>
