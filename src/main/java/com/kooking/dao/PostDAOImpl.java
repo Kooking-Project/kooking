@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -126,7 +127,6 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 	 */
 	@Override
 	public Entry<List<PostDTO>, Pagenation> selectPost(Pagenation page) throws Exception {
-
 		Connection con = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -154,12 +154,7 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 			PostDTO postDTO = new PostDTO(rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7),
 					rs.getString(8), rs.getString(9));
 			
-			System.out.println(postDTO.getNo());
 			postList.add(postDTO);
-		}
-
-		for (PostDTO postDTO : postList) {
-			System.out.println(postDTO);
 		}
 		
 		DbUtil.dbClose(con, st, rs);
@@ -179,7 +174,8 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		ResultSet rs = null;
 
 		int result = 0;
-		String sql = "select count(*) from POSTS";
+		String sql = "SELECT COUNT(*) FROM POSTS";
+		proFile.getProperty(sql);
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
 
@@ -227,9 +223,8 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		rs = st.executeQuery();
 
 		while (rs.next()) {
-			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
-					rs.getInt(6), rs.getString(7), rs.getString(8));
-			System.out.println(postDTO.getNo());
+			PostDTO postDTO = new PostDTO(rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7),
+					rs.getString(8), rs.getString(9));
 			postList.add(postDTO);
 		}
 
@@ -273,9 +268,8 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		rs = st.executeQuery();
 
 		while (rs.next()) {
-			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
-					rs.getInt(6), rs.getString(7), rs.getString(8));
-			System.out.println(postDTO.getNo());
+			PostDTO postDTO = new PostDTO(rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7),
+					rs.getString(8), rs.getString(9));
 			postList.add(postDTO);
 		}
 
@@ -312,8 +306,8 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		rs = st.executeQuery();
 
 		while (rs.next()) {
-			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
-					rs.getInt(6), rs.getString(7), rs.getString(8));
+			PostDTO postDTO = new PostDTO(rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7),
+					rs.getString(8), rs.getString(9));
 			System.out.println(postDTO.getNo());
 			postList.add(postDTO);
 		}
@@ -360,9 +354,8 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		rs = st.executeQuery();
 
 		while (rs.next()) {
-			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
-					rs.getInt(6), rs.getString(7), rs.getString(8));
-			System.out.println(postDTO.getNo());
+			PostDTO postDTO = new PostDTO(rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7),
+					rs.getString(8), rs.getString(9));
 			postList.add(postDTO);
 		}
 
