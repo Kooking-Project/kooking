@@ -112,7 +112,7 @@ public class UserController implements Controller {
 		request.setAttribute("postList", postList.getKey());
 		request.setAttribute("page", postList.getValue());
 
-		return new ModelAndView("user/user.jsp");
+		return new ModelAndView("front?key=user&methodName=userInfoByNo&userNo="+no+"&pageNum=1");
 	}
 	
 	/**
@@ -133,7 +133,7 @@ public class UserController implements Controller {
 		request.setAttribute("communityList", communityList.getKey());
 		request.setAttribute("page", communityList.getValue());
 		
-		return new ModelAndView("user/user.jsp");
+		return new ModelAndView("front?key=user&methodName=userInfoByNo&userNo="+no+"&pageNum=1");
 	}
 
 	/**
@@ -213,7 +213,7 @@ public class UserController implements Controller {
 		
 		userSerivce.changeUserStatus(userDTO);
 		
-		return new ModelAndView("adminTest.jsp", true);
+		return new ModelAndView("index.jsp", true);
 	}
 
 	/**

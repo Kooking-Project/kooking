@@ -44,9 +44,6 @@ public class UserServiceImpl implements UserService {
 		if( userDao.idCheck(userDTO.getId())) {
 			throw new SQLException("이미 등록된 아이디입니다.");
 		}
-		if( userDao.pwdCheck(userDTO.getPwd())) {
-			throw new SQLException("비밀번호가 일치하지 않습니다.");
-		}
 		if( userDao.nicknameCheck(userDTO.getNickName())) {
 			throw new SQLException("이미 등록된 닉네임입니다.");
 		}
