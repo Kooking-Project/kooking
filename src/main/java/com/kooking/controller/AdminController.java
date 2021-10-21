@@ -134,11 +134,13 @@ public class AdminController implements Controller {
 		request.setAttribute("userList", userList.getKey());
 		request.setAttribute("page", userList.getValue());
 		
-		List<BookmarkDTO> bookmarkList = userSerivce.bookmarkSelectByUserNo(userNo);
-		request.setAttribute("bookmarkList", bookmarkList);
+		Entry<List<BookmarkDTO>, Pagenation> bookmarkList = userSerivce.bookmarkSelectByUserNo(userNo, page);
+		request.setAttribute("bookmarkList", bookmarkList.getKey());
+		request.setAttribute("page", bookmarkList.getValue());
 		
-		List<CommentDTO> commentList = userSerivce.commentSelectByUserNo(userNo);
-		request.setAttribute("commentList", commentList);
+		Entry<List<CommentDTO>, Pagenation> commentList = userSerivce.commentSelectByUserNo(userNo, page);
+		request.setAttribute("commentList", commentList.getKey());
+		request.setAttribute("page", commentList.getValue());
 		
 		//Entry<List<PostDTO>, Pagenation> postList = postService.selectPost(page);
 		//request.setAttribute("postList", postList.getKey());

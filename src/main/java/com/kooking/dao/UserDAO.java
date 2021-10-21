@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import com.kooking.dto.BookmarkDTO;
 import com.kooking.dto.CommentDTO;
+import com.kooking.dto.PostDTO;
 import com.kooking.dto.UserDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.paging.Pagenation;
@@ -18,6 +19,11 @@ public interface UserDAO {
 	int userUpdate(UserDTO user) throws SQLException;
 	
 	/**
+	 * 작성한 커뮤니티 게시글 목록 보기 (타입 3, 4, 5)
+	 * */
+	Entry<List<PostDTO>, Pagenation> communitySelectByUserNo(int userNo, Pagenation page) throws Exception;
+	
+	/**
 	 * 작성한 게시글 목록 보기
 	 * */
 	Entry<List<RecipeWrapper>, Pagenation> postSelectByUserNo(int userNo, Pagenation page) throws Exception;
@@ -25,7 +31,7 @@ public interface UserDAO {
 	/**
 	 * 작성한 댓글 목록 보기
 	 * */
-	List<CommentDTO> commentSelectByUserNo(int userNo) throws SQLException;
+	Entry<List<CommentDTO>, Pagenation> commentSelectByUserNo(int userNo, Pagenation page) throws Exception;
 
    /**
     * 로그인 기능
@@ -45,7 +51,7 @@ public interface UserDAO {
 	/**
 	 * 작성한 즐겨찾기 목록 보기
 	 * */
-	List<BookmarkDTO> bookmarkSelectByUserNo(int userNo) throws SQLException;
+	Entry<List<BookmarkDTO>, Pagenation> bookmarkSelectByUserNo(int userNo, Pagenation page) throws Exception;
 	
 	/**
 	 * 즐겨찾기 추가

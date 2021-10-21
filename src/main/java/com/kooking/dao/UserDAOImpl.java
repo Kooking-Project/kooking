@@ -102,7 +102,7 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 
-	public int getTotalPostNum(Connection con) throws Exception {
+	public int getTotalPostNum(Connection con, int userNo) throws Exception {
 		boolean isConnected = (con != null);
 		if (!isConnected) {
 			con = DBTestUtil.getConnection();
@@ -111,9 +111,10 @@ public class UserDAOImpl implements UserDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = con.prepareStatement("SELECT COUNT(*) FROM POSTS");
+			ps = con.prepareStatement("SELECT COUNT(*) FROM POSTS where USER_NO=? and POST_TYPE_NO=1");
 			rs = ps.executeQuery();
-
+			ps.setInt(1, userNo);
+			
 			if (rs.next()) {
 				result = rs.getInt(1);
 			}
@@ -136,7 +137,7 @@ public class UserDAOImpl implements UserDAO {
 		List<RecipeWrapper> postList = new ArrayList<RecipeWrapper>();
 		Entry<List<RecipeWrapper>, Pagenation> result = null;
 		
-		int count = getTotalPostNum(con);
+		int count = getTotalPostNum(con, userNo);
 		int totalPage = (int) Math.ceil(page.getPageSize() / count);
 		page.setPageCnt(totalPage);
 		page.setTotal(count);
@@ -163,40 +164,105 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 
+	public int getTotalCommentNum(Connection con, int userNo) throws Exception {
+		boolean isConnected = (con != null);
+		if (!isConnected) {
+			con = DBTestUtil.getConnection();
+		}
+		int result = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = con.prepareStatement("SELECT COUNT(*) FROM COMMENTS where USER_NO=?");
+			rs = ps.executeQuery();
+			ps.setInt(1, userNo);
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} finally {
+			if (isConnected) {
+				DBTestUtil.dbClose(ps, rs);
+			} else {
+				DBTestUtil.dbClose(con, ps, rs);
+			}
+		}
+		return result;
+	}
 	@Override
-	public List<CommentDTO> commentSelectByUserNo(int userNo) throws SQLException {
+	public Entry<List<CommentDTO>, Pagenation> commentSelectByUserNo(int userNo, Pagenation page) throws Exception {
 		Connection con=null;
 		PreparedStatement ps =null;
 		ResultSet rs =null;
-		String sql=proFile.getProperty("query.commentSelectByUserNo");
+		String sql="SELECT * FROM (select A.*, ROWNUM RNUM from COMMENTS A where USER_NO=?) WHERE RNUM BETWEEN ? AND ? ORDER BY COMMENT_DATE DESC";
 		CommentDTO comment=null;
 		List<CommentDTO> commentList = new ArrayList<CommentDTO>();
+		Entry<List<CommentDTO>, Pagenation> result = null;
+		
+		int count = getTotalCommentNum(con, userNo);
+		int totalPage = (int) Math.ceil(page.getPageSize() / count);
+		page.setPageCnt(totalPage);
+		page.setTotal(count);
 		
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, userNo);
+			ps.setInt(2, (page.getPageNo() - 1) * page.getPageSize() + 1);
+			ps.setInt(3, page.getPageNo() * page.getPageSize());
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				comment = new CommentDTO(rs.getInt(1), rs.getInt(3), rs.getInt(2), rs.getInt(6), rs.getString(4), rs.getString(5), (rs.getInt(7)==0?false:true) );
 				commentList.add(comment);
 			}
-			
+			result = new SimpleEntry<List<CommentDTO>, Pagenation>(commentList, page);
 		}finally {
 			DbUtil.dbClose(rs, ps, con);
 		}
-		return commentList;
+		return result;
 	}
-
+	
+	public int getTotalBookmarkNum(Connection con, int userNo) throws Exception {
+		boolean isConnected = (con != null);
+		if (!isConnected) {
+			con = DBTestUtil.getConnection();
+		}
+		int result = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = con.prepareStatement("SELECT COUNT(*) FROM BOOKMARKS where USER_NO=?");
+			rs = ps.executeQuery();
+			ps.setInt(1, userNo);
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} finally {
+			if (isConnected) {
+				DBTestUtil.dbClose(ps, rs);
+			} else {
+				DBTestUtil.dbClose(con, ps, rs);
+			}
+		}
+		return result;
+	}
 	@Override
-	public List<BookmarkDTO> bookmarkSelectByUserNo(int userNo) throws SQLException {
+	public Entry<List<BookmarkDTO>, Pagenation> bookmarkSelectByUserNo(int userNo, Pagenation page) throws Exception {
 		Connection con=null;
 		PreparedStatement ps =null;
 		ResultSet rs =null;
-		String sql=proFile.getProperty("query.bookmarkSelectByUserNo");
+		String sql="select * from BOOKMARKS where USER_NO=?";
+		
 		BookmarkDTO bookmark=null;
 		List<BookmarkDTO> bookmarkList = new ArrayList<BookmarkDTO>();
+		Entry<List<BookmarkDTO>, Pagenation> result = null;
+		
+		int count = getTotalBookmarkNum(con, userNo);
+		int totalPage = (int) Math.ceil(page.getPageSize() / count);
+		page.setPageCnt(totalPage);
+		page.setTotal(count);
 		
 		try {
 			con = DbUtil.getConnection();
@@ -211,7 +277,7 @@ public class UserDAOImpl implements UserDAO {
 		}finally {
 			DbUtil.dbClose(rs, ps, con);
 		}
-		return bookmarkList;
+		return result;
 	}
 
 	@Override
@@ -320,6 +386,66 @@ public class UserDAOImpl implements UserDAO {
 		} finally {
 			DbUtil.dbClose(rs, ps, con);
 		}
+		return result;
+	}
+
+	public int getTotalcommunityNum(Connection con, int userNo) throws Exception {
+		boolean isConnected = (con != null);
+		if (!isConnected) {
+			con = DBTestUtil.getConnection();
+		}
+		int result = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = con.prepareStatement("SELECT COUNT(*) FROM POSTS where USER_NO=? and POST_TYPE_NO in (3,4,5)");
+			rs = ps.executeQuery();
+			ps.setInt(1, userNo);
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} finally {
+			if (isConnected) {
+				DBTestUtil.dbClose(ps, rs);
+			} else {
+				DBTestUtil.dbClose(con, ps, rs);
+			}
+		}
+		return result;
+	}
+	
+	@Override
+	public Entry<List<PostDTO>, Pagenation> communitySelectByUserNo(int userNo, Pagenation page) throws Exception {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql="SELECT * FROM (SELECT A.*,ROWNUM RNUM  FROM POSTS A WHERE USER_NO=? and POST_TYPE_NO in (3,4,5) ) WHERE RNUM BETWEEN ? AND ? ORDER BY POST_DATE DESC";
+		PostDTO community = null;
+		List<PostDTO> communityList = new ArrayList<PostDTO>();
+		Entry<List<PostDTO>, Pagenation> result = null;
+		
+		int count = getTotalcommunityNum(con, userNo);
+		int totalPage = (int) Math.ceil(page.getPageSize() / count);
+		page.setPageCnt(totalPage);
+		page.setTotal(count);
+		
+		try {
+			con = DBTestUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, userNo);
+			ps.setInt(2, (page.getPageNo() - 1) * page.getPageSize() + 1);
+			ps.setInt(3, page.getPageNo() * page.getPageSize());
+
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				community = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7));
+				communityList.add(community);
+			}
+			result = new SimpleEntry<List<PostDTO>, Pagenation>(communityList, page);
+		}finally {
+			DBTestUtil.dbClose(con, ps, rs);
+		}	
 		return result;
 	}
 

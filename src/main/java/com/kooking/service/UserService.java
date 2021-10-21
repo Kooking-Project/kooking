@@ -38,14 +38,19 @@ public interface UserService {
 	Entry<List<RecipeWrapper>, Pagenation> postSelectByUserNo(int userNo, Pagenation page) throws Exception;
 
 	/**
+	 * 본인이 작성한 게시글 확인
+	 */
+	Entry<List<PostDTO>, Pagenation> communitySelectByUserNo(int userNo, Pagenation page) throws Exception;
+
+	/**
 	 * 본인이 작성한 댓글 확인
 	 */
-	List<CommentDTO> commentSelectByUserNo(int userNo) throws Exception;
+	Entry<List<CommentDTO>, Pagenation> commentSelectByUserNo(int userNo, Pagenation page) throws Exception;
 
 	/**
 	 * 본인이 작성한 즐겨찾기 확인
 	 */
-	List<BookmarkDTO> bookmarkSelectByUserNo(int userNo) throws Exception;
+	Entry<List<BookmarkDTO>, Pagenation> bookmarkSelectByUserNo(int userNo, Pagenation page) throws Exception;
 	
 	/**
 	 * 즐겨찾기 추가

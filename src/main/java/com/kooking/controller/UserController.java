@@ -1,10 +1,7 @@
 package com.kooking.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
@@ -15,16 +12,11 @@ import javax.servlet.http.HttpSession;
 import com.kooking.dto.BookmarkDTO;
 import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
-import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.paging.Pagenation;
 import com.kooking.service.UserService;
 import com.kooking.service.UserServiceImpl;
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
-
-import net.sf.json.JSONArray;
 
 public class UserController implements Controller {
 	private UserService userSerivce = new UserServiceImpl();
@@ -47,12 +39,8 @@ public class UserController implements Controller {
 
 		HttpSession session = request.getSession();
 		session.setAttribute("userDTO", userDTO);
-		// session.setAttribute("loginName", );
-
-		System.out.println(id);
 
 		return new ModelAndView("index.jsp", true);
-
 	}
 
 	/**
@@ -69,18 +57,10 @@ public class UserController implements Controller {
 	 * 회원가입
 	 */
 	public ModelAndView insert(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String no = request.getParameter("no");
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
 		String nickName = request.getParameter("nickName");
 		String gender = request.getParameter("gender");
-		
-		String profileImg = request.getParameter("profileImg");
-		
-
-		//UserDTO userDTO = new UserDTO(Integer.parseInt(no), id, pwd, nickName, Integer.parseInt(gender), enrollDate,
-		//		profileImg, Integer.parseInt(status));
-
 		UserDTO userDTO = new UserDTO( id, nickName, pwd, Integer.parseInt(gender));
 	
 		userSerivce.insert(userDTO);
@@ -93,6 +73,7 @@ public class UserController implements Controller {
 	 */
 	public ModelAndView userUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String no = request.getParameter("no");
+		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
 		String newPwd = request.getParameter("newPwd");
 		String nickName = request.getParameter("nickName");
@@ -100,11 +81,11 @@ public class UserController implements Controller {
 		String filesystemName = request.getParameter("file");
 
 		UserDTO userDTO = null;
-		if(newPwd==null) {
-			userDTO = new UserDTO(Integer.parseInt(no), pwd, nickName, Integer.parseInt(gender), filesystemName);
+		if(newPwd.equals("")) {
+			userDTO = new UserDTO(Integer.parseInt(no), id, pwd, nickName, Integer.parseInt(gender), filesystemName);
 			userSerivce.userUpdate(userDTO);
 		}else {
-			userDTO = new UserDTO(Integer.parseInt(no), newPwd, nickName, Integer.parseInt(gender), filesystemName);
+			userDTO = new UserDTO(Integer.parseInt(no), id, newPwd, nickName, Integer.parseInt(gender), filesystemName);
 			userSerivce.userUpdate(userDTO,pwd);
 		}
 
@@ -112,7 +93,7 @@ public class UserController implements Controller {
 	}
 
 	/**
-	 * 게시글 조회
+	 * 레시피 게시글 조회
 	 */
 	public ModelAndView postSelectByUserNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String no = request.getParameter("no");
@@ -131,16 +112,45 @@ public class UserController implements Controller {
 
 		return new ModelAndView("user/user.jsp");
 	}
+	
+	/**
+	 * 커뮤니티 게시글 조회
+	 */
+	public ModelAndView communitySelectByUserNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String no = request.getParameter("no");
+		String order = request.getParameter("order");
+		String pageNum = request.getParameter("pageNum");
+		Pagenation page = new Pagenation();
+		
+		if(order!=null)
+			page.setOrder(Integer.parseInt(order));
+		if(pageNum!=null)
+			page.setPageNo(Integer.parseInt(pageNum));
+		
+		Entry<List<PostDTO>, Pagenation> communityList = userSerivce.communitySelectByUserNo(Integer.parseInt(no), page);
+		request.setAttribute("communityList", communityList.getKey());
+		request.setAttribute("page", communityList.getValue());
+		
+		return new ModelAndView("user/user.jsp");
+	}
 
 	/**
 	 * 댓글 검색
 	 */
-	public ModelAndView commentSelectByUserNo(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public ModelAndView commentSelectByUserNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String no = request.getParameter("no");
+		String order = request.getParameter("order");
+		String pageNum = request.getParameter("pageNum");
+		Pagenation page = new Pagenation();
+		
+		if(order!=null)
+		page.setOrder(Integer.parseInt(order));
+		if(pageNum!=null)
+		page.setPageNo(Integer.parseInt(pageNum));
 
-		List<CommentDTO> commentList = userSerivce.commentSelectByUserNo(Integer.parseInt(no));
-		request.setAttribute("commentList", commentList);
+		Entry<List<CommentDTO>, Pagenation> commentList = userSerivce.commentSelectByUserNo(Integer.parseInt(no), page);
+		request.setAttribute("postList", commentList.getKey());
+		request.setAttribute("page", commentList.getValue());
 
 		return new ModelAndView("user/user.jsp");
 	}
@@ -151,9 +161,18 @@ public class UserController implements Controller {
 	public ModelAndView bookmarkSelectByUserNo(HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		String no = request.getParameter("no");
+		String order = request.getParameter("order");
+		String pageNum = request.getParameter("pageNum");
+		Pagenation page = new Pagenation();
+		
+		if(order!=null)
+		page.setOrder(Integer.parseInt(order));
+		if(pageNum!=null)
+		page.setPageNo(Integer.parseInt(pageNum));
 
-		List<BookmarkDTO> bookmarkList = userSerivce.bookmarkSelectByUserNo(Integer.parseInt(no));
-		request.setAttribute("bookmarkList", bookmarkList);
+		Entry<List<BookmarkDTO>, Pagenation> bookmarkList = userSerivce.bookmarkSelectByUserNo(Integer.parseInt(no), page);
+		request.setAttribute("bookmarkList", bookmarkList.getKey());
+		request.setAttribute("page", bookmarkList.getValue());
 
 		return new ModelAndView("user/user.jsp");
 	}
@@ -269,11 +288,13 @@ public class UserController implements Controller {
 		UserDTO user = userSerivce.userSelectByNo(userNo);
 		request.setAttribute("user", user);
 		
-		List<BookmarkDTO> bookmarkList = userSerivce.bookmarkSelectByUserNo(userNo);
-		request.setAttribute("bookmarkList", bookmarkList);
+		Entry<List<BookmarkDTO>, Pagenation> bookmarkList = userSerivce.bookmarkSelectByUserNo(userNo, page);
+		request.setAttribute("bookmarkList", bookmarkList.getKey());
+		request.setAttribute("page", bookmarkList.getValue());
 		
-		List<CommentDTO> commentList = userSerivce.commentSelectByUserNo(userNo);
-		request.setAttribute("commentList", commentList);
+		Entry<List<CommentDTO>, Pagenation> commentList = userSerivce.commentSelectByUserNo(userNo, page);
+		request.setAttribute("commentList", commentList.getKey());
+		request.setAttribute("page", commentList.getValue());
 		
 		Entry<List<RecipeWrapper>, Pagenation> postList = userSerivce.postSelectByUserNo(userNo, page);
 		request.setAttribute("postList", postList.getKey());

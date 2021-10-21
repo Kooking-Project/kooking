@@ -51,6 +51,10 @@ public class UserDTO {
 		this.gender = gender;
 		this.profileImg = profileImg;
 	}
+	public UserDTO(int no, String id, String pwd, String nickName, int gender,String profileImg) {
+		this(no, pwd, nickName, gender,profileImg);
+		this.id=id;
+	}
 	
 	public UserDTO(int no, String id, String pwd, String nickName, int gender, String enrollDate, String profileImg,
 			int status) {

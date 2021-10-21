@@ -79,16 +79,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<CommentDTO> commentSelectByUserNo(int userNo) throws Exception {
-		List<CommentDTO> commentList = userDao.commentSelectByUserNo(userNo);
+	public Entry<List<CommentDTO>, Pagenation> commentSelectByUserNo(int userNo, Pagenation page) throws Exception {
+		Entry<List<CommentDTO>, Pagenation> commentList = userDao.commentSelectByUserNo(userNo, page);
 		if(commentList==null)
 			throw new KookingException("작성하신 댓글이 없습니다.");
 		return commentList;
 	}
 
 	@Override
-	public List<BookmarkDTO> bookmarkSelectByUserNo(int userNo) throws Exception {
-		List<BookmarkDTO> bookmarkList = userDao.bookmarkSelectByUserNo(userNo);
+	public Entry<List<BookmarkDTO>, Pagenation> bookmarkSelectByUserNo(int userNo, Pagenation page) throws Exception {
+		Entry<List<BookmarkDTO>, Pagenation> bookmarkList = userDao.bookmarkSelectByUserNo(userNo, page);
 		if(bookmarkList==null)
 			throw new KookingException("즐겨찾기 목록이 없습니다.");
 		return bookmarkList;
@@ -140,5 +140,13 @@ public class UserServiceImpl implements UserService {
 		if (user==null)
 			throw new KookingException("선택한 회원 정보가 없습니다.");
 		return user;
+	}
+
+	@Override
+	public Entry<List<PostDTO>, Pagenation> communitySelectByUserNo(int userNo, Pagenation page) throws Exception {
+		Entry<List<PostDTO>, Pagenation> communityList = userDao.communitySelectByUserNo(userNo, page);
+		if(communityList==null)
+			throw new KookingException("작성하신 커뮤니티 게시물이 없습니다.");
+		return communityList;
 	}
 }
