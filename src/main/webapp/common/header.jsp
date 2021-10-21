@@ -102,7 +102,7 @@
 		   				 		</c:when>
 						 		<c:otherwise>
 						 			<span>${userDTO.nickName}님 환영합니다!!</span>
-						 			<a href="#">글쓰기</a>
+						 			<a href="${pageContext.request.contextPath}/receipe/receipeWrite.jsp">글쓰기</a>
 						 			<a href="${pageContext.request.contextPath}/front?key=user&methodName=logout">로그아웃</a>
 						 		</c:otherwise>
 						 	</c:choose>  	 

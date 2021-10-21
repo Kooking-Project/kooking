@@ -83,7 +83,7 @@ $(function() {
 			      reorder();
         }
     });
-    //$("#itemBoxWrap").disableSelection();
+    $("#itemBoxWrap").disableSelection();
     
     $( "#sortable" ).sortable();
     $( "#sortable" ).disableSelection();
