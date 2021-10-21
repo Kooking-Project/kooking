@@ -150,6 +150,8 @@ public class PostController implements Controller {
 
 		List<CommentDTO> commentDTO = postService.selectComments(postNo); // 이거 어케쓸지.. 페이징 처리도 해야됨.
 
+		request.setAttribute("commentDTO", commentDTO);
+		
 		mv.setViewName("board/boardRead.jsp");
 		mv.setRedirect(false);
 
@@ -270,7 +272,7 @@ public class PostController implements Controller {
 
 		int result = postService.insertComment(dto);
 
-		mv.setViewName("boardRead.jsp");
+		mv.setViewName("front?key=post&methodName=selectPostDetail&postNo="+postNo);
 		mv.setRedirect(false);
 
 		return mv;
@@ -291,7 +293,7 @@ public class PostController implements Controller {
 
 		request.setAttribute("beforeCommentDTO", beforeDTO);
 
-		mv.setViewName("boardRead.jsp");
+		mv.setViewName("board/boardRead.jsp");
 		mv.setRedirect(false);
 
 		return mv;

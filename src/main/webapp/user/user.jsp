@@ -177,14 +177,14 @@ tr {
 									<!-- 마이 페이지로 들어갔으면 내 닉네임 아니면 다른 사람 닉네임  -->
 									<p class="text-secondary mb-1">성별</p>
 									<c:choose>
-										<c:when test= "${user.gender == 1}">
+										<c:when test="${user.gender == 1}">
 											<p class="text-muted font-size-sm">남자</p>
 										</c:when>
-										<c:when test= "${user.gender == 2}">
+										<c:when test="${user.gender == 2}">
 											<p class="text-muted font-size-sm">여자</p>
 										</c:when>
 										<c:otherwise>
-												<p class="text-muted font-size-sm">비공개</p>
+											<p class="text-muted font-size-sm">비공개</p>
 										</c:otherwise>
 									</c:choose>
 									<p class="text-muted font-size-sm"></p>
@@ -223,30 +223,25 @@ tr {
 						<span style="text-align: left">유저 Status 메뉴</span>
 
 						<form name=Form method=post action="/front">
-							<input type="hidden" name="key" value="admin"> <input
-								type="hidden" name="methodName" value="changeUserStatus">
-							<input type='hidden' name='userNo' value="${userDTO.no}">
-							<input type='hidden' name='adminNo' value="${userDTO.no}">
-							<input type='hidden' name='userStatus' value="1">
+							<c:choose>
+								<c:when test="${user.status == 0 }">
+									<input type="hidden" name="key" value="admin">
+									<input type="hidden" name="methodName" value="changeUserStatus">
+									<input type='hidden' name='userNo' value="${user.no}">
+									<input type='hidden' name='adminNo' value="${userDTO.no}">
+									<input type='hidden' name='userStatus' value="1">
+									<button type="submit" class="btn btn-info" style="background-color: red">정지</button>
+								</c:when>
+								<c:when test="${user.status == 1}">
+									<input type="hidden" name="key" value="admin">
+									<input type="hidden" name="methodName" value="changeUserStatus">
+									<input type='hidden' name='userNo' value="${user.no}">
+									<input type='hidden' name='adminNo' value="${userDTO.no}">
+									<input type='hidden' name='userStatus' value="0">
+									<button type="submit" class="btn btn-info" style="background-color: green">해제</button>
+								</c:when>
+							</c:choose>
 
-							<button type="submit" class="btn btn-info"
-								style="background-color: red">정지</button>
-						</form>
-
-						<form name=Form method=post action="${path}/front"
-							onSubmit="return checkValid()">
-							<input type="hidden" name="key" value="user"> <input
-								type="hidden" name="methodName" value="update"> <input
-								type='hidden' name='userNo' value="${elec.modelNum}"> <input
-								type='hidden' name='userStatus' value="${elec.modelNum}">
-
-							<div aria-label="breadcrumb" class="main-breadcrumb">
-								<div class="breadcrumb">
-									<span style="text-align: left">유저 Status 메뉴</span>&nbsp;&nbsp;&nbsp;
-									<a class="btn btn-info " target="__blank"
-										href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">해제</a>
-								</div>
-							</div>
 						</form>
 					</div>
 				</div>
@@ -258,7 +253,6 @@ tr {
 				</div>
 			</div>
 			<!-- /Breadcrumb -->
-
 			<div class="row gutters-sm">
 				<div class="col-md-12">
 					<div class="card mb-3">
@@ -309,57 +303,58 @@ tr {
 					<div class="card mb-3">
 						<div class="card-body"
 							style="text-align: center; position: relative;">
-		<table>
-			<colgroup>
-				<col class="no">
-				<col class="category">
-				<col class="title">
-				<col class="writer">
-				<col class="date">
-				<col class="views">
-			</colgroup>
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>카테고리</th>
-					<th>제목</th>
-					<th>날짜</th>
-					<th>조회수</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:choose>
-					<c:when test="${empty postList}">
-						<tr>
-							<td colspan="6">등록된 게시글이 없습니다.</td>
-						</tr>
-					</c:when>
-					<c:otherwise>
-						<c:forEach items="${postList}" var="board">
-							<c:if test="${board.PostDTO.postTypeNo != 1}">						
-							<tr>
-								<td>${board.no}</td>
-								<c:choose>
-									<c:when test="${board.PostDTO.postTypeNo == 2}">
-									<td><a href="#">TIP</a></td>
-									</c:when>
-									<c:when test="${board.PostDTO.postTypeNo == 3}">
-									<td><a href="#">후기</a></td>
-									</c:when>
-									<c:otherwise>
-									<td><a href="#">QNA</a></td>
-									</c:otherwise>
-								</c:choose>
-								<td><a href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.PostDTO.no}">${board.PostDTO.title}</a></td>
-								<td>${board.PostDTO.date}</td>
-								<td>${board.PostDTO.counts}</td>
-							</tr>
-						</c:if>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
-			</tbody>
-		</table>
+							<table>
+								<colgroup>
+									<col class="no">
+									<col class="category">
+									<col class="title">
+									<col class="writer">
+									<col class="date">
+									<col class="views">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>번호</th>
+										<th>카테고리</th>
+										<th>제목</th>
+										<th>날짜</th>
+										<th>조회수</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:choose>
+										<c:when test="${empty postList}">
+											<tr>
+												<td colspan="6">등록된 게시글이 없습니다.</td>
+											</tr>
+										</c:when>
+										<c:otherwise>
+											<c:forEach items="${postList}" var="board">
+												<c:if test="${board.postTypeNo != 1}">
+													<tr>
+														<td>${board.no}</td>
+														<c:choose>
+															<c:when test="${board.postTypeNo == 2}">
+																<td><a href="#">TIP</a></td>
+															</c:when>
+															<c:when test="${board.postTypeNo == 3}">
+																<td><a href="#">후기</a></td>
+															</c:when>
+															<c:otherwise>
+																<td><a href="#">QNA</a></td>
+															</c:otherwise>
+														</c:choose>
+														<td><a
+															href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.no}">${board.title}</a></td>
+														<td>${board.date}</td>
+														<td>${board.counts}</td>
+													</tr>
+												</c:if>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
+								</tbody>
+							</table>
 							<a class="btn" href="#">&lt;&lt;</a> <a class="btn" href="#">&lt;</a>
 							<a class="btn number" href="#">1</a> <a class="btn number"
 								href="#">2</a> <a class="btn number on" href="#">3</a> <a
