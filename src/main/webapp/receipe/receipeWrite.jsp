@@ -129,9 +129,9 @@
 
 	  <!-- recipes_name 요리제목 start -->
 	  <div>
-	  	<p class="cont_tit4">요리제목 </p>
+	  	<p class="cont_tit4">요리이름</p>
 	  	<span>
-	  		<input type="text" name="recipes_name" id="recipes_name" size="50" placeholder="예) 미역국">
+	  		<input type="text" name="recipe_name" id="recipe_name" size="50" placeholder="예) 미역국">
 	  	</span>
 	  </div>
 	  <hr>
@@ -193,7 +193,7 @@
         <div class="container">
                     <div class="row">
                         <div class="col-12 col-lg-3">
-                            <select name="recipe_nation" id="recipe_nation" text="국가별">
+                            <select name="recipe_nation" id="recipe_nation" text="국가별" onchange="SetSelectBox();">
                                 <option value="">국가별</option>
 								<option value="한식">한식</option>
 								<option value="서양">서양</option>
@@ -205,7 +205,7 @@
                             </select>
                         </div>
                         <div class="col-12 col-lg-3">
-                            <select name="recipe_type" id="recipe_type" text="분류별" onchange="SetSelectBox();">>
+                            <select name="recipe_type" id="recipe_type" text="분류별" onchange="SetSelectBox();">
 								<option value="">음식분류별</option>
 								<option value="구이">구이</option>
 								<option value="국">국</option>
@@ -231,7 +231,7 @@
                             </select>
                         </div>
                         <div class="col-12 col-lg-3">
-                            <select name="recipe_level" id="recipe_level" text="난이도" onchange="SetSelectBox();">>
+                            <select name="recipe_level" id="recipe_level" text="난이도" onchange="SetSelectBox();">
                                 <option value="">난이도</option>
 								<option value="아무나">아무나</option>
 								<option value="초보환영">초보환영</option>
