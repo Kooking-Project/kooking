@@ -276,17 +276,17 @@ input#search-bar {
 
 	<div class="wrapper">
 
-		<div class="category" align="left">
-			<div class="col-lg-6">
-				<a href="board.jsp" class="btn delicious-small-btn btn-3">전체</a>
+		<div class="category" >
+			<div class="col-md-12 col-lg-12" style="text-align:center">
+				<a href="board.jsp" class="btn delicious-btn">전체</a>
 				<!-- "${pageContext.request.contextPath}/front?key=user&methodName=logout" 필터 메소드 -->
-				<a href="board.jsp" class="btn delicious-small-btn btn-3">TIP</a> <a
-					href="board.jsp" class="btn delicious-small-btn btn-3">Q&A</a> <a
-					href="board.jsp" class="btn delicious-small-btn btn-3">후기</a>
+				<a href="board.jsp" class="btn delicious-btn">TIP</a> <a
+					href="board.jsp" class="btn delicious-btn">Q&A</a> <a
+					href="board.jsp" class="btn delicious-btn">후기</a>
 			</div>
 		</div>
 
-		<table>
+		<table class="col-10">
 			<colgroup>
 				<col class="no">
 				<col class="category">
@@ -342,10 +342,10 @@ input#search-bar {
 			</tbody>
 		</table>
 		<div class="boardWrite" align="right">
-			<div class="col-lg-6">
+			<div>
 				<c:if test="${userDTO != null}">
 					<a href="${pageContext.request.contextPath}/board/boardWrite.jsp"
-						class="btn delicious-small-btn btn-3">글쓰기</a>
+						class="btn delicious-btn">글쓰기</a>
 				</c:if>
 			</div>
 		</div>
@@ -363,7 +363,7 @@ input#search-bar {
 	  <jsp:useBean class="com.kooking.paging.Pagenation" id="p"/> 
     
  <!--  블럭당  -->
- <nav class="pagination-container">
+ <!--  <nav class="pagination-container">
 		<div class="pagination">
 		<c:set var="doneLoop" value="false"/>	
 		<c:set var="temp" value="${(pageNo-1) % 10}"/> 
@@ -385,9 +385,22 @@ input#search-bar {
 			     <a class="pagination-older" href="${path}/front?key=post&methodName=selectPost&pageNo=${startPage+p.pageSize}">NEXT</a>
 			 </c:if>		
 		</div>
-	</nav>
+	</nav> -->
 	
-
+	
+		<div class="page-box">
+		<a class="btn" href="#">&lt;&lt;</a> <a class="btn" href="#">&lt;</a>
+		
+		<!--  숫자 버튼  -->
+		<a class="btn number" href="#">1</a> 
+		<a class="btn number" href="#">2</a>
+		<a class="btn number on" href="#">3</a> 
+		<a class="btn number" href="#">4</a>
+		<a class="btn number" href="#">5</a> 
+		<a class="btn" href="#">&gt;</a>
+		
+		<a class="btn" href="#">&gt;&gt;</a>
+</div>
 </body>
 
 </html>
