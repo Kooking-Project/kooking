@@ -24,13 +24,6 @@ public class UserDTO {
 		this.pwd = pwd;
 	}
 	
-	public UserDTO(
-		int no, String id, String pwd, String nickName, int gender,String profileImg) {
-		this(no, pwd, nickName, gender,profileImg);
-		this.id=id;
-	}
-
-	
 	public UserDTO(String id, String nickName, String pwd, int gender ) {
 		super();
 		this.id = id;
