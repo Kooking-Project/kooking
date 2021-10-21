@@ -134,7 +134,7 @@ function createBox() {
     var contents = "<div class='itemBox'>"
                  + "<div style='float:left;'>"
                  + "<span class='ingredient_seq'></span><input type='hidden' name='ingredient_seq'>"//eunsol - <span>값을 넘길 수 없음. hidden으로 ingredient_seq 값 추가
-                 + "<input type='text' name='ingredient_name' style='width:200px; margin-left:15px;' placeholder='예) 돼지고기'/>"
+                 + "<input type='text' name='ingredient_name' value='' style='width:200px; margin-left:15px;' placeholder='예) 돼지고기'/>"
                  + "<input type='text' name='ingredient_cacty' style='width:200px; margin-left:5px;' placeholder='예) 300g 또는 1/2개'/>"
                  + "</div>"
                  + "</div>";
