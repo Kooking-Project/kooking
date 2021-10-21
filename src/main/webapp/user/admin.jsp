@@ -113,6 +113,65 @@ td, th {
 tr {
 	background: #F2DDD5;
 }
+
+.pagination-container {
+	margin: 100px auto;
+	text-align: center;
+}
+
+.pagination {
+	position: relative;
+}
+
+.pagination a {
+	position: relative;
+	display: inline-block;
+	color: #2c3e50;
+	text-decoration: none;
+	font-size: 1.2rem;
+	padding: 8px 16px 10px;
+}
+
+.pagination a:before {
+	z-index: -1;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	content: "";
+	top: 0;
+	left: 0;
+	background-color: #2c3e50;
+	border-radius: 24px;
+	-webkit-transform: scale(0);
+	transform: scale(0);
+	transition: all 0.2s;
+}
+
+.pagination a:hover, .pagination a .pagination-active {
+	color: #fff;
+}
+
+.pagination a:hover:before, .pagination a .pagination-active:before {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+
+.pagination .pagination-active {
+	color: #fff;
+}
+
+.pagination .pagination-active:before {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+
+.pagination-newer {
+	margin-right: 50px;
+}
+
+.pagination-older {
+	margin-left: 50px;
+}
 </style>
 
 
@@ -155,10 +214,6 @@ tr {
 					<div aria-label="breadcrumb" class="main-breadcrumb">
 						<div class="breadcrumb">
 							<span style="text-align: left">관리자 정보</span>
-							<c:if test="${userDTO.nickName == user.nickName}">
-								<a href="${pageContext.request.contextPath}/user/userUpdate.jsp" class="btn delicious-Xsmall-btn btn-3">프로필
-									수정</a>
-							</c:if>
 						</div>
 					</div>
 					<!-- /Breadcrumb -->
@@ -172,14 +227,14 @@ tr {
 									<!-- 마이 페이지로 들어갔으면 내 닉네임 아니면 다른 사람 닉네임  -->
 									<p class="text-secondary mb-1">성별</p>
 									<c:choose>
-										<c:when test= "${user.gender == 1}">
+										<c:when test="${user.gender == 1}">
 											<p class="text-muted font-size-sm">남자</p>
 										</c:when>
-										<c:when test= "${user.gender == 2}">
+										<c:when test="${user.gender == 2}">
 											<p class="text-muted font-size-sm">여자</p>
 										</c:when>
 										<c:otherwise>
-												<p class="text-muted font-size-sm">비공개</p>
+											<p class="text-muted font-size-sm">비공개</p>
 										</c:otherwise>
 									</c:choose>
 									<h5>어서오세요!</h5>
@@ -242,55 +297,29 @@ tr {
 									<th>가입일</th>
 								</tr>
 								<c:choose>
-								<c:when test="${empty userList}">
-									<tr>
-										<td colspan="5">
-											<p align="center">
-												<b><span style="font-size: 9pt;">등록된 유저가 없습니다.</span></b>
-											</p>
-										</td>
-									</tr>
-								</c:when>
-								<c:otherwise>
-									<c:forEach items="${userList}" var="user">
+									<c:when test="${empty userList}">
 										<tr>
-											<td>${user.no}</td>
-											<td><a
-												href="${path}/front?key=user&methodName=selectByModelNum&modelNum=${user.no}">${user.id}</a></td>
-											<td>${user.nickName}</td>
-											<td>${user.gender}</td>
-											<td>${user.enrollDate}</td>
+											<td colspan="5">
+												<p align="center">
+													<b><span style="font-size: 9pt;">등록된 유저가 없습니다.</span></b>
+												</p>
+											</td>
 										</tr>
-									</c:forEach>
-									</c:otherwise>	
-									</c:choose>
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${userList}" var="user">
+											<tr>
+												<td>${user.no}</td>
+												<td><a
+													href="${path}/front?key=user&methodName=selectByModelNum&modelNum=${user.no}">${user.id}</a></td>
+												<td>${user.nickName}</td>
+												<td>${user.gender}</td>
+												<td>${user.enrollDate}</td>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
 							</table>
-							 <jsp:useBean class="com.kooking.paging.Pagenation" id="p"/> 
-    
- <!--  블럭당  -->
- <nav class="pagination-container">
-		<div class="pagination">
-		<c:set var="doneLoop" value="false"/>	
-		<c:set var="temp" value="${(pageNo-1) % 10}"/> 
-		<c:set var="startPage" value="${pageNo - temp}"/> 				
-		  <c:if test="${(startPage-p.blockcount) > 0}"> 
-		      <a class="pagination-newer" href="${path}/front?key=postc&methodName=selectPost&pageNo=${startPage-1}">PREV</a>
-		  </c:if>		  		 		
-		<span class="pagination-inner"> 
-			  <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+ 10}'> 
-				  <c:if test="${(i-1)>=p.pageCnt}">
-				       <c:set var="doneLoop" value="true"/>
-				    </c:if> 
-				  <c:if test="${not doneLoop}" >
-				         <a class="${i==pageNo?'pagination-active':page}" href="${path}/front?key=postmethodName=selectPost&pageNo=${i}">${i}</a> 
-				  </c:if>	  
-			</c:forEach>
-		</span> 
-			 <c:if test="${(startPage+p.blockcount)<=p.pageCnt}">
-			     <a class="pagination-older" href="${path}/front?key=post&methodName=selectPost&pageNo=${startPage+p.blockcount}">NEXT</a>
-			 </c:if>		
-		</div>
-	</nav>
 						</div>
 					</div>
 				</div>
@@ -317,12 +346,12 @@ tr {
 									<th>조회수</th>
 								</tr>
 								<c:forEach items="${bookmarkList}" var="bookmark">
-								<tr>
-									<td>${bookmarkList.postNo}</td>
-									<td><a href="#">강원도에서 직접 공수해온 고라니 고기를 가지고 만든 고라니탕</a></td>
-									<td>${bookmarkList.date}</td>
-									<td>131</td>
-								</tr>
+									<tr>
+										<td>${bookmarkList.postNo}</td>
+										<td><a href="#">강원도에서 직접 공수해온 고라니 고기를 가지고 만든 고라니탕</a></td>
+										<td>${bookmarkList.date}</td>
+										<td>131</td>
+									</tr>
 								</c:forEach>
 							</table>
 						</div>
@@ -354,12 +383,12 @@ tr {
 									<th>조회수</th>
 								</tr>
 								<c:forEach items="${recipeList}" var="bookmark">
-								<tr>
-									<td>${recipeList.no}</td>
-									<td><a href="#">${recipeList.name}</a></td>
-									<td>${recipeList.post.date}</td>
-									<td>${recipeList.post.counts}</td>
-								</tr>
+									<tr>
+										<td>${recipeList.no}</td>
+										<td><a href="#">${recipeList.name}</a></td>
+										<td>${recipeList.post.date}</td>
+										<td>${recipeList.post.counts}</td>
+									</tr>
 								</c:forEach>
 							</table>
 						</div>
@@ -382,60 +411,60 @@ tr {
 				<div class="col-md-12">
 					<div class="card mb-3">
 						<div class="card-body">
-		<table>
-			<colgroup>
-				<col class="no">
-				<col class="category">
-				<col class="title">
-				<col class="writer">
-				<col class="date">
-				<col class="views">
-			</colgroup>
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>카테고리</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>날짜</th>
-					<th>조회수</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:choose>
-					<c:when test="${empty postList}">
-						<tr>
-							<td colspan="6">등록된 게시글이 없습니다.</td>
-						</tr>
-					</c:when>
-					<c:otherwise>
-						<c:forEach items="${postList}" var="board">
-							<c:if test="${board.postTypeNo != 1}">						
-							<tr>
-								<td>${board.no}</td>
-								<c:choose>
-									<c:when test="${board.postTypeNo == 2}">
-									<td><a href="#">TIP</a></td>
-									</c:when>
-									<c:when test="${board.postTypeNo == 3}">
-									<td><a href="#">후기</a></td>
-									</c:when>
-									<c:otherwise>
-									<td><a href="#">QNA</a></td>
-									</c:otherwise>
-								</c:choose>
-								<td><a
-									href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.no}">${board.title}</a></td>
-								<td>${board.userNicname}</td>
-								<td>${board.date}</td>
-								<td>${board.counts}</td>
-							</tr>
-						</c:if>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
-			</tbody>
-		</table>
+							<table>
+								<colgroup>
+									<col class="no">
+									<col class="category">
+									<col class="title">
+									<col class="writer">
+									<col class="date">
+									<col class="views">
+								</colgroup>
+								<thead>
+									<tr>
+										<th>번호</th>
+										<th>카테고리</th>
+										<th>제목</th>
+										<th>작성자</th>
+										<th>날짜</th>
+										<th>조회수</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:choose>
+										<c:when test="${empty postList}">
+											<tr>
+												<td colspan="6">등록된 게시글이 없습니다.</td>
+											</tr>
+										</c:when>
+										<c:otherwise>
+											<c:forEach items="${postList}" var="board">
+												<c:if test="${board.postTypeNo != 1}">
+													<tr>
+														<td>${board.no}</td>
+														<c:choose>
+															<c:when test="${board.postTypeNo == 2}">
+																<td><a href="#">TIP</a></td>
+															</c:when>
+															<c:when test="${board.postTypeNo == 3}">
+																<td><a href="#">후기</a></td>
+															</c:when>
+															<c:otherwise>
+																<td><a href="#">QNA</a></td>
+															</c:otherwise>
+														</c:choose>
+														<td><a
+															href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.no}">${board.title}</a></td>
+														<td>${board.userNicname}</td>
+														<td>${board.date}</td>
+														<td>${board.counts}</td>
+													</tr>
+												</c:if>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
+								</tbody>
+							</table>
 							<a class="btn" href="#">&lt;&lt;</a> <a class="btn" href="#">&lt;</a>
 							<a class="btn number" href="#">1</a> <a class="btn number"
 								href="#">2</a> <a class="btn number on" href="#">3</a> <a

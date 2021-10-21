@@ -93,6 +93,7 @@ public class UserController implements Controller {
 	 */
 	public ModelAndView userUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String no = request.getParameter("no");
+		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
 		String newPwd = request.getParameter("newPwd");
 		String nickName = request.getParameter("nickName");
@@ -100,15 +101,16 @@ public class UserController implements Controller {
 		String filesystemName = request.getParameter("file");
 
 		UserDTO userDTO = null;
-		if(newPwd==null) {
-			userDTO = new UserDTO(Integer.parseInt(no), pwd, nickName, Integer.parseInt(gender), filesystemName);
+		if(newPwd.equals("")) {
+			userDTO = new UserDTO(Integer.parseInt(no), id, pwd, nickName, Integer.parseInt(gender), filesystemName);
 			userSerivce.userUpdate(userDTO);
 		}else {
-			userDTO = new UserDTO(Integer.parseInt(no), newPwd, nickName, Integer.parseInt(gender), filesystemName);
+			userDTO = new UserDTO(Integer.parseInt(no), id, newPwd, nickName, Integer.parseInt(gender), filesystemName);
 			userSerivce.userUpdate(userDTO,pwd);
 		}
 
 		return new ModelAndView("user/user.jsp", true);
+
 	}
 
 	/**
@@ -274,10 +276,7 @@ public class UserController implements Controller {
 		
 		List<CommentDTO> commentList = userSerivce.commentSelectByUserNo(userNo);
 		request.setAttribute("commentList", commentList);
-		
-		Entry<List<RecipeWrapper>, Pagenation> postList = userSerivce.postSelectByUserNo(userNo, page);
-		request.setAttribute("postList", postList.getKey());
-		request.setAttribute("page", postList.getValue());
+
 		
 		return new ModelAndView("user/user.jsp");
 	

@@ -371,12 +371,6 @@ input#search-bar {
 		<a class="btn" href="#">&gt;&gt;</a>
 	</div>
 	
-	
-	
-	
-	
-	
-	
 	  <jsp:useBean class="com.kooking.paging.Pagenation" id="p"/> 
     
  <!--  블럭당  -->

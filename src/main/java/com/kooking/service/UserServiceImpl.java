@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void userUpdate(UserDTO userDTO) throws Exception {
-		if(userDao.loginCheck(userDTO.getId(), userDTO.getPwd())==null)
+		if((userDao.loginCheck(userDTO.getId(), userDTO.getPwd())) == null)
 			throw new KookingException("비밀번호가 틀렸습니다.");
 		if( userDao.userUpdate(userDTO) == 0 )
 			throw new KookingException("회원정보가 수정되지 않았습니다.");

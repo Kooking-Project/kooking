@@ -621,46 +621,8 @@ h5 {
 
 		/////////////////////////////////////////////////
 
-		//////////////////////////////////////////////////
-		// 패스워드 중복체크하기
-		$("#pwdConfirm").keyup(function() {
 
-			if ($(this).val == "") {
-				$("#passwordCheck").text("");
-				return; // 함수를 빠져나가라.
-			}
-
-			$.ajax({
-
-				url : "../passCheck", //서버요청주소
-				type : "post", //method방식(get, post, put, delete)
-				dataType : "text", //서버가 응답해주는 데이터의 type(text, html, xml, json)
-				data : {
-					pwdConfirm : $(this).val(),
-					pwd : $("#pwd").val()
-				}, //서버에게 보낼 parameter정보
-				success : function(result) {
-
-					$("#registerBtn").attr('disabled', false);
-
-					$("#passwordCheck").text(result);
-
-					if (result == "암호가 일치하지 않습니다.") {
-
-						$("#registerBtn").attr('disabled', true);
-					}
-
-				}, // 성공했을때 callback 함수
-				error : function(err) {
-					alert(err + "발생했어요");
-
-				}//실패했을 때 함수
-			}); //ajax끝
-		});
-
-		/////////////////////////////////////////////////
-
-		$("#upload")
+	$("#upload")
 				.on(
 						"click",
 						function() {
@@ -710,7 +672,7 @@ h5 {
 							$("#upLoadForm").submit(); //전송
 						});//  clickEnd
 
-		$('#image').on('change', function() {
+		$('#file').on('change', function() {
 
 			ext = $(this).val().split('.').pop().toLowerCase(); //확장자
 
@@ -719,7 +681,7 @@ h5 {
 				resetFormElement($(this)); //폼 초기화
 				window.alert('이미지 파일이 아닙니다! (gif, png, jpg, jpeg 만 업로드 가능)');
 			} else {
-				file = $('#image').prop("files")[0];
+				file = $('#file').prop("files")[0];
 				blobURL = window.URL.createObjectURL(file);
 				$('#image_preview img').attr('src', blobURL);
 				$('#image_preview').slideDown(); //업로드한 이미지 미리보기 
@@ -732,8 +694,8 @@ h5 {
 		 It removes the image, clears and unhides the file input field.
 		 */
 		$('#image_preview a').bind('click', function() {
-			resetFormElement($('#image')); //전달한 양식 초기화
-			$('#image').slideDown(); //파일 양식 보여줌
+			resetFormElement($('#file')); //전달한 양식 초기화
+			$('#file').slideDown(); //파일 양식 보여줌
 			$(this).parent().slideUp(); //미리 보기 영역 감춤
 			return false; //기본 이벤트 막음
 		});
@@ -762,7 +724,7 @@ h5 {
 			return false;
 		}
 
-		if ((f.pwd.value != "") && (f.pwdConfirm.value == "")) {
+		if ((f.pwd.value != null) && (f.pwdConfirm.value == null)) {
 			alert("사용하실 비밀번호를 한번 더 입력해 주세요!");
 			f.pwdConfirm.focus();
 			return false;
@@ -816,6 +778,10 @@ h5 {
 				<form class="form-horizontal" name="userUpdateForm" method="post"
 					action="${pageContext.request.contextPath}/front"
 					onSubmit='return checkValid()'>
+					<input type="hidden" name="key" value="user" /> 
+					<input type="hidden" name="methodName" value="userUpdate" />
+					<input type="hidden" name="no" value="${userDTO.no}" />
+					<input type="hidden" name="id" value="${userDTO.id}" />
 					<!-- 프로필 사진 -->
 					<fieldset>
 						<div class="grid-35">
@@ -823,7 +789,7 @@ h5 {
 						</div>
 						<div class="grid-65">
 							<label for="image">사진 미리보기</label> <br /> 
-							<input type="file" name="image" id="image" />
+							<input type="file" name="file" id="file" />
 
 							<div id="image_preview">
 								<img src="#" /> <br /> <a href="#">삭제</a>
@@ -835,7 +801,7 @@ h5 {
 							<label for="lname">닉네임</label>
 						</div>
 						<div class="grid-65">
-							<input type="text" id="nickName" tabindex="2"
+							<input type="text" name="nickName" id="nickName" tabindex="2"
 								value="${userDTO.nickName}" />
 						</div>
 					</fieldset>
@@ -845,16 +811,17 @@ h5 {
 							<label for="location">새 비밀번호</label>
 						</div>
 						<div class="grid-65">
-							<input type="password" id="pwd" tabindex="4" />
+							<input type="password" name="newPwd" id="newPwd" tabindex="4" />
 						</div>
 						<!-- 새 비밀번호 재입력 -->
 						<div class="grid-35">
 							<label for="country">새 비밀번호 재입력</label>
 						</div>
 						<div class="grid-65">
-							<input type="password" id="pwdConfirm" tabindex="5" />
+							<input type="password" name="pwdConfirm" id="pwdConfirm" tabindex="5" />
 						</div>
-						<p class="passwordCheck" id="passwordCheck">정확하게 일치하도록 입력해주십시오.</p>
+						<p class="passwordCheck" id="passwordCheck">정확하게 일치하도록
+							입력해주십시오.</p>
 					</fieldset>
 					<!-- 성별 -->
 					<fieldset>
@@ -877,14 +844,16 @@ h5 {
 							<label for="location">이전 비밀번호</label>
 						</div>
 						<div class="grid-65">
-							<input type="password" id="currentPwd" tabindex="4" />
+							<input type="password" name="pwd" id="pwd" tabindex="4" />
 						</div>
-						<p class="curPasswordCheck" id="curPasswordCheck">본인 확인을 위해 기존 비밀번호 입력을 해주시기 바랍니다.</p>
+						<p class="curPasswordCheck" id="curPasswordCheck">본인 확인을 위해 기존
+							비밀번호 입력을 해주시기 바랍니다.</p>
 
 					</fieldset>
 					<fieldset>
-						<input type="submit" class="btn delicious-small-btn btn-3" value="변경" /> 
-							<a href="javascript:history.back()" class="btn delicious-small-btn btn-3">돌아가기</a>
+						<input type="submit" class="btn delicious-small-btn btn-3"
+							value="변경" /> <a href="javascript:history.back()"
+							class="btn delicious-small-btn btn-3">돌아가기</a>
 					</fieldset>
 				</form>
 			</div>
