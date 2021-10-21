@@ -164,7 +164,7 @@ tr {
 							<span style="text-align: left">유저 정보</span>
 							<c:if test="${userDTO.no == user.no}">
 								<a href="${pageContext.request.contextPath}/user/userUpdate.jsp"
-									class="btn delicious-Xsmall-btn btn-3">프로필 수정</a>
+									class="btn delicious-btn">프로필 수정</a>
 							</c:if>
 						</div>
 					</div>
