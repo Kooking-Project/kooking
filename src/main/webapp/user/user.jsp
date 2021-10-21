@@ -161,7 +161,7 @@ tr {
 					<!-- Breadcrumb -->
 					<div aria-label="breadcrumb" class="main-breadcrumb">
 						<div class="breadcrumb">
-							<span style="text-align: left">유저 정보</span>
+							<span style="text-align: left">유저 정보</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<c:if test="${userDTO.no == user.no}">
 								<a href="${pageContext.request.contextPath}/user/userUpdate.jsp"
 									class="btn delicious-btn">프로필 수정</a>
@@ -216,6 +216,11 @@ tr {
 									<th>댓글내용</th>
 									<th>댓글작성날짜</th>
 								</tr>
+								<c:if test="${empty commentList}">
+									<tr>
+										<td colspan="6">등록하신 댓글이 없습니다.</td>
+									</tr>
+								</c:if>
 								<c:forEach items="${commentList}" var="comment">
 									<tr>
 										<td>${comment.no}</td>
@@ -284,10 +289,16 @@ tr {
 									<th>날짜</th>
 									<th>조회수</th>
 								</tr>
+								<c:if test="${empty bookmarkList}">
+									<tr>
+										<td colspan="6">즐겨찾기 한 레시피가 없습니다.</td>
+									</tr>
+								</c:if>
 								<c:forEach items="${bookmarkList}" var="bookmark">
 									<tr>
 										<td>${bookmarkList.postNo}</td>
-										<td><a href="#">강원도에서 직접 공수해온 고라니 고기를 가지고 만든 고라니탕</a></td>
+										<td><a href="#">제목이 들어왔으면 하는데 즐겨찾기는 제목을 DB로 가지고 있지
+												않다...</a></td>
 										<td>${bookmarkList.date}</td>
 										<td>131</td>
 									</tr>
@@ -322,6 +333,12 @@ tr {
 									<th>날짜</th>
 									<th>조회수</th>
 								</tr>
+								<c:if test="${empty recipeList}">
+									<!-- 원래는 레시피가 들어와야 하는데... -->
+									<tr>
+										<td colspan="6">작성한 레시피가 없습니다.</td>
+									</tr>
+								</c:if>
 								<c:forEach items="${recipeList}" var="bookmark">
 									<tr>
 										<td>${recipeList.no}</td>
@@ -380,7 +397,7 @@ tr {
 										<c:if test="${board.postTypeNo != 1}">
 											<tr>
 												<td>${board.no}</td>
-									
+
 												<c:if test="${board.postTypeNo == 3}">
 													<td><a href="#">TIP</a></td>
 												</c:if>
@@ -395,15 +412,10 @@ tr {
 												<td>${board.date}</td>
 												<td>${board.counts}</td>
 											</tr>
-										</c:if>	
+										</c:if>
 									</c:forEach>
 								</tbody>
 							</table>
-							<a class="btn" href="#">&lt;&lt;</a> <a class="btn" href="#">&lt;</a>
-							<a class="btn number" href="#">1</a> <a class="btn number"
-								href="#">2</a> <a class="btn number on" href="#">3</a> <a
-								class="btn number" href="#">4</a> <a class="btn number" href="#">5</a>
-							<a class="btn" href="#">&gt;</a> <a class="btn" href="#">&gt;&gt;</a>
 						</div>
 					</div>
 				</div>
