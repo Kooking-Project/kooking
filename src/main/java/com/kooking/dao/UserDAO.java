@@ -20,7 +20,7 @@ public interface UserDAO {
 	/**
 	 * 작성한 게시글 목록 보기
 	 * */
-	Entry<RecipeWrapper, Pagenation> postSelectByUserNo(int userNo, Pagenation page) throws SQLException;
+	Entry<List<RecipeWrapper>, Pagenation> postSelectByUserNo(int userNo, Pagenation page) throws Exception;
 
 	/**
 	 * 작성한 댓글 목록 보기

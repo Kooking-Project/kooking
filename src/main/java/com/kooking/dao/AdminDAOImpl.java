@@ -59,7 +59,7 @@ public class AdminDAOImpl implements AdminDAO {
 		Connection con=null;
 		PreparedStatement ps =null;
 		ResultSet rs =null;
-		String sql=proFile.getProperty("query.userSelectAll");
+		String sql="SELECT * FROM (SELECT A.*, ROWNUM RNUM FROM USERS A) WHERE RNUM BETWEEN ? AND ? ORDER BY USER_ENROLL_DATE DESC";
 		UserDTO user=null;
 		List<UserDTO> usertList = new ArrayList<UserDTO>();
 		

@@ -19,6 +19,19 @@ public class PostDTO {
 	public PostDTO() {
 	}
 	
+	
+	public PostDTO(int no, int postTypeNo, int userNo, String title, String contents, int counts, String date) {
+		super();
+		this.no = no;
+		this.postTypeNo = postTypeNo;
+		this.userNo = userNo;
+		this.title = title;
+		this.contents = contents;
+		this.counts = counts;
+		this.date = date;
+	}
+
+
 	public PostDTO(int no, int postTypeNo, int userNo, String title, String contents, int counts, String date, String userNicname) {
 		super();
 		this.no = no;

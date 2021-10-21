@@ -14,6 +14,7 @@ import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
+import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.exception.KookingException;
 import com.kooking.paging.Pagenation;
 
@@ -70,8 +71,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Entry<PostDTO, RecipeDTO> postSelectByUserNo(int userNo) throws Exception {
-		Entry<PostDTO, RecipeDTO> postList = userDao.postSelectByUserNo(userNo);
+	public Entry<List<RecipeWrapper>, Pagenation> postSelectByUserNo(int userNo, Pagenation page) throws Exception {
+		Entry<List<RecipeWrapper>, Pagenation> postList = userDao.postSelectByUserNo(userNo, page);
 		if(postList==null)
 			throw new KookingException("작성하신 게시물이 없습니다.");
 		return postList;

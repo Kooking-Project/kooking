@@ -9,6 +9,7 @@ import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
+import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.exception.KookingException;
 import com.kooking.paging.Pagenation;
 
@@ -34,7 +35,7 @@ public interface UserService {
 	/**
 	 * 본인이 작성한 게시글 확인
 	 */
-	Entry<PostDTO, RecipeDTO> postSelectByUserNo(int userNo) throws Exception;
+	Entry<List<RecipeWrapper>, Pagenation> postSelectByUserNo(int userNo, Pagenation page) throws Exception;
 
 	/**
 	 * 본인이 작성한 댓글 확인
