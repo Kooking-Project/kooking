@@ -135,7 +135,7 @@ function createBox() {
     var contents = "<div class='itemBox'>"
                  + "<div style='float:left;'>"
                  + "<span class='ingredient_seq'></span><input type='hidden' name='ingredient_seq'>"//<span>값을 넘길 수 없음. hidden으로 ingredient_seq 값 추가
-                 + "<input type='text' name='ingredient_name' style='width:200px; margin-right:10px' placeholder='예) 돼지고기'/>"
+                 + "<input type='text' name='ingredient_name' style='width:200px; margin-right:15px' placeholder='예) 돼지고기'/>"
                  + "<input type='text' name='ingredient_cacty' style='width:200px;' placeholder='예) 300g 또는 1/2개'/>"
                  + "</div>"
                  + "</div>";
@@ -148,20 +148,26 @@ function createBox() {
 
 
 <br />
-<div id="itemBoxWrap"></div>
+
 <div>
+	<!-- 추가 버튼 -->
+    <div class="buttons">
+        <input type="button" id="addItem" value="추가하기" style="float:right ;" onclick="createItem();" />
+    </div>
+    
+<div id="itemBoxWrap">
 	<div class="itemBox">
-		<div style="float:left">
+		<!-- eunji - 
+				input text 입력 못하게 하는 방법
+				1) readonly | 2) disabled
+				disabled는 폼으로 값 전송이 안된다
+				폼으로 데이터를 전송하고 싶으면 반드시 readonly를 써야함!!!
+			 -->
 			<span class="ingredient_seq"></span><input type="hidden" name="ingredient_seq" value="1">
-			<input type="text" name="ingredient_name" style="width:200px; margin-right:10px;" placeholder="예) 돼지고기"/>
+			<input type="text" name="ingredient_name" style="width:200px;" placeholder="예) 돼지고기"/>
 			<input type="text" name="ingredient_cacty" style="width:200px;" placeholder="예) 300g 또는 1/2개"/>
 		</div>
 	</div>
-    <!-- 추가 버튼 -->
-    <div class="buttons">
-        <input type="button" id="addItem" value="추가하기" onclick="createItem();" />
-        <input type="button" id="submitItem" value="등록" onclick="submitItem();" />
-    </div>
 </div>
 
 

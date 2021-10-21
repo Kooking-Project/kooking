@@ -223,8 +223,8 @@
                                     <li><a href="${pageContext.request.contextPath}/front">커뮤니티</a>
                                     </li>
                                     	<c:choose>
-                                   		<c:when test="${userDTO.status}==10">
-                                   			<li><a href="${pageContext.request.contextPath}/front?key=admin&methodName=userSelectByNo&userNo=${userDTO.no}">마이 페이지</a></li>
+                                   		<c:when test="${userDTO.status == 10}">
+                                   			<li><a href="${pageContext.request.contextPath}/front?key=admin&methodName=adminInfoByNo&userNo=${userDTO.no}&adminNo=${userDTO.no}">마이 페이지</a></li>
                                    			<!--  <a href="${path}/front?key=user&methodName=selectByModelNum&modelNum=${elecDto.modelNum}"> ${elecDto.modelName} -->
                                   		 </c:when>
                                    		<c:otherwise>
