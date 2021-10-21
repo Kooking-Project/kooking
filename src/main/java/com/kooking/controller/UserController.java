@@ -250,7 +250,9 @@ public class UserController implements Controller {
 		request.setAttribute("commentList", commentList);
 		
 		Entry<PostDTO, RecipeDTO> postList = userSerivce.postSelectByUserNo(userNo);
-		request.setAttribute("postList", postList);
+		request.setAttribute("postList", postList.getKey());
+        request.setAttribute("recipeList", postList.getValue());
+
 
 		return new ModelAndView("user/user.jsp");
 	

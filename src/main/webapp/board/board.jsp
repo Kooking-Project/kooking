@@ -172,22 +172,20 @@ input#search-bar {
 	max-width: 1275px;
 	/*  width : 100%; */
 }
-}
 </style>
 
 <script type="text/javascript">
-	
-function checkValid() {
-    var f = window.document.search-container;
-		
-	if ( f.search-bar.value == "" ) {
-		alert( "제목을 입력해 주세요." );
-		f.content.focus();
-		return false;
+	function checkValid() {
+		var f = window.document.search - container;
+
+		if (f.search - bar.value == "") {
+			alert("제목을 입력해 주세요.");
+			f.content.focus();
+			return false;
+		}
+
+		return true;
 	}
-	
-    return true;
-}
 </script>
 
 </head>
@@ -256,26 +254,28 @@ function checkValid() {
 					</c:when>
 					<c:otherwise>
 						<c:forEach items="${requestScope.postList}" var="board">
-							<c:if test="${board.postTypeNo != 1}">						
-							<tr>
-								<td>${board.no}</td>
-								<c:choose>
-									<c:when test="${board.postTypeNo == 2}">
-									<td><a href="#">TIP</a></td>
-									</c:when>
-									<c:when test="${board.postTypeNo == 3}">
-									<td><a href="#">후기</a></td>
-									</c:when>
-									<c:otherwise>
-									<td><a href="#">QNA</a></td>
-									</c:otherwise>
-								</c:choose>
-								<td><a href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.no}">${board.title}</a></td>
-								<td><a href = "${pageContext.request.contextPath}/front?key=user&methodName=userInfoByNo&userNo=${userDTO.no}">${board.userNicname}</a></td>
-								<td>${board.date}</td>
-								<td>${board.counts}</td>
-							</tr>
-						</c:if>
+							<c:if test="${board.postTypeNo != 1}">
+								<tr>
+									<td>${board.no}</td>
+									<c:choose>
+										<c:when test="${board.postTypeNo == 2}">
+											<td><a href="#">TIP</a></td>
+										</c:when>
+										<c:when test="${board.postTypeNo == 3}">
+											<td><a href="#">후기</a></td>
+										</c:when>
+										<c:otherwise>
+											<td><a href="#">QNA</a></td>
+										</c:otherwise>
+									</c:choose>
+									<td><a
+										href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.no}">${board.title}</a></td>
+									<td><a
+										href="${pageContext.request.contextPath}/front?key=user&methodName=userInfoByNo&userNo=${userDTO.no}">${board.userNicname}</a></td>
+									<td>${board.date}</td>
+									<td>${board.counts}</td>
+								</tr>
+							</c:if>
 						</c:forEach>
 					</c:otherwise>
 				</c:choose>
@@ -284,18 +284,33 @@ function checkValid() {
 		<div class="boardWrite" align="right">
 			<div class="col-lg-6">
 				<c:if test="${userDTO != null}">
-					<a href="${pageContext.request.contextPath}/board/boardWrite.jsp" class="btn delicious-small-btn btn-3">글쓰기</a>
-				</c:if>	
+					<a href="${pageContext.request.contextPath}/board/boardWrite.jsp"
+						class="btn delicious-small-btn btn-3">글쓰기</a>
+				</c:if>
 			</div>
 		</div>
 
-    <form name="search-container" method="post" action="${pageContext.request.contextPath}/front?key=post&methodName=searchPostName" onSubmit='return checkValid()'>
-		<input type="text" id="search-bar" name="search-bar" placeholder="제목을 입력해 주세요."> 
-		<img class="search-icon" src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
-			<!-- "" 검색 메소드 -->
-	</form>
+		<form class = "search-container" name="search-container" method="post"
+			action="${pageContext.request.contextPath}/front?key=post&methodName=searchPostName"
+			onSubmit='return checkValid()'>
+			<input type="text" id="search-bar" name="search-bar"
+				placeholder="제목을 입력해 주세요."><a href="#"><img class="search-icon"
+				src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"></a>
+		</form>
 
 	</div>
+
+	<div class="page-box">
+		<a class="btn" href="#">&lt;&lt;</a> <a class="btn" href="#">&lt;</a>
+
+		<!--  숫자 버튼  -->
+		<a class="btn number" href="#">1</a> <a class="btn number" href="#">2</a>
+		<a class="btn number on" href="#">3</a> <a class="btn number" href="#">4</a>
+		<a class="btn number" href="#">5</a> <a class="btn" href="#">&gt;</a>
+
+		<a class="btn" href="#">&gt;&gt;</a>
+	</div>
+
 </body>
 
 </html>

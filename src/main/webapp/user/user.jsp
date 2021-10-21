@@ -330,14 +330,14 @@ tr {
 										</c:when>
 										<c:otherwise>
 											<c:forEach items="${postList}" var="board">
-												<c:if test="${board.PostDTO.postTypeNo != 1}">
+												<c:if test="${board.postTypeNo != 1}">
 													<tr>
 														<td>${board.no}</td>
 														<c:choose>
-															<c:when test="${board.PostDTO.postTypeNo == 2}">
+															<c:when test="${board.postTypeNo == 2}">
 																<td><a href="#">TIP</a></td>
 															</c:when>
-															<c:when test="${board.PostDTO.postTypeNo == 3}">
+															<c:when test="${board.postTypeNo == 3}">
 																<td><a href="#">후기</a></td>
 															</c:when>
 															<c:otherwise>
@@ -345,9 +345,9 @@ tr {
 															</c:otherwise>
 														</c:choose>
 														<td><a
-															href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.PostDTO.no}">${board.PostDTO.title}</a></td>
-														<td>${board.PostDTO.date}</td>
-														<td>${board.PostDTO.counts}</td>
+															href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${board.no}">${board.title}</a></td>
+														<td>${board.date}</td>
+														<td>${board.counts}</td>
 													</tr>
 												</c:if>
 											</c:forEach>
