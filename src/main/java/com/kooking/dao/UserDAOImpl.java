@@ -102,15 +102,13 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 
-	public int getTotalPostNum(Connection con, int userNo) throws Exception {
-		boolean isConnected = (con != null);
-		if (!isConnected) {
-			con = DBTestUtil.getConnection();
-		}
+	public int getTotalPostNum(int userNo) throws Exception {
+		Connection con = null;
 		int result = 0;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
+			con = DBTestUtil.getConnection();
 			ps = con.prepareStatement("SELECT COUNT(*) FROM POSTS where USER_NO=? and POST_TYPE_NO=1");
 			ps.setInt(1, userNo);
 			
@@ -121,11 +119,7 @@ public class UserDAOImpl implements UserDAO {
 				result = rs.getInt(1);
 			}
 		} finally {
-			if (isConnected) {
-				DBTestUtil.dbClose(ps, rs);
-			} else {
-				DBTestUtil.dbClose(con, ps, rs);
-			}
+			DBTestUtil.dbClose(con, ps, rs);
 		}
 		return result;
 	}
@@ -139,7 +133,7 @@ public class UserDAOImpl implements UserDAO {
 		List<RecipeWrapper> postList = new ArrayList<RecipeWrapper>();
 		Entry<List<RecipeWrapper>, Pagenation> result = null;
 		
-		int count = getTotalPostNum(con, userNo);
+		int count = getTotalPostNum(userNo);
 		int totalPage = (int) Math.ceil(page.getPageSize() / count);
 		page.setPageCnt(totalPage);
 		page.setTotal(count);
@@ -166,15 +160,13 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 
-	public int getTotalCommentNum(Connection con, int userNo) throws Exception {
-		boolean isConnected = (con != null);
-		if (!isConnected) {
-			con = DBTestUtil.getConnection();
-		}
+	public int getTotalCommentNum(int userNo) throws Exception {
+		Connection con = null;
 		int result = 0;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
+			con = DBTestUtil.getConnection();
 			ps = con.prepareStatement("SELECT COUNT(*) FROM COMMENTS where USER_NO=?");
 			ps.setInt(1, userNo);
 			
@@ -185,11 +177,7 @@ public class UserDAOImpl implements UserDAO {
 				result = rs.getInt(1);
 			}
 		} finally {
-			if (isConnected) {
-				DBTestUtil.dbClose(ps, rs);
-			} else {
 				DBTestUtil.dbClose(con, ps, rs);
-			}
 		}
 		return result;
 	}
@@ -203,7 +191,7 @@ public class UserDAOImpl implements UserDAO {
 		List<CommentDTO> commentList = new ArrayList<CommentDTO>();
 		Entry<List<CommentDTO>, Pagenation> result = null;
 		
-		int count = getTotalCommentNum(con, userNo);
+		int count = getTotalCommentNum(userNo);
 		int totalPage = (int) Math.ceil(page.getPageSize() / count);
 		page.setPageCnt(totalPage);
 		page.setTotal(count);
@@ -227,15 +215,13 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 	
-	public int getTotalBookmarkNum(Connection con, int userNo) throws Exception {
-		boolean isConnected = (con != null);
-		if (!isConnected) {
-			con = DBTestUtil.getConnection();
-		}
+	public int getTotalBookmarkNum(int userNo) throws Exception {
+		Connection con = null;
 		int result = 0;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
+			con = DbUtil.getConnection();
 			ps = con.prepareStatement("SELECT COUNT(*) FROM BOOKMARKS where USER_NO=?");
 			ps.setInt(1, userNo);
 
@@ -246,11 +232,7 @@ public class UserDAOImpl implements UserDAO {
 				result = rs.getInt(1);
 			}
 		} finally {
-			if (isConnected) {
-				DBTestUtil.dbClose(ps, rs);
-			} else {
-				DBTestUtil.dbClose(con, ps, rs);
-			}
+			DBTestUtil.dbClose(con, ps, rs);
 		}
 		return result;
 	}
@@ -265,7 +247,7 @@ public class UserDAOImpl implements UserDAO {
 		List<BookmarkDTO> bookmarkList = new ArrayList<BookmarkDTO>();
 		Entry<List<BookmarkDTO>, Pagenation> result = null;
 		
-		int count = getTotalBookmarkNum(con, userNo);
+		int count = getTotalBookmarkNum(userNo);
 		int totalPage = (int) Math.ceil(page.getPageSize() / count);
 		page.setPageCnt(totalPage);
 		page.setTotal(count);
@@ -279,7 +261,6 @@ public class UserDAOImpl implements UserDAO {
 			while(rs.next()) {
 				bookmark = new BookmarkDTO(rs.getInt(1), rs.getInt(2), rs.getString(3));
 				bookmarkList.add(bookmark);
-							
 			}
 			result = new SimpleEntry<List<BookmarkDTO>, Pagenation>(bookmarkList, page);
 		}finally {
@@ -301,7 +282,6 @@ public class UserDAOImpl implements UserDAO {
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				result = true; //중복 O
-				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

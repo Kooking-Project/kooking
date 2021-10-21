@@ -77,7 +77,7 @@ public class BoardDAO {
 		PreparedStatement st = null;
 
 		try {
-			String sql = proFile.getProperty("query.updatePost");
+			String sql = "UPDATE POSTS SET POST_TITLE=?, POST_CONTENTS=?, POST_TYPE_NO=? WHERE USER_NO=? AND POST_NO=?";
 			//UPDATE POSTS SET POST_TITLE=?, POST_CONTENTS=?, POST_TYPE=? WHERE USER_NO=? AND POST_NO=?
 			
 			st = con.prepareStatement(sql);
