@@ -249,6 +249,7 @@ public class UserController implements Controller {
 		List<CommentDTO> commentList = userSerivce.commentSelectByUserNo(userNo);
 		request.setAttribute("commentList", commentList);
 		
+			
 		Entry<PostDTO, RecipeDTO> postList = userSerivce.postSelectByUserNo(userNo);
 		request.setAttribute("postList", postList.getKey());
         request.setAttribute("recipeList", postList.getValue());

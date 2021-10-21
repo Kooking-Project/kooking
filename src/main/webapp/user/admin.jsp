@@ -206,26 +206,14 @@ tr {
 									<th>댓글내용</th>
 									<th>댓글작성날짜</th>
 								</tr>
-								<tr>
-									<td>1</td>
-									<td><a href="#">아이가 너무 좋아해요!</a></td>
-									<td>1302.12.21</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td><a href="#">먹어도 먹어도 감자튀김이 안 줄어!!!!</a></td>
-									<td>1899.03.01</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td><a href="#">악 달고나 부러졌어!!! 선생님 살려주세요!!!</a></td>
-									<td>2018.10.03</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td><a href="#">Fry loves you.</a></td>
-									<td>2021.07.02</td>
-								</tr>
+								<c:forEach items="${commentList}" var="comment">
+									<tr>
+										<td>${comment.no}</td>
+										<td><a
+											href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${comment.postNo}">${comment.content}</a></td>
+										<td>${comment.date}</td>
+									</tr>
+								</c:forEach>
 							</table>
 						</div>
 					</div>
@@ -254,7 +242,7 @@ tr {
 									<th>가입일</th>
 								</tr>
 								<c:choose>
-								<c:when test="${empty requestScope.userList}">
+								<c:when test="${empty userList}">
 									<tr>
 										<td colspan="5">
 											<p align="center">
@@ -264,55 +252,18 @@ tr {
 									</tr>
 								</c:when>
 								<c:otherwise>
-									<c:forEach items="${requestScope.userList}" var="user">
+									<c:forEach items="${userList}" var="user">
 										<tr>
 											<td>${user.no}</td>
 											<td><a
 												href="${path}/front?key=user&methodName=selectByModelNum&modelNum=${user.no}">${user.id}</a></td>
 											<td>${user.nickName}</td>
 											<td>${user.gender}</td>
-											<td>${user.date}</td>
+											<td>${user.enrollDate}</td>
 										</tr>
 									</c:forEach>
 									</c:otherwise>	
 									</c:choose>
-									
-									
-									
-									
-									
-									
-									
-									<tr>
-										<td>1</td>
-										<td><a
-											href="${path}/front?key=user&methodName=selectByModelNum&modelNum=${elecDto.modelNum}">${elecDto.modelName}</a></td>
-										<td>김찬원</td>
-										<td>남자</td>
-										<td>1302.12.21</td>
-									</tr>
-									
-									<tr>
-										<td>2</td>
-										<td><a href="#">ninjaturtle0301</a></td>
-										<td>거북쓰</td>
-										<td>비공개</td>
-										<td>1899.03.01</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td><a href="#">smokingTiger</a></td>
-										<td>담배피는호랑이</td>
-										<td>남자</td>
-										<td>2018.10.03</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td><a href="#">bunny</a></td>
-										<td>토끼</td>
-										<td>여자</td>
-										<td>2021.07.02</td>
-									</tr>
 							</table>
 						</div>
 					</div>
@@ -339,33 +290,15 @@ tr {
 									<th>날짜</th>
 									<th>조회수</th>
 								</tr>
+								<c:forEach items="${bookmarkList}" var="bookmark">
 								<tr>
-									<td>1</td>
+									<td>${bookmarkList.postNo}</td>
 									<td><a href="#">강원도에서 직접 공수해온 고라니 고기를 가지고 만든 고라니탕</a></td>
-									<td>2019.10.14</td>
+									<td>${bookmarkList.date}</td>
 									<td>131</td>
 								</tr>
-								<tr>
-									<td>2</td>
-									<td><a href="#">이베리아 반도의 탱고의 여인이 친숙하게 느껴지는 느낌을 주는 와인</a></td>
-									<td>2019.10.14</td>
-									<td>1522</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td><a href="#">겐스케군의 스고이 한 니혼제 돈까스</a></td>
-									<td>2019.10.14</td>
-									<td>7777</td>
-								</tr>
-								<tr>
-									<td>33333</td>
-									<td><a href="#">영국식 정어리 머리 파이</a></td>
-									<td>2019.10.14</td>
-									<td>0</td>
-								</tr>
+								</c:forEach>
 							</table>
-
-
 						</div>
 					</div>
 				</div>
@@ -394,32 +327,15 @@ tr {
 									<th>날짜</th>
 									<th>조회수</th>
 								</tr>
+								<c:forEach items="${recipeList}" var="bookmark">
 								<tr>
-									<td>1</td>
-									<td><a href="#">강원도에서 직접 공수해온 고라니 고기를 가지고 만든 고라니탕</a></td>
-									<td>2019.10.14</td>
-									<td>131</td>
+									<td>${recipeList.no}</td>
+									<td><a href="#">${recipeList.name}</a></td>
+									<td>${recipeList.post.date}</td>
+									<td>${recipeList.post.counts}</td>
 								</tr>
-								<tr>
-									<td>2</td>
-									<td><a href="#">이베리아 반도의 탱고의 여인이 친숙하게 느껴지는 느낌을 주는 와인</a></td>
-									<td>2019.10.14</td>
-									<td>1522</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td><a href="#">겐스케군의 스고이 한 니혼제 돈까스</a></td>
-									<td>2019.10.14</td>
-									<td>7777</td>
-								</tr>
-								<tr>
-									<td>33333</td>
-									<td><a href="#">영국식 정어리 머리 파이</a></td>
-									<td>2019.10.14</td>
-									<td>0</td>
-								</tr>
+								</c:forEach>
 							</table>
-
 						</div>
 					</div>
 				</div>
@@ -461,13 +377,13 @@ tr {
 			</thead>
 			<tbody>
 				<c:choose>
-					<c:when test="${empty requestScope.postList}">
+					<c:when test="${empty postList}">
 						<tr>
 							<td colspan="6">등록된 게시글이 없습니다.</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
-						<c:forEach items="${requestScope.postList}" var="board">
+						<c:forEach items="${postList}" var="board">
 							<c:if test="${board.postTypeNo != 1}">						
 							<tr>
 								<td>${board.no}</td>
