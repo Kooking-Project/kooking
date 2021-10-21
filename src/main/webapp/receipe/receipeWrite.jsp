@@ -260,29 +260,8 @@
 	<!-- process 요리순서 start -->
    	  <div>
       	<p class="cont_tit4">요리순서</p>
-			<span class="guide mag_b_15" style="width: 100%;"> 요리의 맛이 좌우될 수 있는 중요한 부분은 빠짐없이 적어주세요.<br></span>
-					<div class="mag_b_25" id="divMaterialGroupArea"></div> 
-			<!-- 요리순서 SCRIPT START -->
-			<script type="text/javascript">
-				let index=0;
-				const add_textbox = () => {
-				    const box = document.getElementById("processAddbtn");
-				    const newP = document.createElement('div');
-				    newP.innerHTML ="<span class='process_seq'></span><input type='file' name='process_url"+ index++ +"' maxlength='60' size='40' style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'>"
-				    + "<input type='hidden' name='process_seq' value='"+index +"'>"
-				    + "<input type='text' name='process_desc' style='width:610px; margin:10px;' placeholder='예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요.'>"
-				    + "<input type='text' name='process_tip' style='width:610px; margin:10px;' placeholder='요리 tip! 예) 위가 살짝 노릇할정도만 구워야 속이 쫀득합니다.'>"
-				    + "<input type='button' value='삭제'  onclick='remove(this)'>";
-				    box.appendChild(newP);
-				}
-				const remove = (obj) => {
-				    document.getElementById('processAddbtn').removeChild(obj.parentNode);
-				}
-			</script>
-			<!-- 요리순서 SCRIPT END -->
-			<div id="processAddbtn">
-	      	 <input type="button" id="addItem" value="추가하기"  onclick="add_textbox();" />
-	    	</div>
+			<span class="guide mag_b_15" style="width: 100%;"> 요리의 맛이 좌우될 수 있는 중요한 부분은 빠짐없이 적어주세요.<br></span> 
+			<jsp:include page="receipeProcess.jsp"/>
 	   </div>
 	 <hr>
     <!-- 요리순서 End -->
