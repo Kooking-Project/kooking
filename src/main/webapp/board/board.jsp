@@ -5,7 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../common/header.jsp" />
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
 <meta charset="UTF-8">

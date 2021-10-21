@@ -20,7 +20,6 @@
 	href="${pageContext.request.contextPath}/img/core-img/kfavicon.ico">
 
 <!-- Core Stylesheet -->
-<link rel="stylesheet" href="../css/style.css">
 
 <style>
 .lst_recipe {
@@ -209,8 +208,18 @@ button, a {
 	font-size:17px;
 }
 
-.pagination .active{
-	
+.pagination-link{
+	font-size:25px;
+	padding: 20px;
+}
+
+.pagination-link:hover, .pagination-link:focus{
+	font-color : black !important;
+}
+
+.pagination-wrapper{
+	text-align:center;
+
 }
 
 </style>
@@ -284,9 +293,13 @@ button, a {
 </c:forEach>
 
 		</ul>
+<div class="pagination-wrapper">
+  	<c:forEach var="idx" begin="1" end="${page.pageCnt}" step="1">
+		<a class="pagination-link" href="${path}/front?key=search&methodName=list&pageNum=${idx}">${idx }</a></span>
+		</c:forEach>
+</div>
+
 		
-		
-	
 </div>
 
 	<!-- footer -->

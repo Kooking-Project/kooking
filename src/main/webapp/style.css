@@ -70,17 +70,22 @@ p {
   line-height: 2;
   font-weight: 400; }
 
-a,
 a:hover,
 a:focus {
   -webkit-transition-duration: 500ms;
   transition-duration: 500ms;
   text-decoration: none;
   outline: 0 solid transparent;
-  color: #000000;
+  
   font-weight: 600;
-  font-size: 14px;
+  /*font-size: 14px;*/
   color: #f2594b; }
+
+a{
+	  text-decoration: none;
+  outline: 0 solid transparent;
+	color: #000000;
+}
 
 ul,
 ol {

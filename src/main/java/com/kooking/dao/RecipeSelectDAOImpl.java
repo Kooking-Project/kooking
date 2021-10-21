@@ -228,7 +228,6 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
-				System.out.println("여기까지>????");
 				ImageDTO img = new ImageDTO();
 				img.setNo(rs.getInt(1));
 				img.setUrl(rs.getString(2));
@@ -296,7 +295,8 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 
 		List<RecipeDTO> recipes = new ArrayList<RecipeDTO>();
 		int count = getTotalRecipesNum(con);
-		int totalPage = (int) Math.ceil(page.getPageSize() / count);
+		System.out.println(count);
+		int totalPage = (int) Math.ceil(count / page.getPageSize());
 		page.setPageCnt(totalPage);
 		page.setTotal(count);
 		String sql = "SELECT * FROM (SELECT A.*, ROWNUM RNUM FROM VIEW_RECIPE_LIST A) WHERE RNUM BETWEEN ? AND ? ORDER BY POST_DATE DESC";
@@ -347,7 +347,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 		} finally {
 			DbUtil.dbClose(ps, rs, con);
 		}
-		
+		System.out.println(page);
 		return new SimpleEntry<List<RecipeDTO>, Pagenation>(recipes, page);
 	}
 
