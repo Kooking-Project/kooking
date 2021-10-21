@@ -155,8 +155,8 @@ tr {
 					<div aria-label="breadcrumb" class="main-breadcrumb">
 						<div class="breadcrumb">
 							<span style="text-align: left">관리자 정보</span>
-							<c:if test="${userDTO.nickName} == ${user.nickName}">
-								<a href="userUpdate.jsp" class="btn delicious-Xsmall-btn btn-3">프로필
+							<c:if test="${userDTO.nickName == user.nickName}">
+								<a href="${pageContext.request.contextPath}/user/userUpdate.jsp" class="btn delicious-Xsmall-btn btn-3">프로필
 									수정</a>
 							</c:if>
 						</div>

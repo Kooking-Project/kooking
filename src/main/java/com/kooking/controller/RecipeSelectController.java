@@ -45,6 +45,6 @@ public class RecipeSelectController implements Controller{
 		RecipeWrapper wrapper = service.search(recipeNo);
 		request.setAttribute("wrapper", wrapper);
 		
-		return new ModelAndView("recipe/recipeRead.jsp");
+		return new ModelAndView("receipe/receipeRead.jsp");
 	}
 }
