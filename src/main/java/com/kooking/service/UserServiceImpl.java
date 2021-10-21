@@ -15,6 +15,7 @@ import com.kooking.dto.PostDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
 import com.kooking.exception.KookingException;
+import com.kooking.paging.Pagenation;
 
 public class UserServiceImpl implements UserService {
 	private UserDAO userDao = new UserDAOImpl();
@@ -125,8 +126,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDTO> userSelectAll() throws Exception {
-		List<UserDTO> userList = adminDao.userSelectAll();
+	public Entry<List<UserDTO>, Pagenation> userSelectAll(Pagenation page) throws Exception {
+		Entry<List<UserDTO>, Pagenation> userList = adminDao.userSelectAll(page);
 		if (userList==null)
 			throw new KookingException("회원 정보가 없습니다.");
 		return userList;

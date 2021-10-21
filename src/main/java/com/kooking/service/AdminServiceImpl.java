@@ -1,12 +1,14 @@
 package com.kooking.service;
 
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.kooking.dao.AdminDAO;
 import com.kooking.dao.AdminDAOImpl;
 import com.kooking.dao.BoardDAO;
 import com.kooking.dto.UserDTO;
 import com.kooking.exception.KookingException;
+import com.kooking.paging.Pagenation;
 
 public class AdminServiceImpl implements AdminService {
 	private AdminDAO adminDao = new AdminDAOImpl();
@@ -16,7 +18,7 @@ public class AdminServiceImpl implements AdminService {
 	public void changeUserStatus(int adminNo, UserDTO user) throws Exception {
 		int result = 0;
 		
-		if(adminDao.checkUserStatues(adminNo)!=10)
+		if(adminDao.checkUserStatus(adminNo)!=10)
 			throw new KookingException("관리자가 아닙니다.");
 		
 		switch(user.getStatus()) {
@@ -42,7 +44,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public void commentDelete(int adminNo, int userNo, int commentNo) throws Exception {
-		if(adminDao.checkUserStatues(adminNo)!=10)
+		if(adminDao.checkUserStatus(adminNo)!=10)
 			throw new KookingException("관리자가 아닙니다.");
 		if(boardDao.deleteComment(commentNo, userNo, null)==0);
 			throw new KookingException("게시글이 삭제되지 않았습니다.");
@@ -50,7 +52,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public void postDelete(int adminNo, int userNo, int postNo) throws Exception {
-		if(adminDao.checkUserStatues(adminNo)!=10)
+		if(adminDao.checkUserStatus(adminNo)!=10)
 			throw new KookingException("관리자가 아닙니다.");
 		if(boardDao.deletePost(postNo, userNo, null)==0);	//유저 넘버 추가
 			throw new KookingException("게시글이 삭제되지 않았습니다.");
@@ -58,10 +60,10 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<UserDTO> userSelectAll(int adminNo) throws Exception {
-		if(adminDao.checkUserStatues(adminNo)!=10)
+	public Entry<List<UserDTO>, Pagenation> userSelectAll(int adminNo, Pagenation page) throws Exception {
+		if(adminDao.checkUserStatus(adminNo)!=10)
 			throw new KookingException("관리자가 아닙니다.");
-		List<UserDTO> userList = adminDao.userSelectAll();
+		Entry<List<UserDTO>, Pagenation> userList = adminDao.userSelectAll(page);
 		if (userList==null)
 			throw new KookingException("회원 정보가 없습니다.");
 		return userList;
@@ -69,7 +71,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public UserDTO userSelectByNo(int adminNo, int userNo) throws Exception {
-		if(adminDao.checkUserStatues(adminNo)!=10)
+		if(adminDao.checkUserStatus(adminNo)!=10)
 			throw new KookingException("관리자가 아닙니다.");
 		UserDTO user = adminDao.userSelectByNo(userNo);
 		if (user==null)

@@ -6,10 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.AbstractMap.SimpleEntry;
 
-import com.kooking.dto.CommentDTO;
+import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
+import com.kooking.paging.Pagenation;
+import com.kooking.util.DBTestUtil;
 import com.kooking.util.DbUtil;
 
 
@@ -25,8 +29,33 @@ public class AdminDAOImpl implements AdminDAO {
 		}
 	}
 
+	public int getTotalUserNum(Connection con) throws Exception {
+		boolean isConnected = (con != null);
+		if (!isConnected) {
+			con = DBTestUtil.getConnection();
+		}
+		int result = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = con.prepareStatement("SELECT COUNT(*) FROM USERS");
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} finally {
+			if (isConnected) {
+				DBTestUtil.dbClose(ps, rs);
+			} else {
+				DBTestUtil.dbClose(con, ps, rs);
+			}
+		}
+		return result;
+	}
+	
 	@Override
-	public List<UserDTO> userSelectAll() throws SQLException {
+	public Entry<List<UserDTO>, Pagenation> userSelectAll(Pagenation page) throws Exception {
 		Connection con=null;
 		PreparedStatement ps =null;
 		ResultSet rs =null;
@@ -34,9 +63,16 @@ public class AdminDAOImpl implements AdminDAO {
 		UserDTO user=null;
 		List<UserDTO> usertList = new ArrayList<UserDTO>();
 		
+		int count = getTotalUserNum(con);
+		int totalPage = (int) Math.ceil(page.getPageSize() / count);
+		page.setPageCnt(totalPage);
+		page.setTotal(count);
+		
 		try {
 			con = DbUtil.getConnection();
 			ps = con.prepareStatement(sql);
+			ps.setInt(1, (page.getPageNo() - 1) * page.getPageSize() + 1);
+			ps.setInt(2, page.getPageNo() * page.getPageSize());
 			
 			rs = ps.executeQuery();
 			while(rs.next()) {
@@ -47,15 +83,15 @@ public class AdminDAOImpl implements AdminDAO {
 		}finally {
 			DbUtil.dbClose(rs, ps, con);
 		}
-		return usertList;
+		return new SimpleEntry<List<UserDTO>, Pagenation>(usertList, page);
 	}
 	
 	@Override
-	public int checkUserStatues(int userNo) throws SQLException {
+	public int checkUserStatus(int userNo) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = proFile.getProperty("query.checkUserStatues");
+		String sql = proFile.getProperty("query.checkUserStatus");
 		int result = 0;
 		
 		try {

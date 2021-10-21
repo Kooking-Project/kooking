@@ -2,12 +2,14 @@ package com.kooking.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.kooking.dto.UserDTO;
+import com.kooking.paging.Pagenation;
 import com.kooking.service.AdminService;
 import com.kooking.service.AdminServiceImpl;
 
@@ -26,9 +28,18 @@ public class AdminController implements Controller {
 	 * */
 	public ModelAndView userSelectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int adminNo = Integer.parseInt(request.getParameter("adminNo"));
+		String order = request.getParameter("order");
+		String pageNum = request.getParameter("pageNum");
+		Pagenation page = new Pagenation();
 		
-		List<UserDTO> userList = service.userSelectAll(adminNo);
-		request.setAttribute("userList", userList);
+		if(order!=null)
+		page.setOrder(Integer.parseInt(order));
+		if(pageNum!=null)
+		page.setPageNo(Integer.parseInt(pageNum));
+		
+		Entry<List<UserDTO>, Pagenation> userList = service.userSelectAll(adminNo, page);
+		request.setAttribute("userList", userList.getKey());
+		request.setAttribute("page", userList.getValue());
 		
 		return new ModelAndView("adminTest.jsp");
 	}

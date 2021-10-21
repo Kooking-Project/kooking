@@ -10,6 +10,7 @@ import com.kooking.dto.PostDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
 import com.kooking.exception.KookingException;
+import com.kooking.paging.Pagenation;
 
 public interface UserService {
 	/**
@@ -73,7 +74,7 @@ public interface UserService {
 	/**
 	 * 유저정보 전체 검색
 	 * */
-	List<UserDTO> userSelectAll() throws Exception;
+	Entry<List<UserDTO>, Pagenation> userSelectAll(Pagenation page) throws Exception;
 
 	/**
 	 * 유저정보 상세정보 검색

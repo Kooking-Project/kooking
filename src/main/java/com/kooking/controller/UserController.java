@@ -17,6 +17,7 @@ import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
+import com.kooking.paging.Pagenation;
 import com.kooking.service.UserService;
 import com.kooking.service.UserServiceImpl;
 import com.oreilly.servlet.MultipartRequest;
@@ -214,8 +215,18 @@ public class UserController implements Controller {
 	 * 전체회원 정보 조회
 	 * */
 	public ModelAndView userSelectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		List<UserDTO> userList = userSerivce.userSelectAll();
-		request.setAttribute("userList", userList);
+		String order = request.getParameter("order");
+		String pageNum = request.getParameter("pageNum");
+		Pagenation page = new Pagenation();
+		
+		if(order!=null)
+		page.setOrder(Integer.parseInt(order));
+		if(pageNum!=null)
+		page.setPageNo(Integer.parseInt(pageNum));
+		
+		Entry<List<UserDTO>, Pagenation> userList = userSerivce.userSelectAll(page);
+		request.setAttribute("userList", userList.getKey());
+		request.setAttribute("page", userList.getValue());
 		
 		return new ModelAndView("adminTest.jsp");
 	}

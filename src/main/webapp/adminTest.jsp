@@ -31,6 +31,9 @@ function postSelect(){
 function commentSelect(){
 	document.requestForm6.submit();
 }
+function userAll(){
+	document.requestForm7.submit();
+}
 
 function userInsert(){
 	document.requestForm99.submit();
@@ -74,7 +77,46 @@ $(function() {
 </script>
 
 </head>
-<body>
+<body><h1>전체회원 조회</h1>
+<table border="1">
+	<tr>
+        <td>user_no</td>
+        <td>user_id</td>
+        <td>user_pwd</td>
+        <td>user_nicName</td>
+        <td>user_gender</td>
+        <td>user_enrollDate</td>
+		<td>user_profileImg</td>
+		<td>user_status</td>
+		<td>
+			<form name="requestForm5" method=post action="${path}/front">
+				<input type=hidden name="adminNo" value="3">
+				<input type=hidden name="page" value="1">
+				<input type=hidden name="key" value="admin">
+				<input type=hidden name="methodName" value="userSelectAll">
+				<input type=button value="검색하기" onClick="userAll()">
+			</form>
+		</td>
+    </tr>
+    
+    <c:choose>
+	    <c:when test="${empty requestScope.userList}">
+		   	<tr>
+	       		<td>등록된 정보가 없습니다.</td>
+	    	</tr>
+	    </c:when>
+	    <c:otherwise>
+			<c:forEach items="${requestScope.userList}" var="userList">
+				<tr>
+					<td>${userList.no}</td>
+					<td> </td>
+				</tr>
+		    </c:forEach>
+		</c:otherwise>
+    </c:choose>
+</table>
+
+<hr>
 <h1>회원 상태 변경</h1>
 <table>
 	<tr bgcolor="pink" >

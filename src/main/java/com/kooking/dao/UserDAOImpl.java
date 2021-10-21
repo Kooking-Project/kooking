@@ -15,6 +15,8 @@ import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
+import com.kooking.dto.wrapper.RecipeWrapper;
+import com.kooking.paging.Pagenation;
 import com.kooking.util.DBTestUtil;
 import com.kooking.util.DbUtil;
 
@@ -101,29 +103,28 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public Entry<PostDTO, RecipeDTO> postSelectByUserNo(int userNo) throws SQLException {
+	public Entry<RecipeWrapper, Pagenation> postSelectByUserNo(int userNo, Pagenation page) throws SQLException {
 		Connection con = null; // 커넥션이 없다면 새로운 커넥션을 생성
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql=proFile.getProperty("query.postSelectByUserNo");
-		Entry<PostDTO, RecipeDTO> result = null;
+		Entry<RecipeWrapper, Pagenation> result = null;
 		
 		try {
 			con = DBTestUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, userNo);
-			PostDTO post = new PostDTO();
-			RecipeDTO recipe = new RecipeDTO();
+			RecipeWrapper postWrap = new RecipeWrapper();
 
 			rs = ps.executeQuery();
-			if(rs.next()) {
-				post.setNo(rs.getInt(1));
-				recipe.setPostNo(rs.getInt(1));
-				post.setPostTypeNo(rs.getInt(2));
-				post.setTitle(rs.getString(3));
-				post.setContents(rs.getString(4));
-				post.setCounts(rs.getInt(5));
-				post.setDate(rs.getString(6));
+			while(rs.next()) {
+				postWrap.setNo(rs.getInt(1));
+				postWrap.setPostNo(rs.getInt(1));
+				postWrap.setPostTypeNo(rs.getInt(2));
+				postWrap.setTitle(rs.getString(3));
+				postWrap.setContents(rs.getString(4));
+				postWrap.setCounts(rs.getInt(5));
+				postWrap.setDate(rs.getString(6));
 				
 				recipe.setNo(rs.getInt(7));
 				recipe.setName(rs.getString(8));
@@ -133,7 +134,7 @@ public class UserDAOImpl implements UserDAO {
 				recipe.setType(rs.getString(11));
 				recipe.setLevel(rs.getString(12));
 				
-				result = new SimpleEntry<PostDTO, RecipeDTO>(post, recipe);
+				result = new SimpleEntry<PostDTO, RecipeDTO>(postWrap, recipe);
 			}
 		}finally {
 			DBTestUtil.dbClose(con, ps, rs);
