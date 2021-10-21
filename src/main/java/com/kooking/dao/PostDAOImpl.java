@@ -130,13 +130,10 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		Connection con = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
-		
-		System.out.println(page.getPageSize());
-		
+
 		List<PostDTO> postList = new ArrayList<PostDTO>();
 		int count = getSelectTotalCount(); // 전체 게시글 수
-		int totalPage = (int) Math.ceil(count / page.getPageSize());
-		
+		int totalPage = (int) Math.ceil(count / page.getPageCnt());
 
 		page.setTotal(totalPage);
 
@@ -151,13 +148,20 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		st.setInt(2, page.getPageNo() * page.getPageSize());
 		rs = st.executeQuery();
 
+		//int no, int postTypeNo, int userNo, String title, String contents, int counts, String date, String userNicname
+		
 		while (rs.next()) {
-			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
-					rs.getInt(6), rs.getString(7), rs.getString(8));
+			PostDTO postDTO = new PostDTO(rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getInt(7),
+					rs.getString(8), rs.getString(9));
+			
 			System.out.println(postDTO.getNo());
 			postList.add(postDTO);
 		}
 
+		for (PostDTO postDTO : postList) {
+			System.out.println(postDTO);
+		}
+		
 		DbUtil.dbClose(con, st, rs);
 		
 		return new SimpleEntry<List<PostDTO>, Pagenation>(postList, page);
