@@ -182,7 +182,8 @@ a {
 
 						<!-- 댓글 -->
 						<tr>
-							<td colspan="6" class="text-center"><c:choose>
+							<td colspan="6" class="text-center">
+							<c:choose>
 									<c:when
 										test="${(postDTO.userNicname == userDTO.nickName) or (userDTO.status == 10)}">
 										<a
@@ -202,7 +203,6 @@ a {
 									</c:otherwise>
 								</c:choose></td>
 						</tr>
-
 						<!-- 댓글 -->
 
 					</table>
@@ -269,6 +269,10 @@ a {
 				</div>
 			</div>
 		</c:when>
+		
+		
+		
+		
 		<c:otherwise>
 			<form>
 				<fieldset>
@@ -300,29 +304,30 @@ a {
 			</form>
 			<c:forEach items="${commentDTO}" var="reply">
 				<!-- 돌려서 댓글을 꺼낸다. -->
-				<c:if test="${(commentDTO.userNickName == userDTO.nickName) or (userDTO.status == 10)}">
+				<c:if test="${(reply.userNickName == userDTO.nickName) or (userDTO.status == 10)}">
 					<li class="clearfix">
 						<div class="post-comments">
 							<p class="meta">
-								<%=sf.format(nowTime)%>
-								<a href="#">${commentDTO.userNickName}</a> 님 : <i class="pull-right"><a
+								${reply.date}
+								<a href="#">${reply.userNickName}</a> 님 : <i class="pull-right"><a
 									href="#"><small>댓글 추가</small></a></i>
 							</p>
-							<p>${commentDTO.content}</p>
-							<a href="#"><small>수정</small></a></i> <a href="#"><small>삭제</small></a></i>
+							<p>${reply.content}</p>
+							<a href="#"><small>수정</small></a> <a href="#"><small>삭제</small></a>
 						</div>
 					</li>
 				</c:if>
-				<c:otherwise>
+				
+				<c:if test="${(reply.userNickName != userDTO.nickName) or (userDTO.status != 10)}">
 					<li class="clearfix">
 						<div class="post-comments">
 							<p class="meta">
-								날짜 : ${commentDTO.date} <a href="#">${commentDTO.userNickName}</a> 님 : <i class="pull-right"><a href="#"><small>댓글 추가</small></a></i>
+								날짜 : ${reply.date} <a href="#">${reply.userNickName}</a> 님 : <i class="pull-right"><a href="#"><small>댓글 추가</small></a></i>
 							</p>
-							<p>${commentDTO.content}</p>
+							<p>${reply.content}</p>
 						</div>
 					</li>
-				</c:otherwise>
+				</c:if>
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
