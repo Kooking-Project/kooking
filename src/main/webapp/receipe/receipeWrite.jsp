@@ -329,6 +329,5 @@
 	<!-- Active js -->
 	<script src="${pageContext.request.contextPath}/js/active.js"></script>
 	
-	
 </body>
 </html>

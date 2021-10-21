@@ -17,6 +17,15 @@ public class BoardDAO {
 	
 	Properties proFile = new Properties();
 	
+	public BoardDAO() {
+		try {
+			proFile.load(getClass().getClassLoader().getResourceAsStream("dbQuery.properties"));
+			System.out.println("BoardDAO proFile 로드됨");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * 게시판 게시글 추가
 	 */
@@ -29,6 +38,7 @@ public class BoardDAO {
 		ResultSet rs = null;
 		int result = 0;
 		try {
+			//INSERT INTO POSTS(POST_NO,POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE) VALUES(POST_NO_SEQ.NEXTVAL,?,?,?,?,0,SYSDATE)
 			String sql = proFile.getProperty("query.insertPost");
 			//INSERT INTO POSTS(POST_NO,POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE) VALUES(POST_NO_SEQ.NEXTVAL,?,?,?,?,0,SYSDATE)
 			
@@ -41,17 +51,15 @@ public class BoardDAO {
 
 			result = st.executeUpdate();
 			System.out.println(result);
-
 		} finally {
+
 
 			if (isConnected) {
 				DbUtil.dbClose(st, rs);
 			} else {
 				DbUtil.dbClose(con, st, rs);
 			}
-
 		}
-
 		return result;
 
 	}
