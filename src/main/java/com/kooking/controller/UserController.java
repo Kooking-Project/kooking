@@ -98,7 +98,6 @@ public class UserController implements Controller {
 		}
 
 		return new ModelAndView("front?key=user&methodName=userInfoByNo&userNo="+no+"&pageNum=1", true);
-
 	}
 
 	/**
