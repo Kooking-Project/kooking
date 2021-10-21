@@ -171,7 +171,7 @@ tr {
 						<div class="card-body">
 							<div class="d-flex flex-column align-items-center text-center">
 								<img src="${pageContext.request.contextPath}/${userDTO.profileImg}"
-									 class="rounded-circle" width="150">
+									 class="rounded-circle" width="150" onerror="this.src='https://bootdey.com/img/Content/avatar/avatar7.png'">
 								<div class="mt-3">
 									<h4>${user.nickName}</h4>
 									<!-- 마이 페이지로 들어갔으면 내 닉네임 아니면 다른 사람 닉네임  -->

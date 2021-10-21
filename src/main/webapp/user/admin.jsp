@@ -311,7 +311,7 @@ tr {
 											<tr>
 												<td>${user.no}</td>
 												<td><a
-													href="${path}/front?key=user&methodName=selectByModelNum&modelNum=${user.no}">${user.id}</a></td>
+													href="${path}/front?key=user&methodName=userSelectByNo&userNo=${user.no}">${user.id}</a></td>
 												<td>${user.nickName}</td>
 												<td>${user.gender}</td>
 												<td>${user.enrollDate}</td>
@@ -347,9 +347,9 @@ tr {
 								</tr>
 								<c:forEach items="${bookmarkList}" var="bookmark">
 									<tr>
-										<td>${bookmarkList.postNo}</td>
-										<td><a href="#">강원도에서 직접 공수해온 고라니 고기를 가지고 만든 고라니탕</a></td>
-										<td>${bookmarkList.date}</td>
+										<td>${bookmark.postNo}</td>
+										<td><a href="#"></a></td>
+										<td>${bookmark.date}</td>
 										<td>131</td>
 									</tr>
 								</c:forEach>
