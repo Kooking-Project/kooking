@@ -16,7 +16,7 @@ public interface RecipeService {
 	/**
 	 * RecipeDAOImpl의 레시피번호 해당하는 레코드 수정 메소드 호출
 	 */
-	boolean update(RecipeWrapper recipe) throws Exception;
+	boolean update(RecipeWrapper wrapper) throws Exception;
 
 
 	//레시피 삭제  : 게시글번호에 해당하는 레코드 삭제시 레시피 삭제됨.
