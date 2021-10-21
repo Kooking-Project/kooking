@@ -13,11 +13,11 @@
     <link rel="icon" href="${pageContext.request.contextPath}/img/core-img/kfavicon.ico">
     
     <!-- Script -->
-    <script type="text/javascript">
-	    function checkValid() {
-	        var f = window.document.insFrm;
-	    		
-	    	if ( f.post_title.value == "") {
+	<script type="text/javascript">
+		function checkValid() {
+		    var f = window.document.updFrm;
+				
+		    if ( f.post_title.value == "") {
 	    	    alert( "레시피제목을 입력해 주세요." );
 	    	    f.post_title.focus();
 	    		return false;
@@ -62,22 +62,23 @@
 				$("#ingredient_name").focus();
 				return isSubmit = false;
 			}
-	    	/*if ( f.password.value == "" ) {
+	    	if ( f.password.value == "" ) {
 	            alert( "비밀번호를 입력해 주세요" );
 	            f.password.focus();
 	            return false;
-	        }*/
-	    	
+	        }
 	        return true;
-	    }
-	    
-		function SetSelectBox(){
-		    var schField = $("#SetSelectBox(); option:selected").text(); // 제목, 작성자
-		}
-		function SetSelectBox(){
-		    var schField = $("#itemBox(); option:selected").text(); // 제목, 작성자
-		}
-	    
+		
+		}		
+    	function SetSelectBox(){
+    	    var schField = $("#SetSelectBox(); option:selected").text(); // 제목, 작성자
+    	}
+    	function SetSelectBox(){
+    	    var schField = $("#calorie option:selected").val(); // title, board_title, reg_id
+    	}
+    	if(schField == "제목"){
+    	    $("#calorie").val("calorie").prop("selected", true);
+    	}
     </script>
     
     

@@ -70,11 +70,35 @@
 	            return false;
 	        }
 	        return true;
-		}
 		
-		function SetSelectBox(){
-		    var schField = $("#SetSelectBox(); option:selected").text(); // 제목, 작성자
+		}		
+    	function SetSelectBox(){
+    	    var schField = $("#SetSelectBox(); option:selected").text(); // 제목, 작성자
+    	}
+    	function SetSelectBox(){
+    	    var schField = $("#calorie option:selected").val(); // title, board_title, reg_id
+    	}
+    	if(schField == "제목"){
+    	    $("#calorie").val("calorie").prop("selected", true);
+    	}
+
+    	function email_change() {
+			 var target = document.getElementById("adressBox");
+			
+			if (target.options[target.selectedIndex].text  == "직접입력") { // 직접입력
+				document.update.adress.disabled = false;
+				document.update.adress.value = "";
+				document.update.adress.focus();
+			}else if(target.options[target.selectedIndex].text  == "선택"){ // 선택
+				document.update.adress.disabled = true;
+				document.update.adress.value = "";
+			}else { // 그외
+				document.update.adress.disabled = false;
+				document.update.adress.value = target.options[target.selectedIndex].value;
+				alert('선택된 옵션 value 값=' + document.update.adress.value);
+			}
 		}
+    	
 	</script>
 </head>
 <body>
@@ -95,7 +119,6 @@
     		onSubmit='return checkValid()' enctype="multipart/form-data">    
     <input type="hidden" name="key" value="recipe" >
     <input type="hidden" name="methodName" value="update" >
-    <input type='hidden' name='modelNum' value="${search.modelNum}">
    	<div class="container recipe_regi">
     <div class="regi_center">
     <div class="regi_title">레시피 수정</div>
@@ -117,7 +140,7 @@
       <div>
       	<p class="cont_tit4">레시피 제목</p>
       	<span>
-      		<input type="text" name="post_title" id="post_title" value="" size="50" placeholder="예) 소고기 미역국 끓이기">
+      		<input type="text" name="post_title" id="post_title" value="${search.post.title}" size="50" placeholder="예) 소고기 미역국 끓이기">
       	</span>
 		<span>
       		<input type="file" name="recipe_thumbnail" id="recipe_thumbnail" style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'>
@@ -130,7 +153,7 @@
 	  <div>
 	  	<p class="cont_tit4">요리제목 </p>
 	  	<span>
-	  		<input type="text" name="recipes_name" id="recipes_name" size="50" placeholder="예) 미역국">
+	  		<input type="text" name="recipes_name" id="recipes_name" value="${search.recipe.name}"size="50" placeholder="예) 미역국">
 	  	</span>
 	  </div>
 	  <hr>
@@ -140,7 +163,7 @@
       <div>
       	<p class="cont_tit4">요리소개</p>
       	<span>
-      		<input type="text" name="post_content" id="post_content" size="80" placeholder="이 레시피의 탄생배경을 적어주세요. 예) 남편의 생일을 맞아 소고기 미역국을 끓여봤어요." style="height:80px; resize:none;"/>
+      		<input type="text" name="post_content" id="post_content" value="${search.post.contents}" size="80" placeholder="이 레시피의 탄생배경을 적어주세요. 예) 남편의 생일을 맞아 소고기 미역국을 끓여봤어요." style="height:80px; resize:none;"/>
       	</span>
       </div>
       <hr>
@@ -165,6 +188,9 @@
 								<option value="900">900kcal이상</option>
                             </select>
                         </div>
+                        <label for="calorie">칼로리</label>
+             
+                        
                         <div class="col-12 col-lg-3">
                             <select name="cookingTime" id="cookingTime" onchange="SetSelectBox();">
 								<option value="">시간</option>
