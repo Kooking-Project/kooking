@@ -126,7 +126,7 @@ public class UserDAOImpl implements UserDAO {
 	
 	@Override
 	public Entry<List<RecipeWrapper>, Pagenation> postSelectByUserNo(int userNo, Pagenation page) throws Exception {
-		Connection con = null; // 커넥션이 없다면 새로운 커넥션을 생성
+		Connection con = null; 
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String sql="SELECT * FROM (SELECT A.*,ROWNUM RNUM  FROM VIEW_RECIPES A WHERE USER_NO=?) WHERE RNUM BETWEEN ? AND ? ORDER BY POST_DATE DESC";

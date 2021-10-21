@@ -29,27 +29,23 @@ public class AdminDAOImpl implements AdminDAO {
 		}
 	}
 
-	public int getTotalUserNum(Connection con) throws Exception {
-		boolean isConnected = (con != null);
-		if (!isConnected) {
-			con = DBTestUtil.getConnection();
-		}
+	public int getTotalUserNum() throws Exception {
+		Connection con = null;
 		int result = 0;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
+			con = DBTestUtil.getConnection();
 			ps = con.prepareStatement("SELECT COUNT(*) FROM USERS");
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
+				if(rs.getInt(1)==0)
+					return 1;
 				result = rs.getInt(1);
 			}
 		} finally {
-			if (isConnected) {
-				DBTestUtil.dbClose(ps, rs);
-			} else {
-				DBTestUtil.dbClose(con, ps, rs);
-			}
+			DBTestUtil.dbClose(con, ps, rs);
 		}
 		return result;
 	}
@@ -63,7 +59,7 @@ public class AdminDAOImpl implements AdminDAO {
 		UserDTO user=null;
 		List<UserDTO> usertList = new ArrayList<UserDTO>();
 		
-		int count = getTotalUserNum(con);
+		int count = getTotalUserNum();
 		int totalPage = (int) Math.ceil(page.getPageSize() / count);
 		page.setPageCnt(totalPage);
 		page.setTotal(count);
