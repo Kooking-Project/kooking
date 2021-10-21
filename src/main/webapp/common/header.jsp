@@ -120,7 +120,7 @@
                     <nav class="classy-navbar justify-content-between" id="deliciousNav">
 
                         <!-- Logo -->
-                        <a class="nav-brand" href="${pageContext.request.contextPath}/index2.jsp"><img src="${pageContext.request.contextPath}/img/core-img/logo.png" alt=""></a>
+                        <a class="nav-brand" href="${pageContext.request.contextPath}/index.jsp"><img src="${pageContext.request.contextPath}/img/core-img/logo.png" alt=""></a>
 
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
@@ -138,8 +138,8 @@
                             <!-- Nav Start -->
                             <div class="classynav">
                                 <ul>
-                                    <li class="active"><a href="${pageContext.request.contextPath}/index2.jsp">Home</a></li>
-                                    <li><a href="#">분류별</a>
+                                    <li class="active"><a href="${pageContext.request.contextPath}/index.jsp">Home</a></li>
+                                    <!-- <li><a href="#">분류별</a>
                                         <div class="megamenu">
                                             <ul class="single-mega cn-col-4">
                                                 <li class="title">Category</li>
@@ -175,49 +175,29 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </li>
+                                    </li>-->
                                     <li><a href="#">국가별</a>
                                         <ul class="dropdown">
-                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">한식</a></li>
-                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">양식</a></li>
-                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">중식</a></li>
-                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">일식</a></li>
-                                            <li><a href="#">Dropdown</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="index.html">Home</a></li>
-                                                    <li><a href="about.html">About Us</a></li>
-                                                    <li><a href="blog-post.html">Blog Post</a></li>
-                                                    <li><a href="receipe-post.html">Receipe Post</a></li>
-                                                    <li><a href="contact.html">Contact</a></li>
-                                                    <li><a href="elements.html">Elements</a></li>
-                                                    <li><a href="#">Dropdown</a>
-                                                        <ul class="dropdown">
-                                                            <li><a href="index.html">Home</a></li>
-                                                            <li><a href="about.html">About Us</a></li>
-                                                            <li><a href="blog-post.html">Blog Post</a></li>
-                                                            <li><a href="receipe-post.html">Receipe Post</a></li>
-                                                            <li><a href="contact.html">Contact</a></li>
-                                                            <li><a href="elements.html">Elements</a></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
+                                            <li><a href="${pageContext.request.contextPath}/front?key=search&methodName=list">한식</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/front?key=search&methodName=list">양식</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/front?key=search&methodName=list">중식</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/front?key=search&methodName=list">일식</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="#">난이도별</a>
                                         <ul class="dropdown">
-                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">상</a></li>
-                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">중</a></li>
-                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">하</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/front?key=search&methodName=list">상</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/front?key=search&methodName=list">중</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/front?key=search&methodName=list">하</a></li>
                                         </ul>
                                     </li>
                                      <li><a href="#">평점별</a>
                                         <ul class="dropdown">
-                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">★★★★★</a></li>
-                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">★★★★☆</a></li>
-                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">★★★☆☆</a></li>
-                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">★★☆☆☆</a></li>
-                                            <li><a href="${pageContext.request.contextPath}/receipe/receipeList.jsp">★☆☆☆☆</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/front?key=search&methodName=list">★★★★★</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/front?key=search&methodName=list">★★★★☆</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/front?key=search&methodName=list">★★★☆☆</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/front?key=search&methodName=list">★★☆☆☆</a></li>
+                                            <li><a href="${pageContext.request.contextPath}/front?key=search&methodName=list">★☆☆☆☆</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="${pageContext.request.contextPath}/front">커뮤니티</a>

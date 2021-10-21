@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +34,7 @@
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="breadcumb-text text-center">
-                        <h2>해당 레시피 제목</h2>
+                        <h2>${wrapper.post.title}</h2>
                     </div>
                 </div>
             </div>
@@ -50,9 +51,9 @@
             <div class="row">
                 <div class="col-12">
                     <div class="receipe-slider owl-carousel">
-                        <img src="${pageContext.request.contextPath}/img/bg-img/bg5.jpg" alt="">
-                        <img src="${pageContext.request.contextPath}/img/bg-img/bg5.jpg" alt="">
-                        <img src="${pageContext.request.contextPath}/img/bg-img/bg5.jpg" alt="">
+                        <img src="${path}/img/${wrapper.recipe.thumbnail}" alt="">
+                        <img src="${path}/img/${wrapper.recipe.thumbnail}" alt="">
+                        <img src="${path}/img/${wrapper.recipe.thumbnail}" alt="">
                     </div>
                 </div>
             </div>
@@ -65,14 +66,14 @@
                 <div class="row">
                     <div class="col-12 col-md-8">
                         <div class="receipe-headline my-5">
-                            <span>ㅇㅇㅇ님의 레시피</span>
-                            <h2>해당 레시피 제목 <a href="#"> 수정</a><a href="#"> 삭제</a></h2>
+                            <span>${wrapper.post.userNicname}님의 레시피</span>
+                            <h2>${wrapper.post.title } <a href="#"> 수정</a><a href="#"> 삭제</a></h2>
                             
-                            <!-- 로그인시 보여야 하는 부분 -->
+                            
                             <div class="receipe-duration">
-                                <h6>30분 소요</h6>
-                                <h6>8 인분</h6>
-                                <h6>ㅇㅇㅇ kcal</h6>
+                            	<h6>요리이름 : ${wrapper.recipe.name}</h6>
+                                <h6>소요시간 : ${wrapper.recipe.cookingTime}</h6>
+                                <h6>칼로리 : ${wrapper.recipe.calorie}</h6>
                             </div>
                         </div>
                     </div>
@@ -93,80 +94,26 @@
 
                 <div class="row">
                     <div class="col-12 col-lg-8">
-                        <!-- Single Preparation Step -->
+                        <!-- 요리순서 -->
                         <div class="single-preparation-step d-flex">
                             <h4>01.</h4>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui. Suspendisse potenti. Vestibulum ac pellentesque tortor. Aenean congue sed metus in iaculis. Cras a tortor enim. Phasellus posuere vestibulum ipsum, eget lobortis purus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
-                        </div>
-                        <!-- Single Preparation Step -->
-                        <div class="single-preparation-step d-flex">
-                            <h4>02.</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui. Suspendisse potenti. Vestibulum ac pellentesque tortor. Aenean congue sed metus in iaculis. Cras a tortor enim. Phasellus posuere vestibulum ipsum, eget lobortis purus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
-                        </div>
-                        <!-- Single Preparation Step -->
-                        <div class="single-preparation-step d-flex">
-                            <h4>03.</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui. Suspendisse potenti. Vestibulum ac pellentesque tortor. Aenean congue sed metus in iaculis. Cras a tortor enim. Phasellus posuere vestibulum ipsum, eget lobortis purus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
-                        </div>
-                        <!-- Single Preparation Step -->
-                        <div class="single-preparation-step d-flex">
-                            <h4>04.</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui. Suspendisse potenti. Vestibulum ac pellentesque tortor. Aenean congue sed metus in iaculis. Cras a tortor enim. Phasellus posuere vestibulum ipsum, eget lobortis purus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
+                            <div class="process_imgbox" style="background-color:red; width:200px; height:200px; display:inline-block;"></div> <!-- 은지 - 이미지 넣는부분 만드려고 했어요 -->
                         </div>
                     </div>
 
+					
+				
                     <!-- Ingredients -->
                     <div class="col-12 col-lg-4">
                         <div class="ingredients">
                             <h4>재료</h4>
-
-                            <!-- Custom Checkbox -->
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                <label class="custom-control-label" for="customCheck1">4 Tbsp (57 gr) butter</label>
-                            </div>
-
-                            <!-- Custom Checkbox -->
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                <label class="custom-control-label" for="customCheck2">2 large eggs</label>
-                            </div>
-
-                            <!-- Custom Checkbox -->
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                <label class="custom-control-label" for="customCheck3">2 yogurt containers granulated sugar</label>
-                            </div>
-
-                            <!-- Custom Checkbox -->
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck4">
-                                <label class="custom-control-label" for="customCheck4">1 vanilla or plain yogurt, 170g container</label>
-                            </div>
-
-                            <!-- Custom Checkbox -->
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck5">
-                                <label class="custom-control-label" for="customCheck5">2 yogurt containers unbleached white flour</label>
-                            </div>
-
-                            <!-- Custom Checkbox -->
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck6">
-                                <label class="custom-control-label" for="customCheck6">1.5 yogurt containers milk</label>
-                            </div>
-
-                            <!-- Custom Checkbox -->
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck7">
-                                <label class="custom-control-label" for="customCheck7">1/4 tsp cinnamon</label>
-                            </div>
-
-                            <!-- Custom Checkbox -->
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck8">
-                                <label class="custom-control-label" for="customCheck8">1 cup fresh blueberries </label>
-                            </div>
+							<c:forEach items="${wrapper.ingredient}" var="ing" varStatus="state">
+								<div class="custom-control custom-checkbox">
+	                                <input type="checkbox" class="custom-control-input" id="customCheck1">
+	                                <label class="custom-control-label" for="customCheck1">${ing.seq}. ${ing.name } : ${ing.cacty}</label>
+	                            </div>
+							</c:forEach>
                         </div>
                     </div>
                 </div>

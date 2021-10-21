@@ -13,7 +13,7 @@
 <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 <!-- Title -->
-<title>Delicious - Food Blog Template | Blog Post</title>
+<title>레시피 리스트 | Kooking</title>
 
 <!-- Favicon -->
 <link rel="icon" href="${pageContext.request.contextPath}/img/core-img/kfavicon.ico">
@@ -34,7 +34,7 @@
 	<jsp:include page="../common/header.jsp" />
 
 	<!-- Receipe Post Search -->
-        <div class="receipe-post-search section-padding-20">
+    <!--     <div class="receipe-post-search section-padding-20">
             <div class="container">
                 <form action="#" method="post">
                     <div class="row">
@@ -65,85 +65,47 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div>-->
 	
 	<!-- ##### 레시피 목록 start ##### -->
+	<%--${recipeList} --%>
 	<div class="blog-area section-padding-80">
 		<div class="container">
 			<div class="row">
 				<div class="col-12 col-lg-8">
 					<div class="blog-posts-area">
-						
-						${recipeList}
-						<!-- Single Blog Area -->
-						<div class="single-blog-area mb-80">
-							<!-- Thumbnail -->
-							<div class="blog-thumbnail">
-								<a href="receipeRead.jsp"><img src="${path}/img/blog-img/1.jpg"
-									alt=""></a>
-								<!-- Post Date -->
-								<div class="post-date">
-									<a href="#"><span>05</span>April <br> 2018</a>
+					
+						<c:choose>
+						<c:when test="${empty requestScope.recipeList}">
+							등록된 게시물이 없습니다.
+						</c:when>
+						<c:otherwise>
+						<c:forEach items="${requestScope.recipeList}" var="recipe">
+							
+							  <%--${recipe.no} / ${recipe.postNo} / ${recipe.nation}<br>--%>
+							 <div class="single-blog-area mb-80">
+								<!-- Thumbnail -->
+								<div class="blog-thumbnail">
+									<a href="${path}/front?key=search&methodName=view&no=${recipe.post.no}"><img src="${path}/img/${recipe.thumbnail}"
+										alt=""></a>
+									<!-- Post Date -->
+									<div class="post-date"><!--  -->
+										<a href="#"><span>05</span>April <br> 2018</a>
+									</div>
+								</div>
+								<!-- Content -->
+								<div class="blog-content">
+									<a href="${path}/front?key=search&methodName=view&no=${recipe.post.no}" class="post-title">${recipe.name}</a>
+									<div class="meta-data">
+										by <a href="#">${recipe.post.userNicname}</a> | ${recipe.nation}
+									</div>
+									<a href="${path}/front?key=search&methodName=view&no=${recipe.post.no}"><p>레시피 설명 : ${recipe.post.contents}</p></a>
+									<a href="${path}/front?key=search&methodName=view&no=${recipe.post.no}" class="btn delicious-btn">레시피 보러가기</a>
 								</div>
 							</div>
-							<!-- Content -->
-							<div class="blog-content">
-								<a href="receipeRead.jsp" class="post-title">레시피 이름</a>
-								<div class="meta-data">
-									by <a href="#">작성자명(클릭시 작성자 프로필 이동)</a> | 한식/양식/중식/일식
-								</div>
-								<a href="receipeRead.jsp"><p>레시피 설명 : 버섯으로 관자 느낌 내는 방법!
-										새송이버섯간장버터구이 만들기</p></a> <a href="receipeRead.jsp"
-									class="btn delicious-btn">레시피 보러가기</a>
-							</div>
-						</div>
-
-						<!-- Single Blog Area -->
-						<div class="single-blog-area mb-80">
-							<!-- Thumbnail -->
-							<div class="blog-thumbnail">
-								<a href="receipeRead.jsp"><img src="${pageContext.request.contextPath}/img/blog-img/1.jpg"
-									alt=""></a>
-								<!-- Post Date -->
-								<div class="post-date">
-									<a href="#"><span>05</span>April <br> 2018</a>
-								</div>
-							</div>
-							<!-- Content -->
-							<div class="blog-content">
-								<a href="receipeRead.jsp" class="post-title">레시피 이름</a>
-								<div class="meta-data">
-									by <a href="#">작성자명(클릭시 작성자 프로필 이동)</a> | 한식/양식/중식/일식
-								</div>
-								<a href="receipeRead.jsp"><p>레시피 설명 : 버섯으로 관자 느낌 내는 방법!
-										새송이버섯간장버터구이 만들기</p></a> <a href="receipeRead.jsp"
-									class="btn delicious-btn">레시피 보러가기</a>
-							</div>
-						</div>
-
-						<!-- Single Blog Area -->
-						<div class="single-blog-area mb-80">
-							<!-- Thumbnail -->
-							<div class="blog-thumbnail">
-								<a href="receipeRead.jsp"><img src="${pageContext.request.contextPath}/img/blog-img/1.jpg"
-									alt=""></a>
-								<!-- Post Date -->
-								<div class="post-date">
-									<a href="#"><span>05</span>April <br> 2018</a>
-								</div>
-							</div>
-							<!-- Content -->
-							<div class="blog-content">
-								<a href="receipeRead.jsp" class="post-title">레시피 이름</a>
-								<div class="meta-data">
-									by <a href="#">작성자명(클릭시 작성자 프로필 이동)</a> | 한식/양식/중식/일식
-								</div>
-								<a href="receipeRead.jsp"><p>레시피 설명 : 버섯으로 관자 느낌 내는 방법!
-										새송이버섯간장버터구이 만들기</p></a> 
-								<a href="receipeRead.jsp" class="btn delicious-btn">레시피 보러가기</a>
-							</div>
-						</div>
-
+						</c:forEach>
+						</c:otherwise>
+						</c:choose>
 					</div>
 
 					<nav aria-label="Page navigation example">
