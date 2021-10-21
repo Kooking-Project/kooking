@@ -40,7 +40,7 @@ public class BoardDAO {
 		try {
 			//INSERT INTO POSTS(POST_NO,POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE) VALUES(POST_NO_SEQ.NEXTVAL,?,?,?,?,0,SYSDATE)
 			String sql = proFile.getProperty("query.insertPost");
-			//INSERT INTO POSTS(POST_NO,POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE) VALUES(POST_NO_SEQ.NEXTVAL,?,?,?,?,0,SYSDATE)
+			//INSERT INTO POSTS(POST_NO, POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE) VALUES(POST_NO_SEQ.NEXTVAL,?,?,?,?,0,SYSDATE)
 			
 			// 게시글 번호빼고 저장
 			st = con.prepareStatement(sql);
@@ -50,9 +50,9 @@ public class BoardDAO {
 			st.setString(4, postDTO.getContents());
 
 			result = st.executeUpdate();
+			
 			System.out.println(result);
 		} finally {
-
 
 			if (isConnected) {
 				DbUtil.dbClose(st, rs);
@@ -109,22 +109,21 @@ public class BoardDAO {
 		}
 		PreparedStatement st = null;
 		int result = 0;
-		try {
+		
 			//String sql = proFile.getProperty("query.updatePost");
 			//DELETE FROM POSTS WHERE POST_NO=?" + "AND USER_NO = ?
-			String sql = "DELETE FROM POSTS WHERE POST_NO=?" + "AND USER_NO = ?";
+			String sql = "DELETE FROM POSTS WHERE POST_NO=?";
 			st = con.prepareStatement(sql);
 			st.setInt(1, postNo);
-			st.setInt(2, userNo);
 
 			result = st.executeUpdate();
-		} finally {
+			
 			if (isConnected) {
 				DbUtil.dbClose(st);
 			} else {
 				DbUtil.dbClose(con, st);
 			}
-		}
+
 		return result;
 	}
 
@@ -143,9 +142,7 @@ public class BoardDAO {
 			String sql = proFile.getProperty("post.insertPost");
 			// 게시글 번호빼고 저장
 
-			st = con.prepareStatement("INSERT INTO COMMENTS(COMMENT_NO, USER_NO, POST_NO, COMMENT_CONTENTS, COMMENT_DATE, COMMENT_TOP, COMMENT_DELETE_YN)"
-							+ " VALUES(COMMENT_NO_SEQ.NEXTVAL, ?, ?, ?, SYSDATE, ?, 0)");
-
+			st = con.prepareStatement("INSERT INTO COMMENTS(COMMENT_NO, USER_NO, POST_NO, COMMENT_CONTENTS, COMMENT_DATE, COMMENT_TOP, COMMENT_DELETE_YN) VALUES(COMMENT_NO_SEQ.NEXTVAL, ?, ?, ?, SYSDATE, ?, 0)");
 			st.setInt(1, postDTO.getUserNo());
 			st.setInt(2, postDTO.getPostNo());
 			st.setString(3, postDTO.getContent());
@@ -238,8 +235,14 @@ public class BoardDAO {
 		ResultSet rs = null;
 		List<CommentDTO> comments = new ArrayList<CommentDTO>();
 		try {
-			String sql = "SELECT COMMENT_NO, COMMENTS.USER_NO, USER_NICNAME, POST_NO, COMMENT_CONTENTS, COMMENT_DATE, COMMENT_TOP, COMMENT_DELETE_YN "
-					+ "FROM COMMENTS, USERS WHERE COMMENTS.USER_NO = USERS.USER_NO AND POST_NO = ? ORDER BY COMMENT_DATE";
+			String sql = "SELECT * FROM (SELECT COMMENT_NO, COMMENTS.USER_NO, USER_NICNAME, POST_NO, COMMENT_CONTENTS, COMMENT_DATE, COMMENT_TOP, COMMENT_DELETE_YN"
+					+ " FROM COMMENTS, USERS WHERE COMMENTS.USER_NO = USERS.USER_NO AND POST_NO = ? ORDER BY COMMENT_DATE)"
+					+ " START WITH COMMENT_TOP IS NULL"
+					+ " CONNECT BY PRIOR COMMENT_NO = COMMENT_TOP"
+					+ " ORDER BY COMMENT_NO ASC";
+			
+			/*String sql = "SELECT COMMENT_NO, COMMENTS.USER_NO, USER_NICNAME, POST_NO, COMMENT_CONTENTS, COMMENT_DATE, COMMENT_TOP, COMMENT_DELETE_YN "
+					+ "FROM COMMENTS, USERS WHERE COMMENTS.USER_NO = USERS.USER_NO AND POST_NO = ? ORDER BY COMMENT_DATE";*/
 			// TODO : SQL USER_NICNAME 오타 확인
 			
 			st = con.prepareStatement(sql);
