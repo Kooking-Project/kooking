@@ -10,6 +10,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 import com.kooking.controller.Controller;
+import com.kooking.dao.DomainInitDAO;
 
 @WebListener
 public class HandlerMappingListener implements ServletContextListener {
@@ -41,6 +42,9 @@ public class HandlerMappingListener implements ServletContextListener {
 	    	application.setAttribute("map", map);
 	    	application.setAttribute("clzMap", clzMap);
 	    	application.setAttribute("path", application.getContextPath());
+	    	
+	    	DomainInitDAO initDAO = new DomainInitDAO();
+	    	application.setAttribute("category", initDAO.getRecipeDomains());
 	    	
     	}catch (Exception ex) {
 			ex.printStackTrace();
