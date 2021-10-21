@@ -45,7 +45,8 @@
 	flex: 1 1 auto;
 	min-height: 1px;
 	padding: 1rem;
-	height: 351.63px;
+	height: 450px;
+	
 }
 
 .gutters-sm {
@@ -230,11 +231,11 @@ tr {
 
 			<!-- 어드민이면 정지 기능 보여라 -->
 
-			<c:if test="${userDTO.status} == 10">
+			<c:if test="${userDTO.status == 10}">
 
 				<div aria-label="breadcrumb" class="main-breadcrumb">
 					<div class="breadcrumb">
-						<span style="text-align: left">유저 Status 메뉴</span>
+						<span style="text-align: left">유저 Status 메뉴</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 						<form name=Form method=post action="/front">
 							<c:choose>
@@ -257,11 +258,11 @@ tr {
 										style="background-color: green">해제</button>
 								</c:when>
 							</c:choose>
-
 						</form>
 					</div>
 				</div>
 			</c:if>
+			
 			<!-- Breadcrumb -->
 			<div aria-label="breadcrumb" class="main-breadcrumb">
 				<div class="breadcrumb">

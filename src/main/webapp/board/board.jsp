@@ -359,17 +359,6 @@ input#search-bar {
 		</form>
 
 	</div>
-
-	<div class="page-box">
-		<a class="btn" href="#">&lt;&lt;</a> <a class="btn" href="#">&lt;</a>
-
-		<!--  숫자 버튼  -->
-		<a class="btn number" href="#">1</a> <a class="btn number" href="#">2</a>
-		<a class="btn number on" href="#">3</a> <a class="btn number" href="#">4</a>
-		<a class="btn number" href="#">5</a> <a class="btn" href="#">&gt;</a>
-
-		<a class="btn" href="#">&gt;&gt;</a>
-	</div>
 	
 	  <jsp:useBean class="com.kooking.paging.Pagenation" id="p"/> 
     
