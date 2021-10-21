@@ -70,7 +70,7 @@ public class PostController implements Controller {
 			System.out.println("0임");
 		}
 		
-		mv.setViewName("board/boardWrite.jsp");
+		mv.setViewName("front?key=post&methodName=selectPost");
 
 		// mv.setViewName("boardTest.jsp");
 		mv.setRedirect(true);
@@ -128,9 +128,10 @@ public class PostController implements Controller {
 
 		int result = postService.updatePost(dto);
 
-		mv.setViewName("board/board.jsp");
+		mv.setViewName("front?key=post&methodName=selectPostDetail&postNo="+postNo);
+		// front?key=post&methodName=selectPost
 
-		mv.setRedirect(false);
+		mv.setRedirect(true);
 
 		return mv;
 	}
@@ -146,25 +147,25 @@ public class PostController implements Controller {
 		// HttpSession session = request.getSession();
 		// int userNo = (int)session.getAttribute("loginUserNo"); //회원번호
 
-		int postNo; // 게시물 번호
-		
-		if(request.getParameter("postNo") == null) {
-			postNo=3;
+		int postNo;
+		if(request.getParameter("postNo") == null || request.getParameter("postNo") == "") {
+			postNo = 3;
 		} else {
 			postNo = Integer.parseInt(request.getParameter("postNo"));
 		}
 		
 		int user;
-		if(request.getParameter("user") == null) {
+		if(request.getParameter("user") == null || request.getParameter("user") == "") {
 			user=3;
 		} else {
-			user = Integer.parseInt(request.getParameter("postNo"));
+			user = Integer.parseInt(request.getParameter("user"));
 		}
 		
 		int result = postService.deletePost(postNo, user, null); // 이거는 좀 고민...
 
-		mv.setViewName("board/boardRead.jsp");
-		mv.setRedirect(false);
+		System.out.println("삭제완료?");
+		mv.setViewName("front?key=post&methodName=selectPost");
+		mv.setRedirect(true);
 
 		return mv;
 	}
@@ -175,8 +176,7 @@ public class PostController implements Controller {
 	public ModelAndView selectPostDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
 
-		//int postNo = Integer.parseInt(request.getParameter("postNo")); // 게시물 번호
-		int postNo = 72;
+		int postNo = Integer.parseInt(request.getParameter("postNo")); // 게시물 번호
 		
 		PostDTO postDTO = postService.selectPostDetail(postNo);
 
@@ -346,15 +346,15 @@ public class PostController implements Controller {
 		
 		int topNullCheck;
 
-		if (user == null) {
+		if (user == null || user=="") {
 			user = "2";
 			System.out.println("userNull");
 		}
-		if (postNo == null) {
+		if (postNo == null|| postNo=="") {
 			postNo = "14";
 			System.out.println("postNoNull");
 		}
-		if (comments == null) {
+		if (comments == null|| comments=="") {
 			comments = "하이염";
 			System.out.println("userNull");
 		}
