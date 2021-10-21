@@ -34,30 +34,43 @@ public class PostController implements Controller {
 	public ModelAndView insertPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
 
-		// HttpSession session = request.getSession();
-		// int userNo = (int) session.getAttribute("loginUserNo"); //회원번호
-
+		//HttpSession session = request.getSession();
+		//int userNo = (int) session.getAttribute("userDTO"); //회원번호
+		int userNo = 2;
+		
 		// 닉네임 session에 넣어주면 jsp에서 조회 후 사용
 
-		int type = Integer.parseInt(request.getParameter("type"));
-		int user = Integer.parseInt(request.getParameter("user"));
+		//int type = Integer.parseInt(request.getParameter("boardCategory")); 안들어와..
+		int type=3;
+		//int user = Integer.parseInt(request.getParameter("user"));
 		String title = request.getParameter("title");
+		
+		if(title==null) {
+			//title="가나다라맙사";
+			System.out.println("title 널");
+		}
+		
 		String contents = request.getParameter("contents");
-		String nickName = request.getParameter("nickName");
-
+		
+		if(contents==null) {
+			//contents="아자차카타파하";
+			System.out.println("contents 널");
+		}
+		
+		//String nickName = request.getParameter("nickName");
+		String nickName = "박성하";
+		
+		//int postTypeNo, int userNo, String title, String contents, int counts, String userNicname
+		
 		// 사용자는 session 번호 알아내면 넣기
-		PostDTO dto = new PostDTO(type, user, title, contents, 0, nickName);
+		PostDTO dto = new PostDTO(type, userNo, title, contents, 0, nickName);
 
 		int result = postService.insertPost(dto);
-
-		// 결과에 따른 성공, 실패 나누기
-		if (result != 0) {
-			// 성공 페이지로 이동? 아니면 팝업창?
-			mv.setViewName("front");
-		} else {
-			// 실패
-			mv.setViewName("front");
+		if(result == 0) {
+			System.out.println("0임");
 		}
+		
+		mv.setViewName("board/boardWrite.jsp");
 
 		// mv.setViewName("boardTest.jsp");
 		mv.setRedirect(true);
@@ -71,14 +84,19 @@ public class PostController implements Controller {
 	public ModelAndView selectBeforePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
 
-		// HttpSession session = request.getSession();
-		// int userNo = (int)session.getAttribute("loginUserNo"); //회원번호
-
-		int postNo = Integer.parseInt(request.getParameter("postNo"));
+		//int postNo = Integer.parseInt(request.getParameter("postNo"));
+		int postNo = 75;
 
 		PostDTO beforeDTO = postService.selectPostDetail(postNo); // 수정하기전 사용자 기존 게시글 정보
 
+		/*
+		 * private int no; //게시글 번호 private int postTypeNo; //게시글 타입 private int userNo;
+		 * //사용자 번호 (작성자) private String title; //게시글 제목 private String contents; //게시글
+		 * 내용 private int counts; //게시글 조회수 private String date; //게시글 작성일 private
+		 * String userNicname; //사용자 닉네임
+		 */		
 		request.setAttribute("beforePostDTO", beforeDTO);
+		request.setAttribute("beforeTitle", beforeDTO.getTitle());
 
 		mv.setViewName("board/boardUpdate.jsp");
 		mv.setRedirect(false);
@@ -128,32 +146,44 @@ public class PostController implements Controller {
 		// HttpSession session = request.getSession();
 		// int userNo = (int)session.getAttribute("loginUserNo"); //회원번호
 
-		int postNo = Integer.parseInt(request.getParameter("postNo")); // 게시물 번호
-		int user = Integer.parseInt(request.getParameter("user"));
-
+		int postNo; // 게시물 번호
+		
+		if(request.getParameter("postNo") == null) {
+			postNo=3;
+		} else {
+			postNo = Integer.parseInt(request.getParameter("postNo"));
+		}
+		
+		int user;
+		if(request.getParameter("user") == null) {
+			user=3;
+		} else {
+			user = Integer.parseInt(request.getParameter("postNo"));
+		}
+		
 		int result = postService.deletePost(postNo, user, null); // 이거는 좀 고민...
 
-		mv.setViewName("front");
+		mv.setViewName("board/boardRead.jsp");
 		mv.setRedirect(false);
 
 		return mv;
 	}
 
 	/**
-	 * 게시판 클릭했을 때 해당 게시물 하나보여주기 - 비회원, 회원 공통 사용자 닉네임이 들어간 postDTO & CommentDTO
+	 * 게시판 클릭했을 때 해당 게시물 하나보여주기 - 비회원, 회원 공통 사용자 닉네임이 들어간 postDTO & CommentDTO - 확인
 	 */
 	public ModelAndView selectPostDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
 
-		int postNo = Integer.parseInt(request.getParameter("postNo")); // 게시물 번호
-
+		//int postNo = Integer.parseInt(request.getParameter("postNo")); // 게시물 번호
+		int postNo = 72;
+		
 		PostDTO postDTO = postService.selectPostDetail(postNo);
 
 		request.setAttribute("postDTO", postDTO);
 
 		List<CommentDTO> commentDTO = postService.selectComments(postNo); // 이거 어케쓸지
-
-		request.setAttribute("commentDTO", commentDTO);
+		//request.setAttribute("commentDTO", commentDTO);
 
 		mv.setViewName("board/boardRead.jsp");
 		mv.setRedirect(false);
@@ -209,7 +239,7 @@ public class PostController implements Controller {
 		request.setAttribute("postList", entry.getKey());
 		request.setAttribute("page", entry.getValue());
 
-		mv.setViewName("board.jsp");
+		mv.setViewName("board/board.jsp");
 		mv.setRedirect(false);
 		return mv;
 	}
@@ -236,7 +266,7 @@ public class PostController implements Controller {
 		request.setAttribute("postList", entry.getKey());
 		request.setAttribute("page", entry.getValue());
 
-		mv.setViewName("board.jsp");
+		mv.setViewName("board/board.jsp");
 		mv.setRedirect(false);
 
 		return mv;
@@ -262,7 +292,7 @@ public class PostController implements Controller {
 		request.setAttribute("postList", entry.getKey());
 		request.setAttribute("page", entry.getValue());
 
-		mv.setViewName("board.jsp");
+		mv.setViewName("board/board.jsp");
 		mv.setRedirect(false);
 
 		return mv;
@@ -296,14 +326,8 @@ public class PostController implements Controller {
 
 		return mv;
 	}
-
-	/**
-	 * 게시판 타입으로 검색 - 굳이?
-	 */
-	// public ModelAndView searchPostType(HttpServletRequest request,
-	// HttpServletResponse response) throws Exception {}
-
-	// ------------------------------------------------------------------------------------------------------------------
+	
+//----------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * 댓글 추가 - 회원이거나 관리자(?)일 때 댓글 추가 메소드 접근가능.
@@ -318,7 +342,7 @@ public class PostController implements Controller {
 		String user = request.getParameter("user");
 		String postNo = request.getParameter("postNo");
 		String top = request.getParameter("top");
-		String comments = request.getParameter("contents"); //널이 안들어갈꺼라서 상관 없지 않나?
+		String comments = request.getParameter("comments"); //널이 안들어갈꺼라서 상관 없지 않나?
 		
 		int topNullCheck;
 
@@ -330,23 +354,27 @@ public class PostController implements Controller {
 			postNo = "14";
 			System.out.println("postNoNull");
 		}
+		if (comments == null) {
+			comments = "하이염";
+			System.out.println("userNull");
+		}
+		
 		if (top==null) {
 			topNullCheck = -1;
 		} else {
 			topNullCheck = Integer.parseInt(top);
 		}
-		if(comments == null) {
-			comments="아아";
-			System.out.println("commentNull");
-		}
+		
 		// int no, int postNo, int userNo, int top, String content, String date, boolean
 		// deleteYN
 
 		// 사용자는 session 번호 알아내면 넣기
-		CommentDTO dto = new CommentDTO(0, Integer.parseInt(postNo), Integer.parseInt(user), topNullCheck,
-				comments, "", true);
+		CommentDTO dto = new CommentDTO(0, Integer.parseInt(postNo), Integer.parseInt(user), /*topNullCheck*/-1, comments, "", true);
 
-		int result = postService.insertComment(dto);
+		int result2 = postService.insertComment(dto);
+		if(result2 == 0) {
+			System.out.println(0);
+		}
 
 		mv.setViewName("board/boardRead.jsp");
 		// mv.setViewName("front?key=post&methodName=selectPostDetail&postNo=" +

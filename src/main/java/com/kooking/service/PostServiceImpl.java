@@ -28,10 +28,6 @@ public class PostServiceImpl implements PostService {
 
 		result = boardDAO.insertPost(postDTO, null);
 
-		if (result == 0) {
-			throw new KookingException("게시물이 안들어갔어....");
-		}
-
 		return result;
 	}
 
