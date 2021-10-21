@@ -73,6 +73,8 @@ public class UserController implements Controller {
 	 */
 	public ModelAndView userUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+
+		
 		String no = request.getParameter("no");
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
@@ -80,6 +82,16 @@ public class UserController implements Controller {
 		String nickName = request.getParameter("nickName");
 		String gender = request.getParameter("gender");
 		String filesystemName = request.getParameter("file");
+		
+		System.out.println("no : "+no+" /");
+		System.out.println("id : "+id+" /");
+		System.out.println("pwd : "+pwd+" /");
+		System.out.println("newPwd : "+newPwd+" /");
+		System.out.println("nickName : "+nickName+" /");
+		System.out.println("gender : "+gender+" /");
+		System.out.println("filesystemName : "+filesystemName+" /");
+		
+
 
 		UserDTO userDTO = null;
 		if(newPwd.equals("")) {
