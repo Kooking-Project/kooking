@@ -101,7 +101,7 @@
 		                            <a href="${pageContext.request.contextPath}/receipe/receipeWrite.jsp">글쓰기</a>
 		   				 		</c:when>
 						 		<c:otherwise>
-						 			<span>${userDTO.nickName}님 환영합니다!!</span>
+						 			<span style="font-weight:bold">${userDTO.nickName}님 환영합니다!!</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						 			<a href="${pageContext.request.contextPath}/receipe/receipeWrite.jsp">글쓰기</a>
 						 			<a href="${pageContext.request.contextPath}/front?key=user&methodName=logout">로그아웃</a>
 						 		</c:otherwise>

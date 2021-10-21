@@ -172,12 +172,12 @@ a {
 
 						<tr>
 							<th class="success">제목</th>
-							<td colspan="6">${postDTO.title}</td>
+							<td colspan="6" style="text-align:left">${postDTO.title}</td>
 						</tr>
 
 						<tr>
 							<th class="success">글 내용</th>
-							<td colspan="6">${postDTO.contents}</td>
+							<td colspan="6"  style="text-align:left">${postDTO.contents}</td>
 						</tr>
 
 						<!-- 댓글 -->
