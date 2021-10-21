@@ -84,8 +84,8 @@ public class PostController implements Controller {
 	public ModelAndView selectBeforePost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
 
-		//int postNo = Integer.parseInt(request.getParameter("postNo"));
-		int postNo = 75;
+		int postNo = Integer.parseInt(request.getParameter("postNo"));
+		//int postNo = 75;
 
 		PostDTO beforeDTO = postService.selectPostDetail(postNo); // 수정하기전 사용자 기존 게시글 정보
 
@@ -183,7 +183,7 @@ public class PostController implements Controller {
 		request.setAttribute("postDTO", postDTO);
 
 		List<CommentDTO> commentDTO = postService.selectComments(postNo); // 이거 어케쓸지
-		//request.setAttribute("commentDTO", commentDTO);
+		request.setAttribute("commentDTO", commentDTO);
 
 		mv.setViewName("board/boardRead.jsp");
 		mv.setRedirect(false);
@@ -266,7 +266,7 @@ public class PostController implements Controller {
 		request.setAttribute("postList", entry.getKey());
 		request.setAttribute("page", entry.getValue());
 
-		mv.setViewName("board/board.jsp");
+		mv.setViewName("front?key=post&methodName=selectPostType");
 		mv.setRedirect(false);
 
 		return mv;
@@ -306,7 +306,7 @@ public class PostController implements Controller {
 	public ModelAndView searchPostName(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
 
-		String postName = request.getParameter("postName");
+		String postName = request.getParameter("search-container");
 
 		String pageSize = request.getParameter("pageSize"); // 한 페이지에 보여질 게시글 수
 		String pageNo = request.getParameter("pageNo"); // 현재 페이지
@@ -321,7 +321,7 @@ public class PostController implements Controller {
 		request.setAttribute("postList", entry.getKey());
 		request.setAttribute("page", entry.getValue());
 
-		mv.setViewName("board.jsp");
+		mv.setViewName("board/board.jsp");
 		mv.setRedirect(false);
 
 		return mv;
@@ -351,15 +351,15 @@ public class PostController implements Controller {
 			System.out.println("userNull");
 		}
 		if (postNo == null|| postNo=="") {
-			postNo = "14";
+			//postNo = "14";
 			System.out.println("postNoNull");
 		}
 		if (comments == null|| comments=="") {
-			comments = "하이염";
-			System.out.println("userNull");
+			//comments = "하이염";
+			System.out.println("comments");
 		}
 		
-		if (top==null) {
+		if (top==null || top == "") {
 			topNullCheck = -1;
 		} else {
 			topNullCheck = Integer.parseInt(top);
@@ -369,14 +369,14 @@ public class PostController implements Controller {
 		// deleteYN
 
 		// 사용자는 session 번호 알아내면 넣기
-		CommentDTO dto = new CommentDTO(0, Integer.parseInt(postNo), Integer.parseInt(user), /*topNullCheck*/-1, comments, "", true);
+		CommentDTO dto = new CommentDTO(0, Integer.parseInt(postNo), Integer.parseInt(user), topNullCheck, comments, "", true);
 
-		int result2 = postService.insertComment(dto);
-		if(result2 == 0) {
+		int result = postService.insertComment(dto);
+		if(result == 0) {
 			System.out.println(0);
 		}
 
-		mv.setViewName("board/boardRead.jsp");
+		mv.setViewName("front?key=post&methodName=selectPostDetail&postNo=" + postNo);
 		// mv.setViewName("front?key=post&methodName=selectPostDetail&postNo=" +
 		// postNo);
 		mv.setRedirect(false);

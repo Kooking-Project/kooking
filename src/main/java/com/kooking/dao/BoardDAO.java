@@ -139,16 +139,31 @@ public class BoardDAO {
 		ResultSet rs = null;
 		int result = 0;
 		try {
-			String sql = proFile.getProperty("post.insertPost");
+			//String sql = proFile.getProperty("post.insertPost");
 			// 게시글 번호빼고 저장
+        System.out.println("postDTO.getUserNo() = " + postDTO.getUserNo());
+        System.out.println("postDTO.getPostNo() = " + postDTO.getPostNo());
+        System.out.println("postDTO.getContent() = " + postDTO.getContent());
+        System.out.println("postDTO.getTop() = " + postDTO.getTop());
+        
+        if(postDTO.getTop()==0) {
+        	st = con.prepareStatement("INSERT INTO COMMENTS(COMMENT_NO, USER_NO, POST_NO, COMMENT_CONTENTS, COMMENT_DATE, COMMENT_TOP, COMMENT_DELETE_YN) VALUES(COMMENT_NO_SEQ.NEXTVAL, ?, ?, ?, SYSDATE, null, 0)");
+			st.setInt(1, postDTO.getUserNo());
+			st.setInt(2, postDTO.getPostNo());
+			st.setString(3, postDTO.getContent());
 
-			st = con.prepareStatement("INSERT INTO COMMENTS(COMMENT_NO, USER_NO, POST_NO, COMMENT_CONTENTS, COMMENT_DATE, COMMENT_TOP, COMMENT_DELETE_YN) VALUES(COMMENT_NO_SEQ.NEXTVAL, ?, ?, ?, SYSDATE, ?, 0)");
+			result = st.executeUpdate();
+        }else {
+        	st = con.prepareStatement("INSERT INTO COMMENTS(COMMENT_NO, USER_NO, POST_NO, COMMENT_CONTENTS, COMMENT_DATE, COMMENT_TOP, COMMENT_DELETE_YN) VALUES(COMMENT_NO_SEQ.NEXTVAL, ?, ?, ?, SYSDATE, ?, 0)");
 			st.setInt(1, postDTO.getUserNo());
 			st.setInt(2, postDTO.getPostNo());
 			st.setString(3, postDTO.getContent());
 			st.setInt(4, postDTO.getTop());
 
 			result = st.executeUpdate();
+        }
+        
+			
 
 		} finally {
 
