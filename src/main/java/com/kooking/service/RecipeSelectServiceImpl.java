@@ -36,4 +36,10 @@ public class RecipeSelectServiceImpl implements RecipeSelectService{
 		return dao.getRecipeList(page);
 	}
 	
+	@Override
+	public double getRecipeScore(int postNo) throws Exception{
+		double d = dao.getRecipeScore(postNo);
+		return Math.round(d*10)/10.0;
+	}
+	
 }

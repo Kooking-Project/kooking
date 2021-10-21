@@ -41,7 +41,7 @@
 	height: 390px;
 	margin: 0 0 16px 16px;
 	position: relative;
-	border: 1px solid #e1e1e1;
+	border: 1px solid #7c7c7c;
 	box-sizing: border-box;
 	float: left;
 	background-color: #fff;
@@ -219,8 +219,13 @@ button, a {
 
 .pagination-wrapper{
 	text-align:center;
+	padding:30px;
 
 }
+
+    .active{
+    	color:tomato;
+    }
 
 </style>
 </head>
@@ -281,13 +286,8 @@ button, a {
 					</div>
 					<div class="option-col">
 						<div class="option-svg">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-								fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-  <path
-									d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
-</svg>
 						</div>
-						<div class="option-value">100명</div>
+						<div class="option-value">${recipe.type}</div>
 					</div>
 				</div></li>
 </c:forEach>
@@ -295,7 +295,14 @@ button, a {
 		</ul>
 <div class="pagination-wrapper">
   	<c:forEach var="idx" begin="1" end="${page.pageCnt}" step="1">
-		<a class="pagination-link" href="${path}/front?key=search&methodName=list&pageNum=${idx}">${idx }</a></span>
+  	<c:choose>
+  		<c:when test="${page.pageNo eq idx}">
+  		<span><a class="pagination-link active" href="${path}/front?key=search&methodName=list&pageNum=${idx}">${idx }</a></span>
+  		</c:when>
+  		<c:otherwise>
+  		<span><a class="pagination-link" href="${path}/front?key=search&methodName=list&pageNum=${idx}">${idx }</a></span>
+  		</c:otherwise>
+  	</c:choose>
 		</c:forEach>
 </div>
 

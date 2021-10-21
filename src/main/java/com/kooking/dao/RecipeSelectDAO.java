@@ -51,6 +51,14 @@ public interface RecipeSelectDAO {
 	 * @throws Exception
 	 */
 	Entry<List<RecipeDTO>, Pagenation> getRecipeList(Pagenation page) throws Exception;
+
+	
+	/**
+	 * 레시피의 평점을 가져오는 메소드
+	 * @param postNo
+	 * @return
+	 */
+	double getRecipeScore(int postNo) throws Exception;
 	
 	
 

@@ -45,6 +45,7 @@ public class RecipeSelectController implements Controller{
 		int recipeNo = Integer.parseInt(request.getParameter("no"));
 		RecipeWrapper wrapper = service.search(recipeNo);
 		request.setAttribute("wrapper", wrapper);
+		request.setAttribute("score", service.getRecipeScore(recipeNo));
 		
 		return new ModelAndView("recipe/recipeRead.jsp");
 	}

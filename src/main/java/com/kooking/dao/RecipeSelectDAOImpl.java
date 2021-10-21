@@ -3,6 +3,7 @@ package com.kooking.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
@@ -517,6 +518,28 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 			result = ps.executeUpdate();
 		} finally {
 			DbUtil.dbClose(con, ps);
+		}
+		return result;
+	}
+	
+	@Override
+	public double getRecipeScore(int postNo) throws Exception {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		double result = 0;
+		String sql = "SELECT NVL(AVG(RECOMMEND_SCORE),-1) AS SCORE FROM RECOMMENDS WHERE POST_NO = ?";
+		try {
+			con = DbUtil.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, postNo);
+
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = (rs.getDouble(1));
+			}
+		} finally {
+			DbUtil.dbClose(con, ps, rs);
 		}
 		return result;
 	}

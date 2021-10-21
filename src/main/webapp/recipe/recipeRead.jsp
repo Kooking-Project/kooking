@@ -18,10 +18,10 @@
     <title>receipeRead</title>    
     
     <style>
-    .single-preparation-step{
-    	
+
+    .contact-form-area{
+    	padding:30px;
     }
-    
     </style>
 </head>
 
@@ -91,7 +91,20 @@
                     <div class="col-12 col-md-4">
                         <div class="receipe-ratings text-right my-5">
                             <div class="ratings">
-                            ${wrapper.recipe.score }
+                            <script>
+                            	$(function(){
+                            		let l = ${score};
+                            		if(l<=-1){
+                            			$(".ratings").text("아직 평가가 없어요!");
+                            		}else{
+                            			for(let i=0; i<parseInt(l); i++){
+                            				$(".ratings").append($('<i class="fa fa-star" aria-hidden="true"></i>'));
+                            			}
+                            			
+                            		}
+                            	})
+                            
+                            </script>
                             </div>
                             <a href="#" class="btn delicious-btn">즐겨찾기 추가</a>
                         </div>
