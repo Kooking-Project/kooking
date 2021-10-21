@@ -256,13 +256,12 @@ span.fa-users:after {
 /*Input Fields Styles
 =========================*/
 fieldset textarea, input {
-	font-family: Open Sans;
 	font-size: 15px;
 	color: #333;
-	background-color: #f7f7f7;
+	background-color: #fffff;
 	box-shadow: 0 0 0 1px #39cb58;
 	padding: 5px;
-	width: 75%;
+	width: 55%;
 	margin: 5px auto;
 	border: 0;
 	border-radius: 2.5px;
@@ -480,7 +479,7 @@ span.logo-part {
 	padding: 5px;
 	padding-left: 15px;
 	display: inline;
-	border-radius: 50px;
+	border-radius: 50px;f
 	-webkit-transition: 0.4s ease;
 	transition: 0.4s ease;
 }
@@ -544,7 +543,7 @@ span.logo-part {
 
 .wrapper .profile .content .grid-65 #gender_select {
 	position: relative;
-	width: 80%;
+	width: 80px;
 	height: 37px;
 	padding-left: 35px;
 }
@@ -577,8 +576,26 @@ span.logo-part {
 
 h5 {
 	text-align: center;
-	color: blue;
+	color: b;
 }
+
+#submit{
+
+	width: 100px;
+	font-family: GmarketSans;
+}
+
+#image_preview{
+	
+	float: center;
+	position: relative;
+}
+
+input{
+
+	border-color: black;
+}
+
 </style>
 <script type="text/javascript">
 	$(function() {
@@ -619,58 +636,6 @@ h5 {
 			}); //ajax끝
 		});
 
-		/////////////////////////////////////////////////
-
-
-	$("#upload")
-				.on(
-						"click",
-						function() {
-							$("#upLoadForm")
-									.ajaxForm(
-											{
-												url : "${path}/uploadServlet", // 서버요청주소
-												type : "post", //get or post요청방식
-												dataType : "json", //서버가보내오는 데이터타입(text,html,json,xml)
-												//data:, //서버에게 보내는 parameter정보
-												success : function(result) {//중복, 사용가능
-													alert(result + "성공");
-													var str = "";
-													$
-															.each(
-																	result,
-																	function(
-																			index,
-																			item) {
-																		str += "작성자 : "
-																				+ item.name
-																				+ "<br>";
-																		str += "제목 : "
-																				+ item.subject
-																				+ "<br>";
-																		str += "filesystemName : "
-																				+ item.filesystemName
-																				+ "<br>";
-																		str += "originalName : "
-																				+ item.originalName
-																				+ "<br>";
-																		str += "fileSize : "
-																				+ item.fileSize
-																				+ "<br>";
-																		str += "path : "
-																				+ item.path
-																				+ "<br>";
-																		str += "img : "
-																				+ "<img src='${path}/save/"+ item.filesystemName +"'><br>";
-																	});
-													$("div").html(str);
-												},
-												error : function(err) {
-													alert(err + "=> 예외발생...");
-												}
-											});
-							$("#upLoadForm").submit(); //전송
-						});//  clickEnd
 
 		$('#file').on('change', function() {
 
@@ -755,7 +720,7 @@ h5 {
 			<div class="row h-100 align-items-center">
 				<div class="col-12">
 					<div class="breadcumb-text text-center">
-						<h2 style="font-style: italic">프로필 업데이트</h2>
+						<h2>프로필 업데이트</h2>
 						<!-- 여기도 본인 페이지면 마이페이지 문구 아니면 다른 문구 -->
 					</div>
 				</div>
@@ -769,12 +734,11 @@ h5 {
 
 	<!-- UserPage Start -->
 
-	<div class="wrapper">
-		<div class="profile">
+		<div class="container recipe_regi">
+		<div class="regi_center">
 			<div class="content">
 				<h1>프로필 수정</h1>
-				<h5>수정을 원하는 칸만 입력하신 후,</h5>
-				<h5>변경 하시면 됩니다.</h5>
+				<h5>수정을 원하는 칸만 입력하신 후, 변경 하시면 됩니다.</h5>
 				<form class="form-horizontal" name="userUpdateForm" method="post"
 					action="${pageContext.request.contextPath}/front?key=user&methodName=userUpdate"
 					onSubmit='return checkValid()' enctype="multipart/form-data">
@@ -783,18 +747,19 @@ h5 {
 					<input type="hidden" name="no" value="${userDTO.no}" />
 					<input type="hidden" name="id" value="${userDTO.id}" />
 					<!-- 프로필 사진 -->
-					<fieldset>
+					<fieldset style="text-align: center">
 						<div class="grid-35">
 							<label for="avatar">프로필 사진</label>
 						</div>
-						<div class="grid-65">
+						<div class="grid-65" style="text-align: center">
 							<label for="image">사진 미리보기</label> <br /> 
 							<input type="file" name="file" id="file" />
-
+							
 							<div id="image_preview">
-								<img src="#" /> <br /> <a href="#">삭제</a>
-							</div>
+								<img src="#" style="text-align:center; border:1px solid black;" onerror="this.src='https://bootdey.com/img/Content/avatar/avatar7.png'"/> <br /> <a href="#">삭제</a>
+							</div>	
 						</div>
+						
 					</fieldset>
 					<fieldset>
 						<div class="grid-35">
@@ -820,17 +785,15 @@ h5 {
 						<div class="grid-65">
 							<input type="password" name="pwdConfirm" id="pwdConfirm" tabindex="5" />
 						</div>
-						<p class="passwordCheck" id="passwordCheck">정확하게 일치하도록
-							입력해주십시오.</p>
 					</fieldset>
 					<!-- 성별 -->
 					<fieldset>
 						<div class="grid-35">
 							<label for="qualification">성별</label>
 						</div>
-						<div class="grid-65">
-							<div class="gender_select" id="gender_select">
-								<select class="select" name="gender" id="gender">
+						<div>
+							<div class="gender_select" id="gender_select" style="width: 300px; float:right; margin-right: 190px; border:1px solid green">
+								<select class="select" name="gender" id="gender" size="40">
 									<option value="" disabled selected>선택</option>
 									<option value="1">남자</option>
 									<option value="2">여자</option>
@@ -841,19 +804,21 @@ h5 {
 					</fieldset>
 					<fieldset>
 						<div class="grid-35">
-							<label for="location">이전 비밀번호</label>
+							<label for="location">이전 비밀번호 입력</label>
 						</div>
 						<div class="grid-65">
 							<input type="password" name="pwd" id="pwd" tabindex="4" />
 						</div>
+						<div class="grid-65">
 						<p class="curPasswordCheck" id="curPasswordCheck">본인 확인을 위해 기존
-							비밀번호 입력을 해주시기 바랍니다.</p>
+							비밀번호 입력을 반드시 해주시기 바랍니다.</p>
+						</div>
 
 					</fieldset>
 					<fieldset>
-						<input type="submit" class="btn delicious-small-btn btn-3"
+						<input type="submit" class="btn delicious-btn" id="submit"
 							value="변경" /> <a href="javascript:history.back()"
-							class="btn delicious-small-btn btn-3">돌아가기</a>
+							class="btn delicious-btn">돌아가기</a>
 					</fieldset>
 				</form>
 			</div>

@@ -386,25 +386,6 @@ input#search-bar {
 			 </c:if>		
 		</div>
 	</nav>
- 
-<jsp:include page="../common/footer.jsp"/>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
 </body>
