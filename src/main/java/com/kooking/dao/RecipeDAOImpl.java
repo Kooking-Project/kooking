@@ -13,7 +13,7 @@ import com.kooking.dto.ProcessDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.exception.KookingException;
-import com.kooking.util.DBTestUtil;
+import com.kooking.util.DbUtil;
 
 public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 	Properties proFile = new Properties();
@@ -42,7 +42,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 		boolean result = false;
 
 		try {
-			con = DBTestUtil.getConnection();
+			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
 
 			if(insertPost(wrapper.getPost(), con) <=0 ) {
@@ -76,7 +76,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 
 		}finally {
 			con.rollback();
-			DBTestUtil.dbClose(con);
+			DbUtil.dbClose(con);
 		}
 		return result;
 	}
@@ -92,6 +92,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 		if(recipe == null) {
 			throw new KookingException("레시피 정보가 없습니다.");
 		}
+		//INSERT INTO RECIPES(RECIPES_NO,RECIPES_NAME,POST_NO,RECIPES_CALORIE,RECIPES_COOKING_TIME,RECIPES_NATION,RECIPES_TYPE,RECIPES_LEVEL,RECIPE_THUMBNAIL) VALUES(RECIPE_NO_SEQ.NEXTVAL,?,POST_NO_SEQ.CURRVAL,?,?,?,?,?,?)
 		String sql = proFile.getProperty("query.insertRecipe");		
 		try {
 			ps = con.prepareStatement(sql);
@@ -105,7 +106,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 
 			result = ps.executeUpdate();
 		}finally {
-			DBTestUtil.dbClose(ps);
+			DbUtil.dbClose(ps);
 		}
 		return result;
 	}
@@ -132,7 +133,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 			}
 			result = ps.executeBatch();//일괄처리
 		} finally {
-			DBTestUtil.dbClose(ps);
+			DbUtil.dbClose(ps);
 		}
 		return result;
 	}
@@ -188,7 +189,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 			}
 			result = ps.executeBatch();
 		} finally {
-			DBTestUtil.dbClose(ps);
+			DbUtil.dbClose(ps);
 		}
 		return result;
 	} 
@@ -209,7 +210,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 		boolean result = false;
 
 		try {
-			con = DBTestUtil.getConnection();
+			con = DbUtil.getConnection();
 			con.setAutoCommit(false);
 
 			if(updatePost(wrapper.getPost(), con) <=0 ) {
@@ -241,7 +242,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 			con.commit();
 		}finally {
 			con.rollback();
-			DBTestUtil.dbClose(con);
+			DbUtil.dbClose(con);
 		}
 		return result;
 	}
@@ -271,7 +272,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 			ps.setInt(8, recipe.getPostNo());//게시글번호
 			result = ps.executeUpdate();
 		}finally {
-			DBTestUtil.dbClose(ps);
+			DbUtil.dbClose(ps);
 		}
 		return result;
 	}
@@ -298,7 +299,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 			}
 			result = ps.executeBatch();//일괄처리
 		} finally {
-			DBTestUtil.dbClose(ps);
+			DbUtil.dbClose(ps);
 		}
 		return result;
 	}
@@ -328,7 +329,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 			}
 			result = ps.executeBatch();
 		} finally {
-			DBTestUtil.dbClose(ps);
+			DbUtil.dbClose(ps);
 		}
 		return result;
 	} 
@@ -355,7 +356,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 			}
 			result = ps.executeBatch();
 		} finally {
-			DBTestUtil.dbClose(ps);
+			DbUtil.dbClose(ps);
 		}
 		return result;
 	} 

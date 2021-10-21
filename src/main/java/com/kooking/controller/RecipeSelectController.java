@@ -36,7 +36,7 @@ public class RecipeSelectController implements Controller{
 		Entry<List<RecipeDTO>, Pagenation> entry = service.getRecipeList(page);
 		request.setAttribute("recipeList", entry.getKey());
 		request.setAttribute("page", entry.getValue());
-		return new ModelAndView("recipe/recipeList.jsp");
+		return new ModelAndView("receipe/receipeList.jsp");
 		
 	}
 	

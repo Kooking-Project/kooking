@@ -138,8 +138,9 @@ public class RecipeController implements Controller {
 		//Service 객체의 메소드 호출
 		recipeService.insert(rw);
 		
-		return new ModelAndView("front", true);
+		return new ModelAndView("front?key=search&methodName=list", true);
 	}
+
 
 	/**
 	 * 수정하기 폼 : 게시글의 게시판 유형이 레시피라면  
