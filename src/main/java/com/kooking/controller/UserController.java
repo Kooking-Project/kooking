@@ -51,7 +51,7 @@ public class UserController implements Controller {
 
 		System.out.println(id);
 
-		return new ModelAndView("index2.jsp", true);
+		return new ModelAndView("index.jsp", true);
 
 	}
 
@@ -62,7 +62,7 @@ public class UserController implements Controller {
 		HttpSession session = request.getSession();
 		session.invalidate();
 
-		return new ModelAndView("index2.jsp", true);
+		return new ModelAndView("index.jsp", true);
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class UserController implements Controller {
 	
 		userSerivce.insert(userDTO);
 
-		return new ModelAndView("index2.jsp", true);
+		return new ModelAndView("index.jsp", true);
 	}
 
 	/**

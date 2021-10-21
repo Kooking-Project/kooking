@@ -130,10 +130,13 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		Connection con = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
-
+		
+		System.out.println(page.getPageSize());
+		
 		List<PostDTO> postList = new ArrayList<PostDTO>();
 		int count = getSelectTotalCount(); // 전체 게시글 수
-		int totalPage = (int) Math.ceil(count / page.getPageCnt());
+		int totalPage = (int) Math.ceil(count / page.getPageSize());
+		
 
 		page.setTotal(totalPage);
 

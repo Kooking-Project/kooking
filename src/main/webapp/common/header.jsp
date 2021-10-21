@@ -204,7 +204,7 @@
                                     </li>
                                     	<c:choose>
                                    		<c:when test="${userDTO.status == 10}">
-                                   			<li><a href="${pageContext.request.contextPath}/front?key=admin&methodName=adminInfoByNo&userNo=${userDTO.no}&adminNo=${userDTO.no}">마이 페이지</a></li>
+                                   			<li><a href="${pageContext.request.contextPath}/front?key=admin&methodName=adminInfoByNo&userNo=${userDTO.no}&adminNo=${userDTO.no}&pageNum=1">마이 페이지</a></li>
                                    			
                                   		 </c:when>
                                    		<c:otherwise>
