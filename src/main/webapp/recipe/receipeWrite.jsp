@@ -169,7 +169,7 @@
                         </div>
                         <div class="col-12 col-lg-3">
                             <select name="cookingTime" id="cookingTime" onchange="SetSelectBox();">
-								<option value="">시간</option>
+								<option value="">소요시간</option>
 								<option value="5">5분이내</option>
 								<option value="10">10분이내</option>
 								<option value="15">15분이내</option>
@@ -177,8 +177,9 @@
 								<option value="30">30분이내</option>
 								<option value="60">60분이내</option>
 								<option value="90">90분이내</option>
-								<option value="120">2시간이내</option>
-								<option value="999">2시간이상</option>
+								<option value="120">120분이내</option>
+								<option value="150">150분이내</option>
+								<option value="180">180분이내</option>
 							</select>
                         </div>
                     </div>
