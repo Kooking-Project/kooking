@@ -1,3 +1,4 @@
+<%@page import="com.kooking.dto.UserDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -15,6 +16,13 @@
     
     <!-- Title -->
     <title>receipeRead</title>    
+    
+    <style>
+    .single-preparation-step{
+    	
+    }
+    
+    </style>
 </head>
 
 <body>
@@ -66,10 +74,12 @@
                 <div class="row">
                     <div class="col-12 col-md-8">
                         <div class="receipe-headline my-5">
-                            <span>${wrapper.post.userNicname}님의 레시피</span>
-                            <h2>${wrapper.post.title } <a href="#"> 수정</a><a href="#"> 삭제</a></h2>
-                            
-                            
+                            <span>${wrapper.post.user.nickName }님의 레시피</span>
+                            <h2>${wrapper.post.title } 
+	<c:if test="${not empty userDTO and userDTO.no eq wrapper.post.userNo}">
+                            <a href="#"> 수정</a><a href="#"> 삭제</a>
+                            </c:if>
+                            </h2>
                             <div class="receipe-duration">
                             	<h6>요리이름 : ${wrapper.recipe.name}</h6>
                                 <h6>소요시간 : ${wrapper.recipe.cookingTime}</h6>
@@ -81,11 +91,7 @@
                     <div class="col-12 col-md-4">
                         <div class="receipe-ratings text-right my-5">
                             <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                            ${wrapper.recipe.score }
                             </div>
                             <a href="#" class="btn delicious-btn">즐겨찾기 추가</a>
                         </div>
@@ -93,26 +99,28 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-12 col-lg-8">
+                <div class="col-8">
+                <c:forEach items="${wrapper.process}" var="process" varStatus="status">
+                <div class="col-12">
                         <!-- 요리순서 -->
                         <div class="single-preparation-step d-flex">
-                            <h4>01.</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec varius dui. Suspendisse potenti. Vestibulum ac pellentesque tortor. Aenean congue sed metus in iaculis. Cras a tortor enim. Phasellus posuere vestibulum ipsum, eget lobortis purus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
-                            <div class="process_imgbox" style="background-color:red; width:200px; height:200px; display:inline-block;"></div> <!-- 은지 - 이미지 넣는부분 만드려고 했어요 -->
+                            <h4>${status.count}</h4>
+                            <img src="${path}/img/${process.imageUrl}" class="img-fluid"/>
+                            <p>${process.desc}</p>
+                            
                         </div>
                     </div>
+                </c:forEach>
+</div>
 
 					
 				
                     <!-- Ingredients -->
-                    <div class="col-12 col-lg-4">
-                        <div class="ingredients">
+                    <div class="col-4">
+                        <div class="ingredients float-right">
                             <h4>재료</h4>
 							<c:forEach items="${wrapper.ingredient}" var="ing" varStatus="state">
-								<div class="custom-control custom-checkbox">
-	                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-	                                <label class="custom-control-label" for="customCheck1">${ing.seq}. ${ing.name } : ${ing.cacty}</label>
-	                            </div>
+	                                <p >${ing.seq}. ${ing.name } : ${ing.cacty}</p>
 							</c:forEach>
                         </div>
                     </div>
@@ -123,35 +131,48 @@
                     <hr>
                         <div class="section-heading text-left">
                             <h3>댓글</h3>
+                            <c:if test="${empty wrapper.comments}">
+						등록된 댓글이 없습니다.
+					</c:if>
                         </div>
                         <hr>
                     </div>
+
                 </div>
                 <!-- 댓글리스트 start -->
-                <div class="col-12">
-                    <div class="single-small-comments-area d-flex">
+               
+
+                        
+
+                        <!-- 댓글 content -->
+							 <c:forEach items="${wrapper.comments}" varStatus="status" var="comment">
+							  <div class="col-12">
+							                     <div class="single-small-comments-area d-flex">
                         <!-- 사용자 프로필 이미지 -->
                         <div class="receipe-thumb">
                              <img src="${pageContext.request.contextPath}/img/bg-img/sr1.jpg" alt="">
                         </div>
-                        <!-- 댓글 content -->
                         <div class="comments-content">
                         	<h4 class="comments-heading">
                         		<b class="user-id">사용자ID</b>
-                        		&nbsp; 날짜 2021-10-15 14:31
+                        		&nbsp; 날짜 ${comment.date}
                         		<span>|</span>
                         		<a href="#">답글</a>
                         		<!-- 로그인시 보여야 하는 부분 -->
+                        		<c:if test="${not empty userDTO and userDTO.no eq comment.userNo}">
                         		<span>|</span>
                         		<a href="#">수정</a>
                         		<span>|</span>
                         		<a href="#">삭제</a>
+                        		</c:if>
                         	</h4>
-                        	<!-- 댓글 내용 -->
-                            dfdfdfd
+                        	${comment.content }
+                            
+                          
                         </div>
                     </div>
                 </div>
+                    </c:forEach>
                 <!-- 댓글리스트 end -->
 				
 				<!-- 댓글 등록 start -->
@@ -160,6 +181,7 @@
                         <div class="contact-form-area">
                             <form action="#" method="post">
                                 <div class="row">
+
                                     <div class="col-12">
                                         <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="댓글을 입력하세요..."></textarea>
                                     </div>
@@ -176,290 +198,6 @@
         </div>
     </div>
     
-    <!-- ------------------------------------------------------------------------------- -->
-    <!-- ### 오늘의 추천 레시피 start ### -->
-    <section class="top-catagory-area section-padding-80-0">
-        <div class="container">
-        	<div class="section-heading">
-					<h3>오늘의 추천 레시피 </h3>
-			</div>
-            <div class="row">
-                <!-- Top Catagory Area -->
-                <div class="col-12 col-lg-4">
-                    <div class="single-top-catagory">
-                        <img src="${pageContext.request.contextPath}/img/bg-img/bg2.jpg" alt="">
-                        <!-- Content -->
-                        <div class="top-cta-content">
-                            <h3>Strawberry Cake</h3>
-                            <h6>Simple &amp; Delicios</h6>
-                            <a href="receipe.jsp" class="btn delicious-btn">더보기</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Top Catagory Area -->
-                <div class="col-12 col-lg-4">
-                    <div class="single-top-catagory">
-                        <img src="${pageContext.request.contextPath}/img/bg-img/bg3.jpg" alt="">
-                        <!-- Content -->
-                        <div class="top-cta-content">
-                            <h3>Chinesse Noodles</h3>
-                            <h6>Simple &amp; Delicios</h6>
-                            <a href="receipe.jsp" class="btn delicious-btn">더보기</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Top Catagory Area -->
-                <div class="col-12 col-lg-4">
-                    <div class="single-top-catagory">
-                        <img src="${pageContext.request.contextPath}/img/bg-img/bg3.jpg" alt="">
-                        <!-- Content -->
-                        <div class="top-cta-content">
-                            <h3>Chinesse Noodles</h3>
-                            <h6>Simple &amp; Delicios</h6>
-                            <a href="receipe.jsp" class="btn delicious-btn">더보기</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ### 오늘의 추천 레시피 end ### -->
-    
-    <!-- ##### 랭킹레시피 Start ##### -->
-    <section class="small-receipe-area section-padding-80-0">
-        <div class="container">
-        	<div class="section-heading">
-					<h3>랭킹 레시피</h3>
-			</div>
-            <div class="row">
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                             <img src="${pageContext.request.contextPath}/img/bg-img/sr1.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe.jsp">
-                                <h5>Homemade italian pasta</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="${pageContext.request.contextPath}/img/bg-img/sr2.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe.jsp">
-                                <h5>Baked Bread</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="${pageContext.request.contextPath}/img/bg-img/sr3.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe.jsp">
-                                <h5>Scalops on salt</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="${pageContext.request.contextPath}/img/bg-img/sr4.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe.jsp">
-                                <h5>Fruits on plate</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="${pageContext.request.contextPath}/img/bg-img/sr5.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe.jsp">
-                                <h5>Macaroons</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="${pageContext.request.contextPath}/img/bg-img/sr6.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe.jsp">
-                                <h5>Chocolate tart</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="${pageContext.request.contextPath}/img/bg-img/sr7.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe.jsp">
-                                <h5>Berry Desert</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="${pageContext.request.contextPath}/img/bg-img/sr8.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe.jsp">
-                                <h5>Zucchini Grilled on peper</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Small Receipe Area -->
-                <div class="col-12 col-sm-6 col-lg-4">
-                    <div class="single-small-receipe-area d-flex">
-                        <!-- Receipe Thumb -->
-                        <div class="receipe-thumb">
-                            <img src="${pageContext.request.contextPath}/img/bg-img/sr9.jpg" alt="">
-                        </div>
-                        <!-- Receipe Content -->
-                        <div class="receipe-content">
-                            <span>January 04, 2018</span>
-                            <a href="receipe.jsp">
-                                <h5>Chicken Salad</h5>
-                            </a>
-                            <div class="ratings">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
-                            </div>
-                            <p>2 Comments</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- ##### 랭킹레시피 End ##### -->
     
     
 

@@ -13,10 +13,10 @@ import com.kooking.dto.IngredientDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.ProcessDTO;
 import com.kooking.dto.RecipeDTO;
+import com.kooking.dto.UserDTO;
 import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.exception.KookingException;
 import com.kooking.paging.Pagenation;
-import com.kooking.util.DbUtil;
 import com.kooking.util.DbUtil;
 
 public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
@@ -78,9 +78,8 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 		ResultSet rs = null;
 		Entry<PostDTO, RecipeDTO> result = null;
 		try {
-			ps = con.prepareStatement(
-					"SELECT POST_NO, POST_TYPE_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE, RECIPES_NO, RECIPES_NAME, RECIPES_CALORIE, RECIPES_COOKING_TIME, RECIPES_NATION, RECIPES_TYPE, RECIPES_LEVEL FROM POSTS INNER JOIN RECIPES USING(POST_NO) WHERE POST_NO=?");
-			ps.setInt(1, postNo);
+			ps = con.prepareStatement("SELECT POST_NO, POST_TYPE_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE, RECIPES_NO, RECIPES_NAME, RECIPES_CALORIE, RECIPES_COOKING_TIME, RECIPES_NATION, RECIPES_TYPE, RECIPES_LEVEL, USER_NICNAME,USER_PROFILE_IMG FROM POSTS NATURAL JOIN RECIPES NATURAL JOIN USERS WHERE POST_NO=?");
+					ps.setInt(1, postNo);
 			rs = ps.executeQuery();
 			PostDTO post = new PostDTO();
 			RecipeDTO recipe = new RecipeDTO();
@@ -93,6 +92,7 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 				post.setContents(rs.getString(4));
 				post.setCounts(rs.getInt(5));
 				post.setDate(rs.getString(6));
+				
 
 				recipe.setNo(rs.getInt(7));
 				recipe.setName(rs.getString(8));
@@ -101,6 +101,11 @@ public class RecipeSelectDAOImpl extends BoardDAO implements RecipeSelectDAO {
 				recipe.setNation(rs.getString(10));
 				recipe.setType(rs.getString(11));
 				recipe.setLevel(rs.getString(12));
+				
+				UserDTO user = new UserDTO();
+				user.setNickName(rs.getString(13));
+				user.setProfileImg(rs.getString(14));
+				post.setUser(user);
 
 				result = new SimpleEntry<PostDTO, RecipeDTO>(post, recipe);
 			}

@@ -17,6 +17,8 @@ import com.kooking.dto.wrapper.RecipeWrapper;
 import com.kooking.paging.Pagenation;
 import com.kooking.service.UserService;
 import com.kooking.service.UserServiceImpl;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class UserController implements Controller {
 	private UserService userSerivce = new UserServiceImpl();
@@ -72,29 +74,23 @@ public class UserController implements Controller {
 	 * 유저 정보 변경
 	 */
 	public ModelAndView userUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 
-		
-		String no = request.getParameter("no");
-		String id = request.getParameter("id");
-		String pwd = request.getParameter("pwd");
-		String newPwd = request.getParameter("newPwd");
-		String nickName = request.getParameter("nickName");
-		String gender = request.getParameter("gender");
-		String filesystemName = request.getParameter("file");
-		
-		System.out.println("no : "+no+" /");
-		System.out.println("id : "+id+" /");
-		System.out.println("pwd : "+pwd+" /");
-		System.out.println("newPwd : "+newPwd+" /");
-		System.out.println("nickName : "+nickName+" /");
-		System.out.println("gender : "+gender+" /");
-		System.out.println("filesystemName : "+filesystemName+" /");
-		
+		String saveDir=request.getServletContext().getRealPath("/save"); //a.jpg ,a1.jpg, a2.jpg 
+		int maxSize = 1024*1024*100; //100M 
+		String encoding="UTF-8";
 
-
+		MultipartRequest m = new MultipartRequest(request, saveDir, maxSize, encoding, new DefaultFileRenamePolicy());
+		
+		String no = m.getParameter("no");
+		String id = m.getParameter("id"); 
+		String pwd = m.getParameter("pwd"); 
+		String newPwd = m.getParameter("newPwd"); 
+		String nickName = m.getParameter("nickName"); 
+		String gender = m.getParameter("gender"); 
+		String filesystemName = m.getFilesystemName("file");
+		
 		UserDTO userDTO = null;
-		if(newPwd.equals("")) {
+		if(newPwd==null) {
 			userDTO = new UserDTO(Integer.parseInt(no), id, pwd, nickName, Integer.parseInt(gender), filesystemName);
 			userSerivce.userUpdate(userDTO);
 		}else {

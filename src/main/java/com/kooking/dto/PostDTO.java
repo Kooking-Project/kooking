@@ -15,10 +15,16 @@ public class PostDTO {
 	private int counts;		//게시글 조회수
 	private String date;	//게시글 작성일
 	private String userNicname; //사용자 닉네임
-	
+	private UserDTO user;
 	public PostDTO() {
 	}
 	
+	public UserDTO getUser() {
+		return user;
+	}
+	public void setUser(UserDTO user) {
+		this.user = user;
+	}
 	
 	public PostDTO(int no, int postTypeNo, int userNo, String title, String contents, int counts, String date) {
 		super();
@@ -117,10 +123,14 @@ public class PostDTO {
 		this.userNicname = userNicname;
 	}
 
+
 	@Override
 	public String toString() {
 		return "PostDTO [no=" + no + ", postTypeNo=" + postTypeNo + ", userNo=" + userNo + ", title=" + title
-				+ ", contents=" + contents + ", counts=" + counts + ", date=" + date + "]";
+				+ ", contents=" + contents + ", counts=" + counts + ", date=" + date + ", userNicname=" + userNicname
+				+ "]";
 	}
+
+
 	
 }
