@@ -9,6 +9,7 @@ import com.kooking.dto.PostDTO;
 import com.kooking.dto.ProcessDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.RecommendDTO;
+import com.kooking.dto.UserDTO;
 import com.kooking.paging.Pagenation;
 
 public class RecipeWrapper {
