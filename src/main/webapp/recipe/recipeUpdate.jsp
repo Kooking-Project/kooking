@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="">
@@ -10,99 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-	<!-- Favicon -->
-    <link rel="icon" href="${pageContext.request.contextPath}/img/core-img/kfavicon.ico">
-	<title>레시피 수정하기 | Kooking</title>
-	<style>
-	</style>
-	<script type="text/javascript">
-		function checkValid() {
-		    var f = window.document.updFrm;
-				
-		    if ( f.post_title.value == "") {
-	    	    alert( "레시피제목을 입력해 주세요." );
-	    	    f.post_title.focus();
-	    		return false;
-	        }
-	    	if ( f.post_content.value == "" ) {
-	    		alert( "요리소개를 입력해 주세요." );
-	    		f.post_content.focus();
-	    		return false;
-	    	}
-	    	if ($("#recipe_nation").val() == '') {
-				alert('국가별 카테고리를 선택해 주세요.');
-				$("#recipe_nation").focus();
-				return isSubmit = false;
-			}
-			if ($("#recipe_type").val() == '') {
-				alert('음식분류별 카테고리를 선택해 주세요.');
-				$("#recipe_type").focus();
-				return isSubmit = false;
-			}
-			if ($("#recipe_level").val() == '') {
-				alert('난이도를 선택해 주세요.');
-				$("#recipe_level").focus();
-				return isSubmit = false;
-			}
-			if ($("#calorie").val() == '') {
-				alert('칼로리를 선택해 주세요.');
-				$("#calorie").focus();
-				return isSubmit = false;
-			}
-			if ($("#cookingTime").val() == '') {
-				alert('요리시간을 선택해 주세요.');
-				$("#cookingTime").focus();
-				return isSubmit = false;
-			}
-			if ($("#ingredient_seq").val() == '') {
-				alert('재료를 입력해 주세요.');
-				$("#ingredient_seq").focus();
-				return isSubmit = false;
-			}
-			if ($("#ingredient_name").val() == '') {
-				alert('요리과정을 입력해 주세요.');
-				$("#ingredient_name").focus();
-				return isSubmit = false;
-			}
-	    	if ( f.password.value == "" ) {
-	            alert( "비밀번호를 입력해 주세요" );
-	            f.password.focus();
-	            return false;
-	        }
-	        return true;
-		
-		}		
-    	function SetSelectBox(){
-    	    var schField = $("#SetSelectBox(); option:selected").text(); // 제목, 작성자
-    	}
-    	function SetSelectBox(){
-    	    var schField = $("#calorie option:selected").val(); // title, board_title, reg_id
-    	}
-    	if(schField == "제목"){
-    	    $("#calorie").val("calorie").prop("selected", true);
-    	}
-
-    	function email_change() {
-			 var target = document.getElementById("adressBox");
-			
-			if (target.options[target.selectedIndex].text  == "직접입력") { // 직접입력
-				document.update.adress.disabled = false;
-				document.update.adress.value = "";
-				document.update.adress.focus();
-			}else if(target.options[target.selectedIndex].text  == "선택"){ // 선택
-				document.update.adress.disabled = true;
-				document.update.adress.value = "";
-			}else { // 그외
-				document.update.adress.disabled = false;
-				document.update.adress.value = target.options[target.selectedIndex].value;
-				alert('선택된 옵션 value 값=' + document.update.adress.value);
-			}
-		}
-    	
-	</script>
-</head>
+	
 <body>
-  \${search} =${search}<p>
+  <!-- \${search} =${search}<p> 레시피 게시글 가져오는 것 확인-->
 
 	<!-- header -->
 	<jsp:include page="../common/header.jsp"/>
@@ -119,6 +29,8 @@
     		onSubmit='return checkValid()' enctype="multipart/form-data">    
     <input type="hidden" name="key" value="recipe" >
     <input type="hidden" name="methodName" value="update" >
+     <input type="hidden" name="postNo" value="${search.post.no}" >
+      <input type="hidden" name="recipeNo" value="${search.recipe.no}" >
    	<div class="container recipe_regi">
     <div class="regi_center">
     <div class="regi_title">레시피 수정</div>
@@ -175,7 +87,7 @@
         <div class="container">
                     <div class="row">
                         <div class="col-12 col-lg-3">
-                            <select name="calorie" id="calorie" onchange="SetSelectBox();">
+                            <select name="calorie" id="calorie">
                             	<option value="">칼로리</option>
                                 <option value="100">100kcal이하</option>
 								<option value="200">200kcal</option>
@@ -192,7 +104,7 @@
              
                         
                         <div class="col-12 col-lg-3">
-                            <select name="cookingTime" id="cookingTime" onchange="SetSelectBox();">
+                            <select name="cookingTime" id="cookingTime" >
 								<option value="">소요시간</option>
 								<option value="5">5분이내</option>
 								<option value="10">10분이내</option>
@@ -219,7 +131,7 @@
         <div class="container">
                     <div class="row">
                         <div class="col-12 col-lg-3">
-                            <select name="recipe_nation" id="recipe_nation" text="국가별" onchange="SetSelectBox();">
+                            <select name="recipe_nation" id="recipe_nation" text="국가별" >
                                 <option value="">국가별</option>
 								<option value="한식">한식</option>
 								<option value="서양">서양</option>
@@ -231,7 +143,7 @@
                             </select>
                         </div>
                         <div class="col-12 col-lg-3">
-                            <select name="recipe_type" id="recipe_type" text="분류별" onchange="SetSelectBox();">
+                            <select name="recipe_type" id="recipe_type" text="분류별" >
 								<option value="">음식분류별</option>
 								<option value="구이">구이</option>
 								<option value="국">국</option>
@@ -275,39 +187,175 @@
     <!-- 재료 start -->
     <hr>
     <div>
+    <!-- ---------------------------------------  -->
+
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<style>
+.itemBox {
+    width:600px;
+    height:50px;
+    
+    margin:10px;
+}
+.itemBox input {
+	background:#f5f5f5;
+	border:1px solid #e1e1e1;
+	border-radius: 4px;
+	font-size:16px;
+	height:50px;
+	vertical-align:middle;
+}
+.itemBoxHighlight {
+    width:400px;
+    height:50px;
+    padding:10px;
+    margin-bottom:10px;
+    
+}
+.deleteBox {
+    float:right;
+    display:none;
+    cursor:pointer;
+}
+.buttons {
+	margin: 10px;
+}
+</style>
+<style>
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 400px; }
+#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+#sortable li span { position: absolute; margin-left: -1.3em; }
+</style>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" ></script>
+<script type="text/javascript">
+//<![CDATA[
+/** 아이템을 등록한다. */
+function submitItem() {
+    if(!validateItem()) {
+    	return;
+    }
+    alert("등록");
+}
+/** 아이템 체크 */
+function validateItem() {
+    var items = $("input[type='text'][name='item']");
+    if(items.length == 0) {
+        alert("작성된 아이템이 없습니다.");
+        return false;
+    }
+    var flag = true;
+    for(var i = 0; i < items.length; i++) {
+        if($(items.get(i)).val().trim() == "") {
+            flag = false;
+            alert("내용을 입력하지 않은 항목이 있습니다.");
+            break;
+        }
+    }
+    return flag;
+}
+/** UI 설정 */
+$(function() {
+    $("#itemBoxWrap").sortable({
+        placeholder:"itemBoxHighlight",
+        start: function(event, ui) {
+            ui.item.data('start_pos', ui.item.index());
+        },
+        stop: function(event, ui) {
+            var spos = ui.item.data('start_pos');
+            var epos = ui.item.index();
+			      reorder();
+        }
+    });
+    $("#itemBoxWrap").disableSelection();
+    
+    $( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
+});
+/** 아이템 순서 조정 */
+function reorder() {
+    $(".itemBox").each(function(i, box) {
+       $(box).find(".ingredient_seq").html(i + 1);
+       $(box).find("[name=ingredient_seq]").val(i + 1);//eunsol - ingredient_seq 추가
+       $(box).find(".itemNum");//eunsol - 실행시 드래그로 순서 가능한 부분이라 사용 가능할 것 같아요
+    });
+}
+/** 아이템 추가 */
+function createItem() {
+    $(createBox())
+    .appendTo("#itemBoxWrap")
+    .hover(
+        function() {
+            $(this).css('backgroundColor', '#f9f9f5');
+            $(this).find('.deleteBox').show();
+        },
+        function() {
+            $(this).css('background', 'none');
+            $(this).find('.deleteBox').hide();
+        }
+    )
+		.append("<div class='deleteBox'>삭제</div>")
+		.find(".deleteBox").click(function() {
+        var valueCheck = false;
+        $(this).parent().find('input').each(function() {
+            if($(this).attr("name") != "type" && $(this).val() != '') {
+                valueCheck = true;
+            }
+        });
+        if(valueCheck) {
+            var delCheck = confirm('입력하신 내용이 있습니다.\n삭제하시겠습니까?');
+        }
+        if(!valueCheck || delCheck == true) {
+            $(this).parent().remove();
+            reorder();
+        }
+    });
+    // 숫자를 다시 붙인다.
+    reorder();
+}
+/** 아이템 박스 작성 */
+function createBox() {
+    var contents = "<div class='itemBox'>"
+                 + "<div style='float:left;'>"
+                 + "<span class='ingredient_seq'></span><input type='hidden' name='ingredient_seq'>"//eunsol - <span>값을 넘길 수 없음. hidden으로 ingredient_seq 값 추가
+                 + "<input type='text' name='ingredient_name' value='' style='width:200px; margin-left:15px;' placeholder='예) 돼지고기'/>"
+                 + "<input type='text' name='ingredient_cacty' style='width:200px; margin-left:5px;' placeholder='예) 300g 또는 1/2개'/>"
+                 + "</div>"
+                 + "</div>";
+    return contents;
+}
+//]]>
+</script>
+
+<!------------------------------------>    
+
     	<p class="cont_tit4">재료</p>
         <span class="guide">재료가 남거나 부족하지 않도록 정확한 계량정보를 적어주세요.</span>
-        <jsp:include page="receipeMeterial.jsp"/>
+        <br>
+       <c:forEach items="${search.ingredient}" var="ingredient"> 
+          <input type="hidden" value="${ingredient.no}" name="ingredient_no">
+          <input type="hidden" value="${ingredient.seq}" name="ingredient_seq">
+          <input type="text" value="${ingredient.name}" name="ingredient_name">
+          <input type="text" value="${ingredient.cacty}" name="ingredient_cacty">
+          <br>
+       </c:forEach>
    	</div>
    	<hr>
    	<!-- 재료 end -->
    	
 	<!-- process 요리순서 start -->
-   	  <div>
-      	<p class="cont_tit4">요리순서</p>
-			<span class="guide mag_b_15" style="width: 100%;"> 요리의 맛이 좌우될 수 있는 중요한 부분은 빠짐없이 적어주세요.<br></span>
-					<div class="mag_b_25" id="divMaterialGroupArea"></div> 
-			<!-- 요리순서 SCRIPT START -->
-			<script type="text/javascript">
-				let index=0;
-				const add_textbox = () => {
-				    const box = document.getElementById("processAddbtn");
-				    const newP = document.createElement('div');
-				    newP.innerHTML ="<span class='process_seq'>"+(index+1) +"</span><input type='file' name='process_url"+ index++ +"' maxlength='60' size='40' style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'>"
-				    + "<input type='hidden' name='process_seq' value='"+index +"'>"				    + "<input type='text' name='process_desc' style='width:610px; margin:10px;' placeholder='예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요.'>"
-				    + "<input type='text' name='process_tip' style='width:610px; margin:10px;' placeholder='요리 tip! 예) 위가 살짝 노릇할정도만 구워야 속이 쫀득합니다.'>"
-				    + "<input type='button' value='삭제'  onclick='remove(this)'>";
-				    box.appendChild(newP);
-				}
-				const remove = (obj) => {
-				    document.getElementById('processAddbtn').removeChild(obj.parentNode);
-				}
-			</script>
-			<!-- 요리순서 SCRIPT END -->
-			<div id="processAddbtn">
-	      	 <input type="button" id="addItem" value="추가하기"  onclick="add_textbox();" />
-	    	</div>
-	   </div>
+	   <p class="cont_tit4">요리순서</p>
+			<span class="guide"> 요리의 맛이 좌우될 수 있는 중요한 부분은 빠짐없이 적어주세요.<br></span>
+			<br>
+			
+	    <c:forEach items="${search.process}" var="process"> 
+          <input type="hidden" value="${process.no}" name="process_no">
+          <input type="text" value="${process.seq}" name="process_seq">
+          <input type="text" value="${process.imageUrl}" name="processUrl">
+          <input type="text" value="${process.desc}" name="process_desc">
+          <input type="text" value="${process.tip}" name="process_tip">
+          <br>
+       </c:forEach>
 	 <hr>
     <!-- 요리순서 End -->
 			    

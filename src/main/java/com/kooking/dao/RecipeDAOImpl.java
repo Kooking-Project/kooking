@@ -20,7 +20,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 	public RecipeDAOImpl() {
 		try {
 			proFile.load(getClass().getClassLoader().getResourceAsStream("dbQuery.properties"));
-			System.out.println("proFile 로드됨");
+			//System.out.println("proFile 로드됨");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -259,6 +259,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 		if(recipe == null) {
 			throw new KookingException("레시피 정보가 없습니다.");
 		}
+//		UPDATE RECIPES SET RECIPES_NAME=?, RECIPES_CALORIE=?, RECIPES_COOKING_TIME=?, RECIPES_NATION=?, RECIPES_TYPE=?, RECIPES_LEVEL=?, RECIPE_THUMBNAIL=? WHERE POST_NO=?
 		String sql = proFile.getProperty("query.updateRecipe");		
 		try {
 			ps = con.prepareStatement(sql);
@@ -285,6 +286,7 @@ public class RecipeDAOImpl extends BoardDAO implements RecipeDAO  {
 	public int[] updateIngredient(List<IngredientDTO> ingredients, Connection con) throws Exception{
 		PreparedStatement ps = null;
 		String sql = proFile.getProperty("query.updateIngredient");
+		//UPDATE INGREDIENTS SET INGREDIENT_NAME=?, INGREDIENT_CACTY=? WHERE RECIPES_NO=? AND INGREDIENT_SEQ=?
 		int result [] = null;
 		try {
 			ps = con.prepareStatement(sql);

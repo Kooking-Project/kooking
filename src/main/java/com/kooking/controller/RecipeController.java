@@ -96,7 +96,6 @@ public class RecipeController implements Controller {
 			IngredientDTO ingredient = new IngredientDTO(0, 0, ingredientName[i], Integer.parseInt(seq[i]), cacty[i]);
 			ingredientsList.add(ingredient);
 		}
-
 		System.out.println("ingredientsList : " + ingredientsList);
 	
 		//조리과정등록
@@ -151,21 +150,14 @@ public class RecipeController implements Controller {
 	 * */
 	public ModelAndView updateForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		int postNo = Integer.parseInt(request.getParameter("postNo")); 
-//		int userNo = Integer.parseInt(request.getParameter("userNo")); 
 		
 		RecipeWrapper wrapper = selectService.search(postNo);
-		
-//		if(((UserDTO)(request.getSession().getAttribute("userDTO"))).getNo()!=userNo) {
-//			throw new KookingException("게시글 작성자가 아닙니다.");
-//		}
 		System.out.println("postNo : " + postNo);
-//		System.out.println("userNo : " + userNo);
 		
 		request.setAttribute("search", wrapper);
 		
-		//http://localhost:8000/kooking/front?key=recipe&methodName=updateForm&postNo=13
-		//http://localhost:8000/kooking/recipe/update.jsp
-		return new ModelAndView("recipe/receipeUpdate.jsp");
+		//http://localhost:8000/kooking/front?key=recipe&methodName=updateForm&postNo=55
+		return new ModelAndView("recipe/recipeUpdate.jsp");
 	}
 
 	/**
@@ -187,13 +179,14 @@ public class RecipeController implements Controller {
 		post.setContents(contents);
 		post.setPostTypeNo(1);
 		post.setUserNo(user.getNo());
-		post.setUserNicname(user.getNickName());
+		
+		post.setNo( Integer.parseInt(m.getParameter("postNo")));
 		
 		System.out.println("post_title = " + title);
 		System.out.println("post_content = " + contents);
 		
 		//레시피수정 파라미터 추출
-		String name = m.getParameter("recipe_name");			//레시피 이름
+		String name = m.getParameter("recipes_name");			//레시피 이름
 		String calorie = m.getParameter("calorie");				//칼로리
 		String cookingTime = m.getParameter("cookingTime");		//조리시간
 		String nation = m.getParameter("recipe_nation");		//레시피 국가
@@ -208,10 +201,15 @@ public class RecipeController implements Controller {
 		System.out.println("calorie = " + calorie);
 		System.out.println("cookingTime = " + cookingTime);
 		System.out.println("thumbnail = " + thumbnail);
-
+		System.out.println("post.getUserNo()------------ = " + post.getUserNo());
+		System.out.println("post.getNo()--------------- = " + post.getNo());
+		
 		//DTO 객체에 데이터 바인딩 
 		RecipeDTO recipe = new RecipeDTO(name, Integer.parseInt(calorie), Integer.parseInt(cookingTime), nation, type, level, thumbnail);
-
+		recipe.setNo( Integer.parseInt(m.getParameter("recipeNo")));
+		recipe.setPostNo(post.getNo());
+		System.out.println("recipe.getPostNo()--------------- = " + recipe.getPostNo());
+		
 		//재료수정
 		List<IngredientDTO> ingredientsList = new ArrayList<IngredientDTO>();
 		String ingredientName [] = m.getParameterValues("ingredient_name");	//재료이름
@@ -220,26 +218,23 @@ public class RecipeController implements Controller {
 
 		for(int i=0; i< ingredientName.length ; i++) {
 			IngredientDTO ingredient = new IngredientDTO(0, 0, ingredientName[i], Integer.parseInt(seq[i]), cacty[i]);
+			ingredient.setRecipesNo(Integer.parseInt(m.getParameter("recipeNo")));
 			ingredientsList.add(ingredient);
 		}
-
 		System.out.println("ingredientsList : " + ingredientsList);
 	
 		//조리과정수정
 		List<ProcessDTO> processList = new ArrayList<ProcessDTO>();
-
+		String process_no [] = m.getParameterValues("process_no"); 
 		String processSeq [] = m.getParameterValues("process_seq"); 	//조리과정순서
 		String desc [] = m.getParameterValues("process_desc");     		//조리과성설명
 		String tip [] = m.getParameterValues("process_tip");			//조리과정팁
+		String processUrl[] = m.getParameterValues("processUrl"); 	//조리과정이미지 URL  process_url1
 		
 		for(int i=0; i< processSeq.length ; i++) {
-			String processUrl = m.getFilesystemName("process_url"+i); 	//조리과정이미지 URL  process_url1
-			System.out.println("processUrl = " + processUrl);
-			
-			ProcessDTO process = new ProcessDTO(0, 0, processUrl, Integer.parseInt(processSeq[i]), desc[i], tip[i]);
+			ProcessDTO process = new ProcessDTO(Integer.parseInt(process_no[i]), Integer.parseInt(m.getParameter("recipeNo")), processUrl[i], Integer.parseInt(processSeq[i]), desc[i], tip[i]);
 			processList.add(process);
 		}
-		
 		System.out.println("processList = " + processList);
 
 		RecipeWrapper rw = new RecipeWrapper();
@@ -251,10 +246,8 @@ public class RecipeController implements Controller {
 		//Service 객체의 메소드 호출
 		recipeService.update(rw);
 
-		//수정이 완료되면 레시피상세보기 페이지로 간다?
-
-		
-		return new ModelAndView("front?key=search&methodName=", true);
+		//수정이 완료되면 레시피리스트 페이지로
+		return new ModelAndView("front?key=search&methodName=list", true);
 	}
 
 }
