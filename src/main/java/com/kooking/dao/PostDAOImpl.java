@@ -172,7 +172,7 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		ResultSet rs = null;
 
 		int result = 0;
-		String sql = proFile.getProperty("query.totalCount");
+		String sql = "select count(*) from POSTS";
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
 
