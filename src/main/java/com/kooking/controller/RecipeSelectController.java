@@ -36,7 +36,7 @@ public class RecipeSelectController implements Controller{
 		Entry<List<RecipeDTO>, Pagenation> entry = service.getRecipeList(page);
 		request.setAttribute("recipeList", entry.getKey());
 		request.setAttribute("page", entry.getValue());
-		return new ModelAndView("RecipeTest.jsp");
+		return new ModelAndView("receipe/receipeList.jsp");
 		
 	}
 	
@@ -45,6 +45,6 @@ public class RecipeSelectController implements Controller{
 		RecipeWrapper wrapper = service.search(recipeNo);
 		request.setAttribute("wrapper", wrapper);
 		
-		return new ModelAndView("RecipeTestView.jsp");
+		return new ModelAndView("recipe/recipeRead.jsp");
 	}
 }

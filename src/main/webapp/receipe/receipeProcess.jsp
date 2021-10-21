@@ -7,13 +7,13 @@
 <title>jQuery UI Sortable</title>
 <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
 <style>
-/*.processitemBox {
+.processitemBox {
     width:600px;
     height:50px;
     
     margin:10px;
-}*/
-/*
+}
+
 .processitemBox input {
 	background:#f5f5f5;
 	border:1px solid #e1e1e1;
@@ -21,7 +21,7 @@
 	font-size:16px;
 	height:50px;
 	vertical-align:middle;
-}*/
+}
 
 .itemBoxHighlight {
     width:400px;
@@ -60,7 +60,7 @@ function submitItem() {
 }
 
 /** 아이템 체크 */
-/*function validateItem() {
+function validateItem() {
     var items = $("input[type='text'][name='item']");
     if(items.length == 0) {
         alert("작성된 아이템이 없습니다.");
@@ -77,7 +77,7 @@ function submitItem() {
     }
 
     return flag;
-}*/
+}
 
 /** UI 설정 */
 $(function() {
@@ -92,7 +92,7 @@ $(function() {
 			      reorderP();
         }
     });
-    //$("#processBoxWrap").disableSelection();
+    $("#processBoxWrap").disableSelection();
     
     $( "#sortable" ).sortable();
     $( "#sortable" ).disableSelection();
@@ -101,8 +101,8 @@ $(function() {
 /** 아이템 순서 조정 */
 function reorderP() {
     $(".processitemBox").each(function(i, box) {
-       $(box).find(".process_no").html(i + 1);
-       $(box).find("[name=process_no]").val(i + 1);//eunsol - ingredient_seq 추가
+       $(box).find(".process_seq").html(i + 1);
+       $(box).find("[name=process_seq]").val(i + 1);//eunsol - ingredient_seq 추가
        $(box).find(".process_no");//eunsol - 실행시 드래그로 순서 가능한 부분이라 사용 가능할 것 같아요
     });
 }
@@ -146,7 +146,7 @@ function createProcess() {
 function createProcessBox() {
     var contents = "<div class='processitemBox'>"
                  + "<div style='float:left;'>"
-                 + "<span class='process_no'></span><input type='hidden' name='process_no'>"
+                 + "<span class='process_seq'></span><input type='hidden' name='process_seq'>"
                  + "<input type='file' maxlength='60' size='40' style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'>"
                  + "<input type='text' name='process_desc' style='width:610px; margin-left:15px;' placeholder='요리과정을 순서대로 입력하세요.'/>"
                  + "<div class='processTip'> tip) <input type='text' name='process_tip' style='width:560px; margint:100px;' placeholder='요리 팁이 있다면 입력해주세요.'> </div>"

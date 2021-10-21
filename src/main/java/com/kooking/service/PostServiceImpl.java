@@ -3,6 +3,7 @@ package com.kooking.service;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.kooking.dao.BoardDAO;
 import com.kooking.dao.CommentDAO;
@@ -11,7 +12,9 @@ import com.kooking.dao.PostDAO;
 import com.kooking.dao.PostDAOImpl;
 import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
+import com.kooking.dto.RecipeDTO;
 import com.kooking.exception.KookingException;
+import com.kooking.paging.Pagenation;
 
 public class PostServiceImpl implements PostService {
 	private PostDAO postDAO = new PostDAOImpl();
@@ -89,51 +92,64 @@ public class PostServiceImpl implements PostService {
 	 * 게시판 전체 게시글 조회 - 사용자 닉네임 어떻게 보여줄 지 & 페이징 처리
 	 */
 	@Override
-	public List<PostDTO> selectPost() throws Exception{
+	public Entry<List<PostDTO>, Pagenation> selectPost(Pagenation page) throws Exception{
 		
-			List<PostDTO> postDTO = postDAO.selectPost();
-			return postDTO;
+		if(page == null) {
+				page = new Pagenation();
+			}
+			
+		return postDAO.selectPost(page);
 	}
 
 	/**
 	 * 게시판 게시글 날짜별 조회(최신순)
 	 */
 	@Override
-	public List<PostDTO> selectPostDate() throws SQLException {
-		List<PostDTO> postDTO = postDAO.selectPostDate();
-
-		return postDTO;
+	public Entry<List<PostDTO>, Pagenation> selectPostDate(Pagenation page) throws Exception {
+		
+		if(page == null) {
+			page = new Pagenation();
+		}
+		
+		return postDAO.selectPostDate(page);
 	}
 
 	/**
 	 * 게시판 게시글 타입별 조회
 	 */
 	@Override
-	public List<PostDTO> selectPostType(int postTypeNo) throws SQLException {
-		List<PostDTO> postDTO = postDAO.selectPostType(postTypeNo);
+	public Entry<List<PostDTO>, Pagenation> selectPostType(Pagenation page, int postTypeNo) throws Exception {
 
-		return postDTO;
+		if(page == null) {
+			page = new Pagenation();
+		}
+		
+		return postDAO.selectPostType(page, postTypeNo);
 	}
 
 	/**
 	 * 게시판 조회수별 조회
 	 */
 	@Override
-	public List<PostDTO> selectPostCount() throws Exception {
-		List<PostDTO> postDTO = postDAO.selectPostCount();
-
-		return postDTO;
+	public Entry<List<PostDTO>, Pagenation> selectPostCount(Pagenation page) throws Exception {
+		if(page == null) {
+			page = new Pagenation();
+		}
+		
+		return postDAO.selectPostCount(page);
 	}
 
 	/**
 	 * 게시판 게시글 이름으로 검색
 	 */
 	@Override
-	public List<PostDTO> searchPostName(String postTitle) throws SQLException {
+	public Entry<List<PostDTO>, Pagenation> searchPostName(Pagenation page, String postName) throws Exception {
 
-		List<PostDTO> postDTO = postDAO.searchPostName(postTitle);
-
-		return postDTO;
+		if(page == null) {
+			page = new Pagenation();
+		}
+		
+		return postDAO.searchPostName(page, postName);
 	}
 
 	/**

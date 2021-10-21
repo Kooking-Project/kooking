@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="../common/header.jsp" />
 <!DOCTYPE html>
 <html lang="en">
@@ -172,6 +173,65 @@ input#search-bar {
 	max-width: 1275px;
 	/*  width : 100%; */
 }
+
+.pagination-container {
+	margin: 100px auto;
+	text-align: center;
+}
+
+.pagination {
+	position: relative;
+}
+
+.pagination a {
+	position: relative;
+	display: inline-block;
+	color: #2c3e50;
+	text-decoration: none;
+	font-size: 1.2rem;
+	padding: 8px 16px 10px;
+}
+
+.pagination a:before {
+	z-index: -1;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	content: "";
+	top: 0;
+	left: 0;
+	background-color: #2c3e50;
+	border-radius: 24px;
+	-webkit-transform: scale(0);
+	transform: scale(0);
+	transition: all 0.2s;
+}
+
+.pagination a:hover, .pagination a .pagination-active {
+	color: #fff;
+}
+
+.pagination a:hover:before, .pagination a .pagination-active:before {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+
+.pagination .pagination-active {
+	color: #fff;
+}
+
+.pagination .pagination-active:before {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+
+.pagination-newer {
+	margin-right: 50px;
+}
+
+.pagination-older {
+	margin-left: 50px;
+}
 </style>
 
 <script type="text/javascript">
@@ -310,6 +370,59 @@ input#search-bar {
 
 		<a class="btn" href="#">&gt;&gt;</a>
 	</div>
+	
+	
+	
+	
+	
+	
+	
+	  <jsp:useBean class="com.kooking.paging.Pagenation" id="p"/> 
+    
+ <!--  블럭당  -->
+ <nav class="pagination-container">
+		<div class="pagination">
+		<c:set var="doneLoop" value="false"/>	
+		<c:set var="temp" value="${(pageNo-1) % 10}"/> 
+		<c:set var="startPage" value="${pageNo - temp}"/> 				
+		  <c:if test="${(startPage-p.blockcount) > 0}"> 
+		      <a class="pagination-newer" href="${path}/front?key=postc&methodName=selectPost&pageNo=${startPage-1}">PREV</a>
+		  </c:if>		  		 		
+		<span class="pagination-inner"> 
+			  <c:forEach var='i' begin='${startPage}' end='${(startPage-1)+ 10}'> 
+				  <c:if test="${(i-1)>=p.pageCnt}">
+				       <c:set var="doneLoop" value="true"/>
+				    </c:if> 
+				  <c:if test="${not doneLoop}" >
+				         <a class="${i==pageNo?'pagination-active':page}" href="${path}/front?key=postmethodName=selectPost&pageNo=${i}">${i}</a> 
+				  </c:if>	  
+			</c:forEach>
+		</span> 
+			 <c:if test="${(startPage+p.blockcount)<=p.pageCnt}">
+			     <a class="pagination-older" href="${path}/front?key=post&methodName=selectPost&pageNo=${startPage+p.blockcount}">NEXT</a>
+			 </c:if>		
+		</div>
+	</nav>
+ 
+<jsp:include page="../common/footer.jsp"/>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 </body>
 

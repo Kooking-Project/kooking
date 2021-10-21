@@ -206,7 +206,21 @@ tr {
 					<!-- /Breadcrumb -->
 					<div class="card mb-3">
 						<div class="card-body">
-							<!--  여기에 -->
+							<table>
+								<tr>
+									<th>게시글번호</th>
+									<th>댓글내용</th>
+									<th>댓글작성날짜</th>
+								</tr>
+								<c:forEach items="${commentList}" var="comment">
+									<tr>
+										<td>${comment.no}</td>
+										<td><a
+											href="${pageContext.request.contextPath}/front?key=post&methodName=selectPostDetail&postNo=${comment.postNo}">${comment.content}</a></td>
+										<td>${comment.date}</td>
+									</tr>
+								</c:forEach>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -230,7 +244,8 @@ tr {
 									<input type='hidden' name='userNo' value="${user.no}">
 									<input type='hidden' name='adminNo' value="${userDTO.no}">
 									<input type='hidden' name='userStatus' value="1">
-									<button type="submit" class="btn btn-info" style="background-color: red">정지</button>
+									<button type="submit" class="btn btn-info"
+										style="background-color: red">정지</button>
 								</c:when>
 								<c:when test="${user.status == 1}">
 									<input type="hidden" name="key" value="admin">
@@ -238,7 +253,8 @@ tr {
 									<input type='hidden' name='userNo' value="${user.no}">
 									<input type='hidden' name='adminNo' value="${userDTO.no}">
 									<input type='hidden' name='userStatus' value="0">
-									<button type="submit" class="btn btn-info" style="background-color: green">해제</button>
+									<button type="submit" class="btn btn-info"
+										style="background-color: green">해제</button>
 								</c:when>
 							</c:choose>
 
@@ -257,7 +273,22 @@ tr {
 				<div class="col-md-12">
 					<div class="card mb-3">
 						<div class="card-body">
-							<!--  여기에 -->
+							<table>
+								<tr>
+									<th>번호</th>
+									<th>제목</th>
+									<th>날짜</th>
+									<th>조회수</th>
+								</tr>
+								<c:forEach items="${bookmarkList}" var="bookmark">
+								<tr>
+									<td>${bookmarkList.postNo}</td>
+									<td><a href="#">강원도에서 직접 공수해온 고라니 고기를 가지고 만든 고라니탕</a></td>
+									<td>${bookmarkList.date}</td>
+									<td>131</td>
+								</tr>
+								</c:forEach>
+							</table>
 
 						</div>
 					</div>
@@ -280,8 +311,22 @@ tr {
 				<div class="col-md-12">
 					<div class="card mb-3">
 						<div class="card-body">
-							<!-- 여기에 -->
-
+							<table>
+								<tr>
+									<th>번호</th>
+									<th>제목</th>
+									<th>날짜</th>
+									<th>조회수</th>
+								</tr>
+								<c:forEach items="${recipeList}" var="bookmark">
+								<tr>
+									<td>${recipeList.no}</td>
+									<td><a href="#">${recipeList.name}</a></td>
+									<td>${recipeList.post.date}</td>
+									<td>${recipeList.post.counts}</td>
+								</tr>
+								</c:forEach>
+							</table>
 						</div>
 					</div>
 				</div>

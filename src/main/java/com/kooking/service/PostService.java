@@ -3,10 +3,12 @@ package com.kooking.service;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.RecipeDTO;
+import com.kooking.paging.Pagenation;
 
 public interface PostService {
 
@@ -38,27 +40,27 @@ public interface PostService {
 	/**
 	 * 게시판 전체 게시글 조회
 	 */
-	public List<PostDTO> selectPost() throws Exception;
+	public Entry<List<PostDTO>, Pagenation> selectPost(Pagenation page) throws Exception;
 	
 	/**
 	 * 게시판 게시글 날짜별 조회(최신순)
 	 */
-	public List<PostDTO> selectPostDate() throws SQLException;
+	public Entry<List<PostDTO>, Pagenation> selectPostDate(Pagenation page) throws Exception;
 	
 	/**
 	 * 게시판 게시글 타입별 조회
 	 */
-	public List<PostDTO> selectPostType(int postTypeNo) throws SQLException;
+	public Entry<List<PostDTO>, Pagenation> selectPostType(Pagenation page, int postTypeNo) throws Exception;
 	
 	/**
 	 * 게시판 조회수별 조회
 	 */
-	public List<PostDTO> selectPostCount() throws Exception;
+	public Entry<List<PostDTO>, Pagenation> selectPostCount(Pagenation page) throws Exception;
 	
 	/**
 	 * 게시판 게시글 이름으로 검색
 	 */
-	public List<PostDTO> searchPostName(String postTitle) throws SQLException;
+	public Entry<List<PostDTO>, Pagenation> searchPostName(Pagenation page, String postName) throws Exception;
 	
 	/**
 	 * 게시판 타입으로 검색 - 굳이?
@@ -84,5 +86,6 @@ public interface PostService {
 	 * 댓글 하나만 찾아오기 - commentNo로
 	 */
 	public CommentDTO stateComment(int commentNo) throws Exception;
+
 	
 }

@@ -3,6 +3,7 @@ package com.kooking.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
+import com.kooking.dto.RecipeDTO;
+import com.kooking.paging.Pagenation;
 import com.kooking.service.PostService;
 import com.kooking.service.PostServiceImpl;
 
@@ -148,10 +151,10 @@ public class PostController implements Controller {
 
 		request.setAttribute("postDTO", postDTO);
 
-		List<CommentDTO> commentDTO = postService.selectComments(postNo); // 이거 어케쓸지.. 페이징 처리도 해야됨.
+		List<CommentDTO> commentDTO = postService.selectComments(postNo); // 이거 어케쓸지
 
 		request.setAttribute("commentDTO", commentDTO);
-		
+
 		mv.setViewName("board/boardRead.jsp");
 		mv.setRedirect(false);
 
@@ -165,9 +168,18 @@ public class PostController implements Controller {
 	public ModelAndView selectPost(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
 
-		List<PostDTO> postList = postService.selectPost(); // 페이징 처리, 어떻게 쓸지 고민
+		String pageSize = request.getParameter("pageSize"); // 한 페이지에 보여질 게시글 수
+		String pageNo = request.getParameter("pageNo"); // 현재 페이지
+		Pagenation page = new Pagenation();
 
-		request.setAttribute("postList", postList);
+		if (pageSize != null)
+			page.setPageSize(Integer.parseInt(pageSize));
+		if (pageNo != null)
+			page.setPageNo(Integer.parseInt(pageNo));
+
+		Entry<List<PostDTO>, Pagenation> entry = postService.selectPost(page);
+		request.setAttribute("postList", entry.getKey());
+		request.setAttribute("page", entry.getValue());
 
 		// 결과에 따른 성공, 실패 나누기
 
@@ -184,9 +196,20 @@ public class PostController implements Controller {
 	public ModelAndView selectPostDate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
 
-		List<PostDTO> postList = postService.selectPostDate(); // 페이징 처리, 어떻게 쓸지 고민
+		String pageSize = request.getParameter("pageSize"); // 한 페이지에 보여질 게시글 수
+		String pageNo = request.getParameter("pageNo"); // 현재 페이지
+		Pagenation page = new Pagenation();
 
-		mv.setViewName("front");
+		if (pageSize != null)
+			page.setPageSize(Integer.parseInt(pageSize));
+		if (pageNo != null)
+			page.setPageNo(Integer.parseInt(pageNo));
+
+		Entry<List<PostDTO>, Pagenation> entry = postService.selectPostDate(page);
+		request.setAttribute("postList", entry.getKey());
+		request.setAttribute("page", entry.getValue());
+
+		mv.setViewName("board.jsp");
 		mv.setRedirect(false);
 		return mv;
 	}
@@ -200,9 +223,20 @@ public class PostController implements Controller {
 
 		int postTypeNo = Integer.parseInt(request.getParameter("postTypeNo"));
 
-		List<PostDTO> postList = postService.selectPostType(postTypeNo); // 페이징 처리, 어떻게 쓸지 고민
+		String pageSize = request.getParameter("pageSize"); // 한 페이지에 보여질 게시글 수
+		String pageNo = request.getParameter("pageNo"); // 현재 페이지
+		Pagenation page = new Pagenation();
 
-		mv.setViewName("front");
+		if (pageSize != null)
+			page.setPageSize(Integer.parseInt(pageSize));
+		if (pageNo != null)
+			page.setPageNo(Integer.parseInt(pageNo));
+
+		Entry<List<PostDTO>, Pagenation> entry = postService.selectPostType(page, postTypeNo);
+		request.setAttribute("postList", entry.getKey());
+		request.setAttribute("page", entry.getValue());
+
+		mv.setViewName("board.jsp");
 		mv.setRedirect(false);
 
 		return mv;
@@ -214,10 +248,21 @@ public class PostController implements Controller {
 	 */
 	public ModelAndView selectPostCount(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mv = new ModelAndView();
+		
+		String pageSize = request.getParameter("pageSize"); // 한 페이지에 보여질 게시글 수
+		String pageNo = request.getParameter("pageNo"); // 현재 페이지
+		Pagenation page = new Pagenation();
 
-		List<PostDTO> postList = postService.selectPostCount(); // 페이징 처리, 어떻게 쓸지 고민
-
-		mv.setViewName("front");
+		if (pageSize != null)
+			page.setPageSize(Integer.parseInt(pageSize));
+		if (pageNo != null)
+			page.setPageNo(Integer.parseInt(pageNo));
+		
+		Entry<List<PostDTO>, Pagenation> entry = postService.selectPostCount(page);
+		request.setAttribute("postList", entry.getKey());
+		request.setAttribute("page", entry.getValue());
+		
+		mv.setViewName("board.jsp");
 		mv.setRedirect(false);
 
 		return mv;
@@ -229,14 +274,24 @@ public class PostController implements Controller {
 	 */
 
 	public ModelAndView searchPostName(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		ModelAndView mv = new ModelAndView();
 
 		String postName = request.getParameter("postName");
 
-		List<PostDTO> postList = postService.searchPostName(postName); // 페이징 처리, 어떻게 쓸지 고민
+		String pageSize = request.getParameter("pageSize"); // 한 페이지에 보여질 게시글 수
+		String pageNo = request.getParameter("pageNo"); // 현재 페이지
+		Pagenation page = new Pagenation();
 
-		mv.setViewName("front");
+		if (pageSize != null)
+			page.setPageSize(Integer.parseInt(pageSize));
+		if (pageNo != null)
+			page.setPageNo(Integer.parseInt(pageNo));
+		
+		Entry<List<PostDTO>, Pagenation> entry = postService.searchPostName(page, postName);
+		request.setAttribute("postList", entry.getKey());
+		request.setAttribute("page", entry.getValue());
+		
+		mv.setViewName("board.jsp");
 		mv.setRedirect(false);
 
 		return mv;
@@ -272,7 +327,7 @@ public class PostController implements Controller {
 
 		int result = postService.insertComment(dto);
 
-		mv.setViewName("front?key=post&methodName=selectPostDetail&postNo="+postNo);
+		mv.setViewName("front?key=post&methodName=selectPostDetail&postNo=" + postNo);
 		mv.setRedirect(false);
 
 		return mv;

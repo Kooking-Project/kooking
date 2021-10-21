@@ -10,7 +10,6 @@ import java.util.List;
 import com.kooking.controller.AdminController;
 import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
-import com.kooking.util.DBTestUtil;
 import com.kooking.util.DbUtil;
 
 public class BoardDAO {
@@ -21,7 +20,7 @@ public class BoardDAO {
 	public int insertPost(PostDTO postDTO, Connection con) throws Exception {
 		boolean isConnected = (con != null);
 		if (!isConnected) {
-			con = DBTestUtil.getConnection();
+			con = DbUtil.getConnection();
 		}
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -42,9 +41,9 @@ public class BoardDAO {
 		} finally {
 
 			if (isConnected) {
-				DBTestUtil.dbClose(st, rs);
+				DbUtil.dbClose(st, rs);
 			} else {
-				DBTestUtil.dbClose(con, st, rs);
+				DbUtil.dbClose(con, st, rs);
 			}
 
 		}
@@ -59,7 +58,7 @@ public class BoardDAO {
 	public int updatePost(PostDTO post, Connection con) throws Exception {
 		boolean isConnected = (con != null);
 		if (!isConnected) {
-			con = DBTestUtil.getConnection();
+			con = DbUtil.getConnection();
 		}
 
 		int result = 0;
@@ -76,9 +75,9 @@ public class BoardDAO {
 		} finally {
 
 			if (isConnected) {
-				DBTestUtil.dbClose(st);
+				DbUtil.dbClose(st);
 			} else {
-				DBTestUtil.dbClose(con, st);
+				DbUtil.dbClose(con, st);
 			}
 
 		}
@@ -91,7 +90,7 @@ public class BoardDAO {
 	public int deletePost(int postNo, int userNo, Connection con) throws Exception { // 댓글도 같이 삭제되는지 확인
 		boolean isConnected = (con != null);
 		if (!isConnected) {
-			con = DBTestUtil.getConnection();
+			con = DbUtil.getConnection();
 		}
 		PreparedStatement st = null;
 		int result = 0;
@@ -104,9 +103,9 @@ public class BoardDAO {
 			result = st.executeUpdate();
 		} finally {
 			if (isConnected) {
-				DBTestUtil.dbClose(st);
+				DbUtil.dbClose(st);
 			} else {
-				DBTestUtil.dbClose(con, st);
+				DbUtil.dbClose(con, st);
 			}
 		}
 		return result;
@@ -118,7 +117,7 @@ public class BoardDAO {
 	public int insertComment(CommentDTO postDTO, Connection con) throws Exception {
 		boolean isConnected = (con != null);
 		if (!isConnected) {
-			con = DBTestUtil.getConnection();
+			con = DbUtil.getConnection();
 		}
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -141,9 +140,9 @@ public class BoardDAO {
 		} finally {
 
 			if (isConnected) {
-				DBTestUtil.dbClose(st, rs);
+				DbUtil.dbClose(st, rs);
 			} else {
-				DBTestUtil.dbClose(con, st, rs);
+				DbUtil.dbClose(con, st, rs);
 			}
 
 		}
@@ -157,7 +156,7 @@ public class BoardDAO {
 	public int updateComment(CommentDTO comment, Connection con) throws Exception {
 		boolean isConnected = (con != null);
 		if (!isConnected) {
-			con = DBTestUtil.getConnection();
+			con = DbUtil.getConnection();
 		}
 		PreparedStatement st = null;
 		int result = 0;
@@ -172,9 +171,9 @@ public class BoardDAO {
 			
 		} finally {
 			if (isConnected) {
-				DBTestUtil.dbClose(st);
+				DbUtil.dbClose(st);
 			} else {
-				DBTestUtil.dbClose(con, st);
+				DbUtil.dbClose(con, st);
 			}
 		}
 
@@ -187,7 +186,7 @@ public class BoardDAO {
 	public int deleteComment(int userNo, int commentNo, Connection con) throws Exception {
 		boolean isConnected = (con != null);
 		if (!isConnected) {
-			con = DBTestUtil.getConnection();
+			con = DbUtil.getConnection();
 		}
 		PreparedStatement st = null;
 		int result = 0;
@@ -202,9 +201,9 @@ public class BoardDAO {
 			
 		} finally {
 			if (isConnected) {
-				DBTestUtil.dbClose(st);
+				DbUtil.dbClose(st);
 			} else {
-				DBTestUtil.dbClose(con, st);
+				DbUtil.dbClose(con, st);
 			}
 		}
 
@@ -217,7 +216,7 @@ public class BoardDAO {
 	public List<CommentDTO> getComments(int postNo, Connection con) throws Exception {
 		boolean isConnected = (con != null);
 		if (!isConnected) {
-			con = DBTestUtil.getConnection();
+			con = DbUtil.getConnection();
 		}
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -248,9 +247,9 @@ public class BoardDAO {
 
 		} finally {
 			if (isConnected) {
-				DBTestUtil.dbClose(st);
+				DbUtil.dbClose(st);
 			} else {
-				DBTestUtil.dbClose(con, st);
+				DbUtil.dbClose(con, st);
 			}
 		}
 		return comments;
@@ -262,7 +261,7 @@ public class BoardDAO {
 	public CommentDTO stateComment(int commentNo, Connection con) throws Exception { 
 		boolean isConnected = (con != null);
 		if (!isConnected) {
-			con = DBTestUtil.getConnection();
+			con = DbUtil.getConnection();
 		}
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -290,9 +289,9 @@ public class BoardDAO {
 			
 		} finally {
 			if (isConnected) {
-				DBTestUtil.dbClose(st);
+				DbUtil.dbClose(st);
 			} else {
-				DBTestUtil.dbClose(con, st);
+				DbUtil.dbClose(con, st);
 			}
 		}
 
