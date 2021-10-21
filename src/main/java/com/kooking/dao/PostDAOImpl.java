@@ -4,11 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import com.kooking.dto.PostDTO;
+import com.kooking.dto.RecipeDTO;
 import com.kooking.paging.Pagenation;
 import com.kooking.util.DbUtil;
 
@@ -89,23 +92,61 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 
 	}
 
+	/*
+	 * @Override public List<PostDTO> selectPost() throws Exception { Connection con
+	 * = null; PreparedStatement st = null; ResultSet rs = null;
+	 * 
+	 * List<PostDTO> postList = new ArrayList<PostDTO>();
+	 * 
+	 * sql =
+	 * "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME FROM POSTS P INNER JOIN USERS U ON P.USER_NO = U.USER_NO ORDER BY P.POST_NO DESC"
+	 * ;
+	 * 
+	 * con = DbUtil.getConnection(); st = con.prepareStatement(sql);
+	 * 
+	 * rs = st.executeQuery();
+	 * 
+	 * // int no, int postTypeNo, int userNo, String title, String contents, int //
+	 * counts, String date, String userNicname
+	 * 
+	 * while (rs.next()) { PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2),
+	 * rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6),
+	 * rs.getString(7), rs.getString(8)); System.out.println(postDTO.getNo());
+	 * postList.add(postDTO); }
+	 * 
+	 * DbUtil.dbClose(con, st, rs);
+	 * 
+	 * return postList;
+	 * 
+	 * }
+	 */
+
+	/**
+	 * 게시판 전체 게시글 조회 (페이징) by 김찬원
+	 */
 	@Override
-	public List<PostDTO> selectPost() throws Exception {
+	public Entry<List<PostDTO>, Pagenation> selectPost(Pagenation page) throws Exception {
+
 		Connection con = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
 
 		List<PostDTO> postList = new ArrayList<PostDTO>();
+		int count = getSelectTotalCount(); // 전체 게시글 수
+		int totalPage = (int) Math.ceil(count / page.getPageCnt());
 
-		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME FROM POSTS P INNER JOIN USERS U ON P.USER_NO = U.USER_NO ORDER BY P.POST_NO DESC";
+		page.setTotal(totalPage);
+
+		// String sql = proFile.getProperty("query.pagingSelect");
+		String sql = "SELECT * FROM (SELECT ROWNUM RNUM, P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
+				+ " FROM POSTS P INNER JOIN USERS U ON P.USER_NO = U.USER_NO ORDER BY P.POST_NO DESC)"
+				+ " WHERE RNUM BETWEEN ? AND ?";
 
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
-
+		st.setInt(1, (page.getPageNo() - 1) * page.getPageSize() + 1);
+		st.setInt(2, page.getPageNo() * page.getPageSize());
 		rs = st.executeQuery();
-
-		// int no, int postTypeNo, int userNo, String title, String contents, int
-		// counts, String date, String userNicname
 
 		while (rs.next()) {
 			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
@@ -115,60 +156,17 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		}
 
 		DbUtil.dbClose(con, st, rs);
-
-		return postList;
-
+		
+		return new SimpleEntry<List<PostDTO>, Pagenation>(postList, page);
 	}
-	
+
 	/**
-	 * 게시판 전체 게시글 조회 (페이징) by 김찬원
-	 */
-	@Override
-	public List<PostDTO> selectPost(int pageNo) throws Exception {
-
-		Connection con = null;
-		PreparedStatement st = null;
-		ResultSet rs = null;
-		
-		List<PostDTO> postList = new ArrayList<PostDTO>();
-		String sql = proFile.getProperty("query.pagingSelect");
-		
-		try {
-			
-			int totalCount = this.getSelectTotalCount();
-		
-			//totalCount Pagenation.pageSize
-
-			
-			con = DbUtil.getConnection();
-			st = con.prepareStatement(sql);
-			st.setInt(1, pageNo);
-			st.setInt(1, pageNo);
-			rs = st.executeQuery();
-	
-				while (rs.next()) {
-					PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
-							rs.getInt(6), rs.getString(7), rs.getString(8));
-					System.out.println(postDTO.getNo());
-					postList.add(postDTO);
-				}	
-			
-			}finally {
-				DbUtil.dbClose(con, st, rs);
-			}
-		
-
-		return postList;
-	}
-	
-	
-	/**
-	 * 전체게시물 수 가져오기 by 김찬원
+	 * 전체게시물 수 가져오기 by 김찬원 - 완성하기
 	 * 
 	 */
-	
-	private int getSelectTotalCount() throws SQLException{
-		
+
+	private int getSelectTotalCount() throws SQLException {
+
 		Connection con = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -177,7 +175,7 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		String sql = proFile.getProperty("query.totalCount");
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
-		
+
 		rs = st.executeQuery();
 
 		if (rs.next()) {
@@ -188,99 +186,134 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 
 		return result;
 	}
-	
-	
 
 	/**
 	 * 게시판 게시글 날짜별 조회(최신순)
 	 */
 	@Override
-	public List<PostDTO> selectPostDate() throws SQLException {
+	public Entry<List<PostDTO>, Pagenation> selectPostDate(Pagenation page) throws Exception {
 		Connection con = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
 
-		List<PostDTO> PostList = new ArrayList<PostDTO>();
+		List<PostDTO> postList = new ArrayList<PostDTO>();
+		int count = getSelectTotalCount(); // 전체 게시글 수
+		int totalPage = (int) Math.ceil(count / page.getPageCnt());
 
-		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
-				+ " FROM POSTS P INNER JOIN USERS U" + " ON P.USER_NO = U.USER_NO ORDER BY POST_DATE DESC";
+		page.setTotal(totalPage);
 
+		/*
+		 * sql =
+		 * "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
+		 * + " FROM POSTS P INNER JOIN USERS U" +
+		 * " ON P.USER_NO = U.USER_NO ORDER BY POST_DATE DESC";
+		 */
+
+		String sql = "SELECT * FROM (SELECT  ROWNUM RNUM, P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME\r\n"
+				+ "FROM POSTS P INNER JOIN USERS U ON P.USER_NO = U.USER_NO ORDER BY P.POST_NO DESC) \r\n"
+				+ "WHERE RNUM BETWEEN ? AND ?";
+		
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
-
+		st.setInt(1, (page.getPageNo() - 1) * page.getPageSize() + 1);
+		st.setInt(2, page.getPageNo() * page.getPageSize());
 		rs = st.executeQuery();
 
 		while (rs.next()) {
 			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
 					rs.getInt(6), rs.getString(7), rs.getString(8));
-			PostList.add(postDTO);
+			System.out.println(postDTO.getNo());
+			postList.add(postDTO);
 		}
 
 		DbUtil.dbClose(con, st, rs);
-
-		return PostList;
+		
+		return new SimpleEntry<List<PostDTO>, Pagenation>(postList, page);
 	}
 
 	/**
 	 * 게시판 게시글 타입별 조회
 	 */
 	@Override
-	public List<PostDTO> selectPostType(int postTypeNo) throws SQLException {
+	public Entry<List<PostDTO>, Pagenation> selectPostType(Pagenation page, int postTypeNo) throws Exception {
 		Connection con = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
 
-		List<PostDTO> PostList = new ArrayList<PostDTO>();
+		List<PostDTO> postList = new ArrayList<PostDTO>();
+		int count = getSelectTotalCount(); // 전체 게시글 수
+		int totalPage = (int) Math.ceil(count / page.getPageCnt());
 
-		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
-				+ " FROM POSTS P INNER JOIN USERS U ON P.USER_NO = U.USER_NO AND POST_TYPE_NO=?";
+		page.setTotal(totalPage);
 
+		/*
+		 * sql =
+		 * "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
+		 * +
+		 * " FROM POSTS P INNER JOIN USERS U ON P.USER_NO = U.USER_NO AND POST_TYPE_NO=?"
+		 * ;
+		 */
+
+		String sql = "SELECT * FROM (SELECT ROWNUM RNUM, P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
+				+ " FROM POSTS P INNER JOIN USERS U ON P.USER_NO = U.USER_NO AND POST_TYPE_NO=? ORDER BY P.POST_NO DESC)"
+				+ "WHERE RNUM BETWEEN ? AND ?";
+		
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
-
 		st.setInt(1, postTypeNo);
-
+		st.setInt(2, (page.getPageNo() - 1) * page.getPageSize() + 1);
+		st.setInt(3, page.getPageNo() * page.getPageSize());
 		rs = st.executeQuery();
 
 		while (rs.next()) {
 			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
 					rs.getInt(6), rs.getString(7), rs.getString(8));
-			PostList.add(postDTO);
+			System.out.println(postDTO.getNo());
+			postList.add(postDTO);
 		}
 
 		DbUtil.dbClose(con, st, rs);
-
-		return PostList;
+		
+		return new SimpleEntry<List<PostDTO>, Pagenation>(postList, page);
 	}
 
 	/**
 	 * 게시판 조회수별 조회
 	 */
 	@Override
-	public List<PostDTO> selectPostCount() throws SQLException {
+	public Entry<List<PostDTO>, Pagenation> selectPostCount(Pagenation page) throws Exception {
 		Connection con = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
 
-		List<PostDTO> PostList = new ArrayList<PostDTO>();
+		List<PostDTO> postList = new ArrayList<PostDTO>();
+		int count = getSelectTotalCount(); // 전체 게시글 수
+		int totalPage = (int) Math.ceil(count / page.getPageCnt());
+		page.setTotal(totalPage);
+		
+		/*sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
+				+ " FROM POSTS P INNER JOIN USERS U" + " ON P.USER_NO = U.USER_NO ORDER BY POST_VIEW_COUNTS DESC";*/
 
-		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
-				+ " FROM POSTS P INNER JOIN USERS U" + " ON P.USER_NO = U.USER_NO ORDER BY POST_VIEW_COUNTS DESC";
-
+		sql = "SELECT * FROM (SELECT ROWNUM RNUM, P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
+				+ " FROM POSTS P INNER JOIN USERS U ON P.USER_NO = U.USER_NO ORDER BY POST_VIEW_COUNTS DESC)"
+				+ " WHERE RNUM BETWEEN ? AND ?";
+		
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
-
+		st.setInt(2, (page.getPageNo() - 1) * page.getPageSize() + 1);
+		st.setInt(3, page.getPageNo() * page.getPageSize());
 		rs = st.executeQuery();
 
 		while (rs.next()) {
 			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
 					rs.getInt(6), rs.getString(7), rs.getString(8));
-			PostList.add(postDTO);
+			System.out.println(postDTO.getNo());
+			postList.add(postDTO);
 		}
 
 		DbUtil.dbClose(con, st, rs);
-
-		return PostList;
+		
+		return new SimpleEntry<List<PostDTO>, Pagenation>(postList, page);
 	}
 
 //--------------------------------------------------------------------------------------------------------
@@ -289,32 +322,46 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 	 * 게시판 게시글 이름으로 검색 - 띄어쓰기 허용 불가
 	 */
 	@Override
-	public List<PostDTO> searchPostName(String postTitle) throws SQLException {
+	public Entry<List<PostDTO>, Pagenation> searchPostName(Pagenation page, String postName) throws Exception {
 		Connection con = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
 
-		List<PostDTO> PostList = new ArrayList<PostDTO>();
+		List<PostDTO> postList = new ArrayList<PostDTO>();
+		int count = getSelectTotalCount(); // 전체 게시글 수
+		int totalPage = (int) Math.ceil(count / page.getPageCnt());
+		page.setTotal(totalPage);
+		
+		/*
+		 * sql =
+		 * "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
+		 * +
+		 * " FROM POSTS P INNER JOIN USERS U ON P.USER_NO = U.USER_NO AND POST_TITLE LIKE '%?%'"
+		 * ;
+		 */
 
-		sql = "SELECT P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
-				+ " FROM POSTS P INNER JOIN USERS U ON P.USER_NO = U.USER_NO AND POST_TITLE LIKE '%?%'";
-
+		sql = "SELECT * FROM (SELECT ROWNUM RNUM, P.POST_NO, P.POST_TYPE_NO, P.USER_NO, P.POST_TITLE, P.POST_CONTENTS, P.POST_VIEW_COUNTS, TO_CHAR(P.POST_DATE, 'YYYYMMDD'), U.USER_NICNAME"
+				+ "FROM POSTS P INNER JOIN USERS U ON P.USER_NO = U.USER_NO AND POST_TITLE LIKE '%?%' ORDER BY POST_NO DESC)"
+				+ "WHERE RNUM BETWEEN ? AND ?";
+		
 		con = DbUtil.getConnection();
 		st = con.prepareStatement(sql);
 
-		st.setString(1, postTitle);
-
+		st.setString(1, postName);
+		st.setInt(2, (page.getPageNo() - 1) * page.getPageSize() + 1);
+		st.setInt(3, page.getPageNo() * page.getPageSize());
 		rs = st.executeQuery();
 
 		while (rs.next()) {
 			PostDTO postDTO = new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
 					rs.getInt(6), rs.getString(7), rs.getString(8));
-			PostList.add(postDTO);
+			System.out.println(postDTO.getNo());
+			postList.add(postDTO);
 		}
 
 		DbUtil.dbClose(con, st, rs);
-
-		return PostList;
+		
+		return new SimpleEntry<List<PostDTO>, Pagenation>(postList, page);
 	}
 
 	/**
@@ -351,5 +398,6 @@ public class PostDAOImpl extends BoardDAO implements PostDAO {
 		 */
 		return null;
 	}
+
 
 }

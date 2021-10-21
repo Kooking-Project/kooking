@@ -15,6 +15,8 @@ import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
+import com.kooking.dto.wrapper.RecipeWrapper;
+import com.kooking.paging.Pagenation;
 import com.kooking.util.DBTestUtil;
 import com.kooking.util.DbUtil;
 
@@ -100,41 +102,61 @@ public class UserDAOImpl implements UserDAO {
 		return result;
 	}
 
+	public int getTotalPostNum(Connection con) throws Exception {
+		boolean isConnected = (con != null);
+		if (!isConnected) {
+			con = DBTestUtil.getConnection();
+		}
+		int result = 0;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = con.prepareStatement("SELECT COUNT(*) FROM POSTS");
+			rs = ps.executeQuery();
+
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} finally {
+			if (isConnected) {
+				DBTestUtil.dbClose(ps, rs);
+			} else {
+				DBTestUtil.dbClose(con, ps, rs);
+			}
+		}
+		return result;
+	}
+	
 	@Override
-	public Entry<PostDTO, RecipeDTO> postSelectByUserNo(int userNo) throws SQLException {
+	public Entry<List<RecipeWrapper>, Pagenation> postSelectByUserNo(int userNo, Pagenation page) throws Exception {
 		Connection con = null; // 커넥션이 없다면 새로운 커넥션을 생성
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql=proFile.getProperty("query.postSelectByUserNo");
-		Entry<PostDTO, RecipeDTO> result = null;
+		String sql="SELECT * FROM (SELECT A.*,ROWNUM RNUM  FROM VIEW_RECIPES A WHERE USER_NO=?) WHERE RNUM BETWEEN ? AND ? ORDER BY POST_DATE DESC";
+		List<RecipeWrapper> postList = new ArrayList<RecipeWrapper>();
+		Entry<List<RecipeWrapper>, Pagenation> result = null;
+		
+		int count = getTotalPostNum(con);
+		int totalPage = (int) Math.ceil(page.getPageSize() / count);
+		page.setPageCnt(totalPage);
+		page.setTotal(count);
 		
 		try {
 			con = DBTestUtil.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, userNo);
-			PostDTO post = new PostDTO();
-			RecipeDTO recipe = new RecipeDTO();
+			ps.setInt(2, (page.getPageNo() - 1) * page.getPageSize() + 1);
+			ps.setInt(3, page.getPageNo() * page.getPageSize());
+			RecipeWrapper postWrap = new RecipeWrapper();
 
 			rs = ps.executeQuery();
-			if(rs.next()) {
-				post.setNo(rs.getInt(1));
-				recipe.setPostNo(rs.getInt(1));
-				post.setPostTypeNo(rs.getInt(2));
-				post.setTitle(rs.getString(3));
-				post.setContents(rs.getString(4));
-				post.setCounts(rs.getInt(5));
-				post.setDate(rs.getString(6));
+			while(rs.next()) {
+				postWrap.setPost(new PostDTO(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7)));
+				postWrap.setRecipe(new RecipeDTO(rs.getInt(8), rs.getString(9), rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13), rs.getString(14), rs.getString(15)));
 				
-				recipe.setNo(rs.getInt(7));
-				recipe.setName(rs.getString(8));
-				recipe.setCalorie(rs.getInt(9));
-				recipe.setCookingTime(rs.getInt(10));
-				recipe.setNation(rs.getString(10));
-				recipe.setType(rs.getString(11));
-				recipe.setLevel(rs.getString(12));
-				
-				result = new SimpleEntry<PostDTO, RecipeDTO>(post, recipe);
+				postList.add(postWrap);
 			}
+			result = new SimpleEntry<List<RecipeWrapper>, Pagenation>(postList, page);
 		}finally {
 			DBTestUtil.dbClose(con, ps, rs);
 		}	

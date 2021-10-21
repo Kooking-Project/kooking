@@ -246,7 +246,7 @@
       	<!-- 카테고리 end -->
     
 
-    <!-- 재료 start -->
+    <!-- 재료등록 start -->
     <hr>
     <div>
     	<p class="cont_tit4">재료</p>
@@ -254,43 +254,61 @@
         <jsp:include page="receipeMeterial.jsp"/>
    	</div>
    	<hr>
-   	<!-- 재료 end -->
+   	<!-- 재료등록 end -->
    	
-   	<!-- process 요리순서 start -->
+
+	<!-- process 요리순서 start -->
    	  <div>
       	<p class="cont_tit4">요리순서</p>
-	 	 <span class="guide mag_b_15">요리의 맛이 좌우될 수 있는 중요한 부분은 빠짐없이 적어주세요.</span>
-	 	 <jsp:include page="receipeProcess.jsp"/>
+			<span class="guide mag_b_15" style="width: 100%;"> 요리의 맛이 좌우될 수 있는 중요한 부분은 빠짐없이 적어주세요.<br></span>
+					<div class="mag_b_25" id="divMaterialGroupArea"></div> 
+			<!-- 요리순서 SCRIPT START -->
+			<script type="text/javascript">
+				let index=0;
+				const add_textbox = () => {
+				    const box = document.getElementById("processAddbtn");
+				    const newP = document.createElement('div');
+				    newP.innerHTML ="<span class='process_seq'></span><input type='file' name='process_url"+ index++ +"' maxlength='60' size='40' style='background-color:transparent;  border:0px transparent solid; font-size:12px; width:20%;'>"
+				    + "<input type='hidden' name='process_seq' value='"+index +"'>"
+				    + "<input type='text' name='process_desc' style='width:610px; margin:10px;' placeholder='예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요.'>"
+				    + "<input type='text' name='process_tip' style='width:610px; margin:10px;' placeholder='요리 tip! 예) 위가 살짝 노릇할정도만 구워야 속이 쫀득합니다.'>"
+				    + "<input type='button' value='삭제'  onclick='remove(this)'>";
+				    box.appendChild(newP);
+				}
+				const remove = (obj) => {
+				    document.getElementById('processAddbtn').removeChild(obj.parentNode);
+				}
+			</script>
+			<!-- 요리순서 SCRIPT END -->
+			<div id="processAddbtn">
+	      	 <input type="button" id="addItem" value="추가하기"  onclick="add_textbox();" />
+	    	</div>
 	   </div>
+	 <hr>
     <!-- 요리순서 End -->
-    
-    <!-- 비밀번호 입력 -->
-<!--    <div>
-    	<p class="cont_tit4">비밀번호</p>
-    	<span class="guide mag_b_15">글 수정,삭제시 필요합니다.</span>
-    	<div>
-    		<input type=password name="password" size="12">
-    	</div>
-    </div>   비밀번호 값 추후 확인-->
-    </div><!--/cont_box-->
-    
-    <!-- 태그 보류 xxxxxxx -->
-    <!-- <div class="cont_box pad_l_60">
-    <p class="cont_tit4">태그</p>
-    <input type="text" name="boa_tx_tag" value="" id="mySingleFieldTags" style="width:100%">
-    <span style="display:block; color:#666; margin-bottom:-8px;margin-left:140px">주재료, 목적, 효능, 대상 등을 태그로 남겨주세요.<em style="font-style:normal; color:#999; padding-left:8px;">예) 돼지고기, 다이어트, 비만, 칼슘, 감기예방, 이유식, 초간단</em></span>
-    </div>-->
 
-   </div><!--/regi_center-->
+    
+				    <!-- 비밀번호 입력 -->
+				<!--    <div>
+				    	<p class="cont_tit4">비밀번호</p>
+				    	<span class="guide mag_b_15">글 수정,삭제시 필요합니다.</span>
+				    	<div>
+				    		<input type=password name="password" size="12">
+				    	</div>
+				    </div>   비밀번호 값 추후 확인-->
+
+
+    </div><!--/cont_box-->
+</div><!--/regi_center-->
    
    
     	  <!-- 확인, 취소 버튼 start -->
     	  <div class="delicious-buttons-area">
     	  	<div class=" btn delicious-btn">
-    	  		<input type="submit" value="확인" style="background-color:transparent;  border:0px transparent solid; font-weight: bold; color: #fff;">
+    	  		<input type=submit value="등록" style="background-color:transparent;  border:0px transparent solid; font-weight: bold; color: #fff;">
     	  	</div>
     	  	<div class=" btn delicious-btn">
-    	  	  	<input type="reset" value="취소" style="background-color:transparent;  border:0px transparent solid; font-weight: bold; color: #fff;">
+    	  	  	<input type=reset value="취소" style="background-color:transparent;  border:0px transparent solid; font-weight: bold; color: #fff;">
     	  	</div>
           </div><!-- 확인, 취소 버튼 end -->
           

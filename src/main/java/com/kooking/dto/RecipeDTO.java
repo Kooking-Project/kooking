@@ -22,6 +22,21 @@ public class RecipeDTO {
 	private String thumbnail; //대표 이미지
 	
 	public RecipeDTO() {}
+	
+	
+	public RecipeDTO(int no, String name, int calorie, int cookingTime, String nation, String type, String level,
+			String thumbnail) {	//원재 사용 (postSelectByUserNo)
+		super();
+		this.no = no;
+		this.name = name;
+		this.calorie = calorie;
+		this.cookingTime = cookingTime;
+		this.nation = nation;
+		this.type = type;
+		this.level = level;
+		this.thumbnail = thumbnail;
+	}
+
 
 	public RecipeDTO(String name, int calorie, int cookingTime, String nation, String type,
 			String level, String thumbnail) {

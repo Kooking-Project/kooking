@@ -2,10 +2,12 @@ package com.kooking.dao;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.exception.KookingException;
+import com.kooking.paging.Pagenation;
 
 public interface PostDAO{
 
@@ -24,36 +26,30 @@ public interface PostDAO{
 	/**
 	 * 게시판 전체 게시글 조회
 	 */
-	public List<PostDTO> selectPost() throws Exception;
-	
-	/**
-	 * 게시판 전체 게시글 조회 (페이징) by 김찬원
-	 */
-	
-	public List<PostDTO> selectPost(int pageNo) throws Exception;
+	public Entry<List<PostDTO>, Pagenation> selectPost(Pagenation page) throws Exception;
 	
 	/**
 	 * 게시판 게시글 날짜별 조회(최신순)
 	 */
-	public List<PostDTO> selectPostDate() throws SQLException;
+	public Entry<List<PostDTO>, Pagenation> selectPostDate(Pagenation page) throws Exception;
 	
 	/**
 	 * 게시판 게시글 타입별 조회
 	 */
-	public List<PostDTO> selectPostType(int postTypeNo) throws SQLException;
+	public Entry<List<PostDTO>, Pagenation> selectPostType(Pagenation page, int postTypeNo) throws Exception;
 	
 	/**
 	 * 게시판 조회수별 조회
 	 */
-	public List<PostDTO> selectPostCount() throws SQLException;
+	public Entry<List<PostDTO>, Pagenation> selectPostCount(Pagenation page) throws Exception;
 	
 	/**
 	 * 게시판 게시글 이름으로 검색
 	 */
-	public List<PostDTO> searchPostName(String postTitle) throws SQLException;
+	public Entry<List<PostDTO>, Pagenation> searchPostName(Pagenation page, String postName) throws Exception;
 	
 	/**
-	 * 게시판 타입으로 검색 
+	 * 게시판 타입으로 검색 - 미완
 	 */
 	public List<PostDTO> searchPostType(String postType) throws SQLException;
 

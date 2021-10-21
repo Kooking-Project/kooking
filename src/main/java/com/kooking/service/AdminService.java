@@ -1,8 +1,10 @@
 package com.kooking.service;
 
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.kooking.dto.UserDTO;
+import com.kooking.paging.Pagenation;
 
 public interface AdminService {
 	/**
@@ -23,7 +25,7 @@ public interface AdminService {
 	/**
 	 * 유저정보 전체 검색
 	 * */
-	List<UserDTO> userSelectAll(int adminNo) throws Exception;
+	Entry<List<UserDTO>, Pagenation> userSelectAll(int adminNo, Pagenation page) throws Exception;
 
 	/**
 	 * 유저정보 상세정보 검색

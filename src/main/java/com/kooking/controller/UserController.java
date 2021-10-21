@@ -17,6 +17,8 @@ import com.kooking.dto.CommentDTO;
 import com.kooking.dto.PostDTO;
 import com.kooking.dto.RecipeDTO;
 import com.kooking.dto.UserDTO;
+import com.kooking.dto.wrapper.RecipeWrapper;
+import com.kooking.paging.Pagenation;
 import com.kooking.service.UserService;
 import com.kooking.service.UserServiceImpl;
 import com.oreilly.servlet.MultipartRequest;
@@ -38,7 +40,6 @@ public class UserController implements Controller {
 	 * 로그인
 	 */
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
 
@@ -68,7 +69,6 @@ public class UserController implements Controller {
 	 * 회원가입
 	 */
 	public ModelAndView insert(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
 		String no = request.getParameter("no");
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
@@ -116,9 +116,18 @@ public class UserController implements Controller {
 	 */
 	public ModelAndView postSelectByUserNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String no = request.getParameter("no");
+		String order = request.getParameter("order");
+		String pageNum = request.getParameter("pageNum");
+		Pagenation page = new Pagenation();
+		
+		if(order!=null)
+		page.setOrder(Integer.parseInt(order));
+		if(pageNum!=null)
+		page.setPageNo(Integer.parseInt(pageNum));
 
-		Entry<PostDTO, RecipeDTO> postList = userSerivce.postSelectByUserNo(Integer.parseInt(no));
-		request.setAttribute("postList", postList);
+		Entry<List<RecipeWrapper>, Pagenation> postList = userSerivce.postSelectByUserNo(Integer.parseInt(no), page);
+		request.setAttribute("postList", postList.getKey());
+		request.setAttribute("page", postList.getValue());
 
 		return new ModelAndView("user/user.jsp");
 	}
@@ -214,8 +223,18 @@ public class UserController implements Controller {
 	 * 전체회원 정보 조회
 	 * */
 	public ModelAndView userSelectAll(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		List<UserDTO> userList = userSerivce.userSelectAll();
-		request.setAttribute("userList", userList);
+		String order = request.getParameter("order");
+		String pageNum = request.getParameter("pageNum");
+		Pagenation page = new Pagenation();
+		
+		if(order!=null)
+		page.setOrder(Integer.parseInt(order));
+		if(pageNum!=null)
+		page.setPageNo(Integer.parseInt(pageNum));
+		
+		Entry<List<UserDTO>, Pagenation> userList = userSerivce.userSelectAll(page);
+		request.setAttribute("userList", userList.getKey());
+		request.setAttribute("page", userList.getValue());
 		
 		return new ModelAndView("adminTest.jsp");
 	}
@@ -237,8 +256,15 @@ public class UserController implements Controller {
 	 */
 	
 	public ModelAndView userInfoByNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
+		String order = request.getParameter("order");
+		String pageNum = request.getParameter("pageNum");
+		Pagenation page = new Pagenation();
+		
+		if(order!=null)
+		page.setOrder(Integer.parseInt(order));
+		if(pageNum!=null)
+		page.setPageNo(Integer.parseInt(pageNum));
 
 		UserDTO user = userSerivce.userSelectByNo(userNo);
 		request.setAttribute("user", user);
@@ -249,12 +275,10 @@ public class UserController implements Controller {
 		List<CommentDTO> commentList = userSerivce.commentSelectByUserNo(userNo);
 		request.setAttribute("commentList", commentList);
 		
-			
-		Entry<PostDTO, RecipeDTO> postList = userSerivce.postSelectByUserNo(userNo);
+		Entry<List<RecipeWrapper>, Pagenation> postList = userSerivce.postSelectByUserNo(userNo, page);
 		request.setAttribute("postList", postList.getKey());
-        request.setAttribute("recipeList", postList.getValue());
-
-
+		request.setAttribute("page", postList.getValue());
+		
 		return new ModelAndView("user/user.jsp");
 	
 	}
