@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import com.kooking.controller.AdminController;
 import com.kooking.dto.CommentDTO;
@@ -13,6 +14,8 @@ import com.kooking.dto.PostDTO;
 import com.kooking.util.DbUtil;
 
 public class BoardDAO {
+	
+	Properties proFile = new Properties();
 	
 	/**
 	 * 게시판 게시글 추가
@@ -26,10 +29,11 @@ public class BoardDAO {
 		ResultSet rs = null;
 		int result = 0;
 		try {
-			// String sql = proFile.getProperty("post.insertPost");
+			String sql = proFile.getProperty("query.insertPost");
+			//INSERT INTO POSTS(POST_NO,POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE) VALUES(POST_NO_SEQ.NEXTVAL,?,?,?,?,0,SYSDATE)
+			
 			// 게시글 번호빼고 저장
-			st = con.prepareStatement(
-					"INSERT INTO POSTS(POST_NO,POST_TYPE_NO, USER_NO, POST_TITLE, POST_CONTENTS, POST_VIEW_COUNTS, POST_DATE) VALUES(POST_NO_SEQ.NEXTVAL,?,?,?,?,0,SYSDATE)");
+			st = con.prepareStatement(sql);
 			st.setInt(1, postDTO.getPostTypeNo());
 			st.setInt(2, postDTO.getUserNo());
 			st.setString(3, postDTO.getTitle());
@@ -65,7 +69,10 @@ public class BoardDAO {
 		PreparedStatement st = null;
 
 		try {
-			st = con.prepareStatement("UPDATE POSTS SET POST_TITLE=?, POST_CONTENTS=?, POST_TYPE=? WHERE USER_NO=? AND POST_NO=?");
+			String sql = proFile.getProperty("query.updatePost");
+			//UPDATE POSTS SET POST_TITLE=?, POST_CONTENTS=?, POST_TYPE=? WHERE USER_NO=? AND POST_NO=?
+			
+			st = con.prepareStatement(sql);
 			st.setString(1, post.getTitle());
 			st.setString(2, post.getContents());
 			st.setInt(3, post.getPostTypeNo());
@@ -95,7 +102,9 @@ public class BoardDAO {
 		PreparedStatement st = null;
 		int result = 0;
 		try {
-			String sql = "DELETE FROM POSTS WHERE POST_NO=?" + "AND USER_NO = ?" ;
+			//String sql = proFile.getProperty("query.updatePost");
+			//DELETE FROM POSTS WHERE POST_NO=?" + "AND USER_NO = ?
+			String sql = "DELETE FROM POSTS WHERE POST_NO=?" + "AND USER_NO = ?";
 			st = con.prepareStatement(sql);
 			st.setInt(1, postNo);
 			st.setInt(2, userNo);
@@ -123,11 +132,10 @@ public class BoardDAO {
 		ResultSet rs = null;
 		int result = 0;
 		try {
-			// String sql = proFile.getProperty("post.insertPost");
+			String sql = proFile.getProperty("post.insertPost");
 			// 게시글 번호빼고 저장
 
-			st = con.prepareStatement(
-					"INSERT INTO COMMENTS(COMMENT_NO, USER_NO, POST_NO, COMMENT_CONTENTS, COMMENT_DATE, COMMENT_TOP, COMMENT_DELETE_YN)"
+			st = con.prepareStatement("INSERT INTO COMMENTS(COMMENT_NO, USER_NO, POST_NO, COMMENT_CONTENTS, COMMENT_DATE, COMMENT_TOP, COMMENT_DELETE_YN)"
 							+ " VALUES(COMMENT_NO_SEQ.NEXTVAL, ?, ?, ?, SYSDATE, ?, 0)");
 
 			st.setInt(1, postDTO.getUserNo());

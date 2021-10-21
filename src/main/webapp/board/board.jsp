@@ -371,12 +371,6 @@ input#search-bar {
 		<a class="btn" href="#">&gt;&gt;</a>
 	</div>
 	
-	
-	
-	
-	
-	
-	
 	  <jsp:useBean class="com.kooking.paging.Pagenation" id="p"/> 
     
  <!--  블럭당  -->
@@ -385,7 +379,7 @@ input#search-bar {
 		<c:set var="doneLoop" value="false"/>	
 		<c:set var="temp" value="${(pageNo-1) % 10}"/> 
 		<c:set var="startPage" value="${pageNo - temp}"/> 				
-		  <c:if test="${(startPage-p.blockcount) > 0}"> 
+		  <c:if test="${(startPage-p.pageSize) > 0}"> 
 		      <a class="pagination-newer" href="${path}/front?key=postc&methodName=selectPost&pageNo=${startPage-1}">PREV</a>
 		  </c:if>		  		 		
 		<span class="pagination-inner"> 
@@ -398,8 +392,8 @@ input#search-bar {
 				  </c:if>	  
 			</c:forEach>
 		</span> 
-			 <c:if test="${(startPage+p.blockcount)<=p.pageCnt}">
-			     <a class="pagination-older" href="${path}/front?key=post&methodName=selectPost&pageNo=${startPage+p.blockcount}">NEXT</a>
+			 <c:if test="${(startPage+p.pageSize)<=p.pageCnt}">
+			     <a class="pagination-older" href="${path}/front?key=post&methodName=selectPost&pageNo=${startPage+p.pageSize}">NEXT</a>
 			 </c:if>		
 		</div>
 	</nav>

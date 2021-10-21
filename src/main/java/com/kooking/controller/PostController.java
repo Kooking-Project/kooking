@@ -179,7 +179,7 @@ public class PostController implements Controller {
 
 		Entry<List<PostDTO>, Pagenation> entry = postService.selectPost(page);
 		request.setAttribute("postList", entry.getKey());
-		request.setAttribute("page", entry.getValue());
+		request.setAttribute("p", entry.getValue());
 
 		// 결과에 따른 성공, 실패 나누기
 
@@ -327,7 +327,8 @@ public class PostController implements Controller {
 
 		int result = postService.insertComment(dto);
 
-		mv.setViewName("front?key=post&methodName=selectPostDetail&postNo=" + postNo);
+		mv.setViewName("board/boardRead.jsp");
+		//mv.setViewName("front?key=post&methodName=selectPostDetail&postNo=" + postNo);
 		mv.setRedirect(false);
 
 		return mv;

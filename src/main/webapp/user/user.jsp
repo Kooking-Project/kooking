@@ -160,9 +160,9 @@ tr {
 					<div aria-label="breadcrumb" class="main-breadcrumb">
 						<div class="breadcrumb">
 							<span style="text-align: left">유저 정보</span>
-							<c:if test="${userDTO.no} == ${user.no}">
-								<a href="userUpdate.jsp" class="btn delicious-Xsmall-btn btn-3">프로필
-									수정</a>
+							<c:if test="${userDTO.no == user.no}">
+								<a href="${pageContext.request.contextPath}/user/userUpdate.jsp"
+									class="btn delicious-Xsmall-btn btn-3">프로필 수정</a>
 							</c:if>
 						</div>
 					</div>
@@ -170,8 +170,8 @@ tr {
 					<div class="card">
 						<div class="card-body">
 							<div class="d-flex flex-column align-items-center text-center">
-								<img src="https://bootdey.com/img/Content/avatar/avatar7.png"
-									alt="Admin" class="rounded-circle" width="150">
+								<img src="${pageContext.request.contextPath}/${userDTO.profileImg}"
+									 class="rounded-circle" width="150" onerror="this.src='https://bootdey.com/img/Content/avatar/avatar7.png'">
 								<div class="mt-3">
 									<h4>${user.nickName}</h4>
 									<!-- 마이 페이지로 들어갔으면 내 닉네임 아니면 다른 사람 닉네임  -->

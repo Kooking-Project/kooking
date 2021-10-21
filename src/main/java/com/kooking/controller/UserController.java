@@ -90,6 +90,7 @@ public class UserController implements Controller {
 		}
 
 		return new ModelAndView("user/user.jsp", true);
+
 	}
 
 	/**

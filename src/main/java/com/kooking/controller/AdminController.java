@@ -142,9 +142,6 @@ public class AdminController implements Controller {
 		request.setAttribute("commentList", commentList.getKey());
 		request.setAttribute("page", commentList.getValue());
 		
-		//Entry<List<PostDTO>, Pagenation> postList = postService.selectPost(page);
-		//request.setAttribute("postList", postList.getKey());
-		//request.setAttribute("page", postList.getValue());
 
 		return new ModelAndView("user/admin.jsp");
 	}
