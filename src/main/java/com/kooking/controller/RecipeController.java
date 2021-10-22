@@ -255,12 +255,7 @@ public class RecipeController implements Controller {
 	 * 삭제하기
 	 */
 	public ModelAndView delete(HttpServletRequest request , HttpServletResponse response) throws Exception{
-		String postNo = request.getParameter("postNo");
-		String password =  request.getParameter("password");
 
-		String saveDir=request.getServletContext().getRealPath("/save/recipe");
-
-		recipeService.delete(postNo, password, saveDir);
 		
 		return new ModelAndView("front?key=search&methodName=list", true);
 	}
