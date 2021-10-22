@@ -22,6 +22,7 @@
 <!-- Core Stylesheet -->
 
 <style>
+
 .lst_recipe {
 	overflow: hidden;
 	margin-bottom: 56px;
@@ -214,7 +215,7 @@ button, a {
 }
 
 .pagination-link:hover, .pagination-link:focus{
-	font-color : black !important;
+	color : black !important;
 }
 
 .pagination-wrapper{
@@ -226,6 +227,12 @@ button, a {
     .active{
     	color:tomato;
     }
+
+
+
+
+
+
 
 </style>
 </head>
@@ -249,7 +256,7 @@ button, a {
 		<ul class="lst_recipe">
 		<c:forEach items="${recipeList}" var="recipe" varStatus="state">
 			<li><a class="call_recipe thmb" href="${path}/front?key=search&methodName=view&no=${recipe.post.no}"> 
-			<img src="${path}/img/${recipe.thumbnail}"
+			<img src="${recipe.thumbnail}"
 					alt="">
 			</a> <span class="judge">평가점수
 			<c:choose>
@@ -263,7 +270,7 @@ button, a {
 			</span> <span
 				class="author"> <a href="${path}/front?key=search&methodName=view&no=${recipe.post.no}"> <img
 						alt="프로필 이미지"
-						src="https://cloudfront.haemukja.com/vh.php?url=https://d1hk7gw6lgygff.cloudfront.net/uploads/user/image_file/1713889/thumb_profile1576666692409.jpg&amp;convert=jpgmin&amp;rt=600">
+						src="${path}/img/images.png">>
 				</a> <strong><a href="${path}/front?key=search&methodName=view&no=${recipe.post.no}">${recipe.post.userNicname }</a></strong>
 			</span>
 				<p>
