@@ -118,7 +118,7 @@
                         <!-- 요리순서 -->
                         <div class="single-preparation-step d-flex">
                             <h4>${status.count}</h4>
-                            <img src="${path}/img/${process.imageUrl}" class="img-fluid"/>
+                            <img src="${path}/img/${process.imageUrl}" class="img-fluid" style="width:200px; height: 200px;"/>
                             <p>${process.desc}</p>
                             
                         </div>
