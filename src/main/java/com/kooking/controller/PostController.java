@@ -237,7 +237,7 @@ public class PostController implements Controller {
 
 		Entry<List<PostDTO>, Pagenation> entry = postService.selectPostDate(page);
 		request.setAttribute("postList", entry.getKey());
-		request.setAttribute("page", entry.getValue());
+		request.setAttribute("p", entry.getValue());
 
 		mv.setViewName("board/board.jsp");
 		mv.setRedirect(false);
@@ -264,9 +264,9 @@ public class PostController implements Controller {
 
 		Entry<List<PostDTO>, Pagenation> entry = postService.selectPostType(page, postTypeNo);
 		request.setAttribute("postList", entry.getKey());
-		request.setAttribute("page", entry.getValue());
+		request.setAttribute("p", entry.getValue());
 
-		mv.setViewName("front?key=post&methodName=selectPostType");
+		mv.setViewName("board/board.jsp");
 		mv.setRedirect(false);
 
 		return mv;
@@ -319,7 +319,7 @@ public class PostController implements Controller {
 
 		Entry<List<PostDTO>, Pagenation> entry = postService.searchPostName(page, postName);
 		request.setAttribute("postList", entry.getKey());
-		request.setAttribute("page", entry.getValue());
+		request.setAttribute("p", entry.getValue());
 
 		mv.setViewName("board/board.jsp");
 		mv.setRedirect(false);

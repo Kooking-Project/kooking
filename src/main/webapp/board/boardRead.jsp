@@ -6,7 +6,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <jsp:include page="../common/header.jsp" />
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 
 <head>
 <meta charset="UTF-8">
@@ -172,12 +172,12 @@ a {
 
 						<tr>
 							<th class="success">제목</th>
-							<td colspan="6" style="text-align:left">${postDTO.title}</td>
+							<td colspan="6">${postDTO.title}</td>
 						</tr>
 
 						<tr>
 							<th class="success">글 내용</th>
-							<td colspan="6"  style="text-align:left">${postDTO.contents}</td>
+							<td colspan="6">${postDTO.contents}</td>
 						</tr>
 
 						<!-- 댓글 -->
@@ -274,7 +274,17 @@ a {
 		
 		
 		<c:otherwise>
-			<form>
+		
+			<form action="${pageContext.request.contextPath}/front?key=post&methodName=insertComment" method="post">
+			<input type="hidden" name="user" value="${sessionScope.userDTO.no}">
+			<input type="hidden" name="postNo" value="${postDTO.no}">
+			<input type="hidden" name="top" value="0">
+			
+			
+			<!-- String user = request.getParameter("user");
+		String postNo = request.getParameter("postNo");
+		String top = request.getParameter("top");
+		String comments = request.getParameter("comments"); //널이 안들어갈꺼라서 상관 없지 않나? -->
 				<fieldset>
 					<div class="container bootstrap snippets bootdey">
 						<div class="row">
@@ -287,8 +297,8 @@ a {
 												<p class="meta">
 													<a href="#">${userDTO.nickName}</a> 님 : 
 												</p>
-												<textarea class="form-control" id="message"
-													placeholder="메세지를 입력해주세요."></textarea>
+												<textarea class="form-control" id="message" 
+													placeholder="메세지를 입력해주세요." name="comments"></textarea>
 											</div>
 										</div>
 									</div>
@@ -302,8 +312,14 @@ a {
 
 				</fieldset>
 			</form>
+			
 			<c:forEach items="${commentDTO}" var="reply">
 				<!-- 돌려서 댓글을 꺼낸다. -->
+				<form action="${pageContext.request.contextPath}/front?key=post&methodName=insertComment" method="post">
+				<input type="hidden" name="user" value="${sessionScope.userDTO.no}">
+				<input type="hidden" name="postNo" value="${postDTO.no}">
+				<input type="hidden" name="top" value="1">
+				
 				<c:if test="${(reply.userNickName == userDTO.nickName) or (userDTO.status == 10)}">
 					<li class="clearfix">
 						<div class="post-comments">
@@ -317,7 +333,12 @@ a {
 						</div>
 					</li>
 				</c:if>
+				</form>
 				
+				<form action="${pageContext.request.contextPath}/front?key=post&methodName=insertComment" method="post">
+				<input type="hidden" name="user" value="${sessionScope.userDTO.no}">
+				<input type="hidden" name="postNo" value="${postDTO.no}">
+				<input type="text" name="top" value="2">
 				<c:if test="${(reply.userNickName != userDTO.nickName) or (userDTO.status != 10)}">
 					<li class="clearfix">
 						<div class="post-comments">
@@ -328,6 +349,7 @@ a {
 						</div>
 					</li>
 				</c:if>
+				</form>
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>

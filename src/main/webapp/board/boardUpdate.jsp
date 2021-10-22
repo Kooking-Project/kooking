@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <jsp:include page="../common/header.jsp" />
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 
 <head>
 <meta charset="UTF-8">
